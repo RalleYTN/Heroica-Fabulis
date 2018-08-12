@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/javax-vecmath.jar"/>
+	<classpathentry kind="lib" path="lib/jbullet.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://jbullet.advel.cz/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-glfw.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://ralleytn.github.io/doc/lwjgl-glfw/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-openal.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://ralleytn.github.io/doc/lwjgl-openal/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-opengl.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://ralleytn.github.io/doc/lwjgl-opengl/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://ralleytn.github.io/doc/lwjgl/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
