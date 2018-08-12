@@ -34,69 +34,96 @@ public final class Camera implements Translatable, Rotatable {
 		this.translation = new Vector3f();
 		this.rotation = new Vector3f();
 		this.display = display;
-		this.update();
+		this.recalc();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void translate(float x, float y, float z) {
 
 		Translatable.super.translate(x, y, z);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void translate(Vector3f velocity) {
 
 		Translatable.super.translate(velocity);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void setTranslation(float x, float y, float z) {
 
 		Translatable.super.setTranslation(x, y, z);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void setTranslation(Vector3f newTranslation) {
 
 		Translatable.super.setTranslation(newTranslation);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void rotate(float x, float y, float z) {
 
 		Rotatable.super.rotate(x, y, z);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void rotate(Vector3f velocity) {
 
 		Rotatable.super.rotate(velocity);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void setRotation(float x, float y, float z) {
 
 		Rotatable.super.setRotation(x, y, z);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the view matrix</i>
+	 */
 	@Override
 	public void setRotation(Vector3f newRotation) {
 
 		Rotatable.super.setRotation(newRotation);
-		this.recalcViewMatrix();
+		this.calcViewMatrix();
 	}
 	
 	/**
+	 * Calculates the projection matrix.
+	 * The projection matrix is used to project the 3D scene onto a 2D display.
 	 * @since 11.08.2018/0.1.0
+	 * @see <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca/opengl/gl_projectionmatrix.html</a>
 	 */
-	private void recalcProjectionMatrix() {
+	private void calcProjectionMatrix() {
 
         float aspectRatio = (float)this.display.getFrameBufferWidth() / (float)this.display.getFrameBufferHeight();
         float yScale = (float)((1.0F / Math.tan(Math.toRadians(this.fov / 2.0F))));
@@ -113,9 +140,12 @@ public final class Camera implements Translatable, Rotatable {
 	}
 
 	/**
+	 * Calculates the view matrix.
+	 * In a video game you don't move the camera, you move the entire scene.
+	 * The view matrix is used to determine how it has to be moved.
 	 * @since 11.08.2018/0.1.0
 	 */
-	private void recalcViewMatrix() {
+	private void calcViewMatrix() {
 		
 		this.view = new Matrix4f();
 		this.view.setIdentity(); // Doesn't work without this line
@@ -127,45 +157,49 @@ public final class Camera implements Translatable, Rotatable {
 	}
 	
 	/**
+	 * Calls {@link #calcProjectionMatrix()} and {@link #calcViewMatrix()}.
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void update() {
+	public void recalc() {
 		
-		this.recalcProjectionMatrix();
-		this.recalcViewMatrix();
+		this.calcProjectionMatrix();
+		this.calcViewMatrix();
 	}
 	
 	/**
-	 * 
-	 * @param fov
+	 * Sets the field of view.
+	 * <br><i>Calling this method will recalculate the projection matrix</i>
+	 * @param fov the field of view.
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setFOV(float fov) {
 		
 		this.fov = fov;
-		this.recalcProjectionMatrix();
+		this.calcProjectionMatrix();
 	}
 	
 	/**
-	 * 
-	 * @param nearPlaneDistance
+	 * Sets the near plane distance which determines how close and object can get before it won't be rendered anymore.
+	 * <br><i>Calling this method will recalculate the projection matrix</i>
+	 * @param nearPlaneDistance the near plane distance
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setNearPlaneDistance(float nearPlaneDistance) {
 		
 		this.nearPlaneDistance = nearPlaneDistance;
-		this.recalcProjectionMatrix();
+		this.calcProjectionMatrix();
 	}
 	
 	/**
-	 * 
-	 * @param farPlaneDistance
+	 * Sets the far plane distance which determines how far something can be away from the camera before it won't be rendered anymore.
+	 * <br><i>Calling this method will recalculate the projection matrix</i>
+	 * @param farPlaneDistance the far plane distance
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setFarPlaneDistance(float farPlaneDistance) {
 		
 		this.farPlaneDistance = farPlaneDistance;
-		this.recalcProjectionMatrix();
+		this.calcProjectionMatrix();
 	}
 	
 	@Override
@@ -181,8 +215,7 @@ public final class Camera implements Translatable, Rotatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the field of view
 	 * @since 11.08.2018/0.1.0
 	 */
 	public float getFOV() {
@@ -191,8 +224,7 @@ public final class Camera implements Translatable, Rotatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the far plane distance
 	 * @since 11.08.2018/0.1.0
 	 */
 	public float getNearPlaneDistance() {
@@ -201,8 +233,7 @@ public final class Camera implements Translatable, Rotatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the far plane distance
 	 * @since 11.08.2018/0.1.0
 	 */
 	public float getFarPlaneDistance() {
@@ -211,8 +242,8 @@ public final class Camera implements Translatable, Rotatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * The object returned by this method is not meant to be modified by anything outside of this class.
+	 * @return the current projection matrix
 	 * @since 11.08.2018/0.1.0
 	 */
 	public Matrix4f getProjectionMatrix() {
@@ -221,8 +252,8 @@ public final class Camera implements Translatable, Rotatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * The object returned by this method is not meant to be modified by anything outside of this class.
+	 * @return the current view matrix
 	 * @since 11.08.2018/0.1.0
 	 */
 	public Matrix4f getViewMatrix() {

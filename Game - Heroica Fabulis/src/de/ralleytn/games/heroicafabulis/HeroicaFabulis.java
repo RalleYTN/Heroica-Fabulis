@@ -58,6 +58,7 @@ public final class HeroicaFabulis extends Game {
 		
 		Material material = new Material();
 		material.setAffectedByLight(true);
+		material.setMinBrightness(0.1F);
 		
 		Entity cube = new Entity() {
 			
@@ -73,7 +74,7 @@ public final class HeroicaFabulis extends Game {
 		cube.setTranslation(0, 1, -10);
 		
 		Light sun = new Light();
-		sun.setTranslation(0, 30, 0);
+		sun.setTranslation(0, 10, 0);
 		
 		game.getScene().addEntity(cube);
 		game.getScene().setSun(sun);

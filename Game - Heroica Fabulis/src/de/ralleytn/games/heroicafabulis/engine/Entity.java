@@ -35,7 +35,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.scale = new Vector3f(1.0F, 1.0F, 1.0F);
 		this.transformation = new Matrix4f();
 		this.rendering = true;
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	/**
@@ -62,104 +62,104 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	public void setRotation(float x, float y, float z) {
 
 		Rotatable.super.setRotation(x, y, z);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void setRotation(Vector3f newRotation) {
 
 		Rotatable.super.setRotation(newRotation);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void setScale(float newScale) {
 
 		Scalable.super.setScale(newScale);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void setScale(float x, float y, float z) {
 
 		Scalable.super.setScale(x, y, z);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void setScale(Vector3f newScale) {
 
 		Scalable.super.setScale(newScale);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void setTranslation(float x, float y, float z) {
 
 		Translatable.super.setTranslation(x, y, z);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void setTranslation(Vector3f newTranslation) {
 
 		Translatable.super.setTranslation(newTranslation);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void scale(float factor) {
 
 		Scalable.super.scale(factor);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void scale(float x, float y, float z) {
 
 		Scalable.super.scale(x, y, z);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void scale(Vector3f factor) {
 
 		Scalable.super.scale(factor);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void rotate(float x, float y, float z) {
 
 		Rotatable.super.rotate(x, y, z);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void rotate(Vector3f velocity) {
 
 		Rotatable.super.rotate(velocity);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void translate(float x, float y, float z) {
 
 		Translatable.super.translate(x, y, z);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	@Override
 	public void translate(Vector3f velocity) {
 
 		Translatable.super.translate(velocity);
-		this.recalcTransformationMatrix();
+		this.calcTransformationMatrix();
 	}
 	
 	/**
 	 * @since 10.08.2018/0.1.0
 	 */
-	private final void recalcTransformationMatrix() {
+	private final void calcTransformationMatrix() {
 		
 		this.transformation.setIdentity();
 		MatrixUtil.translate(this.translation, this.transformation);

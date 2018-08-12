@@ -140,7 +140,7 @@ public abstract class Game implements Updatable {
 	public void stop() {
 		
 		this.display.requestClose();
-		Engine.stop(this);
+		Engine.stop();
 	}
 	
 	/**

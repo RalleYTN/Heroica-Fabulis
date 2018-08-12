@@ -16,6 +16,8 @@ import org.lwjgl.system.MemoryUtil;
  */
 public class Display implements Disposable {
 
+	// TODO: I want the code that has to do with monitors and video modes in it's own class
+	
 	private static final int DEFAULT_WIDTH = 1024;
 	private static final int DEFAULT_HEIGHT = 768;
 	private static final int DEFAULT_MIN_WIDTH = 640;
@@ -65,7 +67,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * Retrieves all the vid modes.
+	 * Retrieves all currently available video modes.
 	 * @since 31.07.2018
 	 */
 	private final void initializeVidModes() {
@@ -102,8 +104,11 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param vsync
+	 * Enables or disables vertical synchronization.
+	 * Vertical synchronization makes sure that the frame only is displayed when it can be displayed in one piece.
+	 * This prevents screen tearing and also makes sure that the game never runs with more frames per second than the monitor's refresh rate,
+	 * which is good because it means that the CPU and GPU don't overheat as fast due to unnecessary calculations.
+	 * @param vsync {@code true} to enable vertical synchronization, {@code false} to disable it
 	 * @since 31.07.2018
 	 */
 	public void setVSync(boolean vsync) {
@@ -113,8 +118,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param vidMode
+	 * Sets the video mode. The video mode contains information about the resolution at which the game should be displayed, the bit depth of
+	 * the colors and the maximum refresh rate in Hertz.
+	 * @param vidMode the video mode
 	 * @since 31.07.2018
 	 */
 	public void setVidMode(GLFWVidMode vidMode) {
@@ -123,8 +129,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param fullscreen
+	 * Enables or disables fullscreen.
+	 * Some graphical effects are only available in fullscreen.
+	 * @param fullscreen {@code true} to enable fullscreen, {@code false} to disable it
 	 * @since 31.07.2018
 	 */
 	public void setFullscreen(boolean fullscreen) {
@@ -145,9 +152,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param numer
-	 * @param denom
+	 * Sets the aspect ratio.
+	 * @param numer number for the X axis (example: 16)
+	 * @param denom number for the Y axis (example: 9)
 	 * @since 31.07.2018
 	 */
 	public void setAspectRatio(int numer, int denom) {
@@ -156,9 +163,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
+	 * Sets the window position.
+	 * @param x position on the X axis in pixel
+	 * @param y position on the Y axis in pixel
 	 * @since 31.07.2018
 	 */
 	public void setPosition(int x, int y) {
@@ -167,8 +174,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param decorated
+	 * Enables or disables the window frame.
+	 * Important for borderless window fullscreen which is not the actual fullscreen mode.
+	 * @param decorated {@code true} to enable the window frame, {@code false} to disable it
 	 * @since 31.07.2018
 	 */
 	public void setDecorated(boolean decorated) {
@@ -177,8 +185,8 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param title
+	 * Sets the window title.
+	 * @param title the window title
 	 * @since 31.07.2018
 	 */
 	public void setTitle(String title) {
@@ -188,9 +196,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param minWidth
-	 * @param minHeight
+	 * Sets the minimum size the window can have.
+	 * @param minWidth minimum width in pixels
+	 * @param minHeight minimum height in pixels
 	 * @since 31.07.2018
 	 */
 	public void setMinimumSize(int minWidth, int minHeight) {
@@ -201,9 +209,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param maxWidth
-	 * @param maxHeight
+	 * Sets the maximum size the window can have.
+	 * @param maxWidth maximum width in pixels
+	 * @param maxHeight maximum height in pixels
 	 * @since 31.07.2018
 	 */
 	public void setMaximumSize(int maxWidth, int maxHeight) {
@@ -214,9 +222,9 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param width
-	 * @param height
+	 * Sets the window size.
+	 * @param width width in pixels
+	 * @param height height in pixels
 	 * @since 31.07.2018
 	 */
 	public void setSize(int width, int height) {
@@ -225,8 +233,8 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param resizable
+	 * Enables or disables the ability to resize the window.
+	 * @param resizable {@code true} to enable resizing, {@code false} to disable it
 	 * @since 31.07.2018
 	 */
 	public void setResizable(boolean resizable) {
@@ -235,8 +243,8 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param visible
+	 * Sets the visibility of the window.
+	 * @param visible {@code true} to make the window visible, {@code false} to make it unvisible
 	 * @since 31.07.2018
 	 */
 	public void setVisible(boolean visible) {
@@ -252,7 +260,8 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
+	 * Requests the window to close.
+	 * Will try to close the window at the start of the next frame.
 	 * @since 31.07.2018
 	 */
 	public void requestClose() {
@@ -261,7 +270,8 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
+	 * Updates the viewport. The viewport is the part of the display in which the game is rendered.
+	 * This method should be called every time the size the of the window changes or when switching between window mode and fullscreen.
 	 * @since 31.07.2018
 	 */
 	public void updateViewPort() {
@@ -270,7 +280,8 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
+	 * Swaps the buffers. Will swap the image that was painted in the background with the image that is currently displayed and use the image
+	 * that was just currently displayed as canvas for the next background image. This has to be called every frame.
 	 * @since 31.07.2018
 	 */
 	public void swapBuffers() {
@@ -279,7 +290,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
+	 * Makes the current GL context use this display for rendering.
 	 * @since 31.07.2018
 	 */
 	public void makeContextCurrent() {
@@ -288,7 +299,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
+	 * Positions the window at the center of the primary screen.
 	 * @since 31.07.2018
 	 */
 	public void center() {
@@ -299,7 +310,8 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
+	 * Polls the window events.
+	 * It is really important to call this method at the end of every frame.
 	 * @since 31.07.2018
 	 */
 	public void poll() {
@@ -308,8 +320,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the window width in pixels
 	 * @since 31.07.2018
 	 */
 	public int getWidth() {
@@ -320,8 +331,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the window height in pixels
 	 * @since 31.07.2018
 	 */
 	public int getHeight() {
@@ -332,8 +342,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the display width in pixels
 	 * @since 31.07.2018
 	 */
 	public int getFrameBufferWidth() {
@@ -344,8 +353,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the display height in pixels
 	 * @since 31.07.2018
 	 */
 	public int getFrameBufferHeight() {
@@ -356,8 +364,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if vertical synchronization is enabled, else {@code false}
 	 * @since 31.07.2018
 	 */
 	public boolean isVSync() {
@@ -366,8 +373,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the minimum window width in pixels
 	 * @since 31.07.2018
 	 */
 	public int getMinWidth() {
@@ -376,8 +382,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the minimum window height in pixels
 	 * @since 31.07.2018
 	 */
 	public int getMinHeight() {
@@ -386,8 +391,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the maximum window width in pixels
 	 * @since 31.07.2018
 	 */
 	public int getMaxWidth() {
@@ -396,8 +400,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the maximum window height in pixels
 	 * @since 31.07.2018
 	 */
 	public int getMaxHeight() {
@@ -406,8 +409,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the window title
 	 * @since 31.07.2018
 	 */
 	public String getTitle() {
@@ -416,8 +418,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if it was requested for the window to be closed at the start of the next frame, else {@code false}
 	 * @since 31.07.2018
 	 */
 	public boolean isCloseRequested() {
@@ -426,8 +427,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if this window is visible, else {@code false}
 	 * @since 31.07.2018
 	 */
 	public boolean isVisible() {
@@ -436,8 +436,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if this window is resizable, else {@code false}
 	 * @since 31.07.2018
 	 */
 	public boolean isResizable() {
@@ -446,8 +445,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the window position on the X axis in pixels
 	 * @since 31.07.2018
 	 */
 	public int getX() {
@@ -458,8 +456,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the window position on the Y axis in pixels
 	 * @since 31.07.2018
 	 */
 	public int getY() {
@@ -470,8 +467,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the window frame is enabled, else {@code false}
 	 * @since 31.07.2018
 	 */
 	public boolean isDecorated() {
@@ -480,8 +476,7 @@ public class Display implements Disposable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the window is currently in fullscreen mode, else {@code false}
 	 * @since 31.07.2018
 	 */
 	public boolean isFullscreen() {
