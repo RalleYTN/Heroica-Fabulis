@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine;
+ package de.ralleytn.games.heroicafabulis.engine;
 
 /**
  * Represents objects that are created and stored by LWJGL.
