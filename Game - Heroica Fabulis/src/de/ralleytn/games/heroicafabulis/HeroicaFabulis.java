@@ -6,6 +6,7 @@ import java.io.IOException;
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
+import de.ralleytn.games.heroicafabulis.engine.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.rendering.BasicShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Box;
@@ -56,6 +57,8 @@ public final class HeroicaFabulis extends Game {
 	@Override
 	public void initialize(Game game) throws EngineException, IOException {
 		
+		game.getCamera().setBehavior(new FlyCamBehavior());
+		
 		Material material = new Material();
 		material.setAffectedByLight(true);
 		material.setMinBrightness(0.1F);
@@ -83,6 +86,6 @@ public final class HeroicaFabulis extends Game {
 	@Override
 	public void update(float delta) {
 		
-		
+		this.getDisplay().setTitle(this.getTitle() + " (" + this.getCurrentFPS() + ")");
 	}
 }

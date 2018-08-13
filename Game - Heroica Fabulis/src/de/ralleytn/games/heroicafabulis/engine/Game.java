@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.lwjgl.glfw.GLFW;
 
+import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -12,7 +13,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 12.08.2018/0.1.0
+ * @version 13.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -24,6 +25,7 @@ public abstract class Game implements Updatable {
 	private Display display;
 	private Scene scene;
 	private Camera camera;
+	private MouseController mouseController;
 	private int fps;
 	private int fpsCap;
 	
@@ -62,7 +64,8 @@ public abstract class Game implements Updatable {
 		this.display.setVSync(true);
 		this.display.setVisible(true);
 		
-		this.camera = new Camera(this.display);
+		this.camera = new Camera(this);
+		this.mouseController = new MouseController(this);
 		
 		int wait = 0;
 		int frames = 0;
@@ -89,6 +92,13 @@ public abstract class Game implements Updatable {
 				float fDelta = (float)delta;
 				
 				this.scene.update(fDelta);
+				CameraBehavior behavior = this.camera.getBehavior();
+				
+				if(behavior != null) {
+					
+					behavior.update(fDelta);
+				}
+				
 				this.update(fDelta);
 				this.scene.render(graphics3D);
 				
@@ -252,5 +262,15 @@ public abstract class Game implements Updatable {
 	public int getCurrentFPS() {
 		
 		return this.fps;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 13.08.2018/0.1.0
+	 */
+	public MouseController getMouseController() {
+		
+		return this.mouseController;
 	}
 }

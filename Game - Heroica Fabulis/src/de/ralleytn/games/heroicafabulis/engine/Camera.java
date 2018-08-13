@@ -8,7 +8,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents the game camera. There should be only a single instance of it at a time.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 13.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
  */
 public final class Camera implements Translatable, Rotatable {
@@ -21,19 +21,22 @@ public final class Camera implements Translatable, Rotatable {
 	private Vector3f translation;
 	private Vector3f rotation;
 	private Display display;
+	private Game game;
+	private CameraBehavior behavior;
 	
 	/**
-	 * @param display the game display
+	 * @param game 
 	 * @since 11.08.2018/0.1.0
 	 */
-	Camera(Display display) {
+	Camera(Game game) {
 		
 		this.fov = 45.0F;
 		this.nearPlaneDistance = 0.01F;
 		this.farPlaneDistance = 1000.0F;
 		this.translation = new Vector3f();
 		this.rotation = new Vector3f();
-		this.display = display;
+		this.game = game;
+		this.display = game.getDisplay();
 		this.recalc();
 	}
 	
@@ -179,6 +182,26 @@ public final class Camera implements Translatable, Rotatable {
 	}
 	
 	/**
+	 * Sets the camera behavior.
+	 * @param behavior the camera behavior
+	 * @since 13.08.2018/0.1.0
+	 */
+	public void setBehavior(CameraBehavior behavior) {
+		
+		if(this.behavior != null) {
+			
+			this.behavior.setCamera(null);
+		}
+		
+		this.behavior = behavior;
+		
+		if(this.behavior != null) {
+			
+			this.behavior.setCamera(this);
+		}
+	}
+	
+	/**
 	 * Sets the near plane distance which determines how close and object can get before it won't be rendered anymore.
 	 * <br><i>Calling this method will recalculate the projection matrix</i>
 	 * @param nearPlaneDistance the near plane distance
@@ -259,5 +282,24 @@ public final class Camera implements Translatable, Rotatable {
 	public Matrix4f getViewMatrix() {
 		
 		return this.view;
+	}
+	
+	/**
+	 * @return the camera behavior or {@code null} if this camera has no behavior
+	 * @since 13.08.2018/0.1.0
+	 */
+	public CameraBehavior getBehavior() {
+		
+		return this.behavior;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 13.08.2018/0.1.0
+	 */
+	public Game getGame() {
+		
+		return this.game;
 	}
 }

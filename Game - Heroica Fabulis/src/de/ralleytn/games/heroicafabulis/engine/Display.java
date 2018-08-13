@@ -11,7 +11,7 @@ import org.lwjgl.system.MemoryUtil;
  * There can only be a single instance of this class that was created with the {@link Engine#start(java.io.File, java.io.File, String)} method.
  * It represents the game window.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 01.08.2018
+ * @version 13.08.2018
  * @since 31.07.2018
  */
 public class Display implements Disposable {
@@ -482,5 +482,15 @@ public class Display implements Disposable {
 	public boolean isFullscreen() {
 		
 		return this.fullscreen;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 13.08.2018/0.1.0
+	 */
+	public long getID() {
+		
+		return this.id;
 	}
 }
