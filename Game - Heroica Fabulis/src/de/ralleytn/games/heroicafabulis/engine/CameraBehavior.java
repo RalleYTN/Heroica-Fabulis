@@ -1,4 +1,4 @@
- package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine;
 
 /**
  * The camera behavior determines how a camera behaves, as the name would suggest.

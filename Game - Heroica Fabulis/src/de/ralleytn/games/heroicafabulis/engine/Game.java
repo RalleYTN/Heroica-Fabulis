@@ -1,4 +1,4 @@
- package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * 
+ * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 12.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
@@ -28,9 +28,8 @@ public abstract class Game implements Updatable {
 	private int fpsCap;
 	
 	/**
-	 * 
-	 * @param title
-	 * @param nativeDirectory
+	 * @param title the game title
+	 * @param nativeDirectory the directory containing the native libraries
 	 * @since 04.08.2018/0.1.0
 	 */
 	public Game(String title, File nativeDirectory) {
@@ -42,18 +41,18 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param game
-	 * @throws EngineException
-	 * @throws IOException
+	 * Is called when the game loop started.
+	 * @param game the game for which the game loop started
+	 * @throws EngineException just here to give the exception back to {@link #start()}
+	 * @throws IOException just here to give the exception back to {@link #start()}
 	 * @since 12.08.2018/0.1.0
 	 */
 	public abstract void initialize(Game game) throws EngineException, IOException;
 	
 	/**
-	 * 
-	 * @throws EngineException
-	 * @throws IOException
+	 * Starts the game loop.
+	 * @throws EngineException if the engine could not be started
+	 * @throws IOException if some of the required files could not be read
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void start() throws EngineException, IOException {
@@ -134,7 +133,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
+	 * Stops the game.
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void stop() {
@@ -144,8 +143,8 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param fpsCap
+	 * Sets the maximum frames per second.
+	 * @param fpsCap the maximum frames per second
 	 * @since 05.08.2018/0.1.0
 	 */
 	public void setFPSCap(int fpsCap) {
@@ -154,8 +153,9 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param localeDirectory
+	 * Sets the directory in which the locales can be found.
+	 * The locales contain all of the localized strings for different languages.
+	 * @param localeDirectory the directory
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void setLocaleDirectory(File localeDirectory) {
@@ -164,8 +164,8 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param errLogDirectory
+	 * Sets the directory in which all the error logs should be written to.
+	 * @param errLogDirectory the directory
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void setErrLogDirectory(File errLogDirectory) {
@@ -174,8 +174,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the directory containing the native libraries
 	 * @since 04.08.2018/0.1.0
 	 */
 	public File getNativeDirectory() {
@@ -184,8 +183,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the directory containing the locales
 	 * @since 04.08.2018/0.1.0
 	 */
 	public File getLocaleDirectory() {
@@ -194,8 +192,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the directory in which the error logs are written
 	 * @since 04.08.2018/0.1.0
 	 */
 	public File getErrLogDirectory() {
@@ -204,8 +201,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the game title
 	 * @since 04.08.2018/0.1.0
 	 */
 	public String getTitle() {
@@ -214,8 +210,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the display
 	 * @since 04.08.2018/0.1.0
 	 */
 	public Display getDisplay() {
@@ -224,8 +219,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the scene
 	 * @since 04.08.2018/0.1.0
 	 */
 	public Scene getScene() {
@@ -234,8 +228,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the camera
 	 * @since 12.08.2018/0.1.0
 	 */
 	public Camera getCamera() {
@@ -244,8 +237,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the maximum frames per second
 	 * @since 05.08.2018/0.1.0
 	 */
 	public int getFPSCap() {
@@ -254,8 +246,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the current frames per second
 	 * @since 05.08.2018/0.1.0
 	 */
 	public int getCurrentFPS() {

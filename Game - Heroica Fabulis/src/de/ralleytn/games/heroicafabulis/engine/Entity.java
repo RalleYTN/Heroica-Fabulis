@@ -1,4 +1,4 @@
- package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine;
 
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
@@ -9,7 +9,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.ShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
- * 
+ * Represents an entity. An entity is an object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 12.08.2018/0.1.0
  * @since 30.07.2018/0.1.0
@@ -39,8 +39,8 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param shaderPipeline
+	 * Sets the shader pipeline which this entity should use.
+	 * @param shaderPipeline the shader pipeline
 	 * @since 12.08.2018/0.1.0
 	 */
 	public void setShaderPipeline(ShaderPipeline shaderPipeline) {
@@ -49,8 +49,8 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param rendering
+	 * Enables or disables rendering for this entity.
+	 * @param rendering {@code true} to enable rendering, {@code false} to disable it
 	 * @since 30.07.2018/0.1.0
 	 */
 	public void setRendering(boolean rendering) {
@@ -58,6 +58,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.rendering = rendering;
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void setRotation(float x, float y, float z) {
 
@@ -65,6 +68,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void setRotation(Vector3f newRotation) {
 
@@ -79,6 +85,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void setScale(float x, float y, float z) {
 
@@ -86,6 +95,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void setScale(Vector3f newScale) {
 
@@ -93,6 +105,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void setTranslation(float x, float y, float z) {
 
@@ -100,6 +115,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void setTranslation(Vector3f newTranslation) {
 
@@ -107,6 +125,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void scale(float factor) {
 
@@ -114,6 +135,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void scale(float x, float y, float z) {
 
@@ -121,6 +145,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void scale(Vector3f factor) {
 
@@ -128,6 +155,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void rotate(float x, float y, float z) {
 
@@ -135,6 +165,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void rotate(Vector3f velocity) {
 
@@ -142,6 +175,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void translate(float x, float y, float z) {
 
@@ -149,6 +185,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
+	/**
+	 * <br><i>Calling this method will recalculate the transformation matrix</i>
+	 */
 	@Override
 	public void translate(Vector3f velocity) {
 
@@ -157,6 +196,8 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
+	 * Calculates the transformation matrix.
+	 * The transformation matrix contains the translation, rotation and the scale of an entity and is used to render the entity with all of these values.
 	 * @since 10.08.2018/0.1.0
 	 */
 	private final void calcTransformationMatrix() {
@@ -170,8 +211,8 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param mesh
+	 * Sets the mesh that this entity should use.
+	 * @param mesh the mesh
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setMesh(Mesh mesh) {
@@ -185,8 +226,9 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param material
+	 * Sets the material of this entity.
+	 * The material determines how the shader will render the entity.
+	 * @param material the material
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setMaterial(Material material) {
@@ -213,8 +255,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the current transformation matrix
 	 * @since 30.07.2018/0.1.0
 	 */
 	public Matrix4f getTransformationMatrix() {
@@ -223,8 +264,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the mesh that this entity uses
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Mesh getMesh() {
@@ -233,8 +273,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the material
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Material getMaterial() {
@@ -243,8 +282,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if this entity is rendering, else {@code false}
 	 * @since 10.08.2018/0.1.0
 	 */
 	public boolean isRendering() {
@@ -253,8 +291,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the shader pipeline that this entity is using
 	 * @since 12.08.2018/0.1.0
 	 */
 	public ShaderPipeline getShaderPipeline() {

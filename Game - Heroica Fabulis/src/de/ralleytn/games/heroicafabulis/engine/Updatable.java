@@ -1,4 +1,4 @@
- package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine;
 
 /**
  * This interface is supposed to be implemented by classes that want to be updated by the main game loop.

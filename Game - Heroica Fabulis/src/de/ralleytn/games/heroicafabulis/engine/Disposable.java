@@ -1,4 +1,4 @@
- package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine;
 
 /**
  * This interface is supposed to be implemented by all classes that have resources that have to be disposed of manually.

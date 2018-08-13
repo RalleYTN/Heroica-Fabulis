@@ -1,4 +1,4 @@
- package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine;
 
 /**
  * This interface is meant to be implemented by classes that represent objects that can be bound to something.
