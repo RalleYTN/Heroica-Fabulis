@@ -4,12 +4,13 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.games.heroicafabulis.engine.input.KeyboardController;
 import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
 public class FlyCamBehavior extends CameraBehavior {
@@ -61,7 +62,9 @@ public class FlyCamBehavior extends CameraBehavior {
 	@Override
 	public void update(float delta) {
 		
-		MouseController mouseController = this.getCamera().getGame().getMouseController();
+		Camera camera = this.getCamera();
+		Game game = camera.getGame();
+		MouseController mouseController = game.getMouseController();
 		Display display = this.getCamera().getGame().getDisplay();
 		int middleX = display.getFrameBufferWidth() / 2;
 		int middleY = display.getFrameBufferHeight() / 2;
@@ -75,6 +78,35 @@ public class FlyCamBehavior extends CameraBehavior {
 			
 			Vector3f rotation = this.getCamera().getRotation();
 			this.getCamera().setRotation(Math.min(Math.max(rotation.x, -90.0F), 90.0F), rotation.y, rotation.z);
+		}
+		
+		KeyboardController keyboardController = game.getKeyboardController();
+		
+		if(keyboardController.isKeyDown(this.forwardKey)) {
+			
+			camera.move(Direction.FORWARD, this.speed * delta);
+			
+		} else if(keyboardController.isKeyDown(this.backwardKey)) {
+			
+			camera.move(Direction.BACKWARD, this.speed * delta);
+		}
+		
+		if(keyboardController.isKeyDown(this.leftKey)) {
+			
+			camera.move(Direction.LEFT, this.speed * delta);
+			
+		} else if(keyboardController.isKeyDown(this.rightKey)) {
+			
+			camera.move(Direction.RIGHT, this.speed * delta);
+		}
+		
+		if(keyboardController.isKeyDown(this.upKey)) {
+			
+			camera.move(Direction.UP, this.speed * delta);
+			
+		} else if(keyboardController.isKeyDown(this.downKey)) {
+			
+			camera.move(Direction.DOWN, this.speed * delta);
 		}
 	}
 }

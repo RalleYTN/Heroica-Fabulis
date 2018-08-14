@@ -11,10 +11,10 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents an entity. An entity is an object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 12.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 30.07.2018/0.1.0
  */
-public class Entity implements Translatable, Rotatable, Scalable, Updatable {
+public class Entity implements Movable, Scalable, Updatable {
 	
 	private Vector3f translation;
 	private Vector3f rotation;
@@ -64,7 +64,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void setRotation(float x, float y, float z) {
 
-		Rotatable.super.setRotation(x, y, z);
+		Movable.super.setRotation(x, y, z);
 		this.calcTransformationMatrix();
 	}
 	
@@ -74,7 +74,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void setRotation(Vector3f newRotation) {
 
-		Rotatable.super.setRotation(newRotation);
+		Movable.super.setRotation(newRotation);
 		this.calcTransformationMatrix();
 	}
 	
@@ -111,7 +111,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void setTranslation(float x, float y, float z) {
 
-		Translatable.super.setTranslation(x, y, z);
+		Movable.super.setTranslation(x, y, z);
 		this.calcTransformationMatrix();
 	}
 	
@@ -121,7 +121,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void setTranslation(Vector3f newTranslation) {
 
-		Translatable.super.setTranslation(newTranslation);
+		Movable.super.setTranslation(newTranslation);
 		this.calcTransformationMatrix();
 	}
 	
@@ -161,7 +161,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void rotate(float x, float y, float z) {
 
-		Rotatable.super.rotate(x, y, z);
+		Movable.super.rotate(x, y, z);
 		this.calcTransformationMatrix();
 	}
 	
@@ -171,7 +171,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void rotate(Vector3f velocity) {
 
-		Rotatable.super.rotate(velocity);
+		Movable.super.rotate(velocity);
 		this.calcTransformationMatrix();
 	}
 	
@@ -181,7 +181,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void translate(float x, float y, float z) {
 
-		Translatable.super.translate(x, y, z);
+		Movable.super.translate(x, y, z);
 		this.calcTransformationMatrix();
 	}
 	
@@ -191,7 +191,7 @@ public class Entity implements Translatable, Rotatable, Scalable, Updatable {
 	@Override
 	public void translate(Vector3f velocity) {
 
-		Translatable.super.translate(velocity);
+		Movable.super.translate(velocity);
 		this.calcTransformationMatrix();
 	}
 	

@@ -8,10 +8,10 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents the game camera. There should be only a single instance of it at a time.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
  */
-public final class Camera implements Translatable, Rotatable {
+public final class Camera implements Movable {
 
 	private float fov;
 	private float nearPlaneDistance;
@@ -46,7 +46,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void translate(float x, float y, float z) {
 
-		Translatable.super.translate(x, y, z);
+		Movable.super.translate(x, y, z);
 		this.calcViewMatrix();
 	}
 	
@@ -56,7 +56,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void translate(Vector3f velocity) {
 
-		Translatable.super.translate(velocity);
+		Movable.super.translate(velocity);
 		this.calcViewMatrix();
 	}
 	
@@ -66,7 +66,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void setTranslation(float x, float y, float z) {
 
-		Translatable.super.setTranslation(x, y, z);
+		Movable.super.setTranslation(x, y, z);
 		this.calcViewMatrix();
 	}
 	
@@ -76,7 +76,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void setTranslation(Vector3f newTranslation) {
 
-		Translatable.super.setTranslation(newTranslation);
+		Movable.super.setTranslation(newTranslation);
 		this.calcViewMatrix();
 	}
 	
@@ -86,7 +86,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void rotate(float x, float y, float z) {
 
-		Rotatable.super.rotate(x, y, z);
+		Movable.super.rotate(x, y, z);
 		this.calcViewMatrix();
 	}
 	
@@ -96,7 +96,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void rotate(Vector3f velocity) {
 
-		Rotatable.super.rotate(velocity);
+		Movable.super.rotate(velocity);
 		this.calcViewMatrix();
 	}
 	
@@ -106,7 +106,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void setRotation(float x, float y, float z) {
 
-		Rotatable.super.setRotation(x, y, z);
+		Movable.super.setRotation(x, y, z);
 		this.calcViewMatrix();
 	}
 	
@@ -116,7 +116,7 @@ public final class Camera implements Translatable, Rotatable {
 	@Override
 	public void setRotation(Vector3f newRotation) {
 
-		Rotatable.super.setRotation(newRotation);
+		Movable.super.setRotation(newRotation);
 		this.calcViewMatrix();
 	}
 	

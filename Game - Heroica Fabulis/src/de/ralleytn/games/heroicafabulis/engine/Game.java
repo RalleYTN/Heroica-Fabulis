@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.lwjgl.glfw.GLFW;
 
+import de.ralleytn.games.heroicafabulis.engine.input.KeyboardController;
 import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
 
@@ -13,7 +14,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -26,6 +27,7 @@ public abstract class Game implements Updatable {
 	private Scene scene;
 	private Camera camera;
 	private MouseController mouseController;
+	private KeyboardController keyboardController;
 	private int fps;
 	private int fpsCap;
 	
@@ -66,6 +68,7 @@ public abstract class Game implements Updatable {
 		
 		this.camera = new Camera(this);
 		this.mouseController = new MouseController(this);
+		this.keyboardController = new KeyboardController(this);
 		
 		int wait = 0;
 		int frames = 0;
@@ -272,5 +275,15 @@ public abstract class Game implements Updatable {
 	public MouseController getMouseController() {
 		
 		return this.mouseController;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 14.08.2018/0.1.0
+	 */
+	public KeyboardController getKeyboardController() {
+		
+		return this.keyboardController;
 	}
 }

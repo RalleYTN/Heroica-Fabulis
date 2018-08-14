@@ -26,23 +26,44 @@ public class KeyboardController extends InputController<KeyboardEvent> {
 	private List<Consumer<KeyboardEvent>> onRelease = new ArrayList<>();
 	private List<Consumer<KeyboardEvent>> onRepeat = new ArrayList<>();
 	
+	/**
+	 * 
+	 * @param game
+	 * @since 13.08.2018/0.1.0
+	 */
 	public KeyboardController(Game game) {
 		
 		this.game = game;
 		Display display = game.getDisplay();
 		long windowID = display.getID();
 		
-		glfwSetKeyCallback(windowID, (id, key, scancode, action, mods) -> {
+		glfwSetKeyCallback(windowID, (id, key, scanCode, action, mods) -> {
+			
+			KeyboardEvent event = new KeyboardEvent(display);
+			event.setKey(key);
+			event.setScanCode(scanCode);
+			event.setMods(mods);
 			
 			if(action == GLFW_PRESS) {
 				
+				for(Consumer<KeyboardEvent> listener : this.onPress) {
+					
+					listener.accept(event);
+				}
 				
 			} else if(action == GLFW_RELEASE) {
 				
+				for(Consumer<KeyboardEvent> listener : this.onRelease) {
+					
+					listener.accept(event);
+				}
 				
 			} else if(action == GLFW_REPEAT) {
 				
-				
+				for(Consumer<KeyboardEvent> listener : this.onRepeat) {
+					
+					listener.accept(event);
+				}
 			}
 		});
 	}
@@ -50,13 +71,35 @@ public class KeyboardController extends InputController<KeyboardEvent> {
 	@Override
 	public void addListener(int event, Consumer<KeyboardEvent> listener) {
 		
+		switch(event) {
 		
+			case EVENT_PRESS:
+				this.onPress.add(listener);
+				break;
+			case EVENT_RELEASE:
+				this.onRelease.add(listener);
+				break;
+			case EVENT_REPEAT:
+				this.onRepeat.add(listener);
+				break;
+		}
 	}
 
 	@Override
 	public void removeListener(int event, Consumer<KeyboardEvent> listener) {
 		
+		switch(event) {
 		
+			case EVENT_PRESS:
+				this.onPress.remove(listener);
+				break;
+			case EVENT_RELEASE:
+				this.onRelease.remove(listener);
+				break;
+			case EVENT_REPEAT:
+				this.onRepeat.remove(listener);
+				break;
+		}
 	}
 	
 	/**
@@ -69,5 +112,16 @@ public class KeyboardController extends InputController<KeyboardEvent> {
 		
 		String name = glfwGetKeyName(key, glfwGetKeyScancode(key));
 		return name != null ? name : "";
+	}
+	
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @since 14.08.2018/0.1.0
+	 */
+	public boolean isKeyDown(int key) {
+		
+		return glfwGetKey(this.game.getDisplay().getID(), key) == GLFW_PRESS;
 	}
 }

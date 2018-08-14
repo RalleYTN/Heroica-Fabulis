@@ -14,7 +14,7 @@ import static org.lwjgl.glfw.GLFW.*;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
 public class MouseController extends InputController<MouseEvent> {
@@ -235,7 +235,7 @@ public class MouseController extends InputController<MouseEvent> {
 	
 	/**
 	 * @return the position of the mouse cursor on the x axis relative to the game window
-	 * @since 1.0.0
+	 * @since 13.08.2018/0.1.0
 	 */
 	public int getCursorX() {
 		
@@ -246,7 +246,7 @@ public class MouseController extends InputController<MouseEvent> {
 
 	/**
 	 * @return the position of the mouse cursor on the y axis relative to the game window
-	 * @since 1.0.0
+	 * @since 13.08.2018/0.1.0
 	 */
 	public int getCursorY() {
 
@@ -257,10 +257,21 @@ public class MouseController extends InputController<MouseEvent> {
 	
 	/**
 	 * @return {@code true} if the cursor is visible
-	 * @since 1.0.0
+	 * @since 13.08.2018/0.1.0
 	 */
 	public boolean isCursorVisible() {
 		
 		return glfwGetInputMode(this.game.getDisplay().getID(), GLFW_CURSOR) == GLFW_CURSOR_NORMAL;
+	}
+	
+	/**
+	 * 
+	 * @param button
+	 * @return
+	 * @since 14.08.2018/0.1.0
+	 */
+	public boolean isButtonDown(int button) {
+		
+		return glfwGetMouseButton(this.game.getDisplay().getID(), button) == GLFW_PRESS;
 	}
 }
