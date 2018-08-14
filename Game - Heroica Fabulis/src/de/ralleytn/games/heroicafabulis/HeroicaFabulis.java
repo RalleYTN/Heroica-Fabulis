@@ -60,6 +60,7 @@ public final class HeroicaFabulis extends Game {
 	@Override
 	public void initialize(Game game) throws EngineException, IOException {
 		
+		game.getDisplay().setFullscreen(true);
 		game.getCamera().setBehavior(new FlyCamBehavior());
 		
 		Texture colorMap = null;

@@ -3,9 +3,9 @@ package de.ralleytn.games.heroicafabulis.engine.rendering;
 import org.lwjgl.opengl.GL11;
 
 /**
- * 
+ * Represents an unmodifiable mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 10.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
  */
 public class StaticMesh extends Mesh {
@@ -14,11 +14,12 @@ public class StaticMesh extends Mesh {
 	private boolean textureCoordinates;
 	
 	/**
-	 * 
-	 * @param vertices
-	 * @param indices
-	 * @param textureCoordinates
-	 * @param normals
+	 * This constructor is not meant to be called directly.
+	 * To create a new mesh use the {@linkplain de.ralleytn.games.heroicafabulis.engine.io.MeshReader}.
+	 * @param vertices the vertices
+	 * @param indices the indices
+	 * @param textureCoordinates the texture coordinates
+	 * @param normals the normals
 	 * @since 04.08.2018/0.1.0
 	 */
 	public StaticMesh(float[] vertices, int[] indices, float[] textureCoordinates, float[] normals) {
@@ -31,19 +32,19 @@ public class StaticMesh extends Mesh {
 		GLBuffer indexBuffer = new GLBuffer(GLBuffer.TYPE_ELEMENT_ARRAY);
 		indexBuffer.bind();
 		indexBuffer.setData(indices, GLBuffer.USAGE_STATIC_DRAW);
-		GLBuffer vertexBuffer = this.createBuffer(3, GL11.GL_FLOAT, vertices);
+		GLBuffer vertexBuffer = this.createBuffer(GL11.GL_FLOAT, vertices);
 		this.vertexArray.store(vertexBuffer, 3, GL11.GL_FLOAT);
 		
 		if(textureCoordinates != null) {
 			
-			GLBuffer textureCoordinateBuffer = this.createBuffer(2, GL11.GL_FLOAT, textureCoordinates);
+			GLBuffer textureCoordinateBuffer = this.createBuffer(GL11.GL_FLOAT, textureCoordinates);
 			this.vertexArray.store(textureCoordinateBuffer, 2, GL11.GL_FLOAT);
 			this.textureCoordinates = true;
 		}
 		
 		if(normals != null) {
 			
-			GLBuffer normalBuffer = this.createBuffer(3, GL11.GL_FLOAT, normals);
+			GLBuffer normalBuffer = this.createBuffer(GL11.GL_FLOAT, normals);
 			this.vertexArray.store(normalBuffer, 3, GL11.GL_FLOAT);
 			this.normals = true;
 		}
@@ -53,14 +54,13 @@ public class StaticMesh extends Mesh {
 	}
 	
 	/**
-	 * 
-	 * @param size
-	 * @param type
-	 * @param data
-	 * @return
+	 * Creates a new buffer and stores the given data in it.
+	 * @param type the data type
+	 * @param data the data to store
+	 * @return the created buffer
 	 * @since 04.08.2018/0.1.0
 	 */
-	private GLBuffer createBuffer(int size, int type, float[] data) {
+	private GLBuffer createBuffer(int type, float[] data) {
 		
 		GLBuffer buffer = new GLBuffer(GLBuffer.TYPE_ARRAY);
 		buffer.bind();

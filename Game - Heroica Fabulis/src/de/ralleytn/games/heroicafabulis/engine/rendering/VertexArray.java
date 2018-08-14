@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.Bindable;
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 
 /**
- * 
+ * Object wrapper for the OpenGL vertex arrays.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 11.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
@@ -47,7 +47,7 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
+	 * This method will unbind ANY currently bound vertex array.
 	 * @since 04.08.2018/0.1.0
 	 */
 	@Override
@@ -57,10 +57,10 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param buffer
-	 * @param vertexSize
-	 * @param dataType
+	 * Stores a buffer in the vertex array.
+	 * @param buffer the buffer
+	 * @param vertexSize the vertex size
+	 * @param dataType the data type
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void store(GLBuffer buffer, int vertexSize, int dataType) {
@@ -71,8 +71,8 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param index
+	 * Enables the buffer at the given index.
+	 * @param index buffer index
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void enable(int index) {
@@ -81,8 +81,8 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param index
+	 * Disables the buffer at the given index.
+	 * @param index buffer index
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void disable(int index) {
@@ -91,9 +91,8 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index buffer index
+	 * @return the buffer at the given index
 	 * @since 04.08.2018/0.1.0
 	 */
 	public GLBuffer getBuffer(int index) {

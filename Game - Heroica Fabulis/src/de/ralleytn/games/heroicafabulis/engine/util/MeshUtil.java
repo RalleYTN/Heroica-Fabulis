@@ -6,7 +6,7 @@ import java.util.List;
 import javax.vecmath.Vector3f;
 
 /**
- * 
+ * Utility class containg methods for working with meshes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 11.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
@@ -19,10 +19,10 @@ public final class MeshUtil {
 	private MeshUtil() {}
 	
 	/**
-	 * 
-	 * @param vertices
-	 * @param indices
-	 * @return
+	 * Generates the normals of a mesh based on the vertices and the indices.
+	 * @param vertices the vertices
+	 * @param indices the indices
+	 * @return the generated normals
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final List<Vector3f> generateNormals(List<Vector3f> vertices, int[] indices) {
@@ -57,11 +57,11 @@ public final class MeshUtil {
 	}
 
 	/**
-	 * 
-	 * @param vert1
-	 * @param vert2
-	 * @param vert3
-	 * @return
+	 * Generates a face normal.
+	 * @param vert1 first vertex
+	 * @param vert2 second vertex
+	 * @param vert3 third vertex
+	 * @return the generated face normal
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final Vector3f generateFaceNormal(Vector3f vert1, Vector3f vert2, Vector3f vert3) {

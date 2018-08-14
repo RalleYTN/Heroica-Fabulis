@@ -19,7 +19,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 12.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 10.08.2018/0.1.0
  */
 public class ShaderPipeline extends LWJGLObject implements Bindable {
@@ -97,7 +97,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 */
 	public void setUniform(String uniform, Matrix4f value) {
 		
-		glUniformMatrix4fv(this.getUniformLocation(uniform), false, MatrixUtil.toArray(value));
+		glUniformMatrix4fv(this.getUniformLocation(uniform), false, MatrixUtil.toArray4f(value));
 	}
 
 	/**

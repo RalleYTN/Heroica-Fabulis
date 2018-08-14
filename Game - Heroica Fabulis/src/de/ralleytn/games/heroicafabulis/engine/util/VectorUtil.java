@@ -6,9 +6,9 @@ import java.util.List;
 import javax.vecmath.Vector3f;
 
 /**
- * 
+ * Utility class containing methods for working with vectors.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
  */
 public final class VectorUtil {
@@ -19,12 +19,12 @@ public final class VectorUtil {
 	private VectorUtil() {}
 	
 	/**
-	 * 
-	 * @param vertices
-	 * @return
+	 * Converts a float array into a {@linkplain List} of {@linkplain Vector3f}s.
+	 * @param vertices the float array
+	 * @return the created {@linkplain List}
 	 * @since 11.08.2018/0.1.0
 	 */
-	public static final List<Vector3f> toList(float[] vertices) {
+	public static final List<Vector3f> toList3f(float[] vertices) {
 		
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		

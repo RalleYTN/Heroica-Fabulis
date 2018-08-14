@@ -3,10 +3,12 @@ package de.ralleytn.games.heroicafabulis.engine.util;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.games.heroicafabulis.engine.Engine;
+
 /**
- * 
+ * Utility class containg methods for working with matrices.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
  */
 public final class MatrixUtil {
@@ -17,12 +19,12 @@ public final class MatrixUtil {
 	private MatrixUtil() {}
 	
 	/**
-	 * 
-	 * @param matrix
-	 * @return
+	 * Converts a {@linkplain Matrix4f} to a float array.
+	 * @param matrix the {@linkplain Matrix4f}
+	 * @return the resulting float array
 	 * @since 11.08.2018/0.1.0
 	 */
-	public static final float[] toArray(Matrix4f matrix) {
+	public static final float[] toArray4f(Matrix4f matrix) {
 		
 		return new float[] {
 				
@@ -34,12 +36,12 @@ public final class MatrixUtil {
 	}
 	
 	/**
-	 * 
-	 * @param matrix
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
+	 * Multiplies a 4D matrix with a 3D vector.
+	 * @param matrix the 4D matrix
+	 * @param x X component of the 3D vector
+	 * @param y Y component of the 3D vector
+	 * @param z Z component of the 3D vector
+	 * @return the resulting vector
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final Vector3f multiply(Matrix4f matrix, float x, float y, float z) {
@@ -52,23 +54,23 @@ public final class MatrixUtil {
 	}
 	
 	/**
-	 * 
-	 * @param rotation
-	 * @param matrix
+	 * Calculates the rotation matrix.
+	 * @param rotation the rotation
+	 * @param matrix the matrix
 	 * @since 11.08.2018/0.1.0
 	 */
-	public static final void recalcRotationMatrix(Vector3f rotation, Matrix4f matrix) {
+	public static final void calcRotationMatrix(Vector3f rotation, Matrix4f matrix) {
 		
 		matrix.setIdentity();
-		MatrixUtil.rotate(rotation.x, new Vector3f(1.0F, 0.0F, 0.0F), matrix);
-		MatrixUtil.rotate(rotation.y, new Vector3f(0.0F, 1.0F, 0.0F), matrix);
-		MatrixUtil.rotate(rotation.z, new Vector3f(0.0F, 0.0F, 1.0F), matrix);
+		MatrixUtil.rotate(rotation.x, Engine.AXIS_X, matrix);
+		MatrixUtil.rotate(rotation.y, Engine.AXIS_Y, matrix);
+		MatrixUtil.rotate(rotation.z, Engine.AXIS_Z, matrix);
 	}
 	
 	/**
-	 * 
-	 * @param scale
-	 * @param matrix
+	 * Scales a matrix.
+	 * @param scale the scale
+	 * @param matrix the matrix
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void scale(Vector3f scale, Matrix4f matrix) {
@@ -90,9 +92,9 @@ public final class MatrixUtil {
 	}
 	
 	/**
-	 * 
-	 * @param translation
-	 * @param matrix
+	 * Translates a matrix.
+	 * @param translation the translation
+	 * @param matrix the matrix
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void translate(Vector3f translation, Matrix4f matrix) {
@@ -104,10 +106,10 @@ public final class MatrixUtil {
 	}
 	
 	/**
-	 * 
-	 * @param angle
-	 * @param axis
-	 * @param matrix
+	 * Rotates a matrix.
+	 * @param angle the angle
+	 * @param axis the axis
+	 * @param matrix the matrix
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void rotate(float angle, Vector3f axis, Matrix4f matrix) {

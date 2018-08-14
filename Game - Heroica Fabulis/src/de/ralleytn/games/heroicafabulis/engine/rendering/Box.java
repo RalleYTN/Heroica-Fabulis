@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 05.08.2018/0.1.0
  */
 public class Box extends StaticMesh {
@@ -91,7 +91,7 @@ public class Box extends StaticMesh {
 	 */
 	private static final float[] createNormals(float width, float height, float depth) {
 		
-		List<Vector3f> list = MeshUtil.generateNormals(VectorUtil.toList(createVertices(width, height, depth)), INDICES);
+		List<Vector3f> list = MeshUtil.generateNormals(VectorUtil.toList3f(createVertices(width, height, depth)), INDICES);
 		float[] normals = new float[list.size() * 3];
 		int index = 0;
 		

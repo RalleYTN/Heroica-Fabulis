@@ -4,13 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
-
-import static org.lwjgl.opengl.GL11.*;
 
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 
@@ -20,34 +15,28 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
  * @version 14.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
  */
-public class DefaultTextureReader extends Reader<Texture> {
+public class DefaultTextureReader extends TextureReader {
 
 	@Override
 	public Texture read(InputStream inputStream) throws IOException {
 		
-		BufferedImage bimg = ImageIO.read(inputStream);
-		int width = bimg.getWidth();
-		int height = bimg.getHeight();
-		BufferedImage argbImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics graphics = argbImage.createGraphics();
-		graphics.drawImage(bimg, 0, 0, null);
-		graphics.dispose();
-		int[] rawPixels = argbImage.getRGB(0, 0, width, height, null, 0, width);
+		BufferedImage rawImage = ImageIO.read(inputStream);
+		int width = rawImage.getWidth();
+		int height = rawImage.getHeight();
+		BufferedImage image = null;
 		
-		IntBuffer buffer = ByteBuffer.allocateDirect(rawPixels.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
-		buffer.put(rawPixels);
-		buffer.flip();
+		if(rawImage.getType() == BufferedImage.TYPE_INT_ARGB) {
+			
+			image = rawImage;
+			
+		} else {
+			
+			image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+			Graphics graphics = image.createGraphics();
+			graphics.drawImage(rawImage, 0, 0, null);
+			graphics.dispose();
+		}
 		
-		Texture texture = new Texture();
-		texture.bind();
-		texture.setMinFilter(Texture.FILTER_NEAREST);
-		texture.setMagFilter(Texture.FILTER_NEAREST);
-		texture.setWrapS(Texture.WRAP_REPEAT);
-		texture.setWrapT(Texture.WRAP_REPEAT);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-		texture.unbind();
-		
-		return texture;
+		return this.createTexture(this.createBuffer(image.getRGB(0, 0, width, height, null, 0, width)), width, height);
 	}
 }
