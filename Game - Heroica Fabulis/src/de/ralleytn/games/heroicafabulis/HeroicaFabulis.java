@@ -1,6 +1,7 @@
 package de.ralleytn.games.heroicafabulis;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
@@ -8,10 +9,12 @@ import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
 import de.ralleytn.games.heroicafabulis.engine.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.BasicShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Box;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Light;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Material;
+import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 
 /**
  * This is the main class in which the game components are assembled and the game is started.
@@ -59,9 +62,18 @@ public final class HeroicaFabulis extends Game {
 		
 		game.getCamera().setBehavior(new FlyCamBehavior());
 		
+		Texture colorMap = null;
+		
+		try(FileInputStream colorMapInput = new FileInputStream(new File("res/colorMap.png"))) {
+			
+			DefaultTextureReader reader = new DefaultTextureReader();
+			colorMap = reader.read(colorMapInput);
+		}
+		
 		Material material = new Material();
+		material.setColorMap(colorMap);
 		material.setAffectedByLight(true);
-		material.setMinBrightness(0.1F);
+		material.setMinBrightness(0.3F);
 		
 		Entity cube = new Entity() {
 			

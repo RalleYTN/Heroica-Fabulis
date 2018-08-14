@@ -1,7 +1,5 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering;
 
-import java.io.InputStream;
-
 import javax.vecmath.Color4f;
 
 import org.lwjgl.opengl.GL11;
@@ -16,7 +14,7 @@ import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 14.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
  */
 public class Texture extends LWJGLObject implements Bindable {
@@ -41,7 +39,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 * @param inputStream
 	 * @since 04.08.2018/0.1.0
 	 */
-	public Texture(InputStream inputStream) {
+	public Texture() {
 		
 		this.id = GL11.glGenTextures();
 	}

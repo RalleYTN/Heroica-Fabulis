@@ -22,14 +22,14 @@ public class MouseController extends InputController<MouseEvent> {
 	// When it comes to input performance has to have more priority than design.
 	// I decided against a Map because it would add another layer that would slow everything down quite significantly.
 	
-	public static final int EVENT_ENTER = 1;
-	public static final int EVENT_LEAVE = 2;
-	public static final int EVENT_MOVE = 3;
-	public static final int EVENT_DRAG = 4;
-	public static final int EVENT_PRESS = 5;
-	public static final int EVENT_RELEASE = 6;
-	public static final int EVENT_SCROLL = 7;
-	public static final int EVENT_REPEAT = 8;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_ENTER = 1;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_LEAVE = 2;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_MOVE = 3;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_DRAG = 4;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_PRESS = 5;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_RELEASE = 6;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_SCROLL = 7;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_REPEAT = 8;
 	
 	private boolean drag;
 	private Game game;
