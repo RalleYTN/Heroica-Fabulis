@@ -1,11 +1,12 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering;
 
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 
 /**
  * Represents an unmodifiable mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 15.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
  */
 public class StaticMesh extends Mesh {
@@ -31,21 +32,21 @@ public class StaticMesh extends Mesh {
 		this.vertexArray.bind();
 		GLBuffer indexBuffer = new GLBuffer(GLBuffer.TYPE_ELEMENT_ARRAY);
 		indexBuffer.bind();
-		indexBuffer.setData(indices, GLBuffer.USAGE_STATIC_DRAW);
-		GLBuffer vertexBuffer = this.createBuffer(GL11.GL_FLOAT, vertices);
-		this.vertexArray.store(vertexBuffer, 3, GL11.GL_FLOAT);
+		indexBuffer.setData(indices, GL_STATIC_DRAW);
+		GLBuffer vertexBuffer = this.createBuffer(GL_FLOAT, vertices);
+		this.vertexArray.store(vertexBuffer, 3, GL_FLOAT);
 		
 		if(textureCoordinates != null) {
 			
-			GLBuffer textureCoordinateBuffer = this.createBuffer(GL11.GL_FLOAT, textureCoordinates);
-			this.vertexArray.store(textureCoordinateBuffer, 2, GL11.GL_FLOAT);
+			GLBuffer textureCoordinateBuffer = this.createBuffer(GL_FLOAT, textureCoordinates);
+			this.vertexArray.store(textureCoordinateBuffer, 2, GL_FLOAT);
 			this.textureCoordinates = true;
 		}
 		
 		if(normals != null) {
 			
-			GLBuffer normalBuffer = this.createBuffer(GL11.GL_FLOAT, normals);
-			this.vertexArray.store(normalBuffer, 3, GL11.GL_FLOAT);
+			GLBuffer normalBuffer = this.createBuffer(GL_FLOAT, normals);
+			this.vertexArray.store(normalBuffer, 3, GL_FLOAT);
 			this.normals = true;
 		}
 		
@@ -64,7 +65,7 @@ public class StaticMesh extends Mesh {
 		
 		GLBuffer buffer = new GLBuffer(GLBuffer.TYPE_ARRAY);
 		buffer.bind();
-		buffer.setData(data, GLBuffer.USAGE_STATIC_DRAW);
+		buffer.setData(data, GL_STATIC_DRAW);
 		return buffer;
 	}
 

@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.engine;
 import javax.vecmath.Vector3f;
 
 /**
- * 
+ * Interface that should be implemented by every class that represents something with a rotation vector.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 30.07.2018/0.1.0
  * @since 30.07.2018/0.1.0
@@ -11,8 +11,8 @@ import javax.vecmath.Vector3f;
 public interface Rotatable {
 
 	/**
-	 * 
-	 * @param newRotation
+	 * Sets the rotation.
+	 * @param newRotation the new rotation
 	 * @since 30.07.2018/0.1.0
 	 */
 	public default void setRotation(Vector3f newRotation) {
@@ -21,10 +21,10 @@ public interface Rotatable {
 	}
 
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Sets the rotation.
+	 * @param x X component of the new rotation
+	 * @param y Y component of the new rotation
+	 * @param z Z component of the new rotation
 	 * @since 30.07.2018/0.1.0
 	 */
 	public default void setRotation(float x, float y, float z) {
@@ -36,8 +36,8 @@ public interface Rotatable {
 	}
 
 	/**
-	 * 
-	 * @param velocity
+	 * Rotates the object.
+	 * @param velocity the velocity by which the object should be rotated
 	 * @since 30.07.2018/0.1.0
 	 */
 	public default void rotate(Vector3f velocity) {
@@ -46,10 +46,10 @@ public interface Rotatable {
 	}
 
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Rotates the object.
+	 * @param x X component of the velocity by which the object should be rotated
+	 * @param y Y component of the velocity by which the object should be rotated
+	 * @param z Z component of the velocity by which the object should be rotated
 	 * @since 30.07.2018/0.1.0
 	 */
 	public default void rotate(float x, float y, float z) {
@@ -61,15 +61,14 @@ public interface Rotatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the rotation vector.
 	 * @since 30.07.2018/0.1.0
 	 */
 	public Vector3f getRotation();
 
 	/**
-	 * 
-	 * @return
+	 * Calculates a normalized rotation vector in which no value can be smaller than {@code 0.0F} or greater than {@code 360.0F}.
+	 * @return the normalized rotation vector
 	 * @since 30.07.2018/0.1.0
 	 */
 	public default Vector3f getNormalizedRotation() {

@@ -17,6 +17,9 @@ import de.ralleytn.games.heroicafabulis.engine.Game;
  */
 public class KeyboardController extends InputController<KeyboardEvent> {
 
+	// When it comes to input performance has to have more priority than design.
+	// I decided against a Map because it would add another layer that would slow everything down quite significantly.
+	
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_PRESS = 1;
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_RELEASE = 2;
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_REPEAT = 3;
