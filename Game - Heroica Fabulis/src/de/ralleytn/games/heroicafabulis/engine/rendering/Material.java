@@ -8,11 +8,31 @@ import static org.lwjgl.opengl.GL13.*;
  * Represents a material. Materials are used to tell the shader <b>how</b> a mesh should be rendered.
  * Any changes that were made to the material after it was given to the shader will be ignored.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 12.08.2018/0.1.0
+ * @version 15.08.2018/0.1.0
  * @since 10.08.2018/0.1.0
  */
 public class Material {
 
+	private static final String UNIFORM_AFFECTED_BY_LIGHT = "matAffectedByLight";
+	private static final String UNIFORM_BRIGHTNESS = "matBrightness";
+	private static final String UNIFORM_COLOR = "matColor";
+	private static final String UNIFORM_USE_OVERLAY1 = "matUseOverlay1";
+	private static final String UNIFORM_USE_OVERLAY2 = "matUseOverlay2";
+	private static final String UNIFORM_USE_OVERLAY3 = "matUseOverlay3";
+	private static final String UNIFORM_USE_COLOR_MAP = "matUseColorMap";
+	private static final String UNIFORM_USE_SPECULAR_MAP = "matUseSpecularMap";
+	private static final String UNIFORM_USE_NORMAL_MAP = "matUseNormalMap";
+	private static final String UNIFORM_COLOR_MAP = "matColorMap";
+	private static final String UNIFORM_NORMAL_MAP = "matNormalMap";
+	private static final String UNIFORM_OVERLAY1 = "matOverlay1";
+	private static final String UNIFORM_OVERLAY2 = "matOverlay2";
+	private static final String UNIFORM_OVERLAY3 = "matOverlay3";
+	private static final String UNIFORM_SPECULAR = "matSpecular";
+	private static final String UNIFORM_MIN_BRIGHTNESS = "matMinBrightness";
+	private static final String UNIFORM_SHINE_DAMPING = "matShineDamping";
+	private static final String UNIFORM_SPECULAR_MAP = "matSpecularMap";
+	private static final String UNIFORM_REFLECTIVITY = "matReflectivity";
+	
 	private Texture colorMap;		// 0
 	private Texture specularMap;	// 1
 	private Texture normalMap;		// 2
@@ -38,8 +58,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param colorMap
+	 * Sets the color map.
+	 * @param colorMap the color map
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setColorMap(Texture colorMap) {
@@ -48,8 +68,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param specularMap
+	 * Sets the specular map.
+	 * @param specularMap the specular map
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setSpecularMap(Texture specularMap) {
@@ -58,8 +78,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param normalMap
+	 * Sets the normal map.
+	 * @param normalMap the normal map
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setNormalMap(Texture normalMap) {
@@ -68,8 +88,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param overlay1
+	 * Sets the overlay on layer 1.
+	 * @param overlay1 overlay texture
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setOverlay1(Texture overlay1) {
@@ -78,8 +98,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param overlay2
+	 * Sets the overlay on layer 2.
+	 * @param overlay2 overlay texture
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setOverlay2(Texture overlay2) {
@@ -88,8 +108,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param overlay3
+	 * Sets the overlay on layer 3.
+	 * @param overlay3 overlay texture
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setOverlay3(Texture overlay3) {
@@ -98,8 +118,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param color
+	 * Sets the default color for the object.
+	 * @param color default color (default = [{@code 1.0F}, {@code 0.0F}, {@code 1.0F}, {@code 1.0F}])
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setColor(Color4f color) {
@@ -108,8 +128,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param reflectivity
+	 * Sets the reflectivity of the object.
+	 * @param reflectivity the reflectivity (default = {@code 0.0F})
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setReflectivity(float reflectivity) {
@@ -118,8 +138,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param shineDamping
+	 * Sets the shine damping.
+	 * @param shineDamping the shine damping (default = {@code 1.0F})
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setShineDamping(float shineDamping) {
@@ -128,8 +148,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param minBrightness
+	 * Sets the minimum brightness of the object.
+	 * @param minBrightness the minimum brightness (default = {@code 0.0F})
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setMinBrightness(float minBrightness) {
@@ -138,8 +158,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param brightness
+	 * Sets the brightness of the object.
+	 * @param brightness the brightness (default = {@code 1.0F})
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setBrightness(float brightness) {
@@ -148,8 +168,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param affectedByLight
+	 * Sets if the object is affected by any of the lightning effects.
+	 * @param affectedByLight {@code true} to make the object be affected by light, else {@code false} (default = {@code false})
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setAffectedByLight(boolean affectedByLight) {
@@ -158,8 +178,8 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param specular
+	 * Sets whether or not the object is specular. In order for a specular map to work this flag has to be set to {@code true}.
+	 * @param specular {@code true} to make the object specular, else {@code false} (default = {@code false})
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setSpecular(boolean specular) {
@@ -168,8 +188,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the color map
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Texture getColorMap() {
@@ -178,8 +197,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the specular map
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Texture getSpecularMap() {
@@ -188,8 +206,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the normal map
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Texture getNormalMap() {
@@ -198,8 +215,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the overlay texture for layer 1
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Texture getOverlay1() {
@@ -208,8 +224,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the overlay texture for layer 2
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Texture getOverlay2() {
@@ -218,8 +233,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the overlay texture for layer 3
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Texture getOverlay3() {
@@ -228,8 +242,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the object color
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Color4f getColor() {
@@ -238,8 +251,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the reflectivity of the object
 	 * @since 10.08.2018/0.1.0
 	 */
 	public float getReflectivity() {
@@ -248,8 +260,7 @@ public class Material {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the shine damping of the object
 	 * @since 10.08.2018/0.1.0
 	 */
 	public float getShineDamping() {
@@ -258,8 +269,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the minimum brightness of the object
 	 * @since 10.08.2018/0.1.0
 	 */
 	public float getMinBrightness() {
@@ -268,8 +278,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the brightness of the object
 	 * @since 10.08.2018/0.1.0
 	 */
 	public float getBrightness() {
@@ -278,8 +287,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the object is affected by lightning effects, else {@code false}
 	 * @since 10.08.2018/0.1.0
 	 */
 	public boolean isAffectedByLight() {
@@ -288,8 +296,7 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the object is specular, else {@code false}
 	 * @since 10.08.2018/0.1.0
 	 */
 	public boolean isSpecular() {
@@ -298,85 +305,60 @@ public class Material {
 	}
 	
 	/**
-	 * 
-	 * @param shaderPipeline
+	 * Applies this material to a shader pipeline.
+	 * @param shaderPipeline the shader pipeline
 	 * @since 12.08.2018/0.1.0
 	 */
 	final void applyToShader(ShaderPipeline shaderPipeline) {
 
-		shaderPipeline.setUniform("matAffectedByLight", this.affectedByLight);
-		shaderPipeline.setUniform("matBrightness", this.brightness);
-		shaderPipeline.setUniform("matColor", this.color);
-		
-		boolean useColorMap = this.colorMap != null;
-		boolean useNormalMap = this.normalMap != null;
-		boolean useOverlay1 = this.overlay1 != null;
-		boolean useOverlay2 = this.overlay2 != null;
-		boolean useOverlay3 = this.overlay3 != null;
-		
-		shaderPipeline.setUniform("matUseColorMap", useColorMap);
-		shaderPipeline.setUniform("matUseNormalMap", useNormalMap);
-		shaderPipeline.setUniform("matUseOverlay1", useOverlay1);
-		shaderPipeline.setUniform("matUseOverlay2", useOverlay2);
-		shaderPipeline.setUniform("matUseOverlay3", useOverlay3);
-		
-		if(useColorMap) {
-			
-			glActiveTexture(GL_TEXTURE0);
-			this.colorMap.bind();
-			shaderPipeline.setUniform("matColorMap", 0);
-		}
-		
-		if(useNormalMap) {
+		shaderPipeline.setUniform(UNIFORM_AFFECTED_BY_LIGHT, this.affectedByLight);
+		shaderPipeline.setUniform(UNIFORM_BRIGHTNESS, this.brightness);
+		shaderPipeline.setUniform(UNIFORM_COLOR, this.color);
 
-			glActiveTexture(GL_TEXTURE2);
-			this.normalMap.bind();
-			shaderPipeline.setUniform("matNormalMap", 2);
-		}
-		
-		if(useOverlay1) {
-			
-			glActiveTexture(GL_TEXTURE31);
-			this.overlay1.bind();
-			shaderPipeline.setUniform("matOverlay1", 31);
-		}
-		
-		if(useOverlay2) {
-			
-			glActiveTexture(GL_TEXTURE30);
-			this.overlay2.bind();
-			shaderPipeline.setUniform("matOverlay2", 30);
-		}
-		
-		if(useOverlay3) {
-			
-			glActiveTexture(GL_TEXTURE29);
-			this.overlay3.bind();
-			shaderPipeline.setUniform("matOverlay3", 29);
-		}
-		
+		this.applyTexture(shaderPipeline, this.colorMap, UNIFORM_USE_COLOR_MAP, UNIFORM_COLOR_MAP, GL_TEXTURE0, 0);
+		this.applyTexture(shaderPipeline, this.normalMap, UNIFORM_USE_NORMAL_MAP, UNIFORM_NORMAL_MAP, GL_TEXTURE2, 2);
+		this.applyTexture(shaderPipeline, this.overlay1, UNIFORM_USE_OVERLAY1, UNIFORM_OVERLAY1, GL_TEXTURE31, 31);
+		this.applyTexture(shaderPipeline, this.overlay2, UNIFORM_USE_OVERLAY2, UNIFORM_OVERLAY2, GL_TEXTURE30, 30);
+		this.applyTexture(shaderPipeline, this.overlay3, UNIFORM_USE_OVERLAY3, UNIFORM_OVERLAY3, GL_TEXTURE29, 29);
+
 		if(this.affectedByLight) {
 			
-			shaderPipeline.setUniform("matSpecular", this.specular);
-			shaderPipeline.setUniform("matMinBrightness", this.minBrightness);
+			shaderPipeline.setUniform(UNIFORM_SPECULAR, this.specular);
+			shaderPipeline.setUniform(UNIFORM_MIN_BRIGHTNESS, this.minBrightness);
 			
 			if(this.specular) {
 				
-				boolean useSpecularMap = this.specularMap != null;
-				shaderPipeline.setUniform("matUseSpecularMap", useSpecularMap);
-				shaderPipeline.setUniform("matShineDamping", this.shineDamping);
-				
-				if(useSpecularMap) {
+				shaderPipeline.setUniform(UNIFORM_SHINE_DAMPING, this.shineDamping);
+				this.applyTexture(shaderPipeline, this.specularMap, UNIFORM_USE_SPECULAR_MAP, UNIFORM_SPECULAR_MAP, GL_TEXTURE1, 1);
+
+				if(this.specularMap == null) {
 					
-					glActiveTexture(GL_TEXTURE1);
-					this.specularMap.bind();
-					shaderPipeline.setUniform("matSpecularMap", 1);
-					
-				} else {
-					
-					shaderPipeline.setUniform("matReflectivity", this.reflectivity);
+					shaderPipeline.setUniform(UNIFORM_REFLECTIVITY, this.reflectivity);
 				}
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param shaderPipeline
+	 * @param texture
+	 * @param uniformUse
+	 * @param uniform
+	 * @param slot
+	 * @param position
+	 * @since 15.08.2018/0.1.0
+	 */
+	private final void applyTexture(ShaderPipeline shaderPipeline, Texture texture, String uniformUse, String uniform, int slot, int position) {
+		
+		boolean use = (texture != null);
+		shaderPipeline.setUniform(uniformUse, use);
+		
+		if(use) {
+			
+			glActiveTexture(slot);
+			texture.bind();
+			shaderPipeline.setUniform(uniform, position);
 		}
 	}
 }

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * Manages all of the locales.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 01.08.2018/0.1.0
+ * @version 15.08.2018/0.1.0
  * @since 31.07.2018/0.1.0
  */
 public final class Localization {
@@ -20,15 +20,16 @@ public final class Localization {
 	private static List<Locale> AVAILABLE_LOCALES;
 	
 	/**
+	 * Private because no instance of this class should exist.
 	 * @since 31.07.2018/0.1.0
 	 */
 	private Localization() {}
 	
 	/**
-	 * 
-	 * @param localeDirectory
-	 * @throws IOException
-	 * @throws EngineException
+	 * Loads all of the available locales names and the translations of the default system locale.
+	 * @param localeDirectory the directory containing the locales
+	 * @throws IOException if an I/O error occurred
+	 * @throws EngineException if one of the locales is invalid
 	 * @since 31.07.2018/0.1.0
 	 */
 	public static final void loadAvailableLocales(File localeDirectory) throws IOException, EngineException {
@@ -77,10 +78,10 @@ public final class Localization {
 	}
 	
 	/**
-	 * 
-	 * @param localeShortname
-	 * @throws IOException
-	 * @throws EngineException 
+	 * Sets which locale should be used. The old locale will be unloaded.
+	 * @param localeShortname the short name is the file name of the locale without the file extension or the directory; the name is case insensitive
+	 * @throws IOException if an I/O error occurred
+	 * @throws EngineException if the locale is invalid
 	 * @since 31.07.2018/0.1.0
 	 */
 	public static final void setLocale(String localeShortname) throws IOException, EngineException {
@@ -106,8 +107,8 @@ public final class Localization {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * For this method to work {@link #loadAvailableLocales(File)} has to be called at least once before
+	 * @return a list with all of the available locales
 	 * @since 31.07.2018/0.1.0
 	 */
 	public static final List<Locale> getAvailableLocales() {
@@ -116,8 +117,7 @@ public final class Localization {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the currently loaded locale
 	 * @since 31.07.2018/0.1.0
 	 */
 	public static final Locale getCurrentLocale() {
@@ -126,13 +126,23 @@ public final class Localization {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param key translation key
+	 * @param params values to fill in the placeholders
+	 * @return the translation for the given key
 	 * @since 31.07.2018/0.1.0
 	 */
-	public static final String getLocalizedString(String key) {
+	public static final String getLocalizedString(String key, Object... params) {
 		
-		return CURRENT_LOCALE.getLocalizedString(key);
+		String localizedString = CURRENT_LOCALE.getLocalizedString(key).replace("\\n", "\n");
+		
+		if(params != null) {
+			
+			for(int index = 0; index < params.length; index++) {
+				
+				localizedString = localizedString.replace(String.format("{%s}", index), String.valueOf(params[index]));
+			}
+		}
+		
+		return localizedString;
 	}
 }

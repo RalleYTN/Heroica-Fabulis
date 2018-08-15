@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.Light;
 /**
  * Represents the currently processed universe.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 15.08.2018/0.1.0
  * @since 31.07.2018/0.1.0
  */
 public class Scene implements Renderable, Updatable {
@@ -19,7 +19,7 @@ public class Scene implements Renderable, Updatable {
 	private Light sun;
 	
 	/**
-	 * 
+	 * Package visibility because the only instance of this class should be accessible in the {@linkplain Game} class.
 	 * @since 05.08.2018
 	 */
 	Scene() {
@@ -28,8 +28,8 @@ public class Scene implements Renderable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param entity
+	 * Adds an entity to the scene.
+	 * @param entity the entity
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void addEntity(Entity entity) {
@@ -38,8 +38,8 @@ public class Scene implements Renderable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param sun
+	 * Temporary method to add light to the scene until multiple light sources are a thing.
+	 * @param sun the light source
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setSun(Light sun) {
@@ -48,8 +48,8 @@ public class Scene implements Renderable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @param entity
+	 * Removes an entity from the scene.
+	 * @param entity the entity
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void removeEntity(Entity entity) {
@@ -58,11 +58,13 @@ public class Scene implements Renderable, Updatable {
 	}
 	
 	/**
+	 * Removes everything from the scene.
 	 * @since 05.08.2018/0.1.0
 	 */
 	public void clear() {
 		
 		this.entities.clear();
+		this.sun = null;
 	}
 	
 	@Override
@@ -87,8 +89,7 @@ public class Scene implements Renderable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an unmodifiable list of the entities in the scene
 	 * @since 11.08.2018/0.1.0
 	 */
 	public List<Entity> getEntities() {
@@ -97,8 +98,7 @@ public class Scene implements Renderable, Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the light source
 	 * @since 11.08.2018/0.1.0
 	 */
 	public Light getSun() {

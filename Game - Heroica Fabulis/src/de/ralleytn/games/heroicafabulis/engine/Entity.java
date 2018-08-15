@@ -11,7 +11,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents an entity. An entity is an object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 15.08.2018/0.1.0
  * @since 30.07.2018/0.1.0
  */
 public class Entity implements Movable, Scalable, Updatable {
@@ -78,13 +78,6 @@ public class Entity implements Movable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
-	@Override
-	public void setScale(float newScale) {
-
-		Scalable.super.setScale(newScale);
-		this.calcTransformationMatrix();
-	}
-	
 	/**
 	 * <br><i>Calling this method will recalculate the transformation matrix</i>
 	 */
@@ -122,16 +115,6 @@ public class Entity implements Movable, Scalable, Updatable {
 	public void setTranslation(Vector3f newTranslation) {
 
 		Movable.super.setTranslation(newTranslation);
-		this.calcTransformationMatrix();
-	}
-	
-	/**
-	 * <br><i>Calling this method will recalculate the transformation matrix</i>
-	 */
-	@Override
-	public void scale(float factor) {
-
-		Scalable.super.scale(factor);
 		this.calcTransformationMatrix();
 	}
 	

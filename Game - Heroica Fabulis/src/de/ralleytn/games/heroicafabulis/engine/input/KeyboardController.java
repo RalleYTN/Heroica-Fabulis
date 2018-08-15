@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.Display;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 
 /**
- * 
+ * Class with methods to listen for inputs from the keyboard.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 14.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
@@ -30,8 +30,7 @@ public class KeyboardController extends InputController<KeyboardEvent> {
 	private List<Consumer<KeyboardEvent>> onRepeat = new ArrayList<>();
 	
 	/**
-	 * 
-	 * @param game
+	 * @param game the instance of {@linkplain Game} this controller belongs to
 	 * @since 13.08.2018/0.1.0
 	 */
 	public KeyboardController(Game game) {
@@ -106,9 +105,8 @@ public class KeyboardController extends InputController<KeyboardEvent> {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param key the key ID
+	 * @return the name for the given key or an empty {@linkplain String} if there is no name for that key
 	 * @since 14.08.2018/0.1.0
 	 */
 	public String getKeyName(int key) {
@@ -118,9 +116,8 @@ public class KeyboardController extends InputController<KeyboardEvent> {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param key the key ID
+	 * @return {@code true} if the given key is currently pushed down, else {@code false}
 	 * @since 14.08.2018/0.1.0
 	 */
 	public boolean isKeyDown(int key) {
