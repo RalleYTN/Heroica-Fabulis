@@ -8,7 +8,7 @@ import de.ralleytn.games.heroicafabulis.engine.input.KeyboardController;
 import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
 
 /**
- * 
+ * Represents the behavior of a flying camera commonly used for debugging purposes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 14.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
@@ -28,7 +28,6 @@ public class FlyCamBehavior extends CameraBehavior {
 	private int backwardKey;
 	
 	/**
-	 * 
 	 * @since 13.08.2018/0.1.0
 	 */
 	public FlyCamBehavior() {
