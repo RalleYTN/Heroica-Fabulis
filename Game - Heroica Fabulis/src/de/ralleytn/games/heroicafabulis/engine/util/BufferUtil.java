@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import org.lwjgl.BufferUtils;
 
 /**
- * 
+ * Utility class containing methods for working with Buffers from the NIO package.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 04.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
@@ -23,15 +23,15 @@ import org.lwjgl.BufferUtils;
 public final class BufferUtil {
 
 	/**
-	 * 
+	 * Private because no instances of this class should exist.
 	 * @since 04.08.2018/0.1.0
 	 */
 	private BufferUtil() {}
 	
 	/**
-	 * 
-	 * @param bytes
-	 * @return
+	 * Wraps a {@code byte} array in a {@linkplain ByteBuffer}.
+	 * @param bytes the {@code byte} array
+	 * @return the {@linkplain ByteBuffer}
 	 * @since 04.08.2018/0.1.0
 	 */
 	public static final ByteBuffer toByteBuffer(byte[] bytes) {
@@ -44,9 +44,9 @@ public final class BufferUtil {
 	}
 
 	/**
-	 * 
-	 * @param ints
-	 * @return
+	 * Wraps an {@code int} array in an {@linkplain IntBuffer}.
+	 * @param ints the {@code int} array
+	 * @return the {@linkplain IntBuffer}
 	 * @since 04.08.2018/0.1.0
 	 */
 	public static final IntBuffer toIntBuffer(int[] ints) {
@@ -59,9 +59,9 @@ public final class BufferUtil {
 	}
 
 	/**
-	 * 
-	 * @param floats
-	 * @return
+	 * Wraps a {@code float} array in a {@linkplain FloatBuffer}.
+	 * @param floats the {@code float} array
+	 * @return the {@linkplain FloatBuffer}
 	 * @since 04.08.2018/0.1.0
 	 */
 	public static final FloatBuffer toFloatBuffer(float[] floats) {
@@ -74,10 +74,10 @@ public final class BufferUtil {
 	}
 	
 	/**
-	 * 
-	 * @param buffer
-	 * @param newCapacity
-	 * @return
+	 * Resizes a {@linkplain ByteBuffer}.
+	 * @param buffer the {@linkplain ByteBuffer} that should be resized
+	 * @param newCapacity the new capacity
+	 * @return the resized {@linkplain ByteBuffer}
 	 * @since 04.08.2018/0.1.0
 	 */
 	public static final ByteBuffer resizeByteBuffer(ByteBuffer buffer, int newCapacity) {
@@ -89,11 +89,11 @@ public final class BufferUtil {
 	}
 	
 	/**
-	 * 
-	 * @param resource
-	 * @param bufferSize
-	 * @return
-	 * @throws IOException
+	 * Loads a resource from tghe class path directly into a {@linkplain ByteBuffer}.
+	 * @param resource the name of the resource on the class path
+	 * @param bufferSize the buffer size
+	 * @return the created {@linkplain ByteBuffer}
+	 * @throws IOException if the resource could not be read
 	 * @since 04.08.2018/0.1.0
 	 */
 	public static final ByteBuffer loadToByteBuffer(String resource, int bufferSize) throws IOException {

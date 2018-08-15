@@ -8,7 +8,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MeshUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
 /**
- * 
+ * Represents a simple box mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 14.08.2018/0.1.0
  * @since 05.08.2018/0.1.0
@@ -59,8 +59,7 @@ public class Box extends StaticMesh {
 	};
 	
 	/**
-	 * 
-	 * @param size
+	 * @param size the size the box should have
 	 * @since 05.08.2018/0.1.0
 	 */
 	public Box(Vector3f size) {
@@ -69,10 +68,9 @@ public class Box extends StaticMesh {
 	}
 	
 	/**
-	 * 
-	 * @param width
-	 * @param height
-	 * @param depth
+	 * @param width the width
+	 * @param height the height
+	 * @param depth the depth
 	 * @since 05.08.2018/0.1.0
 	 */
 	public Box(float width, float height, float depth) {
@@ -81,12 +79,11 @@ public class Box extends StaticMesh {
 	}
 	
 	/**
-	 * 
-	 * @param width
-	 * @param height
-	 * @param depth
-	 * @param indices
-	 * @return
+	 * Creates the normals for the mesh.
+	 * @param width the width
+	 * @param height the height
+	 * @param depth the depth
+	 * @return the generated normals
 	 * @since 11.08.2018/0.1.0
 	 */
 	private static final float[] createNormals(float width, float height, float depth) {
@@ -107,11 +104,11 @@ public class Box extends StaticMesh {
 	}
 	
 	/**
-	 * 
-	 * @param width
-	 * @param height
-	 * @param depth
-	 * @return
+	 * Creates the vertices of the box.
+	 * @param width the width
+	 * @param height the height
+	 * @param depth the depth
+	 * @return the vertices
 	 * @since 05.08.2018/0.1.0
 	 */
 	private static final float[] createVertices(float width, float height, float depth) {

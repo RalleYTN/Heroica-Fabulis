@@ -25,7 +25,7 @@ public final class Camera implements Movable {
 	private CameraBehavior behavior;
 	
 	/**
-	 * @param game 
+	 * @param game the {@linkplain Game} instance this camera belongs to
 	 * @since 11.08.2018/0.1.0
 	 */
 	Camera(Game game) {
@@ -294,8 +294,7 @@ public final class Camera implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the {@linkplain Game} instance this camera belongs to
 	 * @since 13.08.2018/0.1.0
 	 */
 	public Game getGame() {

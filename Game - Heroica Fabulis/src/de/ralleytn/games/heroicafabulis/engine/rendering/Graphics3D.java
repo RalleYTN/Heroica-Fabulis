@@ -7,7 +7,7 @@ import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 
 /**
- * 
+ * Manages the rendering of 3D graphics.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 12.08.2018/0.1.0
  * @since 30.07.2018/0.1.0
@@ -18,14 +18,18 @@ public class Graphics3D {
 	private ShaderPipeline shaderPipeline;
 	private Material material;
 	
+	/**
+	 * @param game the {@linkplain Game} instance this manager belongs to
+	 * @since 12.08.2018/0.1.0
+	 */
 	public Graphics3D(Game game) {
 		
 		this.game = game;
 	}
 	
 	/**
-	 * 
-	 * @param mesh
+	 * Renders a mesh.
+	 * @param mesh the mesh
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void renderMesh(Mesh mesh) {
@@ -43,8 +47,8 @@ public class Graphics3D {
 	}
 	
 	/**
-	 * 
-	 * @param entity
+	 * Renders an entity.
+	 * @param entity the entity
 	 * @since 12.08.2018/0.1.0
 	 */
 	public void renderEntity(Entity entity) {
@@ -83,8 +87,8 @@ public class Graphics3D {
 	}
 	
 	/**
-	 * 
-	 * @param shaderPipeline
+	 * Sets the shader pipeline that is used.
+	 * @param shaderPipeline the shader pipeline
 	 * @since 12.08.2018/0.1.0
 	 */
 	public void setShaderPipeline(ShaderPipeline shaderPipeline) {
@@ -102,8 +106,8 @@ public class Graphics3D {
 	}
 	
 	/**
-	 * 
-	 * @param mode
+	 * Sets the face culling mode.
+	 * @param mode the face culling mode
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void setFaceCulling(int mode) {

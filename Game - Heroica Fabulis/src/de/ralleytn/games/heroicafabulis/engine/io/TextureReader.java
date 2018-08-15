@@ -1,11 +1,6 @@
 package de.ralleytn.games.heroicafabulis.engine.io;
 
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL11.glPixelStorei;
-import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -16,7 +11,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 /**
  * Abstract {@linkplain Reader} that should be extended by all {@linkplain Reader}s that read {@linkplain Texture}s.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 15.08.2018/0.1.0
  * @since 14.08.2018/0.1.0
  */
 public abstract class TextureReader extends Reader<Texture> {

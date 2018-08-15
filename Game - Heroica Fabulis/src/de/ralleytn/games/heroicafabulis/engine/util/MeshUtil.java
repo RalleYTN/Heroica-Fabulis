@@ -14,6 +14,7 @@ import javax.vecmath.Vector3f;
 public final class MeshUtil {
 
 	/**
+	 * Private because no instances of this class should be created.
 	 * @since 11.08.2018/0.1.0
 	 */
 	private MeshUtil() {}

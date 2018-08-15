@@ -6,7 +6,7 @@ import javax.vecmath.Vector3f;
 import de.ralleytn.games.heroicafabulis.engine.Translatable;
 
 /**
- * 
+ * Represents a basic positional light with infinite range.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 11.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
@@ -26,8 +26,8 @@ public class Light implements Translatable {
 	}
 	
 	/**
-	 * 
-	 * @param color
+	 * Sets the color of the light.
+	 * @param color the color
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setColor(Color3f color) {
@@ -36,8 +36,7 @@ public class Light implements Translatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the color of the light
 	 * @since 11.08.2018/0.1.0
 	 */
 	public Color3f getColor() {

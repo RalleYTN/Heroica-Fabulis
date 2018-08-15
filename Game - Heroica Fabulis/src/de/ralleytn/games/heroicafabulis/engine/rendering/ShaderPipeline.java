@@ -25,11 +25,8 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 public class ShaderPipeline extends LWJGLObject implements Bindable {
 
 	private Shader vertexShader;
-	// private Shader tesselationControlShader;
-	// private Shader tesselationEvaluationShader;
 	private Shader geometryShader;
 	private Shader fragmentShader;
-	// private Shader computeShader;
 	private Map<Integer, String> inputVarBinding;
 	
 	/**

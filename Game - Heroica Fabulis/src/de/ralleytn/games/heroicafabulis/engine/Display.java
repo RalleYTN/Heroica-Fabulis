@@ -485,8 +485,7 @@ public class Display implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the ID of this display
 	 * @since 13.08.2018/0.1.0
 	 */
 	public long getID() {

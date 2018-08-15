@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.engine.rendering;
 import de.ralleytn.games.heroicafabulis.engine.Disposable;
 
 /**
- * 
+ * Represents an abstract mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 10.08.2018/0.1.0
  * @since 04.08.2018/0.1.0
@@ -51,8 +51,8 @@ public abstract class Mesh implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @param cullMode
+	 * Sets the face culling mode.
+	 * @param cullMode the cull mode (default = {@link #CULLING_BACK})
 	 * @since 04.08.2018/0.1.0
 	 */
 	public void setCullMode(int cullMode) {
@@ -61,8 +61,7 @@ public abstract class Mesh implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the mode used for face culling
 	 * @since 04.08.2018/0.1.0
 	 */
 	public int getCullMode() {
@@ -71,8 +70,7 @@ public abstract class Mesh implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the vertex count of this mesh
 	 * @since 04.08.2018/0.1.0
 	 */
 	public int getVertexCount() {
@@ -81,8 +79,7 @@ public abstract class Mesh implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the index count
 	 * @since 04.08.2018/0.1.0
 	 */
 	public int getIndexCount() {
@@ -91,8 +88,7 @@ public abstract class Mesh implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the face count
 	 * @since 04.08.2018/0.1.0
 	 */
 	public int getFaceCount() {
@@ -101,8 +97,7 @@ public abstract class Mesh implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the {@linkplain VertexArray} used to store the mesh data
 	 * @since 04.08.2018/0.1.0
 	 */
 	public VertexArray getVertexArray() {
@@ -111,15 +106,13 @@ public abstract class Mesh implements Disposable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if this mesh has normals, else {@code false}
 	 * @since 10.08.2018/0.1.0
 	 */
 	public abstract boolean hasNormals();
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if this mesh has texture coordinates, else {@code false}
 	 * @since 10.08.2018/0.1.0
 	 */
 	public abstract boolean hasTextureCoordinates();

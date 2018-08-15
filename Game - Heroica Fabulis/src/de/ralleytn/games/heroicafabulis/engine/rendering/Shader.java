@@ -19,7 +19,7 @@ import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 import de.ralleytn.games.heroicafabulis.engine.Loadable;
 
 /**
- * 
+ * Represents a single shader in OpenGL.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 11.08.2018/0.1.0
  * @since 10.08.2018/0.1.0
@@ -37,9 +37,8 @@ public class Shader extends LWJGLObject implements Loadable {
 	private File file;
 	
 	/**
-	 * 
-	 * @param type
-	 * @param file
+	 * @param type the type of shader
+	 * @param file the file containing the shader source code
 	 * @since 10.08.2018/0.1.0
 	 */
 	public Shader(int type, File file) {
@@ -80,8 +79,8 @@ public class Shader extends LWJGLObject implements Loadable {
 	}
 	
 	/**
-	 * 
-	 * @throws EngineException
+	 * Compiles the shader.
+	 * @throws EngineException if the shader could not be compiled
 	 * @since 10.08.2018/0.1.0
 	 */
 	public void compile() throws EngineException {
@@ -98,8 +97,7 @@ public class Shader extends LWJGLObject implements Loadable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the file containing the shader source code
 	 * @since 10.08.2018/0.1.0
 	 */
 	public File getFile() {
@@ -108,8 +106,7 @@ public class Shader extends LWJGLObject implements Loadable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the shader type
 	 * @since 10.08.2018/0.1.0
 	 */
 	public int getType() {

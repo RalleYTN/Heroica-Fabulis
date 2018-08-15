@@ -268,8 +268,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return object to ask for mouse input
 	 * @since 13.08.2018/0.1.0
 	 */
 	public MouseController getMouseController() {
@@ -278,8 +277,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return object to ask for keyboard input
 	 * @since 14.08.2018/0.1.0
 	 */
 	public KeyboardController getKeyboardController() {
