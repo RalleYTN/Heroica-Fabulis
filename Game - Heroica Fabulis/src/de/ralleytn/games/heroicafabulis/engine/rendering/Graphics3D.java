@@ -3,13 +3,16 @@ package de.ralleytn.games.heroicafabulis.engine.rendering;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
+import javax.vecmath.Color4f;
+import javax.vecmath.Vector3f;
+
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 
 /**
  * Manages the rendering of 3D graphics.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 12.08.2018/0.1.0
+ * @version 15.08.2018/0.1.0
  * @since 30.07.2018/0.1.0
  */
 public class Graphics3D {
@@ -25,6 +28,24 @@ public class Graphics3D {
 	public Graphics3D(Game game) {
 		
 		this.game = game;
+	}
+	
+	/**
+	 * Renders a line.
+	 * @param start the start point
+	 * @param end the end point
+	 * @param lineWidth the line width (default = {@code 1.0F})
+	 * @param color the line color
+	 * @since 15.08.2018/0.1.0
+	 */
+	public void renderLine(Vector3f start, Vector3f end, float lineWidth, Color4f color) {
+		
+		glColor4f(color.x, color.y, color.z, color.w);
+		glBegin(GL_LINE_STRIP);
+		glLineWidth(lineWidth);
+		glVertex3f(start.x, start.y, start.z);
+		glVertex3f(end.x, end.y, end.z);
+		glEnd();
 	}
 	
 	/**
@@ -80,7 +101,7 @@ public class Graphics3D {
 				
 				this.shaderPipeline.setUniform("lightPos", light.getTranslation());
 				this.shaderPipeline.setUniform("lightColor", light.getColor());
-}
+			}
 		}
 		
 		this.renderMesh(mesh);
