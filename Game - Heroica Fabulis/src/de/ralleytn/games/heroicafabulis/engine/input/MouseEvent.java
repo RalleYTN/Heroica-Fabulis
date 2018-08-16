@@ -5,7 +5,7 @@ import de.ralleytn.games.heroicafabulis.engine.Event;
 /**
  * Container for data of a mouse input event.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
 public class MouseEvent extends Event {
@@ -26,43 +26,33 @@ public class MouseEvent extends Event {
 	}
 	
 	/**
-	 * Sets the coordinates of the mouse cursor relative to the display.
-	 * @param x the position on the X axis in pixel
-	 * @param y the position on the Y axis in pixel
-	 * @since 13.08.2018/0.1.0
+	 * 
+	 * @param source
+	 * @param x
+	 * @param y
+	 * @param button
+	 * @param mods
+	 * @since 16.08.2018/0.1.0
 	 */
-	public void setPosition(int x, int y) {
+	public MouseEvent(Object source, int x, int y, int button, int mods) {
+		
+		super(source);
 		
 		this.x = x;
 		this.y = y;
-	}
-	
-	/**
-	 * Sets a bit sequence with modifier flags.
-	 * @param mods the modifier flags
-	 * @since 13.08.2018/0.1.0
-	 */
-	public void setMods(int mods) {
-		
+		this.button = button;
 		this.mods = mods;
 	}
 	
 	/**
-	 * Sets the button associated with this event
-	 * @param button the button
-	 * @since 13.08.2018/0.1.0
+	 * 
+	 * @param source
+	 * @param scrollOffset
+	 * @since 16.08.2018/0.1.0
 	 */
-	public void setButton(int button) {
+	public MouseEvent(Object source, double scrollOffset) {
 		
-		this.button = button;
-	}
-	
-	/**
-	 * Sets the scroll offset.
-	 * @param scrollOffset negative = DOWN, positiv = UP
-	 * @since 13.08.2018/0.1.0
-	 */
-	public void setScrollOffset(double scrollOffset) {
+		super(source);
 		
 		this.scrollOffset = scrollOffset;
 	}

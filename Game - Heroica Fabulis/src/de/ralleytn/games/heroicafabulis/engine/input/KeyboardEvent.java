@@ -7,7 +7,7 @@ import de.ralleytn.games.heroicafabulis.engine.Event;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
 public class KeyboardEvent extends Event {
@@ -19,40 +19,17 @@ public class KeyboardEvent extends Event {
 	/**
 	 * 
 	 * @param source
-	 * @since 13.08.2018/0.1.0
+	 * @param key
+	 * @param scanCode
+	 * @param mods
+	 * @since 16.08.2018/0.1.0
 	 */
-	public KeyboardEvent(Object source) {
+	public KeyboardEvent(Object source, int key, int scanCode, int mods) {
 		
 		super(source);
-	}
-	
-	/**
-	 * 
-	 * @param key
-	 * @since 14.08.2018/0.1.0
-	 */
-	public void setKey(int key) {
 		
 		this.key = key;
-	}
-	
-	/**
-	 * 
-	 * @param scanCode
-	 * @since 14.08.2018/0.1.0
-	 */
-	public void setScanCode(int scanCode) {
-		
 		this.scanCode = scanCode;
-	}
-	
-	/**
-	 * 
-	 * @param mods
-	 * @since 14.08.2018/0.1.0
-	 */
-	public void setMods(int mods) {
-		
 		this.mods = mods;
 	}
 	

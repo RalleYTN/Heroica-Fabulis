@@ -8,28 +8,38 @@ package de.ralleytn.games.heroicafabulis.engine;
  */
 public class DisplayEvent extends Event {
 
-	private int x;
-	private int y;
-	private int width;
-	private int height;
+	private int newX;
+	private int newY;
+	private int newWidth;
+	private int newHeight;
 	
 	/**
 	 * 
 	 * @param source
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
+	 * @param newX
+	 * @param newY
+	 * @param newWidth
+	 * @param newHeight
 	 * @since 16.08.2018/0.1.0
 	 */
-	public DisplayEvent(Object source, int x, int y, int width, int height) {
+	public DisplayEvent(Object source, int newX, int newY, int newWidth, int newHeight) {
 		
 		super(source);
 		
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.newX = newX;
+		this.newY = newY;
+		this.newWidth = newWidth;
+		this.newHeight = newHeight;
+	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @since 16.08.2018/0.1.0
+	 */
+	public DisplayEvent(Object source) {
+		
+		super(source);
 	}
 	
 	/**
@@ -37,9 +47,9 @@ public class DisplayEvent extends Event {
 	 * @return
 	 * @since 16.08.2018/0.1.0
 	 */
-	public int getX() {
+	public int getNewX() {
 		
-		return this.x;
+		return this.newX;
 	}
 	
 	/**
@@ -47,9 +57,9 @@ public class DisplayEvent extends Event {
 	 * @return
 	 * @since 16.08.2018/0.1.0
 	 */
-	public int getY() {
+	public int getNewY() {
 		
-		return this.y;
+		return this.newY;
 	}
 	
 	/**
@@ -57,9 +67,9 @@ public class DisplayEvent extends Event {
 	 * @return
 	 * @since 16.08.2018/0.1.0
 	 */
-	public int getWidth() {
+	public int getNewWidth() {
 		
-		return this.width;
+		return this.newWidth;
 	}
 	
 	/**
@@ -67,8 +77,8 @@ public class DisplayEvent extends Event {
 	 * @return
 	 * @since 16.08.2018/0.1.0
 	 */
-	public int getHeight() {
+	public int getNewHeight() {
 		
-		return this.height;
+		return this.newHeight;
 	}
 }

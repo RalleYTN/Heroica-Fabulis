@@ -19,11 +19,14 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 /**
  * This is the main class in which the game components are assembled and the game is started.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 12.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 30.07.2018/0.1.0
  */
 public final class HeroicaFabulis extends Game {
 
+	/**
+	 * @since 30.07.2018/0.1.0
+	 */
 	public HeroicaFabulis() {
 		
 		super("Heroica Fabulis v0.1.0", new File("native"));
@@ -60,6 +63,7 @@ public final class HeroicaFabulis extends Game {
 	@Override
 	public void initialize(Game game) throws EngineException, IOException {
 		
+		game.getDisplay().setFullscreen(true);
 		game.getCamera().setBehavior(new FlyCamBehavior());
 		
 		Texture colorMap = null;
@@ -80,7 +84,7 @@ public final class HeroicaFabulis extends Game {
 			@Override
 			public void update(float delta) {
 				
-				this.rotate(0.2F * delta, 0.2F * delta, 0.2F * delta);
+				this.rotate(0.2F * delta, 0.2F * delta, 0.0F);
 			}
 		};
 		cube.setShaderPipeline(new BasicShaderPipeline("basic"));

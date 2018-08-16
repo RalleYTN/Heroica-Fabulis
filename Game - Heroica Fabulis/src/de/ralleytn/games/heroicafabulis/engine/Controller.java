@@ -1,5 +1,6 @@
 package de.ralleytn.games.heroicafabulis.engine;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -13,17 +14,43 @@ public interface Controller<T extends Event> {
 
 	/**
 	 * Adds a new listener for the given event.
-	 * @param event the event ID
+	 * @param eventName the event ID
 	 * @param listener the listener
 	 * @since 13.08.2018/0.1.0
 	 */
-	public void addListener(int event, Consumer<T> listener);
+	public default void addListener(int eventName, Consumer<T> listener) {
+		
+		this.getListeners()[eventName].add(listener);
+	}
 	
 	/**
 	 * Removes a listener from the given event.
-	 * @param event the event ID
+	 * @param eventName the event ID
 	 * @param listener the listener
 	 * @since 13.08.2018/0.1.0
 	 */
-	public void removeListener(int event, Consumer<T> listener);
+	public default void removeListener(int eventName, Consumer<T> listener) {
+		
+		this.getListeners()[eventName].remove(listener);
+	}
+	
+	/**
+	 * Triggers an event.
+	 * @param eventName the event ID
+	 * @param event the event
+	 * @since 16.08.2018/0.1.0
+	 */
+	public default void trigger(int eventName, T event) {
+		
+		for(Consumer<T> listener : this.getListeners()[eventName]) {
+			
+			listener.accept(event);
+		}
+	}
+	
+	/**
+	 * @return the array with all of the lists containing listeners
+	 * @since 13.08.2018/0.1.0
+	 */
+	public List<Consumer<T>>[] getListeners();
 }

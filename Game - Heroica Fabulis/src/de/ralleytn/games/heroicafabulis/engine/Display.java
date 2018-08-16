@@ -2,6 +2,8 @@ package de.ralleytn.games.heroicafabulis.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.lwjgl.glfw.Callbacks;
@@ -19,18 +21,31 @@ import org.lwjgl.system.MemoryUtil;
 public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/** @since 16.08.018/0.1.0 */ public static final int EVENT_CLOSE = 0;
-	/** @since 16.08.018/0.1.0 */ public static final int EVENT_LOST_FOCUS = 1;
-	/** @since 16.08.018/0.1.0 */ public static final int EVENT_GAINED_FOCUS = 2;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_LOSE_FOCUS = 1;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_GAIN_FOCUS = 2;
 	/** @since 16.08.018/0.1.0 */ public static final int EVENT_MAXIMIZE = 3;
 	/** @since 16.08.018/0.1.0 */ public static final int EVENT_ICONIFY = 4;
 	/** @since 16.08.018/0.1.0 */ public static final int EVENT_RESIZE = 5;
 	/** @since 16.08.018/0.1.0 */ public static final int EVENT_MOVE = 6;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_RESTORE = 7;
 	
 	private static final int DEFAULT_WIDTH = 1024;
 	private static final int DEFAULT_HEIGHT = 768;
 	private static final int DEFAULT_MIN_WIDTH = 640;
 	private static final int DEFAULT_MIN_HEIGHT = 480;
 	
+	@SuppressWarnings("unchecked")
+	private final List<Consumer<DisplayEvent>>[] listeners = new List[] {
+		new ArrayList<>(),	// CLOSE
+		new ArrayList<>(),	// LOSE FOCUS
+		new ArrayList<>(),	// GAIN FOCUS
+		new ArrayList<>(),	// MAXIMIZE
+		new ArrayList<>(),	// ICONIFY
+		new ArrayList<>(),	// RESIZE
+		new ArrayList<>(),	// MOVE
+		new ArrayList<>()	// RESTORE
+	};
+
 	private GLFWVidMode vidMode;
 	private String title;
 	private long id;
@@ -62,12 +77,12 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 		if(this.id != MemoryUtil.NULL) {
 			
 			glfwSetWindowSizeLimits(this.id, this.minWidth, this.minHeight, this.maxWidth, this.maxHeight);
-			glfwSetWindowCloseCallback(this.id, window -> {});
-			glfwSetWindowFocusCallback(this.id, (window, focused) -> {});
-			glfwSetWindowMaximizeCallback(this.id, (window, maximized) -> {});
-			glfwSetWindowSizeCallback(this.id, (window, width, height) -> {});
-			glfwSetWindowPosCallback(this.id, (window, x, y) -> {});
-			glfwSetWindowIconifyCallback(this.id, (window, iconified) -> {});
+			glfwSetWindowCloseCallback(this.id, window -> this.trigger(EVENT_CLOSE, new DisplayEvent(this)));
+			glfwSetWindowFocusCallback(this.id, (window, focused) -> this.trigger(focused ? EVENT_GAIN_FOCUS : EVENT_LOSE_FOCUS, new DisplayEvent(this)));
+			glfwSetWindowMaximizeCallback(this.id, (window, maximized) -> this.trigger(maximized ? EVENT_MAXIMIZE : EVENT_RESTORE, new DisplayEvent(this)));
+			glfwSetWindowSizeCallback(this.id, (window, width, height) -> this.trigger(EVENT_RESIZE, new DisplayEvent(this, 0, 0, width, height)));
+			glfwSetWindowPosCallback(this.id, (window, x, y) -> this.trigger(EVENT_MOVE, new DisplayEvent(this, x, y, 0, 0)));
+			glfwSetWindowIconifyCallback(this.id, (window, iconified) -> this.trigger(iconified ? EVENT_ICONIFY : EVENT_RESTORE, new DisplayEvent(this)));
 			glfwSetFramebufferSizeCallback(this.id, (long window, int width, int height) -> this.updateViewPort());
 			
 		} else {
@@ -486,16 +501,10 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 		
 		return this.id;
 	}
-
+	
 	@Override
-	public void addListener(int event, Consumer<DisplayEvent> listener) {
-		
-		
-	}
+	public List<Consumer<DisplayEvent>>[] getListeners() {
 
-	@Override
-	public void removeListener(int event, Consumer<DisplayEvent> listener) {
-		
-		
+		return listeners;
 	}
 }

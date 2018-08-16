@@ -21,14 +21,17 @@ public class KeyboardController implements Controller<KeyboardEvent> {
 	// When it comes to input performance has to have more priority than design.
 	// I decided against a Map because it would add another layer that would slow everything down quite significantly.
 	
-	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_PRESS = 1;
-	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_RELEASE = 2;
-	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_REPEAT = 3;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_PRESS = 0;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_RELEASE = 1;
+	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_REPEAT = 2;
 	
-	private Game game;
-	private List<Consumer<KeyboardEvent>> onPress = new ArrayList<>();
-	private List<Consumer<KeyboardEvent>> onRelease = new ArrayList<>();
-	private List<Consumer<KeyboardEvent>> onRepeat = new ArrayList<>();
+	@SuppressWarnings("unchecked")
+	private final List<Consumer<KeyboardEvent>>[] listeners = new List[] {
+		new ArrayList<>(),	// PRESS
+		new ArrayList<>(),	// RELEASE
+		new ArrayList<>()	// REPEAT
+	};
+	private final Game game;
 	
 	/**
 	 * @param game the instance of {@linkplain Game} this controller belongs to
@@ -42,67 +45,13 @@ public class KeyboardController implements Controller<KeyboardEvent> {
 		
 		glfwSetKeyCallback(windowID, (id, key, scanCode, action, mods) -> {
 			
-			KeyboardEvent event = new KeyboardEvent(display);
-			event.setKey(key);
-			event.setScanCode(scanCode);
-			event.setMods(mods);
+			KeyboardEvent event = new KeyboardEvent(display, key, scanCode, mods);
 			
-			if(action == GLFW_PRESS) {
-				
-				for(Consumer<KeyboardEvent> listener : this.onPress) {
-					
-					listener.accept(event);
-				}
-				
-			} else if(action == GLFW_RELEASE) {
-				
-				for(Consumer<KeyboardEvent> listener : this.onRelease) {
-					
-					listener.accept(event);
-				}
-				
-			} else if(action == GLFW_REPEAT) {
-				
-				for(Consumer<KeyboardEvent> listener : this.onRepeat) {
-					
-					listener.accept(event);
-				}
+			       if(action == GLFW_PRESS) {this.trigger(EVENT_PRESS, event);
+			} else if(action == GLFW_RELEASE) {this.trigger(EVENT_RELEASE, event);
+			} else if(action == GLFW_REPEAT) {this.trigger(EVENT_REPEAT, event);
 			}
 		});
-	}
-	
-	@Override
-	public void addListener(int event, Consumer<KeyboardEvent> listener) {
-		
-		switch(event) {
-		
-			case EVENT_PRESS:
-				this.onPress.add(listener);
-				break;
-			case EVENT_RELEASE:
-				this.onRelease.add(listener);
-				break;
-			case EVENT_REPEAT:
-				this.onRepeat.add(listener);
-				break;
-		}
-	}
-
-	@Override
-	public void removeListener(int event, Consumer<KeyboardEvent> listener) {
-		
-		switch(event) {
-		
-			case EVENT_PRESS:
-				this.onPress.remove(listener);
-				break;
-			case EVENT_RELEASE:
-				this.onRelease.remove(listener);
-				break;
-			case EVENT_REPEAT:
-				this.onRepeat.remove(listener);
-				break;
-		}
 	}
 	
 	/**
@@ -124,5 +73,11 @@ public class KeyboardController implements Controller<KeyboardEvent> {
 	public boolean isKeyDown(int key) {
 		
 		return glfwGetKey(this.game.getDisplay().getID(), key) == GLFW_PRESS;
+	}
+
+	@Override
+	public List<Consumer<KeyboardEvent>>[] getListeners() {
+
+		return this.listeners;
 	}
 }
