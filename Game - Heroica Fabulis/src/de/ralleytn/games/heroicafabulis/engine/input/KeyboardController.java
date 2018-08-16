@@ -6,16 +6,17 @@ import java.util.function.Consumer;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import de.ralleytn.games.heroicafabulis.engine.Controller;
 import de.ralleytn.games.heroicafabulis.engine.Display;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 
 /**
  * Class with methods to listen for inputs from the keyboard.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
-public class KeyboardController extends InputController<KeyboardEvent> {
+public class KeyboardController implements Controller<KeyboardEvent> {
 
 	// When it comes to input performance has to have more priority than design.
 	// I decided against a Map because it would add another layer that would slow everything down quite significantly.

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import de.ralleytn.games.heroicafabulis.engine.Controller;
 import de.ralleytn.games.heroicafabulis.engine.Display;
 import de.ralleytn.games.heroicafabulis.engine.Engine;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
@@ -14,10 +15,10 @@ import static org.lwjgl.glfw.GLFW.*;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
-public class MouseController extends InputController<MouseEvent> {
+public class MouseController implements Controller<MouseEvent> {
 
 	// When it comes to input performance has to have more priority than design.
 	// I decided against a Map because it would add another layer that would slow everything down quite significantly.

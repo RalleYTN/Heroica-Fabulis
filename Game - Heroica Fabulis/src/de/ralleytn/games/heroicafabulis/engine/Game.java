@@ -66,9 +66,11 @@ public abstract class Game implements Updatable {
 		this.display.setVSync(true);
 		this.display.setVisible(true);
 		
-		this.camera = new Camera(this);
 		this.mouseController = new MouseController(this);
+		this.mouseController.setCursorPosition(this.display.getFrameBufferWidth() / 2, display.getFrameBufferHeight() / 2);
+		
 		this.keyboardController = new KeyboardController(this);
+		this.camera = new Camera(this);
 		
 		int wait = 0;
 		int frames = 0;

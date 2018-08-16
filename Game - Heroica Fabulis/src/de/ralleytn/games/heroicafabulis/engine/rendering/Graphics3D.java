@@ -12,7 +12,7 @@ import de.ralleytn.games.heroicafabulis.engine.Game;
 /**
  * Manages the rendering of 3D graphics.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 15.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 30.07.2018/0.1.0
  */
 public class Graphics3D {
@@ -89,7 +89,7 @@ public class Graphics3D {
 			this.shaderPipeline.setUniform("transformation", entity.getTransformationMatrix());
 			this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
 			
-			if(material != this.material) {
+			if(material != this.material || this.material.hasChanged()) {
 				
 				this.material = material;
 				this.material.applyToShader(this.shaderPipeline);

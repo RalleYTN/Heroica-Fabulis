@@ -1,12 +1,14 @@
 package de.ralleytn.games.heroicafabulis.engine.input;
 
+import de.ralleytn.games.heroicafabulis.engine.Event;
+
 /**
  * Container for data of a mouse input event.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 13.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
-public class MouseEvent extends InputEvent {
+public class MouseEvent extends Event {
 
 	private int x;
 	private int y;

@@ -2,13 +2,15 @@ package de.ralleytn.games.heroicafabulis.engine.input;
 
 import org.lwjgl.glfw.GLFW;
 
+import de.ralleytn.games.heroicafabulis.engine.Event;
+
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 14.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
-public class KeyboardEvent extends InputEvent {
+public class KeyboardEvent extends Event {
 
 	private int key;
 	private int scanCode;

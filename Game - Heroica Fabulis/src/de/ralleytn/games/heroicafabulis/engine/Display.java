@@ -2,6 +2,8 @@ package de.ralleytn.games.heroicafabulis.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import java.util.function.Consumer;
+
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
@@ -11,21 +13,25 @@ import org.lwjgl.system.MemoryUtil;
  * There can only be a single instance of this class that was created with the {@link Engine#start(java.io.File, java.io.File, String)} method.
  * It represents the game window.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018
+ * @version 16.08.2018
  * @since 31.07.2018
  */
-public class Display implements Disposable {
+public class Display implements Disposable, Controller<DisplayEvent> {
 
-	// TODO: I want the code that has to do with monitors and video modes in it's own class
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_CLOSE = 0;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_LOST_FOCUS = 1;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_GAINED_FOCUS = 2;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_MAXIMIZE = 3;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_ICONIFY = 4;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_RESIZE = 5;
+	/** @since 16.08.018/0.1.0 */ public static final int EVENT_MOVE = 6;
 	
 	private static final int DEFAULT_WIDTH = 1024;
 	private static final int DEFAULT_HEIGHT = 768;
 	private static final int DEFAULT_MIN_WIDTH = 640;
 	private static final int DEFAULT_MIN_HEIGHT = 480;
 	
-	private GLFWVidMode primaryMonitorVidMode;
 	private GLFWVidMode vidMode;
-	private GLFWVidMode[] vidModes;
 	private String title;
 	private long id;
 	private int minWidth;
@@ -45,41 +51,28 @@ public class Display implements Disposable {
 	 */
 	Display(String title) throws EngineException {
 		
-		this.initializeVidModes();
-		
 		this.title = title;
 		this.minWidth = DEFAULT_MIN_WIDTH;
 		this.minHeight = DEFAULT_MIN_HEIGHT;
-		this.maxWidth = this.primaryMonitorVidMode.width();
-		this.maxHeight = this.primaryMonitorVidMode.height();
+		this.vidMode = VidModes.getPrimaryMonitorVidMode();
+		this.maxWidth = this.vidMode.width();
+		this.maxHeight = this.vidMode.height();
 		this.id = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, title, MemoryUtil.NULL, MemoryUtil.NULL);
 	
 		if(this.id != MemoryUtil.NULL) {
 			
 			glfwSetWindowSizeLimits(this.id, this.minWidth, this.minHeight, this.maxWidth, this.maxHeight);
-
-			// TODO
+			glfwSetWindowCloseCallback(this.id, window -> {});
+			glfwSetWindowFocusCallback(this.id, (window, focused) -> {});
+			glfwSetWindowMaximizeCallback(this.id, (window, maximized) -> {});
+			glfwSetWindowSizeCallback(this.id, (window, width, height) -> {});
+			glfwSetWindowPosCallback(this.id, (window, x, y) -> {});
+			glfwSetWindowIconifyCallback(this.id, (window, iconified) -> {});
+			glfwSetFramebufferSizeCallback(this.id, (long window, int width, int height) -> this.updateViewPort());
 			
 		} else {
 			
 			throw new EngineException("Failed to create a GLFW window!");
-		}
-	}
-	
-	/**
-	 * Retrieves all currently available video modes.
-	 * @since 31.07.2018
-	 */
-	private final void initializeVidModes() {
-		
-		this.primaryMonitorVidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		this.vidMode = this.primaryMonitorVidMode;
-		GLFWVidMode.Buffer buffer = glfwGetVideoModes(glfwGetPrimaryMonitor());
-		this.vidModes = new GLFWVidMode[buffer.capacity()];
-		
-		for(int index = 0; index < this.vidModes.length; index++) {
-			
-			this.vidModes[index] = buffer.get(index);
 		}
 	}
 	
@@ -146,7 +139,7 @@ public class Display implements Disposable {
 		
 		} else {
 			
-			glfwSetWindowMonitor(this.id, 0, 0, 0, this.oldWidth, this.oldHeight, this.primaryMonitorVidMode.refreshRate());
+			glfwSetWindowMonitor(this.id, 0, 0, 0, this.oldWidth, this.oldHeight, VidModes.getPrimaryMonitorVidMode().refreshRate());
 			this.center();
 		}
 	}
@@ -304,8 +297,9 @@ public class Display implements Disposable {
 	 */
 	public void center() {
 		
-		int x = (this.primaryMonitorVidMode.width() - this.getWidth()) / 2;
-		int y = (this.primaryMonitorVidMode.height() - this.getHeight()) / 2;
+		GLFWVidMode primaryMonitorVidMode = VidModes.getPrimaryMonitorVidMode();
+		int x = (primaryMonitorVidMode.width() - this.getWidth()) / 2;
+		int y = (primaryMonitorVidMode.height() - this.getHeight()) / 2;
 		this.setPosition(x, y);
 	}
 	
@@ -491,5 +485,17 @@ public class Display implements Disposable {
 	public long getID() {
 		
 		return this.id;
+	}
+
+	@Override
+	public void addListener(int event, Consumer<DisplayEvent> listener) {
+		
+		
+	}
+
+	@Override
+	public void removeListener(int event, Consumer<DisplayEvent> listener) {
+		
+		
 	}
 }

@@ -76,7 +76,7 @@ public class FlyCamBehavior extends CameraBehavior {
 		if(!this.flip) {
 			
 			Vector3f rotation = this.getCamera().getRotation();
-			this.getCamera().setRotation(Math.min(Math.max(rotation.x, -90.0F), 90.0F), rotation.y, rotation.z);
+			rotation.x = Math.min(Math.max(rotation.x, -90.0F), 90.0F);
 		}
 		
 		KeyboardController keyboardController = game.getKeyboardController();

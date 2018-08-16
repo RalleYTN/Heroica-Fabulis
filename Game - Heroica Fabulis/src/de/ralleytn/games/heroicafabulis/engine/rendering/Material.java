@@ -6,9 +6,8 @@ import static org.lwjgl.opengl.GL13.*;
 
 /**
  * Represents a material. Materials are used to tell the shader <b>how</b> a mesh should be rendered.
- * Any changes that were made to the material after it was given to the shader will be ignored.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 15.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 10.08.2018/0.1.0
  */
 public class Material {
@@ -46,6 +45,7 @@ public class Material {
 	private float brightness;
 	private boolean affectedByLight;
 	private boolean specular;
+	private boolean changed;
 	
 	/**
 	 * @since 10.08.2018/0.1.0
@@ -65,6 +65,7 @@ public class Material {
 	public void setColorMap(Texture colorMap) {
 		
 		this.colorMap = colorMap;
+		this.changed = true;
 	}
 	
 	/**
@@ -75,6 +76,7 @@ public class Material {
 	public void setSpecularMap(Texture specularMap) {
 		
 		this.specularMap = specularMap;
+		this.changed = true;
 	}
 	
 	/**
@@ -85,6 +87,7 @@ public class Material {
 	public void setNormalMap(Texture normalMap) {
 		
 		this.normalMap = normalMap;
+		this.changed = true;
 	}
 	
 	/**
@@ -95,6 +98,7 @@ public class Material {
 	public void setOverlay1(Texture overlay1) {
 		
 		this.overlay1 = overlay1;
+		this.changed = true;
 	}
 	
 	/**
@@ -105,6 +109,7 @@ public class Material {
 	public void setOverlay2(Texture overlay2) {
 		
 		this.overlay2 = overlay2;
+		this.changed = true;
 	}
 	
 	/**
@@ -115,6 +120,7 @@ public class Material {
 	public void setOverlay3(Texture overlay3) {
 		
 		this.overlay3 = overlay3;
+		this.changed = true;
 	}
 	
 	/**
@@ -124,7 +130,8 @@ public class Material {
 	 */
 	public void setColor(Color4f color) {
 		
-		this.color.set(color);;
+		this.color.set(color);
+		this.changed = true;
 	}
 	
 	/**
@@ -135,6 +142,7 @@ public class Material {
 	public void setReflectivity(float reflectivity) {
 		
 		this.reflectivity = reflectivity;
+		this.changed = true;
 	}
 	
 	/**
@@ -145,6 +153,7 @@ public class Material {
 	public void setShineDamping(float shineDamping) {
 		
 		this.shineDamping = shineDamping;
+		this.changed = true;
 	}
 	
 	/**
@@ -155,6 +164,7 @@ public class Material {
 	public void setMinBrightness(float minBrightness) {
 		
 		this.minBrightness = minBrightness;
+		this.changed = true;
 	}
 	
 	/**
@@ -165,6 +175,7 @@ public class Material {
 	public void setBrightness(float brightness) {
 		
 		this.brightness = brightness;
+		this.changed = true;
 	}
 	
 	/**
@@ -175,6 +186,7 @@ public class Material {
 	public void setAffectedByLight(boolean affectedByLight) {
 		
 		this.affectedByLight = affectedByLight;
+		this.changed = true;
 	}
 	
 	/**
@@ -185,6 +197,7 @@ public class Material {
 	public void setSpecular(boolean specular) {
 		
 		this.specular = specular;
+		this.changed = true;
 	}
 	
 	/**
@@ -306,59 +319,70 @@ public class Material {
 	
 	/**
 	 * Applies this material to a shader pipeline.
-	 * @param shaderPipeline the shader pipeline
+	 * @param pipeline the shader pipeline
 	 * @since 12.08.2018/0.1.0
 	 */
-	final void applyToShader(ShaderPipeline shaderPipeline) {
+	final void applyToShader(ShaderPipeline pipeline) {
 
-		shaderPipeline.setUniform(UNIFORM_AFFECTED_BY_LIGHT, this.affectedByLight);
-		shaderPipeline.setUniform(UNIFORM_BRIGHTNESS, this.brightness);
-		shaderPipeline.setUniform(UNIFORM_COLOR, this.color);
+		pipeline.setUniform(UNIFORM_AFFECTED_BY_LIGHT, this.affectedByLight);
+		pipeline.setUniform(UNIFORM_BRIGHTNESS, this.brightness);
+		pipeline.setUniform(UNIFORM_COLOR, this.color);
 
-		this.applyTexture(shaderPipeline, this.colorMap, UNIFORM_USE_COLOR_MAP, UNIFORM_COLOR_MAP, GL_TEXTURE0, 0);
-		this.applyTexture(shaderPipeline, this.normalMap, UNIFORM_USE_NORMAL_MAP, UNIFORM_NORMAL_MAP, GL_TEXTURE2, 2);
-		this.applyTexture(shaderPipeline, this.overlay1, UNIFORM_USE_OVERLAY1, UNIFORM_OVERLAY1, GL_TEXTURE31, 31);
-		this.applyTexture(shaderPipeline, this.overlay2, UNIFORM_USE_OVERLAY2, UNIFORM_OVERLAY2, GL_TEXTURE30, 30);
-		this.applyTexture(shaderPipeline, this.overlay3, UNIFORM_USE_OVERLAY3, UNIFORM_OVERLAY3, GL_TEXTURE29, 29);
+		this.applyTexture(pipeline, this.colorMap, UNIFORM_USE_COLOR_MAP, UNIFORM_COLOR_MAP, GL_TEXTURE0, 0);
+		this.applyTexture(pipeline, this.normalMap, UNIFORM_USE_NORMAL_MAP, UNIFORM_NORMAL_MAP, GL_TEXTURE2, 2);
+		this.applyTexture(pipeline, this.overlay1, UNIFORM_USE_OVERLAY1, UNIFORM_OVERLAY1, GL_TEXTURE31, 31);
+		this.applyTexture(pipeline, this.overlay2, UNIFORM_USE_OVERLAY2, UNIFORM_OVERLAY2, GL_TEXTURE30, 30);
+		this.applyTexture(pipeline, this.overlay3, UNIFORM_USE_OVERLAY3, UNIFORM_OVERLAY3, GL_TEXTURE29, 29);
 
 		if(this.affectedByLight) {
 			
-			shaderPipeline.setUniform(UNIFORM_SPECULAR, this.specular);
-			shaderPipeline.setUniform(UNIFORM_MIN_BRIGHTNESS, this.minBrightness);
+			pipeline.setUniform(UNIFORM_SPECULAR, this.specular);
+			pipeline.setUniform(UNIFORM_MIN_BRIGHTNESS, this.minBrightness);
 			
 			if(this.specular) {
 				
-				shaderPipeline.setUniform(UNIFORM_SHINE_DAMPING, this.shineDamping);
-				this.applyTexture(shaderPipeline, this.specularMap, UNIFORM_USE_SPECULAR_MAP, UNIFORM_SPECULAR_MAP, GL_TEXTURE1, 1);
+				pipeline.setUniform(UNIFORM_SHINE_DAMPING, this.shineDamping);
+				this.applyTexture(pipeline, this.specularMap, UNIFORM_USE_SPECULAR_MAP, UNIFORM_SPECULAR_MAP, GL_TEXTURE1, 1);
 
 				if(this.specularMap == null) {
 					
-					shaderPipeline.setUniform(UNIFORM_REFLECTIVITY, this.reflectivity);
+					pipeline.setUniform(UNIFORM_REFLECTIVITY, this.reflectivity);
 				}
 			}
 		}
+		
+		this.changed = false;
 	}
 	
 	/**
-	 * 
-	 * @param shaderPipeline
-	 * @param texture
-	 * @param uniformUse
-	 * @param uniform
-	 * @param slot
-	 * @param position
+	 * Applies a single texture to the shader pipeline. Should not be called outside of {@link #applyToShader(ShaderPipeline)}.
+	 * @param pipeline the shader pipeline
+	 * @param texture the texture
+	 * @param uniformUse name of the uniform variable that contains the information if the texture is used or not
+	 * @param uniformname of the uniform variable that contains the texture
+	 * @param slot the OpenGL texture slot
+	 * @param position the slot as number
 	 * @since 15.08.2018/0.1.0
 	 */
-	private final void applyTexture(ShaderPipeline shaderPipeline, Texture texture, String uniformUse, String uniform, int slot, int position) {
+	private final void applyTexture(ShaderPipeline pipeline, Texture texture, String uniformUse, String uniform, int slot, int position) {
 		
 		boolean use = (texture != null);
-		shaderPipeline.setUniform(uniformUse, use);
+		pipeline.setUniform(uniformUse, use);
 		
 		if(use) {
 			
 			glActiveTexture(slot);
 			texture.bind();
-			shaderPipeline.setUniform(uniform, position);
+			pipeline.setUniform(uniform, position);
 		}
+	}
+	
+	/**
+	 * @return {@code true} if the material was changed after applying it to the shader pipeline, else {@code false}
+	 * @since 16.08.2018/0.1.0
+	 */
+	public boolean hasChanged() {
+		
+		return this.changed;
 	}
 }

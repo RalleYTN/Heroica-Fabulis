@@ -1,12 +1,12 @@
-package de.ralleytn.games.heroicafabulis.engine.input;
+package de.ralleytn.games.heroicafabulis.engine;
 
 /**
- * Represents an abstract input event.
+ * Represents an abstract event.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
-public abstract class InputEvent {
+public abstract class Event {
 
 	private final Object source;
 	
@@ -14,7 +14,7 @@ public abstract class InputEvent {
 	 * @param source the cause for this event
 	 * @since 13.08.2018/0.1.0
 	 */
-	public InputEvent(Object source) {
+	public Event(Object source) {
 		
 		this.source = source;
 	}

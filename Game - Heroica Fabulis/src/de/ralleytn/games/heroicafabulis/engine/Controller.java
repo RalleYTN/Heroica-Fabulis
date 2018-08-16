@@ -1,15 +1,15 @@
-package de.ralleytn.games.heroicafabulis.engine.input;
+package de.ralleytn.games.heroicafabulis.engine;
 
 import java.util.function.Consumer;
 
 /**
- * Represents an abstract controller for input devices.
+ * Represents an abstract controller.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 13.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
- * @param <T> the input event this controller works with
+ * @param <T> the event this controller works with
  */
-public abstract class InputController<T extends InputEvent> {
+public interface Controller<T extends Event> {
 
 	/**
 	 * Adds a new listener for the given event.
@@ -17,7 +17,7 @@ public abstract class InputController<T extends InputEvent> {
 	 * @param listener the listener
 	 * @since 13.08.2018/0.1.0
 	 */
-	public abstract void addListener(int event, Consumer<T> listener);
+	public void addListener(int event, Consumer<T> listener);
 	
 	/**
 	 * Removes a listener from the given event.
@@ -25,5 +25,5 @@ public abstract class InputController<T extends InputEvent> {
 	 * @param listener the listener
 	 * @since 13.08.2018/0.1.0
 	 */
-	public abstract void removeListener(int event, Consumer<T> listener);
+	public void removeListener(int event, Consumer<T> listener);
 }
