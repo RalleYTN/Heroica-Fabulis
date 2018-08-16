@@ -9,6 +9,7 @@ import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
+import de.ralleytn.games.heroicafabulis.engine.localization.Localization;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Box;
@@ -67,18 +68,20 @@ public final class HeroicaFabulis extends Game {
 		game.getDisplay().setFullscreen(true);
 		game.getCamera().setBehavior(new FlyCamBehavior());
 		
-		Texture colorMap = null;
+		System.out.println(Localization.getLocalizedString("TestString"));
+		Localization.setLocale("en");
+		System.out.println(Localization.getLocalizedString("TestString"));
 		
-		try(FileInputStream colorMapInput = new FileInputStream(new File("res/colorMap.png"))) {
-			
-			DefaultTextureReader reader = new DefaultTextureReader();
-			colorMap = reader.read(colorMapInput);
-		}
-		
+		Texture colorMap = this.loadTexture("test/colorMap");
+		Texture specularMap = this.loadTexture("test/specularMap");
+		Texture overlay = this.loadTexture("test/overlay");
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
 		
 		Material material = new Material();
 		material.setColorMap(colorMap);
+		material.setSpecularMap(specularMap);
+		material.setOverlay1(overlay);
+		material.setSpecular(true);
 		material.setAffectedByLight(true);
 		material.setMinBrightness(0.3F);
 		
@@ -106,5 +109,17 @@ public final class HeroicaFabulis extends Game {
 	public void update(float delta) {
 		
 		this.getDisplay().setTitle(this.getTitle() + " (" + this.getCurrentFPS() + ")");
+	}
+	
+	private Texture loadTexture(String file) throws IOException {
+		
+		Texture texture = null;
+		
+		try(FileInputStream textureInput = new FileInputStream(new File(String.format("res/textures/%s.png", file)))) {
+			
+			texture = new DefaultTextureReader().read(textureInput);
+		}
+		
+		return texture;
 	}
 }

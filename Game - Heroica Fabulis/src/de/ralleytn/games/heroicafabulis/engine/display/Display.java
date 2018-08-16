@@ -15,6 +15,7 @@ import de.ralleytn.games.heroicafabulis.engine.Controller;
 import de.ralleytn.games.heroicafabulis.engine.Disposable;
 import de.ralleytn.games.heroicafabulis.engine.Engine;
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
+import de.ralleytn.games.heroicafabulis.engine.util.MathUtil;
 
 /**
  * There can only be a single instance of this class that was created with the {@link Engine#start(java.io.File, java.io.File, String)} method.
@@ -289,6 +290,15 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	public void updateViewPort() {
 
 		GL11.glViewport(0, 0, this.getFrameBufferWidth(), this.getFrameBufferHeight());
+		
+		int[] width = new int[1];
+		int[] height = new int[1];
+		glfwGetFramebufferSize(this.id, width, height);
+		
+		int factor = MathUtil.smallestCommonFactor(width[0], height[0]);
+		int numer = width[0] / factor;
+		int denom = height[0] / factor;
+		glfwSetWindowAspectRatio(this.id, numer, denom);
 	}
 	
 	/**

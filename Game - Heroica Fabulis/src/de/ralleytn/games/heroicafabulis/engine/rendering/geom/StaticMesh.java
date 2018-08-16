@@ -17,6 +17,12 @@ public class StaticMesh extends Mesh {
 	private boolean normals;
 	private boolean textureCoordinates;
 	
+	// Has to be a member because it isn't stored in the vertex array.
+	// Because it is not stored in the vertex array, the garbage collector will try to collect it and call its finalize method.
+	// The finalize method would then try to delete the buffer while it is still used.
+	// see BUG0001
+	private GLBuffer indexBuffer;
+	
 	/**
 	 * This constructor is not meant to be called directly.
 	 * To create a new mesh use the {@linkplain de.ralleytn.games.heroicafabulis.engine.io.MeshReader}.
@@ -33,9 +39,9 @@ public class StaticMesh extends Mesh {
 		this.indexCount = indices.length;
 		this.faceCount = indices.length / 3;
 		this.vertexArray.bind();
-		GLBuffer indexBuffer = new GLBuffer(GLBuffer.TYPE_ELEMENT_ARRAY);
-		indexBuffer.bind();
-		indexBuffer.setData(indices, GL_STATIC_DRAW);
+		this.indexBuffer = new GLBuffer(GLBuffer.TYPE_ELEMENT_ARRAY);
+		this.indexBuffer.bind();
+		this.indexBuffer.setData(indices, GL_STATIC_DRAW);
 		GLBuffer vertexBuffer = this.createBuffer(GL_FLOAT, vertices);
 		this.vertexArray.store(vertexBuffer, 3, GL_FLOAT);
 		

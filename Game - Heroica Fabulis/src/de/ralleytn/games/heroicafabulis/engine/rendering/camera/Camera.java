@@ -34,7 +34,7 @@ public class Camera implements Movable {
 	 */
 	public Camera(Game game) {
 		
-		this.fov = 45.0F;
+		this.fov = 70.0F;
 		this.nearPlaneDistance = 0.01F;
 		this.farPlaneDistance = 1000.0F;
 		this.translation = new Vector3f();
