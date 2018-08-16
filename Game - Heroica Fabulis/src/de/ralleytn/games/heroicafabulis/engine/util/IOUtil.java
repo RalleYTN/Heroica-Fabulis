@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 /**
- * 
+ * Utility class containing methods for working with input and output streams.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 11.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
@@ -16,18 +16,18 @@ import java.nio.charset.Charset;
 public final class IOUtil {
 
 	/**
-	 * 
+	 * Private because no instances of this class should exist.
 	 * @since 11.08.2018/0.1.0
 	 */
 	private IOUtil() {}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param length
-	 * @param charset
-	 * @return
-	 * @throws IOException
+	 * Reads a string from the given input stream.
+	 * @param stream the input stream
+	 * @param length the byte length
+	 * @param charset the charset used to decode the bytes
+	 * @return the read string
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final String readString(InputStream stream, int length, Charset charset) throws IOException {
@@ -36,11 +36,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param bigEndian
-	 * @return
-	 * @throws IOException
+	 * Reads a float from the given input stream.
+	 * @param inputStream the input stream
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @return the read float
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final float readFloat(InputStream inputStream, boolean bigEndian) throws IOException {
@@ -50,11 +50,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param bigEndian
-	 * @return
-	 * @throws IOException
+	 * Reads a double from the given input stream.
+	 * @param inputStream the input stream
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @return the read double
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final double readDouble(InputStream inputStream, boolean bigEndian) throws IOException {
@@ -64,11 +64,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param bigEndian
-	 * @return
-	 * @throws IOException
+	 * Reads an unsigned short from the given input stream.
+	 * @param inputStream the input stream
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @return the read short
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final int readUnsignedShort(InputStream inputStream, boolean bigEndian) throws IOException {
@@ -78,11 +78,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param bigEndian
-	 * @return
-	 * @throws IOException
+	 * Reads an unsigned int from the given input stream.
+	 * @param inputStream the input stream
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @return the read int
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final long readUnsignedInt(InputStream inputStream, boolean bigEndian) throws IOException {
@@ -92,11 +92,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param bigEndian
-	 * @return
-	 * @throws IOException
+	 * reads a signed short from the given input stream.
+	 * @param inputStream the input stream
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @return the read short
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final short readSignedShort(InputStream inputStream, boolean bigEndian) throws IOException {
@@ -106,11 +106,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param bigEndian
-	 * @return
-	 * @throws IOException
+	 * reads a signed int from the given input stream.
+	 * @param inputStream the input stream
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @return the read int
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final int readSignedInt(InputStream inputStream, boolean bigEndian) throws IOException {
@@ -120,11 +120,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param bigEndian
-	 * @return
-	 * @throws IOException
+	 * Reads a signed long from the given input stream.
+	 * @param inputStream the input stream
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @return the read long
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final long readSignedLong(InputStream inputStream, boolean bigEndian) throws IOException {
@@ -134,11 +134,10 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param length
-	 * @return
-	 * @throws IOException
+	 * @param stream the input stream
+	 * @param length the byte length
+	 * @return {@code length} bytes from the input stream as an {@code int} array
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final int[] read(InputStream stream, int length) throws IOException {
@@ -154,10 +153,10 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @return
-	 * @throws IOException
+	 * Reads the given input stream until it reaches its end.
+	 * @param inputStream the input stream
+	 * @return the read data
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final byte[] read(InputStream inputStream) throws IOException {
@@ -170,10 +169,10 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param inStream
-	 * @param outStream
-	 * @throws IOException
+	 * Reads the content from the input stream and writes it on the output stream.
+	 * @param inStream the input stream
+	 * @param outStream the output stream
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void write(InputStream inStream, OutputStream outStream) throws IOException {
@@ -190,12 +189,12 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param binary64BitSequence
-	 * @param length
-	 * @param bigEndian
-	 * @throws IOException
+	 * Writes up to 8 bytes on the given output stream.
+	 * @param stream the output stream
+	 * @param binary64BitSequence the bytes
+	 * @param length the number of bytes to be written
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeBytes(OutputStream stream, long binary64BitSequence, int length, boolean bigEndian) throws IOException {
@@ -217,11 +216,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param data
-	 * @param charset
-	 * @throws IOException
+	 * Writes a {@linkplain String} on the given output stream.
+	 * @param stream the output stream
+	 * @param data the data
+	 * @param charset the charset with which the bytes should be encoded
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeString(OutputStream stream, String data, Charset charset) throws IOException {
@@ -230,11 +229,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param data
-	 * @param bigEndian
-	 * @throws IOException
+	 * Writes a {@code int} on the given output stream.
+	 * @param stream the output stream
+	 * @param data the data
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeShort(OutputStream stream, short data, boolean bigEndian) throws IOException {
@@ -243,11 +242,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param data
-	 * @param bigEndian
-	 * @throws IOException
+	 * Writes an {@code int} on the given output stream.
+	 * @param stream the output stream
+	 * @param data the data
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeInt(OutputStream stream, int data, boolean bigEndian) throws IOException {
@@ -256,11 +255,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param data
-	 * @param bigEndian
-	 * @throws IOException
+	 * Writes a long on the given output stream.
+	 * @param stream the output stream
+	 * @param data the data
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeLong(OutputStream stream, long data, boolean bigEndian) throws IOException {
@@ -269,11 +268,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param data
-	 * @param bigEndian
-	 * @throws IOException
+	 * Writes a float on the given output stream.
+	 * @param stream the output stream
+	 * @param data the data
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeFloat(OutputStream stream, float data, boolean bigEndian) throws IOException {
@@ -282,11 +281,11 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param stream
-	 * @param data
-	 * @param bigEndian
-	 * @throws IOException
+	 * Writes a double on the given output stream.
+	 * @param stream the output stream
+	 * @param data the data
+	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
+	 * @throws IOException if an I/O error occurred
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeDouble(OutputStream stream, double data, boolean bigEndian) throws IOException {
@@ -295,8 +294,8 @@ public final class IOUtil {
 	}
 	
 	/**
-	 * 
-	 * @param closable
+	 * Convenience method for closing instances of {@linkplain Closable} without needing to wrap another try-catch block arround it.
+	 * @param closable the {@linkplain Closable}
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void close(Closeable closable) {
