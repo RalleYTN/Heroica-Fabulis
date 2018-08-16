@@ -5,12 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
-import de.ralleytn.games.heroicafabulis.engine.rendering.Light;
+import de.ralleytn.games.heroicafabulis.engine.rendering.Renderable;
+import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 
 /**
  * Represents the currently processed universe.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 15.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 31.07.2018/0.1.0
  */
 public class Scene implements Renderable, Updatable {
@@ -19,10 +20,9 @@ public class Scene implements Renderable, Updatable {
 	private Light sun;
 	
 	/**
-	 * Package visibility because the only instance of this class should be accessible in the {@linkplain Game} class.
 	 * @since 05.08.2018
 	 */
-	Scene() {
+	public Scene() {
 		
 		this.entities = new ArrayList<>();
 	}

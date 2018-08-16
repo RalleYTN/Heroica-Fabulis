@@ -1,17 +1,21 @@
-package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine.rendering.camera;
 
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.games.heroicafabulis.engine.Engine;
+import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.Movable;
+import de.ralleytn.games.heroicafabulis.engine.display.Display;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
  * Represents the game camera. There should be only a single instance of it at a time.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 11.08.2018/0.1.0
  */
-public final class Camera implements Movable {
+public class Camera implements Movable {
 
 	private float fov;
 	private float nearPlaneDistance;
@@ -28,7 +32,7 @@ public final class Camera implements Movable {
 	 * @param game the {@linkplain Game} instance this camera belongs to
 	 * @since 11.08.2018/0.1.0
 	 */
-	Camera(Game game) {
+	public Camera(Game game) {
 		
 		this.fov = 45.0F;
 		this.nearPlaneDistance = 0.01F;

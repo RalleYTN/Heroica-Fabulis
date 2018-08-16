@@ -3,17 +3,15 @@ package de.ralleytn.games.heroicafabulis.engine;
 import javax.vecmath.Vector3f;
 
 /**
- * Interface that extends {@linkplain Translatable} and {@linkplain Rotatable} and adds translation based on rotation.
+ * Interface that extends {@linkplain Translatable} and {@linkplain Rotatable} and adds translation based on rotation on the Y axis.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 14.08.2018/0.1.0
  * @since 14.08.2018/0.1.0
  */
 public interface Movable extends Translatable, Rotatable {
 
-	// TODO: I would really like if up and down would be actually up and down relative to the object but I have no idea how to do it
-	
 	/**
-	 * Performs a translation into the given direction relative to the rotation.
+	 * Performs a translation into the given direction relative to the rotation on the Y axis.
 	 * @param direction the direction
 	 * @param units the amount of translation
 	 * @since 14.08.2018/0.1.0

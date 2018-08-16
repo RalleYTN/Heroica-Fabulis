@@ -1,7 +1,10 @@
-package de.ralleytn.games.heroicafabulis.engine.rendering;
+package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
+
+import de.ralleytn.games.heroicafabulis.engine.rendering.GLBuffer;
+import de.ralleytn.games.heroicafabulis.engine.rendering.VertexArray;
 
 /**
  * Represents an unmodifiable mesh.

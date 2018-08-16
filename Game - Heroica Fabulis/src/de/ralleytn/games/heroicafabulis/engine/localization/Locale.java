@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine.localization;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+
+import de.ralleytn.games.heroicafabulis.engine.EngineException;
+import de.ralleytn.games.heroicafabulis.engine.io.Loadable;
 
 /**
  * Represents the localization table for a single language.

@@ -8,6 +8,10 @@ import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
+import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
+import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
+import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 
 /**
  * Manages the rendering of 3D graphics.

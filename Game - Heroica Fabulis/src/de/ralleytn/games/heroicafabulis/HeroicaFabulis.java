@@ -7,14 +7,14 @@ import java.io.IOException;
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
-import de.ralleytn.games.heroicafabulis.engine.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
-import de.ralleytn.games.heroicafabulis.engine.rendering.BasicShaderPipeline;
-import de.ralleytn.games.heroicafabulis.engine.rendering.Box;
-import de.ralleytn.games.heroicafabulis.engine.rendering.Light;
-import de.ralleytn.games.heroicafabulis.engine.rendering.Material;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
+import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Box;
+import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
+import de.ralleytn.games.heroicafabulis.engine.rendering.shader.BasicShaderPipeline;
+import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
 
 /**
  * This is the main class in which the game components are assembled and the game is started.

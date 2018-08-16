@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.rendering;
+package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 import java.util.List;
 

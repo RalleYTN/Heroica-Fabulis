@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 import static org.lwjgl.glfw.GLFW.*;
 
 import de.ralleytn.games.heroicafabulis.engine.Controller;
-import de.ralleytn.games.heroicafabulis.engine.Display;
 import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.display.Display;
 
 /**
  * Class with methods to listen for inputs from the keyboard.
@@ -18,9 +18,6 @@ import de.ralleytn.games.heroicafabulis.engine.Game;
  */
 public class KeyboardController implements Controller<KeyboardEvent> {
 
-	// When it comes to input performance has to have more priority than design.
-	// I decided against a Map because it would add another layer that would slow everything down quite significantly.
-	
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_PRESS = 0;
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_RELEASE = 1;
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_REPEAT = 2;

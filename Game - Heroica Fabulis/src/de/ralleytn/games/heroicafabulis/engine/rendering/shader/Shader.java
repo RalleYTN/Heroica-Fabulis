@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.rendering;
+package de.ralleytn.games.heroicafabulis.engine.rendering.shader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL43;
 
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
-import de.ralleytn.games.heroicafabulis.engine.Loadable;
+import de.ralleytn.games.heroicafabulis.engine.io.Loadable;
 
 /**
  * Represents a single shader in OpenGL.

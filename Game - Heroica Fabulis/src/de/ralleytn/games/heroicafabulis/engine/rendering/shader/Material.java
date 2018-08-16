@@ -1,6 +1,8 @@
-package de.ralleytn.games.heroicafabulis.engine.rendering;
+package de.ralleytn.games.heroicafabulis.engine.rendering.shader;
 
 import javax.vecmath.Color4f;
+
+import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 
 import static org.lwjgl.opengl.GL13.*;
 
@@ -322,7 +324,7 @@ public class Material {
 	 * @param pipeline the shader pipeline
 	 * @since 12.08.2018/0.1.0
 	 */
-	final void applyToShader(ShaderPipeline pipeline) {
+	public void applyToShader(ShaderPipeline pipeline) {
 
 		pipeline.setUniform(UNIFORM_AFFECTED_BY_LIGHT, this.affectedByLight);
 		pipeline.setUniform(UNIFORM_BRIGHTNESS, this.brightness);

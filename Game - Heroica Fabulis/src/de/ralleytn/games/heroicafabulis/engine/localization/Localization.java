@@ -1,9 +1,13 @@
-package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine.localization;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.ralleytn.games.heroicafabulis.engine.Engine;
+import de.ralleytn.games.heroicafabulis.engine.EngineException;
+import de.ralleytn.games.heroicafabulis.engine.Errors;
 
 /**
  * Manages all of the locales.

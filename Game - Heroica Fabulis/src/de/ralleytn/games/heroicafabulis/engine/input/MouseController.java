@@ -5,22 +5,19 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import de.ralleytn.games.heroicafabulis.engine.Controller;
-import de.ralleytn.games.heroicafabulis.engine.Display;
 import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.display.Display;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
- * 
+ * Class with method to listen for inputs from the mouse.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
 public class MouseController implements Controller<MouseEvent> {
 
-	// When it comes to input performance has to have more priority than design.
-	// I decided against a Map because it would add another layer that would slow everything down quite significantly.
-	
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_ENTER = 0;
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_LEAVE = 1;
 	/** @since 13.08.2018/0.1.0 */ public static final int EVENT_MOVE = 2;
@@ -47,8 +44,7 @@ public class MouseController implements Controller<MouseEvent> {
 	private boolean drag;
 	
 	/**
-	 * 
-	 * @param display
+	 * @param game the instance of {@linkplain Game} this controller belongs to
 	 * @since 13.08.2018/0.1.0
 	 */
 	public MouseController(Game game) {
@@ -81,9 +77,9 @@ public class MouseController implements Controller<MouseEvent> {
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
+	 * Sets the mouse cursor position (relative to the display)
+	 * @param x position on the X axis in pixel
+	 * @param y position on the Y axis in pixel
 	 * @since 13.08.2018/0.1.0
 	 */
 	public void setCursorPosition(int x, int y) {
@@ -92,8 +88,8 @@ public class MouseController implements Controller<MouseEvent> {
 	}
 	
 	/**
-	 * 
-	 * @param visible
+	 * Sets whether or not the cursor should be visible.
+	 * @param visible {@code true} to make the cursor visible, {@code false} to hide it
 	 * @since 13.08.2018/0.1.0
 	 */
 	public void setCursorVisible(boolean visible) {
@@ -133,9 +129,8 @@ public class MouseController implements Controller<MouseEvent> {
 	}
 	
 	/**
-	 * 
-	 * @param button
-	 * @return
+	 * @param button the button ID
+	 * @return {@code true} if the given button is currently down, else {@code false}
 	 * @since 14.08.2018/0.1.0
 	 */
 	public boolean isButtonDown(int button) {

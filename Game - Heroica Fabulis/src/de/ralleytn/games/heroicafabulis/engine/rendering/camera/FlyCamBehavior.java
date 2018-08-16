@@ -1,16 +1,19 @@
-package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine.rendering.camera;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.games.heroicafabulis.engine.Direction;
+import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.display.Display;
 import de.ralleytn.games.heroicafabulis.engine.input.KeyboardController;
 import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
 
 /**
  * Represents the behavior of a flying camera commonly used for debugging purposes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 13.08.2018/0.1.0
  */
 public class FlyCamBehavior extends CameraBehavior {
@@ -43,7 +46,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	@Override
-	void setCamera(Camera camera) {
+	public void setCamera(Camera camera) {
 		
 		if(camera == null) {
 			

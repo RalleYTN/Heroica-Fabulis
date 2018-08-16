@@ -3,9 +3,9 @@ package de.ralleytn.games.heroicafabulis.engine;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.games.heroicafabulis.engine.rendering.Material;
-import de.ralleytn.games.heroicafabulis.engine.rendering.Mesh;
-import de.ralleytn.games.heroicafabulis.engine.rendering.ShaderPipeline;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
+import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
+import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**

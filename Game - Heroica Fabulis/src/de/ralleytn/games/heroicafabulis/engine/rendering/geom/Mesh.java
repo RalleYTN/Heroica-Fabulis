@@ -1,6 +1,7 @@
-package de.ralleytn.games.heroicafabulis.engine.rendering;
+package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 import de.ralleytn.games.heroicafabulis.engine.Disposable;
+import de.ralleytn.games.heroicafabulis.engine.rendering.VertexArray;
 
 /**
  * Represents an abstract mesh.

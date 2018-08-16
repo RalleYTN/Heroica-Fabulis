@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.rendering;
+package de.ralleytn.games.heroicafabulis.engine.rendering.light;
 
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3f;

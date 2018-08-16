@@ -26,12 +26,11 @@ public class MouseEvent extends Event {
 	}
 	
 	/**
-	 * 
-	 * @param source
-	 * @param x
-	 * @param y
-	 * @param button
-	 * @param mods
+	 * @param source the cause for this event
+	 * @param x cursor position on the X axis in pixel relative to the display
+	 * @param y cursor position on the Y axis in pixel relative to the display
+	 * @param button mouse button associated with this event
+	 * @param mods a bit sequence containing modifier flags
 	 * @since 16.08.2018/0.1.0
 	 */
 	public MouseEvent(Object source, int x, int y, int button, int mods) {
@@ -45,9 +44,8 @@ public class MouseEvent extends Event {
 	}
 	
 	/**
-	 * 
-	 * @param source
-	 * @param scrollOffset
+	 * @param source the cause for this event
+	 * @param scrollOffset the scroll offset
 	 * @since 16.08.2018/0.1.0
 	 */
 	public MouseEvent(Object source, double scrollOffset) {

@@ -10,6 +10,10 @@ import javax.vecmath.Vector3f;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
+import de.ralleytn.games.heroicafabulis.engine.display.Display;
+import de.ralleytn.games.heroicafabulis.engine.display.VidModes;
+import de.ralleytn.games.heroicafabulis.engine.localization.Localization;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 /**

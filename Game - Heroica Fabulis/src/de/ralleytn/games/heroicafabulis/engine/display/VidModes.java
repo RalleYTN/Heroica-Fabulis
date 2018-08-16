@@ -1,11 +1,11 @@
-package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine.display;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 import org.lwjgl.glfw.GLFWVidMode;
 
 /**
- * 
+ * Manages the video modes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 16.08.2018/0.1.0
  * @since 16.08.2018/0.1.0
@@ -16,11 +16,13 @@ public final class VidModes {
 	private static GLFWVidMode[] VID_MODES;
 	
 	/**
+	 * Private because no instance of this class should exist.
 	 * @since 16.08.2018/0.1.0
 	 */
 	private VidModes() {}
 	
 	/**
+	 * Initializes the video modes.
 	 * @since 16.08.2018/0.1.0
 	 */
 	public static final void initialize() {
@@ -36,8 +38,7 @@ public final class VidModes {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the video mode for the primary monitor
 	 * @since 16.08.2018/0.1.0
 	 */
 	public static final GLFWVidMode getPrimaryMonitorVidMode() {
@@ -46,8 +47,7 @@ public final class VidModes {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an array with all of the available video modes
 	 * @since 16.08.2018/0.1.0
 	 */
 	public static final GLFWVidMode[] getAvailableVidModes() {

@@ -5,9 +5,12 @@ import java.io.IOException;
 
 import org.lwjgl.glfw.GLFW;
 
+import de.ralleytn.games.heroicafabulis.engine.display.Display;
 import de.ralleytn.games.heroicafabulis.engine.input.KeyboardController;
 import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
+import de.ralleytn.games.heroicafabulis.engine.rendering.camera.Camera;
+import de.ralleytn.games.heroicafabulis.engine.rendering.camera.CameraBehavior;
 
 import static org.lwjgl.opengl.GL11.*;
 

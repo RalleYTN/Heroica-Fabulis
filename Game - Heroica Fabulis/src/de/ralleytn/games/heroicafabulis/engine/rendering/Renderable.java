@@ -1,6 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine;
-
-import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
+package de.ralleytn.games.heroicafabulis.engine.rendering;
 
 /**
  * Interface that should be implemented by everything that needs to render something.

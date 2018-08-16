@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.rendering;
+package de.ralleytn.games.heroicafabulis.engine.rendering.shader;
 
 import java.util.HashMap;
 import java.util.Map;

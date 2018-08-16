@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine;
+package de.ralleytn.games.heroicafabulis.engine.display;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -10,6 +10,11 @@ import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
+
+import de.ralleytn.games.heroicafabulis.engine.Controller;
+import de.ralleytn.games.heroicafabulis.engine.Disposable;
+import de.ralleytn.games.heroicafabulis.engine.Engine;
+import de.ralleytn.games.heroicafabulis.engine.EngineException;
 
 /**
  * There can only be a single instance of this class that was created with the {@link Engine#start(java.io.File, java.io.File, String)} method.
@@ -59,12 +64,11 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	private boolean vsync;
 	
 	/**
-	 * Initializes the display.
 	 * @param title the window title
 	 * @throws EngineException if no window could be created
 	 * @since 31.07.2018
 	 */
-	Display(String title) throws EngineException {
+	public Display(String title) throws EngineException {
 		
 		this.title = title;
 		this.minWidth = DEFAULT_MIN_WIDTH;
