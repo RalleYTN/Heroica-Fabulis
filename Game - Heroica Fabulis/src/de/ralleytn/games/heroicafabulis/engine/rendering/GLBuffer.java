@@ -40,8 +40,7 @@ public class GLBuffer extends LWJGLObject implements Bindable {
 	private int type;
 	
 	/**
-	 * 
-	 * @param type
+	 * @param type the buffer type
 	 * @since 04.08.2018/0.1.0
 	 */
 	public GLBuffer(int type) {

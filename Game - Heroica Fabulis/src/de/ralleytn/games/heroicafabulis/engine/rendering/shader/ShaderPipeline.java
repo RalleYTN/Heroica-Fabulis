@@ -17,7 +17,7 @@ import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
- * 
+ * Represents a shader pipeline.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 14.08.2018/0.1.0
  * @since 10.08.2018/0.1.0
@@ -57,8 +57,8 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param vertexShader
+	 * Sets the vertex shader.
+	 * @param vertexShader the vertex shader
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setVertexShader(Shader vertexShader) {
@@ -67,8 +67,8 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param geometryShader
+	 * Sets the geometry shader.
+	 * @param geometryShader the geometry shader
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setGeometryShader(Shader geometryShader) {
@@ -77,8 +77,8 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param fragmentShader
+	 * Sets the fragment shader.
+	 * @param fragmentShader the fragment shader
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setFragmentShader(Shader fragmentShader) {
@@ -87,9 +87,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param uniform
-	 * @param value
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param value the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, Matrix4f value) {
@@ -98,9 +98,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param value
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param value the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, float value) {
@@ -109,9 +109,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param value
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param value the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, Tuple2f value) {
@@ -120,10 +120,10 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param x
-	 * @param y
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param x X component of the variable value
+	 * @param y Y component of the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, float x, float y) {
@@ -132,9 +132,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param value
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param value the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, Tuple3f value) {
@@ -143,11 +143,11 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param x X component of the variable value
+	 * @param y Y component of the variable value
+	 * @param z Z component of the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, float x, float y, float z) {
@@ -156,9 +156,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param value
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param value the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, Tuple4f value) {
@@ -167,12 +167,12 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param w
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param x X component of the variable value
+	 * @param y Y component of the variable value
+	 * @param z Z component of the variable value
+	 * @param w W component of the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, float x, float y, float z, float w) {
@@ -181,9 +181,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 
 	/**
-	 * 
-	 * @param uniform
-	 * @param value
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param value the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, int value) {
@@ -192,9 +192,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param uniform
-	 * @param value
+	 * Sets a uniform variable.
+	 * @param uniform variable name
+	 * @param value the variable value
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void setUniform(String uniform, boolean value) {
@@ -203,9 +203,9 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param index
-	 * @param variable
+	 * Binds the attribute at the given index to the given variable name
+	 * @param index attribute index
+	 * @param variable variable name
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void bindAttribute(int index, String variable) {
@@ -214,8 +214,8 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @throws EngineException
+	 * Links the shader pipeline
+	 * @throws EngineException if the shader pipeline could not be linked
 	 * @since 11.08.2018/0.1.0
 	 */
 	public void link() throws EngineException {
@@ -240,8 +240,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the vertex shader
 	 * @since 11.08.2018/0.1.0
 	 */
 	public Shader getVertexShader() {
@@ -250,8 +249,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the geometry shader
 	 * @since 11.08.2018/0.1.0
 	 */
 	public Shader getGeometryShader() {
@@ -260,8 +258,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the fragment shader
 	 * @since 11.08.2018/0.1.0
 	 */
 	public Shader getFragmentShader() {
@@ -270,9 +267,8 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param uniform
-	 * @return
+	 * @param uniform name of the uniform variable
+	 * @return the location of the uniform variable
 	 * @since 11.08.2018/0.1.0
 	 */
 	protected int getUniformLocation(String uniform) {

@@ -14,7 +14,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.Loadable;
 /**
  * Represents the localization table for a single language.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 10.08.2018/0.1.0
+ * @version 16.08.2018/0.1.0
  * @since 31.07.2018/0.1.0
  */
 public class Locale implements Loadable {
@@ -24,13 +24,12 @@ public class Locale implements Loadable {
 	private File file;
 	
 	/**
-	 * Initializes the locale.
 	 * @param file the file containing the localization table
 	 * @throws IOException if the file could not be read
 	 * @throws EngineException if the localization table doesn't have the {@code LangName} property
 	 * @since 31.07.2018/0.1.0
 	 */
-	Locale(File file) throws IOException, EngineException {
+	public Locale(File file) throws IOException, EngineException {
 		
 		this.file = file;
 		this.loadLangName();

@@ -15,6 +15,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Box;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.BasicShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
+import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 
 /**
  * This is the main class in which the game components are assembled and the game is started.
@@ -74,6 +75,8 @@ public final class HeroicaFabulis extends Game {
 			colorMap = reader.read(colorMapInput);
 		}
 		
+		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
+		
 		Material material = new Material();
 		material.setColorMap(colorMap);
 		material.setAffectedByLight(true);
@@ -87,7 +90,7 @@ public final class HeroicaFabulis extends Game {
 				this.rotate(0.2F * delta, 0.2F * delta, 0.0F);
 			}
 		};
-		cube.setShaderPipeline(new BasicShaderPipeline("basic"));
+		cube.setShaderPipeline(shaderPipeline);
 		cube.setMesh(new Box(1, 1, 1));
 		cube.setMaterial(material);
 		cube.setTranslation(0, 1, -10);
