@@ -7,7 +7,6 @@ import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioFormat.Encoding;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -22,7 +21,7 @@ import de.ralleytn.games.heroicafabulis.engine.audio.ALBuffer;
  * @version 17.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
-public class AIFFReader extends AudioReader {
+public class WavReader extends AudioReader {
 
 	@Override
 	public ALBuffer read(InputStream inputStream) throws IOException {
@@ -36,7 +35,7 @@ public class AIFFReader extends AudioReader {
 			int sampleSizeInBits = audioFormat.getSampleSizeInBits();
 			int format = 0;
 			boolean bit16 = sampleSizeInBits == 16;
-			
+
 			if(channels == 1) {
 				
 				if(sampleSizeInBits == 8) format = AL_FORMAT_MONO8;
@@ -63,7 +62,7 @@ public class AIFFReader extends AudioReader {
 				total += read;
 			}
 			
-			return createBuffer(format, toByteBuffer(buffer, bit16, audioFormat.getEncoding()), sampleRate);
+			return createBuffer(format, toByteBuffer(buffer, bit16), sampleRate);
 			
 		} catch(UnsupportedAudioFileException exception) {
 			
@@ -75,17 +74,16 @@ public class AIFFReader extends AudioReader {
 	 * 
 	 * @param bytes
 	 * @param twoByteData
-	 * @param encoding
 	 * @return
 	 * @since 17.08.2018/0.2.0
 	 */
-	private static final ByteBuffer toByteBuffer(byte[] bytes, boolean twoByteData, Encoding encoding) {
+	private static final ByteBuffer toByteBuffer(byte[] bytes, boolean twoByteData) {
 		
 		ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
 		buffer.order(ByteOrder.nativeOrder());
 		
 		ByteBuffer source = ByteBuffer.wrap(bytes);
-		source.order(ByteOrder.BIG_ENDIAN);
+		source.order(ByteOrder.LITTLE_ENDIAN);
 		
 		if(twoByteData) {
 			
@@ -101,14 +99,7 @@ public class AIFFReader extends AudioReader {
 			
 			while(source.hasRemaining()) {
 				
-				byte nextByte = source.get();
-				
-				if(encoding == Encoding.PCM_SIGNED) {
-					
-					nextByte = (byte)(nextByte + 127);
-				}
-				
-				buffer.put(nextByte);
+				buffer.put(source.get());
 			}
 		}
 		
