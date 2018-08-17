@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+/**
+ * 
+ * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
+ * @version 17.08.2018/0.2.0
+ * @since 17.08.2018/0.2.0
+ */
 public final class JSON {
 
 	private static final int S_INIT = 0;
@@ -16,196 +22,18 @@ public final class JSON {
 	private static final int S_PASSED_PAIR_KEY = 4;
 	private static final int S_IN_ERROR = -1;
 	
+	/**
+	 * @since 17.08.2018/0.2.0
+	 */
 	private JSON() {}
 	
-	private static Yylex lexer = new Yylex((Reader)null);
-	private static Yytoken token;
-	private static int status = S_INIT;
-	
-	private static final void nextToken() throws JSONParseException, IOException {
-		
-		token = lexer.yylex();
-		
-		if(token == null) {
-			
-			token = new Yytoken(Yytoken.TYPE_EOF, null);
-		}
-	}
-	
-	private static final void init(Stack<Object> statusStack, Stack<Object> valueStack) {
-		
-		if(token.type == Yytoken.TYPE_VALUE) {
-			
-			status = S_IN_FINISHED_VALUE;
-			statusStack.push(status);
-			valueStack.push(token.value);
-			
-		} else if(token.type == Yytoken.TYPE_LEFT_BRACE) {
-			
-			status = S_IN_OBJECT;
-			statusStack.push(status);
-			valueStack.push(new JSONObject());
-			
-		} else if(token.type == Yytoken.TYPE_LEFT_SQUARE) {
-			
-			status = S_IN_ARRAY;
-			statusStack.push(status);
-			valueStack.push(new JSONArray());
-			
-		} else {
-			
-			status = S_IN_ERROR;
-		}
-	}
-	
-	private static final Object inFinishedValue(Stack<Object> valueStack) throws JSONParseException {
-		
-		if(token.type == Yytoken.TYPE_EOF) {
-			
-			return valueStack.pop();
-			
-		} else {
-			
-			throw new JSONParseException(getPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
-		}
-	}
-	
-	private static final void inObject(Stack<Object> statusStack, Stack<Object> valueStack) {
-		
-		if(token.type == Yytoken.TYPE_VALUE) {
-			
-			if(token.value instanceof String) {
-				
-				String key = (String)token.value;
-				valueStack.push(key);
-				status = S_PASSED_PAIR_KEY;
-				statusStack.push(status);
-				
-			} else {
-				
-				status = S_IN_ERROR;
-			}
-			
-		} else if(token.type == Yytoken.TYPE_RIGHT_BRACE) {
-			
-			if(valueStack.size() > 1){
-				
-				statusStack.pop();
-				valueStack.pop();
-				status = (int)statusStack.peek();
-				
-			} else {
-				
-				status = S_IN_FINISHED_VALUE;
-			}
-			
-		} else if(token.type != Yytoken.TYPE_COMMA) {
-			
-			status = S_IN_ERROR;
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static final void inPassedPairKey(Stack<Object> statusStack, Stack<Object> valueStack) {
-		
-		if(token.type == Yytoken.TYPE_VALUE) {
-			
-			statusStack.pop();
-			String key = (String)valueStack.pop();
-			Map<Object, Object> parent = (Map<Object, Object>)valueStack.peek();
-			parent.put(key, token.value);
-			status = (int)statusStack.peek();
-			
-		} else if(token.type == Yytoken.TYPE_LEFT_SQUARE) {
-			
-			statusStack.pop();
-			String key = (String)valueStack.pop();
-			Map<Object, Object> parent = (Map<Object, Object>)valueStack.peek();
-			List<Object> newArray = new JSONArray();
-			parent.put(key, newArray);
-			status = S_IN_ARRAY;
-			statusStack.push(status);
-			valueStack.push(newArray);
-			
-		} else if(token.type == Yytoken.TYPE_LEFT_BRACE) {
-			
-			statusStack.pop();
-			String key = (String)valueStack.pop();
-			Map<Object, Object> parent = (Map<Object, Object>)valueStack.peek();
-			Map<Object, Object> newObject = new JSONObject();
-			parent.put(key, newObject);
-			status = S_IN_OBJECT;
-			statusStack.push(status);
-			valueStack.push(newObject);
-			
-		} else if(token.type != Yytoken.TYPE_COLON) {
-			
-			status = S_IN_ERROR;
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static final void inArray(Stack<Object> statusStack, Stack<Object> valueStack) {
-		
-		if(token.type == Yytoken.TYPE_VALUE) {
-			
-			List<Object> val = (List<Object>)valueStack.peek();
-			val.add(token.value);
-			
-		} else if(token.type == Yytoken.TYPE_RIGHT_SQUARE) {
-			
-			if(valueStack.size() > 1) {
-				
-				statusStack.pop();
-				valueStack.pop();
-				status = (int)statusStack.peek();
-			
-			} else {
-				
-				status = S_IN_FINISHED_VALUE;
-			}
-			
-		} else if(token.type == Yytoken.TYPE_LEFT_BRACE) {
-			
-			List<Object> val = (List<Object>)valueStack.peek();
-			Map<Object, Object> newObject = new JSONObject();
-			val.add(newObject);
-			status = S_IN_OBJECT;
-			statusStack.push(status);
-			valueStack.push(newObject);
-			
-		} else if(token.type == Yytoken.TYPE_LEFT_SQUARE) {
-			
-			List<Object> val = (List<Object>)valueStack.peek();
-			List<Object> newArray = new JSONArray();
-			val.add(newArray);
-			status = S_IN_ARRAY;
-			statusStack.push(status);
-			valueStack.push(newArray);
-			
-		} else if(token.type != Yytoken.TYPE_COMMA) {
-			
-			status = S_IN_ERROR;
-		}
-	}
-
-    public static final void reset() {
-    	
-        token = null;
-        status = S_INIT;
-    }
-
-	public static final void reset(Reader reader) {
-		
-		lexer.yyreset(reader);
-		reset();
-	}
-
-	public static final int getPosition() {
-		
-		return lexer.getPosition();
-	}
-	
+	/**
+	 * 
+	 * @param json
+	 * @return
+	 * @throws JSONParseException
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Object parse(String json) throws JSONParseException {
 		
 		try(StringReader reader = new StringReader(json)) {
@@ -220,30 +48,194 @@ public final class JSON {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param reader
+	 * @return
+	 * @throws IOException
+	 * @throws JSONParseException
+	 * @since 17.08.2018/0.2.0
+	 */
+	@SuppressWarnings("unchecked")
 	public static final Object parse(Reader reader) throws IOException, JSONParseException {
 
-		reset(reader);
+		JSONLexer lexer = new JSONLexer(reader);
+		JSONToken token = null;
+        int status = S_INIT;
+		
 		Stack<Object> statusStack = new Stack<>();
 		Stack<Object> valueStack = new Stack<>();
 
 		do {
 			
-			nextToken();
+			token = lexer.nextToken();
 			
-				   if(status == S_INIT)              {init(statusStack, valueStack);
-			} else if(status == S_IN_FINISHED_VALUE) {return inFinishedValue(valueStack);
-			} else if(status == S_IN_OBJECT)         {inObject(statusStack, valueStack);
-			} else if(status == S_PASSED_PAIR_KEY)   {inPassedPairKey(statusStack, valueStack);
-			} else if(status == S_IN_ARRAY)          {inArray(statusStack, valueStack);
+			if(token == null) {
+				
+				token = new JSONToken(JSONToken.TYPE_EOF, null);
+			}
+			
+			int tokenType = token.getType();
+			Object tokenValue = token.getValue();
+			
+			if(status == S_INIT) {
+					   
+				if(tokenType == JSONToken.TYPE_VALUE) {
+					
+					status = S_IN_FINISHED_VALUE;
+					statusStack.push(status);
+					valueStack.push(tokenType);
+					
+				} else if(tokenType == JSONToken.TYPE_LEFT_BRACE) {
+					
+					status = S_IN_OBJECT;
+					statusStack.push(status);
+					valueStack.push(new JSONObject());
+					
+				} else if(tokenType == JSONToken.TYPE_LEFT_SQUARE) {
+					
+					status = S_IN_ARRAY;
+					statusStack.push(status);
+					valueStack.push(new JSONArray());
+					
+				} else {
+					
+					status = S_IN_ERROR;
+				}
+					   
+			} else if(status == S_IN_FINISHED_VALUE) {
+				
+				if(tokenType == JSONToken.TYPE_EOF) {
+					
+					return valueStack.pop();
+					
+				} else {
+					
+					throw new JSONParseException(lexer.getCharacterPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
+				}
+				
+			} else if(status == S_IN_OBJECT) {
+				
+				if(tokenType == JSONToken.TYPE_VALUE) {
+					
+					if(tokenValue instanceof String) {
+						
+						String key = (String)tokenValue;
+						valueStack.push(key);
+						status = S_PASSED_PAIR_KEY;
+						statusStack.push(status);
+						
+					} else {
+						
+						status = S_IN_ERROR;
+					}
+					
+				} else if(tokenType == JSONToken.TYPE_RIGHT_BRACE) {
+					
+					if(valueStack.size() > 1){
+						
+						statusStack.pop();
+						valueStack.pop();
+						status = (int)statusStack.peek();
+						
+					} else {
+						
+						status = S_IN_FINISHED_VALUE;
+					}
+					
+				} else if(tokenType != JSONToken.TYPE_COMMA) {
+					
+					status = S_IN_ERROR;
+				}
+				
+			} else if(status == S_PASSED_PAIR_KEY) {
+				
+				if(tokenType == JSONToken.TYPE_VALUE) {
+					
+					statusStack.pop();
+					String key = (String)valueStack.pop();
+					Map<Object, Object> parent = (Map<Object, Object>)valueStack.peek();
+					parent.put(key, tokenValue);
+					status = (int)statusStack.peek();
+					
+				} else if(tokenType == JSONToken.TYPE_LEFT_SQUARE) {
+					
+					statusStack.pop();
+					String key = (String)valueStack.pop();
+					Map<Object, Object> parent = (Map<Object, Object>)valueStack.peek();
+					List<Object> newArray = new JSONArray();
+					parent.put(key, newArray);
+					status = S_IN_ARRAY;
+					statusStack.push(status);
+					valueStack.push(newArray);
+					
+				} else if(tokenType == JSONToken.TYPE_LEFT_BRACE) {
+					
+					statusStack.pop();
+					String key = (String)valueStack.pop();
+					Map<Object, Object> parent = (Map<Object, Object>)valueStack.peek();
+					Map<Object, Object> newObject = new JSONObject();
+					parent.put(key, newObject);
+					status = S_IN_OBJECT;
+					statusStack.push(status);
+					valueStack.push(newObject);
+					
+				} else if(tokenType != JSONToken.TYPE_COLON) {
+					
+					status = S_IN_ERROR;
+				}
+				
+			} else if(status == S_IN_ARRAY) {
+				
+				if(tokenType == JSONToken.TYPE_VALUE) {
+					
+					List<Object> val = (List<Object>)valueStack.peek();
+					val.add(tokenValue);
+					
+				} else if(tokenType == JSONToken.TYPE_RIGHT_SQUARE) {
+					
+					if(valueStack.size() > 1) {
+						
+						statusStack.pop();
+						valueStack.pop();
+						status = (int)statusStack.peek();
+					
+					} else {
+						
+						status = S_IN_FINISHED_VALUE;
+					}
+					
+				} else if(tokenType == JSONToken.TYPE_LEFT_BRACE) {
+					
+					List<Object> val = (List<Object>)valueStack.peek();
+					Map<Object, Object> newObject = new JSONObject();
+					val.add(newObject);
+					status = S_IN_OBJECT;
+					statusStack.push(status);
+					valueStack.push(newObject);
+					
+				} else if(tokenType == JSONToken.TYPE_LEFT_SQUARE) {
+					
+					List<Object> val = (List<Object>)valueStack.peek();
+					List<Object> newArray = new JSONArray();
+					val.add(newArray);
+					status = S_IN_ARRAY;
+					statusStack.push(status);
+					valueStack.push(newArray);
+					
+				} else if(tokenType != JSONToken.TYPE_COMMA) {
+					
+					status = S_IN_ERROR;
+				}
 			}
 			
 			if(status == S_IN_ERROR) {
 				
-				throw new JSONParseException(getPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
+				throw new JSONParseException(lexer.getCharacterPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
 			}
 	
-		} while(token.type != Yytoken.TYPE_EOF);
+		} while(token.getType() != JSONToken.TYPE_EOF);
 
-		throw new JSONParseException(getPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
+		throw new JSONParseException(lexer.getCharacterPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
 	}
 }

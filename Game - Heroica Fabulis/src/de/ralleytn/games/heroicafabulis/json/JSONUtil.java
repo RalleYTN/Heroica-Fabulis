@@ -6,10 +6,25 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * 
+ * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
+ * @version 17.08.2018/0.2.0
+ * @since 17.08.2018/0.2.0
+ */
 public final class JSONUtil {
 
+	/**
+	 * @since 17.08.2018/0.2.0
+	 */
 	private JSONUtil() {}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final JSONObject getObject(Object value) {
 
 		if(value != null) {
@@ -22,6 +37,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final JSONArray getArray(Object value) {
 
 		if(value != null) {
@@ -43,6 +64,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Boolean getBoolean(Object value) {
 
 		if(value != null) {
@@ -55,6 +82,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Byte getByte(Object value) {
 		
 		if(value != null) {
@@ -67,6 +100,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Short getShort(Object value) {
 
 		if(value != null) {
@@ -79,6 +118,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Integer getInteger(Object value) {
 		
 		if(value != null) {
@@ -91,6 +136,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Long getLong(Object value) {
 
 		if(value != null) {
@@ -103,6 +154,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Float getFloat(Object value) {
 
 		if(value != null) {
@@ -115,6 +172,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Double getDouble(Object value) {
 		
 		if(value != null) {
@@ -127,6 +190,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final String getString(Object value) {
 
 		if(value != null) {
@@ -137,6 +206,14 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @param format
+	 * @return
+	 * @throws ParseException
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static final Date getDate(Object value, DateFormat format) throws ParseException {
 
 		if(value != null) {
@@ -147,6 +224,13 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @param type
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
 	@SuppressWarnings("unchecked")
 	public static final <T extends Enum<T>>T getEnum(Object value, Class<T> type) {
 		
@@ -164,6 +248,12 @@ public final class JSONUtil {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param string
+	 * @param builder
+	 * @since 17.08.2018/0.2.0
+	 */
 	public static void escape(String string, StringBuilder builder) {
     	
     	for(int index = 0; index < string.length(); index++) {

@@ -75,7 +75,7 @@ public class JSONParseException extends Exception {
 	 * </tr>
 	 * <tr>
 	 * <td>{@link #ERROR_UNEXPECTED_TOKEN}</td>
-	 * <td>{@linkplain Yytoken}</td>
+	 * <td>{@linkplain JSONToken}</td>
 	 * </tr>
 	 * <tr>
 	 * <td>{@link #ERROR_UNEXPECTED_EXCEPTION}</td>
