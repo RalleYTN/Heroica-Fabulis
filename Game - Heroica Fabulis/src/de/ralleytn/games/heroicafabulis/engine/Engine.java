@@ -10,6 +10,7 @@ import javax.vecmath.Vector3f;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
+import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.display.Display;
 import de.ralleytn.games.heroicafabulis.engine.display.VidModes;
 import de.ralleytn.games.heroicafabulis.engine.localization.Localization;
@@ -20,7 +21,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Class which is used to start and stop the engine. It also contains methods and constants that are important in the rest of the engine but
  * not really utility methods.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 17.08.2018/0.2.0
  * @since 31.07.2018/0.1.0
  */
 public final class Engine {
@@ -77,6 +78,7 @@ public final class Engine {
 			
 			initilizeGLFW();
 			VidModes.initialize();
+			OpenAL.create();
 			Display display = new Display(game.getTitle());
 			display.makeContextCurrent();
 			GL.createCapabilities();
@@ -99,6 +101,7 @@ public final class Engine {
 		
 		if(RUNNING) {
 			
+			OpenAL.destroy();
 			glfwTerminate();
 			glfwSetErrorCallback(null).free();
 			RUNNING = false;
