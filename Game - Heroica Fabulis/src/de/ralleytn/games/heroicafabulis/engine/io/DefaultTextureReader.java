@@ -39,6 +39,8 @@ public class DefaultTextureReader extends TextureReader {
 				graphics.dispose();
 			}
 			
+			// It is necessary to convert from the ARGB color model to RGBA because it is required by OpenGL.
+			// See BUG0002.
 			int[] rawPixels = image.getRGB(0, 0, width, height, null, 0, width);
 			
 			for(int index = 0; index < rawPixels.length; index++) {

@@ -1,12 +1,13 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 import de.ralleytn.games.heroicafabulis.engine.Disposable;
+import de.ralleytn.games.heroicafabulis.engine.rendering.GLBuffer;
 import de.ralleytn.games.heroicafabulis.engine.rendering.VertexArray;
 
 /**
  * Represents an abstract mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 10.08.2018/0.1.0
+ * @version 18.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Mesh implements Disposable {
@@ -20,6 +21,12 @@ public abstract class Mesh implements Disposable {
 	protected int indexCount;
 	protected int faceCount;
 	protected int cullMode;
+	
+	// Has to be a member because it isn't stored in the vertex array.
+	// Because it is not stored in the vertex array, the garbage collector will try to collect it and call its finalize method.
+	// The finalize method would then try to delete the buffer while it is still used.
+	// see BUG0001
+	protected GLBuffer indexBuffer;
 	
 	/**
 	 * @since 04.08.2018/0.1.0
@@ -117,4 +124,14 @@ public abstract class Mesh implements Disposable {
 	 * @since 10.08.2018/0.1.0
 	 */
 	public abstract boolean hasTextureCoordinates();
+	
+	/**
+	 * 
+	 * @return
+	 * @since 18.08.2018/0.2.0
+	 */
+	public GLBuffer getIndexBuffer() {
+		
+		return this.indexBuffer;
+	}
 }

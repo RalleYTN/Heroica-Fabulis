@@ -1,8 +1,5 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
@@ -12,19 +9,19 @@ import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 /**
  * Object wrapper for the OpenGL vertex arrays.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 18.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
 public class VertexArray extends LWJGLObject implements Bindable {
 
-	private List<GLBuffer> buffers;
+	private GLBuffer[] buffers;
 	
 	/**
 	 * @since 04.08.2018/0.1.0
 	 */
 	public VertexArray() {
 		
-		this.buffers = new ArrayList<>();
+		this.buffers = new GLBuffer[16];
 		this.id = GL30.glGenVertexArrays();
 	}
 	
@@ -59,15 +56,16 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	/**
 	 * Stores a buffer in the vertex array.
 	 * @param buffer the buffer
+	 * @param index the index at which the buffer should be stored
 	 * @param vertexSize the vertex size
 	 * @param dataType the data type
 	 * @since 04.08.2018/0.1.0
 	 */
-	public void store(GLBuffer buffer, int vertexSize, int dataType) {
+	public void store(GLBuffer buffer, int index, int vertexSize, int dataType) {
 		
 		buffer.bind();
-		GL20.glVertexAttribPointer(this.buffers.size(), vertexSize, dataType, false, 0, 0);
-		this.buffers.add(buffer);
+		GL20.glVertexAttribPointer(index, vertexSize, dataType, false, 0, 0);
+		this.buffers[index] = buffer;
 	}
 	
 	/**
@@ -97,6 +95,6 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	 */
 	public GLBuffer getBuffer(int index) {
 		
-		return this.buffers.get(index);
+		return this.buffers[index];
 	}
 }

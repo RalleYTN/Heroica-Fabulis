@@ -2,6 +2,7 @@ package de.ralleytn.games.heroicafabulis;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
@@ -13,6 +14,8 @@ import de.ralleytn.games.heroicafabulis.engine.audio.Source;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.io.ObjReader;
 import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
+import de.ralleytn.games.heroicafabulis.engine.io.XMeshReader;
+import de.ralleytn.games.heroicafabulis.engine.io.XMeshWriter;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
@@ -75,7 +78,7 @@ public final class HeroicaFabulis extends Game {
 
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
 		DefaultTextureReader texReader = new DefaultTextureReader();
-		ObjReader meshReader = new ObjReader();
+		XMeshReader meshReader = new XMeshReader();
 		
 		Texture colorMap = texReader.read(new FileInputStream("res/textures/stall.png"));
 		
@@ -84,7 +87,7 @@ public final class HeroicaFabulis extends Game {
 		material.setColorMap(colorMap);
 		material.setAffectedByLight(true);
 		
-		Mesh mesh = meshReader.read(new FileInputStream("res/meshes/stall.obj"));
+		Mesh mesh = meshReader.read(new FileInputStream("res/meshes/stall.xmesh"));
 		
 		Entity stall = new Entity();
 		stall.setShaderPipeline(shaderPipeline);
