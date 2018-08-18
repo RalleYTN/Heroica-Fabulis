@@ -24,7 +24,7 @@ public class XMeshReader extends Reader<Mesh> {
 		
 		try(InputStream meshStream = inputStream) {
 			
-			readHeader(meshStream);
+			readSignature(meshStream);
 			int flags = readFlags(meshStream);
 			float[] vertices = readVertices(meshStream);
 			int[] indices = readIndices(meshStream);

@@ -19,7 +19,7 @@ public class XMeshWriter extends Writer<Mesh> {
 		
 		try(OutputStream meshStream = outputStream) {
 			
-			writeHeader(meshStream, data);
+			writeSignature(meshStream, data);
 			writeFlags(meshStream, data);
 			writeVertices(meshStream, data);
 			writeIndices(meshStream, data);

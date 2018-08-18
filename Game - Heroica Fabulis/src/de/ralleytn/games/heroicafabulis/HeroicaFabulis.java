@@ -2,7 +2,6 @@ package de.ralleytn.games.heroicafabulis;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
@@ -12,10 +11,8 @@ import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.audio.Source;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
-import de.ralleytn.games.heroicafabulis.engine.io.ObjReader;
 import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
 import de.ralleytn.games.heroicafabulis.engine.io.XMeshReader;
-import de.ralleytn.games.heroicafabulis.engine.io.XMeshWriter;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;

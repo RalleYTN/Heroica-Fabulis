@@ -19,7 +19,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 public final class XMeshFormat {
 	
 	// everything is big endian
-	// first 5 bytes = XMESH header
+	// first 5 bytes = XMESH signature
 	// next byte = flags
 	// 	- bit 1 = has texture coordinates
 	//	- bit 2 = has normals
@@ -48,7 +48,7 @@ public final class XMeshFormat {
 	/**
 	 * @since 18.08.2018/0.2.0
 	 */
-	public static final String HEADER = "XMESH";
+	public static final String SIGNATURE = "XMESH";
 	
 	/**
 	 * @since 18.08.2018/0.2.0
@@ -61,11 +61,11 @@ public final class XMeshFormat {
 	 * @throws IOException
 	 * @since 18.08.2018/0.2.0
 	 */
-	public static final void readHeader(InputStream meshStream) throws IOException {
+	public static final void readSignature(InputStream meshStream) throws IOException {
 		
 		String header = readString(meshStream, 5, StandardCharsets.UTF_8);
 		
-		if(!header.equals(HEADER)) {
+		if(!header.equals(SIGNATURE)) {
 			
 			throw new IOException("Not a XMESH file!");
 		}
@@ -166,11 +166,11 @@ public final class XMeshFormat {
 	 * @throws IOException
 	 * @since 18.08.2018/0.2.0
 	 */
-	public static final void writeHeader(OutputStream meshStream, Mesh data) throws IOException {
+	public static final void writeSignature(OutputStream meshStream, Mesh data) throws IOException {
 		
-		for(int index = 0; index < HEADER.length(); index++) {
+		for(int index = 0; index < SIGNATURE.length(); index++) {
 			
-			meshStream.write(HEADER.charAt(index));
+			meshStream.write(SIGNATURE.charAt(index));
 		}
 	}
 	

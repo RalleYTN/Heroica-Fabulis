@@ -39,13 +39,13 @@ public class DefaultTextureReader extends TextureReader {
 				graphics.dispose();
 			}
 			
-			// It is necessary to convert from the ARGB color model to RGBA because it is required by OpenGL.
+			// It is necessary to convert from the ARGB color model to ABGR because it is required by OpenGL.
 			// See BUG0002.
 			int[] rawPixels = image.getRGB(0, 0, width, height, null, 0, width);
 			
 			for(int index = 0; index < rawPixels.length; index++) {
 				
-				rawPixels[index] = convertARGBtoRGBA(rawPixels[index]);
+				rawPixels[index] = convertARGBtoABGR(rawPixels[index]);
 			}
 			
 			return this.createTexture(this.createBuffer(rawPixels), width, height);
@@ -58,7 +58,7 @@ public class DefaultTextureReader extends TextureReader {
 	 * @return
 	 * @since 18.08.2018/0.2.0
 	 */
-	private static final int convertARGBtoRGBA(int pixel) {
+	private static final int convertARGBtoABGR(int pixel) {
 		
 		int alpha = (pixel >> 24) & 0xFF;
 		int red = (pixel >> 16) & 0xFF;
