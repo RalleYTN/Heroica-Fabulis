@@ -1,0 +1,8 @@
+sNativeDirectory=native
+sErrLogDirectory=err_logs
+sLocaleDirectory=res/lang
+iFpsCap=-1
+bVSync=true
+bFullscreen=true
+iDisplayWidth=0
+iDisplayHeight=0

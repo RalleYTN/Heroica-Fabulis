@@ -1,5 +1,6 @@
 package de.ralleytn.games.heroicafabulis.engine.io;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -27,9 +28,9 @@ public class AiffReader extends AudioReader {
 	@Override
 	public ALBuffer read(InputStream inputStream) throws IOException {
 		
-		try {
+		try(BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
 			
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedInputStream);
 			AudioFormat audioFormat = audioStream.getFormat();
 			int sampleRate = (int)audioFormat.getSampleRate();
 			int channels = audioFormat.getChannels();

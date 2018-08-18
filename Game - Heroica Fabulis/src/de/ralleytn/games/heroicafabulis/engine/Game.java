@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 18.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -31,20 +31,28 @@ public abstract class Game implements Updatable {
 	private Camera camera;
 	private MouseController mouseController;
 	private KeyboardController keyboardController;
+	private Options options;
 	private int fps;
 	private int fpsCap;
 	
 	/**
 	 * @param title the game title
-	 * @param nativeDirectory the directory containing the native libraries
+	 * @param optionsFile file containing the game options
+	 * @param defaultResource alternative location within the class path containing the default options
+	 * @throws IOException If the options file or the default options could not be read
 	 * @since 04.08.2018/0.1.0
 	 */
-	public Game(String title, File nativeDirectory) {
+	public Game(String title, File optionsFile, String defaultResource) throws IOException {
+		
+		this.options = new Options(optionsFile, defaultResource);
+		this.options.load();
 		
 		this.title = title;
-		this.nativeDirectory = nativeDirectory;
+		this.nativeDirectory = new File(this.options.getString(Options.OPTION_NATIVE_DIRECTORY));
+		this.errLogDirectory = new File(this.options.getString(Options.OPTION_ERR_LOG_DIRECTORY));
+		this.localeDirectory = new File(this.options.getString(Options.OPTION_LOCALE_DIRECTORY));
 		this.scene = new Scene();
-		this.fpsCap = -1;
+		this.fpsCap = this.options.getInt(Options.OPTION_FPS_CAP);
 	}
 	
 	/**
@@ -66,11 +74,13 @@ public abstract class Game implements Updatable {
 		
 		this.display = Engine.start(this);
 		this.display.center();
-		this.display.setVSync(true);
+		this.display.setResizable(false);
+		this.display.setVSync(this.options.getBoolean(Options.OPTION_VSYNC));
 		this.display.setVisible(true);
+		this.display.setFullscreen(this.options.getBoolean(Options.OPTION_FULLSCREEN));
 		
 		this.mouseController = new MouseController(this);
-		this.mouseController.setCursorPosition(this.display.getFrameBufferWidth() / 2, display.getFrameBufferHeight() / 2);
+		this.mouseController.setCursorPosition(this.display.getFrameBufferWidth() / 2, this.display.getFrameBufferHeight() / 2);
 		
 		this.keyboardController = new KeyboardController(this);
 		this.camera = new Camera(this);
@@ -83,6 +93,7 @@ public abstract class Game implements Updatable {
 		long deltaTimer1 = System.nanoTime();
 		long deltaTimer2 = 0;
 		Graphics3D graphics3D = new Graphics3D(this);
+		Exception exitException = null;
 		this.initialize(this);
 		
 		while(!this.display.isCloseRequested()) {
@@ -141,13 +152,19 @@ public abstract class Game implements Updatable {
 				
 				this.display.poll();
 				
-			} catch(InterruptedException exception) {
+			} catch(Exception exception) {
 				
+				exitException = exception;
 				break;
 			}
 		}
 		
 		this.stop();
+		
+		if(exitException != null) {
+			
+			throw new EngineException(exitException);
+		}
 	}
 	
 	/**
@@ -156,7 +173,21 @@ public abstract class Game implements Updatable {
 	 */
 	public void stop() {
 		
-		this.display.requestClose();
+		try {
+			
+			this.options.save();
+			
+		} catch(IOException exception) {
+			
+			Errors.print(exception);
+			Errors.prompt(exception, Errors.log(exception, this.errLogDirectory));
+		}
+		
+		if(this.display != null) {
+			
+			this.display.requestClose();
+		}
+		
 		Engine.stop();
 	}
 	
@@ -168,27 +199,7 @@ public abstract class Game implements Updatable {
 	public void setFPSCap(int fpsCap) {
 		
 		this.fpsCap = fpsCap;
-	}
-	
-	/**
-	 * Sets the directory in which the locales can be found.
-	 * The locales contain all of the localized strings for different languages.
-	 * @param localeDirectory the directory
-	 * @since 04.08.2018/0.1.0
-	 */
-	public void setLocaleDirectory(File localeDirectory) {
-		
-		this.localeDirectory = localeDirectory;
-	}
-	
-	/**
-	 * Sets the directory in which all the error logs should be written to.
-	 * @param errLogDirectory the directory
-	 * @since 04.08.2018/0.1.0
-	 */
-	public void setErrLogDirectory(File errLogDirectory) {
-		
-		this.errLogDirectory = errLogDirectory;
+		this.options.set(Options.OPTION_FPS_CAP, fpsCap);
 	}
 	
 	/**
@@ -288,5 +299,15 @@ public abstract class Game implements Updatable {
 	public KeyboardController getKeyboardController() {
 		
 		return this.keyboardController;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 17.08.2018/0.2.0
+	 */
+	public Options getOptions() {
+		
+		return this.options;
 	}
 }

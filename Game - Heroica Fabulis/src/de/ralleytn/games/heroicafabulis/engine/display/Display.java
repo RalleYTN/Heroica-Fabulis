@@ -15,14 +15,16 @@ import de.ralleytn.games.heroicafabulis.engine.Controller;
 import de.ralleytn.games.heroicafabulis.engine.Disposable;
 import de.ralleytn.games.heroicafabulis.engine.Engine;
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
+import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.Options;
 import de.ralleytn.games.heroicafabulis.engine.util.MathUtil;
 
 /**
  * There can only be a single instance of this class that was created with the {@link Engine#start(java.io.File, java.io.File, String)} method.
  * It represents the game window.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018
- * @since 31.07.2018
+ * @version 18.08.2018/0.2.0
+ * @since 31.07.2018/0.1.0
  */
 public class Display implements Disposable, Controller<DisplayEvent> {
 
@@ -59,25 +61,26 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	private int minHeight;
 	private int maxWidth;
 	private int maxHeight;
-	private int oldWidth;
-	private int oldHeight;
 	private boolean fullscreen;
 	private boolean vsync;
+	private Game game;
 	
 	/**
-	 * @param title the window title
+	 * @param game the instance of {@linkplain Game} this display belongs to
 	 * @throws EngineException if no window could be created
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
-	public Display(String title) throws EngineException {
+	public Display(Game game) throws EngineException {
 		
-		this.title = title;
+		this.game = game;
+		this.title = game.getTitle();
 		this.minWidth = DEFAULT_MIN_WIDTH;
 		this.minHeight = DEFAULT_MIN_HEIGHT;
 		this.vidMode = VidModes.getPrimaryMonitorVidMode();
 		this.maxWidth = this.vidMode.width();
 		this.maxHeight = this.vidMode.height();
-		this.id = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, title, MemoryUtil.NULL, MemoryUtil.NULL);
+		this.vidMode = VidModes.getVidMode(game.getOptions());
+		this.id = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, this.title, MemoryUtil.NULL, MemoryUtil.NULL);
 	
 		if(this.id != MemoryUtil.NULL) {
 			
@@ -122,53 +125,70 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	 * This prevents screen tearing and also makes sure that the game never runs with more frames per second than the monitor's refresh rate,
 	 * which is good because it means that the CPU and GPU don't overheat as fast due to unnecessary calculations.
 	 * @param vsync {@code true} to enable vertical synchronization, {@code false} to disable it
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setVSync(boolean vsync) {
 		
 		glfwSwapInterval(vsync ? GLFW_TRUE : GLFW_FALSE);
 		this.vsync = vsync;
+		this.game.getOptions().set(Options.OPTION_VSYNC, vsync);
 	}
 	
 	/**
 	 * Sets the video mode. The video mode contains information about the resolution at which the game should be displayed, the bit depth of
 	 * the colors and the maximum refresh rate in Hertz.
 	 * @param vidMode the video mode
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setVidMode(GLFWVidMode vidMode) {
 		
 		this.vidMode = vidMode;
+		
+		if(!this.fullscreen) {
+			
+			this.setSize(vidMode.width(), vidMode.height());
+			
+		} else {
+			
+			this.setFullscreen(true);
+		}
 	}
 	
 	/**
 	 * Enables or disables fullscreen.
 	 * Some graphical effects are only available in fullscreen.
 	 * @param fullscreen {@code true} to enable fullscreen, {@code false} to disable it
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setFullscreen(boolean fullscreen) {
 		
 		this.fullscreen = fullscreen;
+		Options options = this.game.getOptions();
 		
 		if(fullscreen) {
 			
-			this.oldWidth = this.getWidth();
-			this.oldHeight = this.getHeight();
 			glfwSetWindowMonitor(this.id, glfwGetPrimaryMonitor(), 0, 0, this.vidMode.width(), this.vidMode.height(), this.vidMode.refreshRate());
-		
+			options.set(Options.OPTION_DISPLAY_WIDTH, this.vidMode.width());
+			options.set(Options.OPTION_DISPLAY_HEIGHT, this.vidMode.height());
+			
 		} else {
 			
-			glfwSetWindowMonitor(this.id, 0, 0, 0, this.oldWidth, this.oldHeight, VidModes.getPrimaryMonitorVidMode().refreshRate());
+			int width = this.getWidth();
+			int height = this.getHeight();
+			glfwSetWindowMonitor(this.id, 0, 0, 0, width, height, VidModes.getPrimaryMonitorVidMode().refreshRate());
 			this.center();
+			options.set(Options.OPTION_DISPLAY_WIDTH, width);
+			options.set(Options.OPTION_DISPLAY_HEIGHT, height);
 		}
+		
+		options.set(Options.OPTION_FULLSCREEN, fullscreen);
 	}
 	
 	/**
 	 * Sets the aspect ratio.
 	 * @param numer number for the X axis (example: 16)
 	 * @param denom number for the Y axis (example: 9)
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setAspectRatio(int numer, int denom) {
 		
@@ -179,7 +199,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	 * Sets the window position.
 	 * @param x position on the X axis in pixel
 	 * @param y position on the Y axis in pixel
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setPosition(int x, int y) {
 		
@@ -190,7 +210,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	 * Enables or disables the window frame.
 	 * Important for borderless window fullscreen which is not the actual fullscreen mode.
 	 * @param decorated {@code true} to enable the window frame, {@code false} to disable it
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setDecorated(boolean decorated) {
 		
@@ -200,7 +220,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	/**
 	 * Sets the window title.
 	 * @param title the window title
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setTitle(String title) {
 		
@@ -212,7 +232,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	 * Sets the minimum size the window can have.
 	 * @param minWidth minimum width in pixels
 	 * @param minHeight minimum height in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setMinimumSize(int minWidth, int minHeight) {
 		
@@ -225,7 +245,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	 * Sets the maximum size the window can have.
 	 * @param maxWidth maximum width in pixels
 	 * @param maxHeight maximum height in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setMaximumSize(int maxWidth, int maxHeight) {
 		
@@ -238,17 +258,20 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	 * Sets the window size.
 	 * @param width width in pixels
 	 * @param height height in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setSize(int width, int height) {
 		
 		glfwSetWindowSize(this.id, width, height);
+		Options options = this.game.getOptions();
+		options.set(Options.OPTION_DISPLAY_WIDTH, width);
+		options.set(Options.OPTION_DISPLAY_HEIGHT, height);
 	}
 	
 	/**
 	 * Enables or disables the ability to resize the window.
 	 * @param resizable {@code true} to enable resizing, {@code false} to disable it
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setResizable(boolean resizable) {
 		
@@ -258,7 +281,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	/**
 	 * Sets the visibility of the window.
 	 * @param visible {@code true} to make the window visible, {@code false} to make it unvisible
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void setVisible(boolean visible) {
 		
@@ -275,7 +298,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	/**
 	 * Requests the window to close.
 	 * Will try to close the window at the start of the next frame.
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void requestClose() {
 		
@@ -285,7 +308,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	/**
 	 * Updates the viewport. The viewport is the part of the display in which the game is rendered.
 	 * This method should be called every time the size the of the window changes or when switching between window mode and fullscreen.
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void updateViewPort() {
 
@@ -304,7 +327,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	/**
 	 * Swaps the buffers. Will swap the image that was painted in the background with the image that is currently displayed and use the image
 	 * that was just currently displayed as canvas for the next background image. This has to be called every frame.
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void swapBuffers() {
 		
@@ -313,7 +336,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * Makes the current GL context use this display for rendering.
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void makeContextCurrent() {
 		
@@ -322,7 +345,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * Positions the window at the center of the primary screen.
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void center() {
 		
@@ -335,7 +358,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	/**
 	 * Polls the window events.
 	 * It is really important to call this method at the end of every frame.
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public void poll() {
 		
@@ -344,7 +367,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return the window width in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getWidth() {
 		
@@ -355,7 +378,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return the window height in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getHeight() {
 		
@@ -366,7 +389,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return the display width in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getFrameBufferWidth() {
 		
@@ -377,7 +400,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return the display height in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getFrameBufferHeight() {
 		
@@ -388,7 +411,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return {@code true} if vertical synchronization is enabled, else {@code false}
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public boolean isVSync() {
 		
@@ -397,7 +420,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return the minimum window width in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getMinWidth() {
 		
@@ -406,7 +429,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return the minimum window height in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getMinHeight() {
 		
@@ -415,7 +438,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return the maximum window width in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getMaxWidth() {
 		
@@ -424,7 +447,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return the maximum window height in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getMaxHeight() {
 		
@@ -433,7 +456,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return the window title
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public String getTitle() {
 		
@@ -442,7 +465,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return {@code true} if it was requested for the window to be closed at the start of the next frame, else {@code false}
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public boolean isCloseRequested() {
 		
@@ -451,7 +474,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return {@code true} if this window is visible, else {@code false}
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public boolean isVisible() {
 		
@@ -460,7 +483,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	
 	/**
 	 * @return {@code true} if this window is resizable, else {@code false}
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public boolean isResizable() {
 		
@@ -469,7 +492,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return the window position on the X axis in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getX() {
 		
@@ -480,7 +503,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return the window position on the Y axis in pixels
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public int getY() {
 		
@@ -491,7 +514,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return {@code true} if the window frame is enabled, else {@code false}
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public boolean isDecorated() {
 		
@@ -500,7 +523,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 
 	/**
 	 * @return {@code true} if the window is currently in fullscreen mode, else {@code false}
-	 * @since 31.07.2018
+	 * @since 31.07.2018/0.1.0
 	 */
 	public boolean isFullscreen() {
 		

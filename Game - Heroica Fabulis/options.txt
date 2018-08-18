@@ -1,0 +1,8 @@
+iDisplayHeight=768
+bVSync=true
+sNativeDirectory=native
+sLocaleDirectory=res/lang
+iDisplayWidth=1024
+bFullscreen=false
+sErrLogDirectory=err_logs
+iFpsCap=-1

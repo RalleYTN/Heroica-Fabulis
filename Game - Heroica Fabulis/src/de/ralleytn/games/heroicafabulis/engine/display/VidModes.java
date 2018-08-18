@@ -4,10 +4,12 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import org.lwjgl.glfw.GLFWVidMode;
 
+import de.ralleytn.games.heroicafabulis.engine.Options;
+
 /**
  * Manages the video modes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 18.08.2018/0.2.0
  * @since 16.08.2018/0.1.0
  */
 public final class VidModes {
@@ -53,5 +55,33 @@ public final class VidModes {
 	public static final GLFWVidMode[] getAvailableVidModes() {
 		
 		return VID_MODES;
+	}
+	
+	/**
+	 * 
+	 * @param options
+	 * @return
+	 * @since 18.08.2018/0.2.0
+	 */
+	public static final GLFWVidMode getVidMode(Options options) {
+		
+		int width = options.getInt(Options.OPTION_DISPLAY_WIDTH);
+		int height = options.getInt(Options.OPTION_DISPLAY_HEIGHT);
+		GLFWVidMode vidModeToReturn = null;
+		int highestRefreshRate = 0;
+		
+		for(GLFWVidMode vidMode : VID_MODES) {
+			
+			if(vidMode.width() == width && vidMode.height() == height) {
+
+				if(vidMode.refreshRate() > highestRefreshRate) {
+					
+					highestRefreshRate = vidMode.refreshRate();
+					vidModeToReturn = vidMode;
+				}
+			}
+		}
+
+		return vidModeToReturn != null ? vidModeToReturn : getPrimaryMonitorVidMode();
 	}
 }
