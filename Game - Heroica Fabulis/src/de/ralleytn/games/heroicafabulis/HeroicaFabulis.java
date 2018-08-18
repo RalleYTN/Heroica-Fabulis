@@ -13,6 +13,7 @@ import de.ralleytn.games.heroicafabulis.engine.audio.Source;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
 import de.ralleytn.games.heroicafabulis.engine.io.XMeshReader;
+import de.ralleytn.games.heroicafabulis.engine.io.png.PngReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
@@ -78,6 +79,7 @@ public final class HeroicaFabulis extends Game {
 		XMeshReader meshReader = new XMeshReader();
 		
 		Texture colorMap = texReader.read(new FileInputStream("res/textures/stall.png"));
+		new PngReader().read(new FileInputStream("res/textures/stall.png"));
 		
 		Material material = new Material();
 		material.setMinBrightness(0.1F);
