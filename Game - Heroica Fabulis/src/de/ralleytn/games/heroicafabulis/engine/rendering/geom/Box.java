@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 /**
  * Represents a simple box mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 18.08.2018/0.2.0
  * @since 05.08.2018/0.1.0
  */
 public class Box extends StaticMesh {
@@ -112,50 +112,38 @@ public class Box extends StaticMesh {
 	 * @since 05.08.2018/0.1.0
 	 */
 	private static final float[] createVertices(float width, float height, float depth) {
-		
-		float xh = width * 0.5F;
-		float yh = height * 0.5F;
-		float zh = depth * 0.5F;
-		
-		float x1 = xh - width;
-		float y1 = yh - height;
-		float z1 = zh - depth;
-		
-		float x2 = xh + width;
-		float y2 = yh + height;
-		float z2 = zh + depth;
-		
+
 		return new float[] {
 				
-			x1, y2, z1,
-			x1, y1, z1,
-			x2, y1, z1,
-			x2, y2, z1,
+			0, height, 0,
+			0, 0, 0,
+			width, 0, 0,
+			width, height, 0,
 				
-			x1, y2, z2,
-			x1, y1, z2,
-			x2, y1, z2,
-			x2, y2, z2,
+			0, height, depth,
+			0, 0, depth,
+			width, 0, depth,
+			width, height, depth,
 				
-			x2, y2, z1,
-			x2, y1, z1,
-			x2, y1, z2,
-			x2, y2, z2,
+			width, height, 0,
+			width, 0, 0,
+			width, 0, depth,
+			width, height, depth,
 				
-			x1, y2, z1,	
-			x1, y1, z1,	
-			x1, y1, z2,	
-			x1, y2, z2,
+			0, height, 0,	
+			0, 0, 0,	
+			0, 0, depth,	
+			0, height, depth,
 				
-			x1, y2, z2,
-			x1, y2, z1,
-			x2, y2, z1,
-			x2, y2, z2,
+			0, height, depth,
+			0, height, 0,
+			width, height, 0,
+			width, height, depth,
 				
-			x1, y1, z2,
-			x1, y1, z1,
-			x2, y1, z1,
-			x2, y1, z2
+			0, 0, depth,
+			0, 0, 0,
+			width, 0, 0,
+			width, 0, depth
 		};
 	}
 }

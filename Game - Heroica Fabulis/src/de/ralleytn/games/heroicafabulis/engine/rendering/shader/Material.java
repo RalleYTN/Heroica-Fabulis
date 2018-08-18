@@ -56,7 +56,7 @@ public class Material {
 		
 		this.shineDamping = 1.0F;
 		this.brightness = 1.0F;
-		this.color = new Color4f(1.0F, 0.0F, 1.0F, 1.0F);	// Purple like in any other game where a mesh has no texture (so it stands out and is easier found)
+		this.color = new Color4f(1.0F, 0.0F, 1.0F, 1.0F);
 	}
 	
 	/**

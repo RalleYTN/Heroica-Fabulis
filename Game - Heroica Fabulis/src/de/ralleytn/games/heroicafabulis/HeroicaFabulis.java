@@ -11,11 +11,11 @@ import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.audio.Source;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
+import de.ralleytn.games.heroicafabulis.engine.io.ObjReader;
 import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
-import de.ralleytn.games.heroicafabulis.engine.localization.Localization;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Box;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.BasicShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
@@ -24,7 +24,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 /**
  * This is the main class in which the game components are assembled and the game is started.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 18.08.2018/0.2.0
  * @since 30.07.2018/0.1.0
  */
 public final class HeroicaFabulis extends Game {
@@ -71,63 +71,36 @@ public final class HeroicaFabulis extends Game {
 	@Override
 	public void initialize(Game game) throws EngineException, IOException {
 		
-		// game.getDisplay().setFullscreen(true);
 		game.getCamera().setBehavior(new FlyCamBehavior());
-		
-		System.out.println(Localization.getLocalizedString("TestString"));
-		Localization.setLocale("en");
-		System.out.println(Localization.getLocalizedString("TestString"));
-		
-		Texture colorMap = this.loadTexture("test/colorMap");
-		Texture specularMap = this.loadTexture("test/specularMap");
-		Texture overlay = this.loadTexture("test/overlay");
+
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
+		DefaultTextureReader texReader = new DefaultTextureReader();
+		ObjReader meshReader = new ObjReader();
+		
+		Texture colorMap = texReader.read(new FileInputStream("res/textures/stall.png"));
 		
 		Material material = new Material();
+		material.setMinBrightness(0.1F);
 		material.setColorMap(colorMap);
-		material.setSpecularMap(specularMap);
-		material.setOverlay1(overlay);
-		material.setSpecular(true);
 		material.setAffectedByLight(true);
-		material.setMinBrightness(0.3F);
+		
+		Mesh mesh = meshReader.read(new FileInputStream("res/meshes/stall.obj"));
+		
+		Entity stall = new Entity();
+		stall.setShaderPipeline(shaderPipeline);
+		stall.setMaterial(material);
+		stall.setMesh(mesh);
+		stall.setTranslation(0, 0, -5);
 		
 		Source source = new Source();
 		source.setBuffer(new WavReader().read(new FileInputStream("res/audio/sounds/sample.wav")));
 		source.setRelativeToListener(true);
 		source.setReferenceDistance(10.0F);
 		
-		Entity cube = new Entity() {
-			
-			private float animationState;
-			private boolean up = true;
-			
-			@Override
-			public void update(float delta) {
-				
-				this.rotate(0.0F, 0.2F * delta, 0.0F);
-				this.setTranslation(0.0F, this.up ? (this.animationState += 0.001F) : (this.animationState -= 0.001F), -10.0F);
-				source.setTranslation(this.getTranslation());
-				
-				if(this.animationState > 1) {
-					
-					this.up = false;
-					source.play();
-					
-				} else if(this.animationState < 0) {
-					
-					this.up = true;
-					source.play();
-				}
-			}
-		};
-		cube.setShaderPipeline(shaderPipeline);
-		cube.setMesh(new Box(1, 1, 1));
-		cube.setMaterial(material);
-		
 		Light sun = new Light();
 		sun.setTranslation(0, 10, 0);
 		
-		game.getScene().addEntity(cube);
+		game.getScene().addEntity(stall);
 		game.getScene().setSun(sun);
 	}
 
@@ -136,17 +109,5 @@ public final class HeroicaFabulis extends Game {
 		
 		this.getDisplay().setTitle(this.getTitle() + " (" + this.getCurrentFPS() + ")");
 		OpenAL.getListener().setTranslation(this.getCamera().getTranslation());
-	}
-	
-	private Texture loadTexture(String file) throws IOException {
-		
-		Texture texture = null;
-		
-		try(FileInputStream textureInput = new FileInputStream(new File(String.format("res/textures/%s.png", file)))) {
-			
-			texture = new DefaultTextureReader().read(textureInput);
-		}
-		
-		return texture;
 	}
 }
