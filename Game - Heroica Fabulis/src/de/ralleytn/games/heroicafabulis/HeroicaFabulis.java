@@ -12,9 +12,11 @@ import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.audio.Source;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
+import de.ralleytn.games.heroicafabulis.engine.io.png.PngReader;
 import de.ralleytn.games.heroicafabulis.engine.io.xmesh.XMeshReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Box;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.BasicShaderPipeline;
@@ -75,7 +77,7 @@ public final class HeroicaFabulis extends Game {
 
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
 		
-		Texture colorMap = new DefaultTextureReader().read(new FileInputStream("res/textures/stall.png"));
+		Texture colorMap = new PngReader().read(new FileInputStream("res/textures/stall.png"));
 		
 		Material material = new Material();
 		material.setMinBrightness(0.1F);
@@ -90,6 +92,16 @@ public final class HeroicaFabulis extends Game {
 		stall.setMesh(mesh);
 		stall.setTranslation(0, 0, -10);
 		
+		Entity cube = new Entity();
+		cube.setTranslation(0,0, 10);
+		cube.setMesh(new Box(1, 1, 1));
+		Material material2 = new Material();
+		material2.setMinBrightness(0.1F);
+		material2.setColorMap(new PngReader().read(new FileInputStream("res/textures/test2.png")));
+		material2.setAffectedByLight(true);
+		cube.setShaderPipeline(shaderPipeline);
+		cube.setMaterial(material2);
+		
 		Source source = new Source();
 		source.setBuffer(new WavReader().read(new FileInputStream("res/audio/sounds/sample.wav")));
 		source.setRelativeToListener(true);
@@ -100,6 +112,7 @@ public final class HeroicaFabulis extends Game {
 		
 		game.getScene().addEntity(stall);
 		game.getScene().setSun(sun);
+		game.getScene().addEntity(cube);
 	}
 
 	@Override

@@ -27,11 +27,8 @@ public class PLTE extends PngChunk {
 		int entry = 0;
 		
 		for(int index = 0; index < data.length; index += 3) {
-			
-			float red = 255.0F / data[index];
-			float green = 255.0F / data[index + 1];
-			float blue = 255.0F / data[index + 2];
-			this.palette[entry] = new Color3f(red, green, blue);
+
+			this.palette[entry++] = new Color3f(data[index + 0] & 0xFF, data[index + 1] & 0xFF, data[index + 2] & 0xFF);
 		}
 	}
 	
