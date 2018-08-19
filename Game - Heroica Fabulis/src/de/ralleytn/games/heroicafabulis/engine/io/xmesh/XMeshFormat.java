@@ -63,7 +63,7 @@ public final class XMeshFormat {
 	 */
 	public static final void readSignature(InputStream meshStream) throws IOException {
 		
-		String header = readString(meshStream, 5, StandardCharsets.UTF_8);
+		String header = readString(meshStream, SIGNATURE.length(), StandardCharsets.UTF_8);
 		
 		if(!header.equals(SIGNATURE)) {
 			

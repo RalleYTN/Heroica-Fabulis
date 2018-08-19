@@ -38,7 +38,6 @@ public class PngReader extends TextureReader {
 			int width = ihdr.getWidth();
 			int height = ihdr.getHeight();
 			byte colorType = ihdr.getColorType();
-			byte bitDepth = ihdr.getBitDepth();
 			Color3f[] palette = null;
 			
 			if(ihdr.getInterlaceMethod() == 0) {
@@ -68,46 +67,64 @@ public class PngReader extends TextureReader {
 							
 						IOUtil.write(inflater, inflated);
 						inflated.flush();
-						byte[] prunedData = prune(width, height, bitDepth, inflated.toByteArray());
+						byte[] imageData = inflated.toByteArray();
 						int[] pixels = new int[width * height];
 						int pixel = 0;
 						
 						switch(colorType) {
 						
 							case IHDR.COLOR_TYPE_TRUECOLOR: // FIXME
-								for(int index = 0; index < prunedData.length - 1; index += 3) {
+								for(int index = 0; index < imageData.length; index += 3) {
 									
-									int red = prunedData[index] & 0xFF;
-									int green = prunedData[index + 1] & 0xFF;
-									int blue = prunedData[index + 2] & 0xFF;
-									pixels[pixel] = ((255 & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
-									pixel++;
+									int red = imageData[index] & 0xFF;
+									int green = imageData[index + 1] & 0xFF;
+									int blue = imageData[index + 2] & 0xFF;
+									pixels[pixel++] = ((255 & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
+									
+									if(pixel % width == 0) {
+										
+										index++;
+									}
 								}
 								break;
-							case IHDR.COLOR_TYPE_GREYSCALE:
+							case IHDR.COLOR_TYPE_GREYSCALE: // TODO
 								break;
 							case IHDR.COLOR_TYPE_INDEXED:
-								for(pixel = 0; pixel < pixels.length; pixel++) {
+								for(int index = 0; index < imageData.length; index++) {
 									
-									Color3f paletteEntry = palette[prunedData[pixel]];
+									Color3f paletteEntry = palette[imageData[index]];
 									int red = (int)(paletteEntry.x);
 									int green = (int)(paletteEntry.y);
 									int blue = (int)(paletteEntry.z);
-									pixels[pixel] = ((255 & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
+									pixels[pixel++] = ((255 & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
+									
+									if(pixel % width == 0) {
+										
+										index++;
+									}
 								}
+								
 								break;
 							case IHDR.COLOR_TYPE_TRUEALPHA: // FIXME
-								for(int index = 0; index < prunedData.length; index += 4) {
+								for(int index = 0; index < imageData.length; index += 4) {
 									
-									int red = prunedData[index] & 0xFF;
-									int green = prunedData[index + 1] & 0xFF;
-									int blue = prunedData[index + 2] & 0xFF;
-									int alpha = prunedData[index + 3] & 0xFF;
-									pixels[pixel] = ((alpha & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
-									pixel++;
+									int red = imageData[index];
+									int green = imageData[index + 1];
+									int blue = imageData[index + 2];
+									int alpha = imageData[index + 3];
+									
+									pixels[pixel++] = ((alpha & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
+									System.out.println(Integer.toHexString(pixels[pixel - 1]));
+									
+									if(pixel % width == 0) {
+										
+										index++;
+									}
 								}
+								
 								break;
-							case IHDR.COLOR_TYPE_GREYALPHA:
+							case IHDR.COLOR_TYPE_GREYALPHA: // TODO
+								
 								break;
 						}
 						
@@ -120,23 +137,5 @@ public class PngReader extends TextureReader {
 				throw new IOException("Interlaced PNGs are not supported!");
 			}
 		}
-	}
-	
-	private static final byte[] prune(int width, int height, byte bitDepth, byte[] inflatedData) {
-		
-		byte[] prunedData = new byte[width * height * bitDepth / 8];
-		int index = 0;
-		
-        for(int i = 0; i < prunedData.length; i++) {
-        	
-        	if((i * 8 / bitDepth) % width == 0) {
-        	  
-        		index++; // Skip the filter byte.
-        	}
-          
-        	prunedData[i] = inflatedData[index++];
-        }
-        
-        return prunedData;
 	}
 }

@@ -97,7 +97,7 @@ public final class HeroicaFabulis extends Game {
 		cube.setMesh(new Box(1, 1, 1));
 		Material material2 = new Material();
 		material2.setMinBrightness(0.1F);
-		material2.setColorMap(new PngReader().read(new FileInputStream("res/textures/test2.png")));
+		material2.setColorMap(new PngReader().read(new FileInputStream("res/textures/test.png")));
 		material2.setAffectedByLight(true);
 		cube.setShaderPipeline(shaderPipeline);
 		cube.setMaterial(material2);
