@@ -1,18 +1,21 @@
 package de.ralleytn.games.heroicafabulis.engine.io.png;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.InflaterInputStream;
 
 import de.ralleytn.games.heroicafabulis.engine.io.TextureReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
+import de.ralleytn.games.heroicafabulis.engine.util.IOUtil;
 
 import static de.ralleytn.games.heroicafabulis.engine.io.png.PngFormat.*;
-import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 19.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
 public class PngReader extends TextureReader {
@@ -24,28 +27,49 @@ public class PngReader extends TextureReader {
 			
 			readSignature(imageStream);
 			PngChunk chunk = readChunk(imageStream);
-			if(chunk.getType() != PngChunk.CHUNK_TYPE_IHDR) {
+			if(!(chunk instanceof IHDR)) {
 				
 				throw new IOException("Corrupted PNG file!");
 			}
 			
-			chunk = readChunk(imageStream);
+			IHDR ihdr = (IHDR)chunk;
+			int width = ihdr.getWidth();
+			int height = ihdr.getHeight();
+			byte colorType = ihdr.getColorType();
+			byte bitDepth = ihdr.getBitDepth();
 			
-			while(chunk.getType() != PngChunk.CHUNK_TYPE_IEND) {
-				
-				boolean ancillary = getBit(chunk.getType(), 27);
-				boolean priv = getBit(chunk.getType(), 19); // private
-				boolean reservedSet = getBit(chunk.getType(), 11);
-				
-				if(!reservedSet && !ancillary && !priv) {
-					
-					
-				}
+			if(ihdr.getInterlaceMethod() == 0) {
 				
 				chunk = readChunk(imageStream);
-			}
+				
+				try(ByteArrayOutputStream deflated = new ByteArrayOutputStream()) {
+					
+					while(!(chunk instanceof IEND)) {
+
+						if(chunk instanceof IDAT) {
+							
+							deflated.write(((IDAT)chunk).getData());
+						}
+						
+						chunk = readChunk(imageStream);
+					}
+					
+					try(InflaterInputStream inflater = new InflaterInputStream(new ByteArrayInputStream(deflated.toByteArray()));
+						ByteArrayOutputStream inflated = new ByteArrayOutputStream()) {
+							
+						IOUtil.write(inflater, inflated);
+						inflated.flush();
+						byte[] inflatedData = inflated.toByteArray();
+						int[] pixels = new int[width * height];
+					}
+				}
+				
+				return null;
 			
-			return null;
+			} else {
+				
+				throw new IOException("Interlaced PNGs are not supported!");
+			}
 		}
 	}
 }

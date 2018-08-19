@@ -1,10 +1,12 @@
-package de.ralleytn.games.heroicafabulis.engine.io;
+package de.ralleytn.games.heroicafabulis.engine.io.xmesh;
+
+import static de.ralleytn.games.heroicafabulis.engine.io.xmesh.XMeshFormat.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
+import de.ralleytn.games.heroicafabulis.engine.io.Writer;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
-import static de.ralleytn.games.heroicafabulis.engine.io.XMeshFormat.*;
 
 /**
  * 

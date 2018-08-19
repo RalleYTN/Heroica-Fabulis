@@ -12,8 +12,7 @@ import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.audio.Source;
 import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
-import de.ralleytn.games.heroicafabulis.engine.io.XMeshReader;
-import de.ralleytn.games.heroicafabulis.engine.io.png.PngReader;
+import de.ralleytn.games.heroicafabulis.engine.io.xmesh.XMeshReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
@@ -75,24 +74,21 @@ public final class HeroicaFabulis extends Game {
 		game.getCamera().setBehavior(new FlyCamBehavior());
 
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
-		DefaultTextureReader texReader = new DefaultTextureReader();
-		XMeshReader meshReader = new XMeshReader();
 		
-		Texture colorMap = texReader.read(new FileInputStream("res/textures/stall.png"));
-		new PngReader().read(new FileInputStream("res/textures/stall.png"));
+		Texture colorMap = new DefaultTextureReader().read(new FileInputStream("res/textures/stall.png"));
 		
 		Material material = new Material();
 		material.setMinBrightness(0.1F);
 		material.setColorMap(colorMap);
 		material.setAffectedByLight(true);
 		
-		Mesh mesh = meshReader.read(new FileInputStream("res/meshes/stall.xmesh"));
+		Mesh mesh = new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"));
 		
 		Entity stall = new Entity();
 		stall.setShaderPipeline(shaderPipeline);
 		stall.setMaterial(material);
 		stall.setMesh(mesh);
-		stall.setTranslation(0, 0, -5);
+		stall.setTranslation(0, 0, -10);
 		
 		Source source = new Source();
 		source.setBuffer(new WavReader().read(new FileInputStream("res/audio/sounds/sample.wav")));

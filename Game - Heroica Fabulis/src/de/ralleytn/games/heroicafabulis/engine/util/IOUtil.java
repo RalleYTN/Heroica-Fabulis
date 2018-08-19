@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
 /**
  * Utility class containing methods for working with input and output streams.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 11.08.2018/0.1.0
+ * @version 19.08.2018/0.2.0
  * @since 11.08.2018/0.1.0
  */
 public final class IOUtil {
@@ -32,7 +32,7 @@ public final class IOUtil {
 	 */
 	public static final String readString(InputStream stream, int length, Charset charset) throws IOException {
 
-		return new String(BinaryUtil.toByteArray(read(stream, length)), charset.name());
+		return new String(readBytes(stream, length), charset.name());
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public final class IOUtil {
 	public static final float readFloat(InputStream inputStream, boolean bigEndian) throws IOException {
 		
 		int[] bytes = read(inputStream, 4);
-		return Float.intBitsToFloat(BinaryUtil.getSignedInteger(bytes[3], bytes[2], bytes[1], bytes[0], bigEndian));
+		return Float.intBitsToFloat(BinaryUtil.getSignedInteger(bytes[0], bytes[1], bytes[2], bytes[3], bigEndian));
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public final class IOUtil {
 	public static final double readDouble(InputStream inputStream, boolean bigEndian) throws IOException {
 		
 		int[] bytes = read(inputStream, 8);
-		return Double.longBitsToDouble(BinaryUtil.getSignedLong(bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0], bigEndian));
+		return Double.longBitsToDouble(BinaryUtil.getSignedLong(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bigEndian));
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public final class IOUtil {
 	public static final int readUnsignedShort(InputStream inputStream, boolean bigEndian) throws IOException {
 		
 		int[] bytes = read(inputStream, 2);
-		return BinaryUtil.getUnsignedShort(bytes[1], bytes[0], bigEndian);
+		return BinaryUtil.getUnsignedShort(bytes[0], bytes[1], bigEndian);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public final class IOUtil {
 	public static final long readUnsignedInt(InputStream inputStream, boolean bigEndian) throws IOException {
 		
 		int[] bytes = read(inputStream, 4);
-		return BinaryUtil.getUnsignedInteger(bytes[3], bytes[2], bytes[1], bytes[0], bigEndian);
+		return BinaryUtil.getUnsignedInteger(bytes[0], bytes[1], bytes[2], bytes[3], bigEndian);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public final class IOUtil {
 	public static final short readSignedShort(InputStream inputStream, boolean bigEndian) throws IOException {
 		
 		int[] bytes = read(inputStream, 2);
-		return BinaryUtil.getSignedShort(bytes[1], bytes[0], bigEndian);
+		return BinaryUtil.getSignedShort(bytes[0], bytes[1], bigEndian);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public final class IOUtil {
 	public static final int readSignedInt(InputStream inputStream, boolean bigEndian) throws IOException {
 		
 		int[] bytes = read(inputStream, 4);
-		return BinaryUtil.getSignedInteger(bytes[3], bytes[2], bytes[1], bytes[0], bigEndian);
+		return BinaryUtil.getSignedInteger(bytes[0], bytes[1], bytes[2], bytes[3], bigEndian);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public final class IOUtil {
 	public static final long readSignedLong(InputStream inputStream, boolean bigEndian) throws IOException {
 		
 		int[] bytes = read(inputStream, 8);
-		return BinaryUtil.getSignedLong(bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0], bigEndian);
+		return BinaryUtil.getSignedLong(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bigEndian);
 	}
 	
 	/**
@@ -150,6 +150,21 @@ public final class IOUtil {
 		}
 		
 		return data;
+	}
+	
+	/**
+	 * 
+	 * @param stream
+	 * @param length
+	 * @return
+	 * @throws IOException
+	 * @since 19.08.2018/0.2.0
+	 */
+	public static final byte[] readBytes(InputStream stream, int length) throws IOException {
+		
+		byte[] buffer = new byte[length];
+		stream.read(buffer);
+		return buffer;
 	}
 	
 	/**
@@ -199,7 +214,7 @@ public final class IOUtil {
 	 */
 	public static final void writeBytes(OutputStream stream, long binary64BitSequence, int length, boolean bigEndian) throws IOException {
 		
-		if(!bigEndian) {
+		if(bigEndian) {
 			
 			for(int position = length - 1; position >= 0; position--) {
 				

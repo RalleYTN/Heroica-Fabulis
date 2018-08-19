@@ -48,7 +48,7 @@ public class DefaultTextureReader extends TextureReader {
 				rawPixels[index] = convertARGBtoABGR(rawPixels[index]);
 			}
 			
-			return this.createTexture(this.createBuffer(rawPixels), width, height);
+			return createTexture(createBuffer(rawPixels), width, height);
 		}
 	}
 	

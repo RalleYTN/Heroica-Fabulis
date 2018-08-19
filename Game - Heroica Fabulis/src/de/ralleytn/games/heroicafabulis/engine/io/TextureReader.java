@@ -11,7 +11,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 /**
  * Abstract {@linkplain Reader} that should be extended by all {@linkplain Reader}s that read {@linkplain Texture}s.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 15.08.2018/0.1.0
+ * @version 19.08.2018/0.2.0
  * @since 14.08.2018/0.1.0
  */
 public abstract class TextureReader extends Reader<Texture> {
@@ -22,8 +22,8 @@ public abstract class TextureReader extends Reader<Texture> {
 	 * @return the created {@linkplain IntBuffer}
 	 * @since 14.08.2018/0.1.0
 	 */
-	protected IntBuffer createBuffer(int[] pixels) {
-		
+	protected static final IntBuffer createBuffer(int[] pixels) {
+
 		IntBuffer buffer = ByteBuffer.allocateDirect(pixels.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
 		buffer.put(pixels);
 		buffer.flip();
@@ -39,7 +39,7 @@ public abstract class TextureReader extends Reader<Texture> {
 	 * @return the created {@linkplain Texture}
 	 * @since 14.08.2018/0.1.0
 	 */
-	protected Texture createTexture(IntBuffer buffer, int width, int height) {
+	protected static final Texture createTexture(IntBuffer buffer, int width, int height) {
 		
 		Texture texture = new Texture();
 		texture.bind();

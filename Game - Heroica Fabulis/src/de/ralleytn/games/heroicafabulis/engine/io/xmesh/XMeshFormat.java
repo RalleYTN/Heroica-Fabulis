@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io;
+package de.ralleytn.games.heroicafabulis.engine.io.xmesh;
 
 import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
 import static de.ralleytn.games.heroicafabulis.engine.util.IOUtil.*;
