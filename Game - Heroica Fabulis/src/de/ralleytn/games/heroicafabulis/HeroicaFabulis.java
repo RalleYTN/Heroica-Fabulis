@@ -10,7 +10,6 @@ import de.ralleytn.games.heroicafabulis.engine.Errors;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.audio.Source;
-import de.ralleytn.games.heroicafabulis.engine.io.DefaultTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
 import de.ralleytn.games.heroicafabulis.engine.io.png.PngReader;
 import de.ralleytn.games.heroicafabulis.engine.io.xmesh.XMeshReader;
@@ -77,7 +76,7 @@ public final class HeroicaFabulis extends Game {
 
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
 		
-		Texture colorMap = new PngReader().read(new FileInputStream("res/textures/stall.png"));
+		Texture colorMap = new Texture(new PngReader().read(new FileInputStream("res/textures/stall.png")));
 		
 		Material material = new Material();
 		material.setMinBrightness(0.1F);
@@ -97,7 +96,7 @@ public final class HeroicaFabulis extends Game {
 		cube.setMesh(new Box(1, 1, 1));
 		Material material2 = new Material();
 		material2.setMinBrightness(0.1F);
-		material2.setColorMap(new PngReader().read(new FileInputStream("res/textures/test.png")));
+		material2.setColorMap(new Texture(new PngReader().read(new FileInputStream("res/textures/test.png"))));
 		material2.setAffectedByLight(true);
 		cube.setShaderPipeline(shaderPipeline);
 		cube.setMaterial(material2);

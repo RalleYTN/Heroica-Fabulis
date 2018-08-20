@@ -1,5 +1,16 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering;
 
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glPixelStorei;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+
 import javax.vecmath.Color4f;
 
 import org.lwjgl.opengl.GL11;
@@ -10,12 +21,12 @@ import org.lwjgl.opengl.GL45;
 
 import de.ralleytn.games.heroicafabulis.engine.Bindable;
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
-import de.ralleytn.games.heroicafabulis.engine.io.TextureReader;
+import de.ralleytn.games.heroicafabulis.engine.io.TextureData;
 
 /**
  * Represents an OpenGL texture.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 15.08.2018/0.1.0
+ * @version 20.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
 public class Texture extends LWJGLObject implements Bindable {
@@ -39,11 +50,28 @@ public class Texture extends LWJGLObject implements Bindable {
 	
 	/**
 	 * Instead of using this constructor directly, you should use a {@linkplain TextureReader}.
+	 * @param data
 	 * @since 04.08.2018/0.1.0
 	 */
-	public Texture() {
+	public Texture(TextureData data) {
+		
+		int[] pixels = data.getPixels();
+		IntBuffer buffer = ByteBuffer.allocateDirect(pixels.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
+		buffer.put(pixels);
+		buffer.flip();
+		
+		this.width = data.getWidth();
+		this.height = data.getHeight();
 		
 		this.id = GL11.glGenTextures();
+		this.bind();
+		this.setMinFilter(Texture.FILTER_NEAREST);
+		this.setMagFilter(Texture.FILTER_NEAREST);
+		this.setWrapS(Texture.WRAP_REPEAT);
+		this.setWrapT(Texture.WRAP_REPEAT);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this.width, this.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+		this.unbind();
 	}
 	
 	@Override
@@ -234,5 +262,19 @@ public class Texture extends LWJGLObject implements Bindable {
 	public int getHeight() {
 		
 		return this.height;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 20.08.2018/0.2.0
+	 */
+	public TextureData createTextureData() {
+		
+		TextureData data = new TextureData();
+		data.setSize(this.width, this.height);
+		data.setPixels(this.getData(0));
+		
+		return data;
 	}
 }

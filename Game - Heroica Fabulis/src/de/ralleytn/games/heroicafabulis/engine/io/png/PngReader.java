@@ -8,8 +8,8 @@ import java.util.zip.InflaterInputStream;
 
 import javax.vecmath.Color3f;
 
-import de.ralleytn.games.heroicafabulis.engine.io.TextureReader;
-import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
+import de.ralleytn.games.heroicafabulis.engine.io.Reader;
+import de.ralleytn.games.heroicafabulis.engine.io.TextureData;
 import de.ralleytn.games.heroicafabulis.engine.util.IOUtil;
 
 import static de.ralleytn.games.heroicafabulis.engine.io.png.PngFormat.*;
@@ -17,13 +17,13 @@ import static de.ralleytn.games.heroicafabulis.engine.io.png.PngFormat.*;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 19.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
-public class PngReader extends TextureReader {
+public class PngReader extends Reader<TextureData> {
 	
 	@Override
-	public Texture read(InputStream inputStream) throws IOException {
+	public TextureData read(InputStream inputStream) throws IOException {
 		
 		try(InputStream imageStream = inputStream) {
 			
@@ -128,7 +128,11 @@ public class PngReader extends TextureReader {
 								break;
 						}
 						
-						return createTexture(createBuffer(pixels), width, height);
+						TextureData data = new TextureData();
+						data.setSize(width, height);
+						data.setPixels(pixels);
+						
+						return data;
 					}
 				}
 			

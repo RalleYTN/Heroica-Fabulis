@@ -7,18 +7,16 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
-
 /**
  * Reads a texture under the assumption that the given {@linkplain InputStream} contains either a PNG, JPEG, GIF or BMP.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
-public class DefaultTextureReader extends TextureReader {
+public class DefaultTextureReader extends Reader<TextureData> {
 
 	@Override
-	public Texture read(InputStream inputStream) throws IOException {
+	public TextureData read(InputStream inputStream) throws IOException {
 		
 		try(InputStream imageInputStream = inputStream) {
 			
@@ -41,14 +39,18 @@ public class DefaultTextureReader extends TextureReader {
 			
 			// It is necessary to convert from the ARGB color model to ABGR because it is required by OpenGL.
 			// See BUG0002.
-			int[] rawPixels = image.getRGB(0, 0, width, height, null, 0, width);
+			int[] pixels = image.getRGB(0, 0, width, height, null, 0, width);
 			
-			for(int index = 0; index < rawPixels.length; index++) {
+			for(int index = 0; index < pixels.length; index++) {
 				
-				rawPixels[index] = convertARGBtoABGR(rawPixels[index]);
+				pixels[index] = convertARGBtoABGR(pixels[index]);
 			}
 			
-			return createTexture(createBuffer(rawPixels), width, height);
+			TextureData data = new TextureData();
+			data.setPixels(pixels);
+			data.setSize(width, height);
+			
+			return data;
 		}
 	}
 	
