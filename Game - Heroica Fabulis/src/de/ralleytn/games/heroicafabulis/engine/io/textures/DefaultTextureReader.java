@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io;
+package de.ralleytn.games.heroicafabulis.engine.io.textures;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
+
+import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 
 /**
  * Reads a texture under the assumption that the given {@linkplain InputStream} contains either a PNG, JPEG, GIF or BMP.

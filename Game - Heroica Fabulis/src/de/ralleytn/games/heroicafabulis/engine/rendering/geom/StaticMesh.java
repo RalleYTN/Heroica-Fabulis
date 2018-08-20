@@ -3,13 +3,14 @@ package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
+import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.rendering.GLBuffer;
 import de.ralleytn.games.heroicafabulis.engine.rendering.VertexArray;
 
 /**
  * Represents an unmodifiable mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
 public class StaticMesh extends Mesh {
@@ -20,13 +21,15 @@ public class StaticMesh extends Mesh {
 	/**
 	 * This constructor is not meant to be called directly.
 	 * To create a new mesh use the {@linkplain de.ralleytn.games.heroicafabulis.engine.io.MeshReader}.
-	 * @param vertices the vertices
-	 * @param indices the indices
-	 * @param textureCoordinates the texture coordinates
-	 * @param normals the normals
+	 * @param data
 	 * @since 04.08.2018/0.1.0
 	 */
-	public StaticMesh(float[] vertices, int[] indices, float[] textureCoordinates, float[] normals) {
+	public StaticMesh(MeshData data) {
+		
+		float[] vertices = data.getVertices();
+		int[] indices = data.getIndices();
+		float[] textureCoordinates = data.getTextureCoordinates();
+		float[] normals = data.getNormals();
 		
 		this.vertexArray = new VertexArray();
 		this.vertexCount = vertices.length / 3;
@@ -82,5 +85,29 @@ public class StaticMesh extends Mesh {
 	public boolean hasTextureCoordinates() {
 		
 		return this.textureCoordinates;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 20.08.2018/0.2.0
+	 */
+	public MeshData createMeshData() {
+		
+		MeshData data = new MeshData();
+		data.setVertices(this.vertexArray.getBuffer(0).getDataAsFloats());
+		data.setIndices(this.indexBuffer.getDataAsInts());
+		
+		if(this.hasTextureCoordinates()) {
+			
+			data.setTextureCoordinates(this.vertexArray.getBuffer(1).getDataAsFloats());
+		}
+		
+		if(this.hasNormals()) {
+			
+			data.setNormals(this.vertexArray.getBuffer(2).getDataAsFloats());
+		}
+		
+		return data;
 	}
 }

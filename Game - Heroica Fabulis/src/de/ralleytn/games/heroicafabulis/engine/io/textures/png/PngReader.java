@@ -1,4 +1,6 @@
-package de.ralleytn.games.heroicafabulis.engine.io.png;
+package de.ralleytn.games.heroicafabulis.engine.io.textures.png;
+
+import static de.ralleytn.games.heroicafabulis.engine.io.textures.png.PngFormat.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,10 +11,8 @@ import java.util.zip.InflaterInputStream;
 import javax.vecmath.Color3f;
 
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
-import de.ralleytn.games.heroicafabulis.engine.io.TextureData;
+import de.ralleytn.games.heroicafabulis.engine.io.textures.TextureData;
 import de.ralleytn.games.heroicafabulis.engine.util.IOUtil;
-
-import static de.ralleytn.games.heroicafabulis.engine.io.png.PngFormat.*;
 
 /**
  * 

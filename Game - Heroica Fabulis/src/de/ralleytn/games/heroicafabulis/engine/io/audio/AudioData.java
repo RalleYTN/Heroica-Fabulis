@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io;
+package de.ralleytn.games.heroicafabulis.engine.io.audio;
 
 import java.nio.ByteBuffer;
 
@@ -50,13 +50,9 @@ public class AudioData {
 	 * @param data
 	 * @since 20.08.2018/0.2.0
 	 */
-	public void setData(byte[] data) {
+	public void setData(ByteBuffer data) {
 		
-		ByteBuffer buffer = ByteBuffer.allocateDirect(data.length);
-		buffer.put(data);
-		buffer.rewind();
-		
-		this.data = buffer;
+		this.data = data;
 	}
 	
 	/**

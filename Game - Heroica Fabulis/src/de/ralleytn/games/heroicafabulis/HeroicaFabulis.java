@@ -8,15 +8,17 @@ import de.ralleytn.games.heroicafabulis.engine.EngineException;
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
 import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.audio.ALBuffer;
 import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.audio.Source;
-import de.ralleytn.games.heroicafabulis.engine.io.WavReader;
-import de.ralleytn.games.heroicafabulis.engine.io.png.PngReader;
-import de.ralleytn.games.heroicafabulis.engine.io.xmesh.XMeshReader;
+import de.ralleytn.games.heroicafabulis.engine.io.audio.WavAudioReader;
+import de.ralleytn.games.heroicafabulis.engine.io.meshes.XMeshReader;
+import de.ralleytn.games.heroicafabulis.engine.io.textures.png.PngReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Box;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.StaticMesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.BasicShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
@@ -83,7 +85,7 @@ public final class HeroicaFabulis extends Game {
 		material.setColorMap(colorMap);
 		material.setAffectedByLight(true);
 		
-		Mesh mesh = new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"));
+		Mesh mesh = new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh")));
 		
 		Entity stall = new Entity();
 		stall.setShaderPipeline(shaderPipeline);
@@ -102,7 +104,7 @@ public final class HeroicaFabulis extends Game {
 		cube.setMaterial(material2);
 		
 		Source source = new Source();
-		source.setBuffer(new WavReader().read(new FileInputStream("res/audio/sounds/sample.wav")));
+		source.setBuffer(new ALBuffer(new WavAudioReader().read(new FileInputStream("res/audio/sounds/sample.wav"))));
 		source.setRelativeToListener(true);
 		source.setReferenceDistance(10.0F);
 		

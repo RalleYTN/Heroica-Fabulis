@@ -1,13 +1,9 @@
-package de.ralleytn.games.heroicafabulis.engine.io.ximg;
+package de.ralleytn.games.heroicafabulis.engine.io.textures;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 
 import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
 import static de.ralleytn.games.heroicafabulis.engine.util.IOUtil.*;
@@ -23,9 +19,8 @@ public final class XImgFormat {
 	// BIG ENDIAN
 	// XIMG
 	// Flags
-	//	- 1 = use repeat byte
-	//	- 2 = has alpha
-	//	- 3 = grayscale
+	//	- 1 = has alpha
+	//	- 2 = grayscale
 	// short width
 	// short height
 	// ABGR data
@@ -37,6 +32,12 @@ public final class XImgFormat {
 	 */
 	private XImgFormat() {}
 	
+	/**
+	 * 
+	 * @param imageStream
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
 	public static final void writeSignature(OutputStream imageStream) throws IOException {
 		
 		for(int index = 0; index < SIGNATURE.length(); index++) {
@@ -45,40 +46,76 @@ public final class XImgFormat {
 		}
 	}
 	
-	public static final int writeFlags(OutputStream imageStream, Texture texture) {
+	/**
+	 * 
+	 * @param imageStream
+	 * @param data
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
+	public static final void writeFlags(OutputStream imageStream, TextureData data) throws IOException {
 		
 		int flags = 0b00000000;
-		int[] pixels = texture.getData(0);
-		List<Integer> colors = new ArrayList<>();
-		boolean grayscale = true;
+		flags = setBit(flags, 0, data.hasAlpha());
+		flags = setBit(flags, 1, data.isGrayscale());
+		imageStream.write(flags);
+	}
+	
+	/**
+	 * 
+	 * @param imageStream
+	 * @param data
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
+	public static final void writeSize(OutputStream imageStream, TextureData data) throws IOException {
+		
+		writeShort(imageStream, (short)data.getWidth(), true);
+		writeShort(imageStream, (short)data.getHeight(), true);
+	}
+	
+	/**
+	 * 
+	 * @param imageStream
+	 * @param data
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
+	public static final void writePixels(OutputStream imageStream, TextureData data) throws IOException {
+		
+		boolean hasAlpha = data.hasAlpha();
+		boolean isGrayscale = data.isGrayscale();
+		int[] pixels = data.getPixels();
 
 		for(int index = 0; index < pixels.length; index++) {
 			
-			int alpha = (pixels[index] >> 24) & 0xFF;
-			int blue = (pixels[index] >> 16) & 0xFF;
-			int green = (pixels[index] >> 8) & 0xFF;
-			int red = pixels[index] & 0xFF;
+			int pixel = pixels[index];
 			
-			if(alpha < 255) {
-				
-				flags = setBit(flags, 1, true);
-			}
+			int alpha = (pixel >> 24) & 0xFF;
+			int blue = (pixel >> 16) & 0xFF;
+			int green = (pixel >> 8) & 0xFF;
+			int red = pixel & 0xFF;
 			
-			if(blue != green || blue != red || green != red) {
+			if(hasAlpha && !isGrayscale) {
 				
-				grayscale = false;
-			}
-			
-			if(!colors.contains(pixels[index])) {
+				writeInt(imageStream, pixel, true);
 				
-				colors.add(pixels[index]);
+			} else if(!hasAlpha && !isGrayscale) {
+				
+				imageStream.write(blue);
+				imageStream.write(green);
+				imageStream.write(red);
+				
+			} else if(hasAlpha && isGrayscale) {
+				
+				imageStream.write(alpha);
+				imageStream.write(blue);
+				
+			} else if(!hasAlpha && isGrayscale) {
+				
+				imageStream.write(blue);
 			}
 		}
-		
-		flags = setBit(flags, 0, colors.size() < pixels.length / 2);
-		flags = setBit(flags, 2, grayscale);
-		colors.clear();
-		return flags;
 	}
 	
 	/**
@@ -145,29 +182,22 @@ public final class XImgFormat {
 	 */
 	public static final int[] readPixels(InputStream imageStream, int flags, int width, int height) throws IOException {
 		
-		boolean useRepeatByte = getBit(flags, 0);
-		boolean hasAlpha = getBit(flags, 1);
-		boolean grayscale = getBit(flags, 2);
+		boolean hasAlpha = getBit(flags, 0);
+		boolean grayscale = getBit(flags, 1);
 		int[] pixels = new int[width * height];
 
 		for(int index = 0; index < pixels.length;) {
 			
-			int repeatByte = 1;
 			int pixel = 0;
-			
-			if(useRepeatByte) {
-				
-				repeatByte = imageStream.read();
-			}
-			
+
 			if(hasAlpha && !grayscale) {
 				
 				pixel = readSignedInt(imageStream, true);
 				
 			} else if(hasAlpha && grayscale) {
 				
-				int color = imageStream.read();
 				int alpha = imageStream.read();
+				int color = imageStream.read();
 				
 				pixel = ((alpha & 0xFF) << 24) | ((color & 0xFF) << 16) | ((color & 0xFF) << 8) | (color & 0xFF);
 				
@@ -184,11 +214,8 @@ public final class XImgFormat {
 				int color = imageStream.read();
 				pixel = ((255 & 0xFF) << 24) | ((color & 0xFF) << 16) | ((color & 0xFF) << 8) | (color & 0xFF);
 			}
-				
-			for(int i = 0; i < repeatByte; i++) {
-					
-				pixels[index++] = pixel;
-			}
+
+			pixels[index++] = pixel;
 		}
 		
 		return pixels;

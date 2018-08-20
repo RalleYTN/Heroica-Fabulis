@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io.png;
+package de.ralleytn.games.heroicafabulis.engine.io.textures.png;
 
 import de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil;
 

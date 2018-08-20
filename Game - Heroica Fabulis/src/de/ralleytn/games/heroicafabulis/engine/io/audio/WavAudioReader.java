@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io;
+package de.ralleytn.games.heroicafabulis.engine.io.audio;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -14,18 +14,18 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import static org.lwjgl.openal.AL10.*;
 
-import de.ralleytn.games.heroicafabulis.engine.audio.ALBuffer;
+import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
-public class WavReader extends AudioReader {
+public class WavAudioReader extends Reader<AudioData> {
 
 	@Override
-	public ALBuffer read(InputStream inputStream) throws IOException {
+	public AudioData read(InputStream inputStream) throws IOException {
 		
 		try(BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
 			
@@ -63,7 +63,13 @@ public class WavReader extends AudioReader {
 				total += read;
 			}
 			
-			return createBuffer(format, toByteBuffer(buffer, bit16), sampleRate);
+			AudioData data = new AudioData();
+			data.setChannels(channels);
+			data.setData(createByteBuffer(buffer, bit16));
+			data.setFormat(format);
+			data.setSampleRate(sampleRate);
+			
+			return data;
 			
 		} catch(UnsupportedAudioFileException exception) {
 			
@@ -78,7 +84,7 @@ public class WavReader extends AudioReader {
 	 * @return
 	 * @since 17.08.2018/0.2.0
 	 */
-	private static final ByteBuffer toByteBuffer(byte[] bytes, boolean twoByteData) {
+	private static final ByteBuffer createByteBuffer(byte[] bytes, boolean twoByteData) {
 		
 		ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
 		buffer.order(ByteOrder.nativeOrder());

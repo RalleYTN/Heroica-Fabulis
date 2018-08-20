@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io;
+package de.ralleytn.games.heroicafabulis.engine.io.meshes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,7 @@ import java.util.List;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.StaticMesh;
+import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 import de.ralleytn.games.heroicafabulis.engine.util.ArrayUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
@@ -22,7 +21,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
  * @version 18.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
-public class ObjReader extends Reader<Mesh> {
+public class ObjMeshReader extends Reader<MeshData> {
 
 	private static final String TYPE_VERTEX = "v";
 	private static final String TYPE_TEXCOORD = "vt";
@@ -30,7 +29,7 @@ public class ObjReader extends Reader<Mesh> {
 	private static final String TYPE_FACE = "f";
 	
 	@Override
-	public Mesh read(InputStream inputStream) throws IOException {
+	public MeshData read(InputStream inputStream) throws IOException {
 		
 		List<Vector3f> verticesList = new ArrayList<>();
 		List<Vector2f> textureCoordinatesList = new ArrayList<>();
@@ -95,9 +94,12 @@ public class ObjReader extends Reader<Mesh> {
 			}
 		}
 		
-		float[] vertices = VectorUtil.toArray3f(verticesList);
-		int[] indices = ArrayUtil.toPrimitiveIntArray(indicesList);
+		MeshData data = new MeshData();
+		data.setVertices(VectorUtil.toArray3f(verticesList));
+		data.setIndices(ArrayUtil.toPrimitiveIntArray(indicesList));
+		data.setTextureCoordinates(texCoords);
+		data.setNormals(normals);
 		
-		return new StaticMesh(vertices, indices, texCoords, normals);
+		return data;
 	}
 }

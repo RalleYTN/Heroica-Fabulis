@@ -4,13 +4,14 @@ import java.util.List;
 
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.util.MeshUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
 /**
  * Represents a simple box mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 05.08.2018/0.1.0
  */
 public class Box extends StaticMesh {
@@ -75,7 +76,7 @@ public class Box extends StaticMesh {
 	 */
 	public Box(float width, float height, float depth) {
 
-		super(createVertices(width, height, depth), INDICES, TEXCOORDS, createNormals(width, height, depth));
+		super(createMeshData(width, height, depth));
 	}
 	
 	/**
@@ -145,5 +146,19 @@ public class Box extends StaticMesh {
 			width, 0, 0,
 			width, 0, depth
 		};
+	}
+	
+	private static final MeshData createMeshData(float width, float height, float depth) {
+		
+		float[] vertices = createVertices(width, height, depth);
+		float[] normals = createNormals(width, height, depth);
+		
+		MeshData data = new MeshData();
+		data.setVertices(vertices);
+		data.setNormals(normals);
+		data.setIndices(INDICES);
+		data.setTextureCoordinates(TEXCOORDS);
+		
+		return data;
 	}
 }

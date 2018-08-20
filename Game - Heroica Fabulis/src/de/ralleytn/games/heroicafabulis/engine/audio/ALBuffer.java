@@ -5,11 +5,12 @@ import java.nio.ByteBuffer;
 import static org.lwjgl.openal.AL10.*;
 
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
+import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioData;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public class ALBuffer extends LWJGLObject {
@@ -17,9 +18,10 @@ public class ALBuffer extends LWJGLObject {
 	/**
 	 * @since 17.08.2018/0.2.0
 	 */
-	public ALBuffer() {
+	public ALBuffer(AudioData data) {
 		
 		this.id = alGenBuffers();
+		this.setData(data.getFormat(), data.getData(), data.getSampleRate());
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io.xmesh;
+package de.ralleytn.games.heroicafabulis.engine.io.meshes;
 
 import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
 import static de.ralleytn.games.heroicafabulis.engine.util.IOUtil.*;
@@ -8,12 +8,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
-
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
 public final class XMeshFormat {
@@ -166,7 +164,7 @@ public final class XMeshFormat {
 	 * @throws IOException
 	 * @since 18.08.2018/0.2.0
 	 */
-	public static final void writeSignature(OutputStream meshStream, Mesh data) throws IOException {
+	public static final void writeSignature(OutputStream meshStream, MeshData data) throws IOException {
 		
 		for(int index = 0; index < SIGNATURE.length(); index++) {
 			
@@ -181,12 +179,12 @@ public final class XMeshFormat {
 	 * @throws IOException
 	 * @since 18.08.2018/0.2.0
 	 */
-	public static final void writeFlags(OutputStream meshStream, Mesh data) throws IOException {
+	public static final void writeFlags(OutputStream meshStream, MeshData data) throws IOException {
 		
 		int flags = 0b00000000;
-		flags = setBit(flags, 0, data.hasTextureCoordinates());
-		flags = setBit(flags, 1, data.hasNormals());
-		flags = setBit(flags, 7, !data.hasNormals());
+		flags = setBit(flags, 0, data.getTextureCoordinates() != null);
+		flags = setBit(flags, 1, data.getNormals() != null);
+		flags = setBit(flags, 7, data.getNormals() == null);
 		meshStream.write(flags);
 	}
 	
@@ -195,49 +193,27 @@ public final class XMeshFormat {
 	 * @param meshStream
 	 * @param data
 	 * @throws IOException
-	 * @since 18.08.2018/0.2.0
+	 * @since 20.08.2018/0.2.0
 	 */
-	public static final void writeVertices(OutputStream meshStream, Mesh data) throws IOException {
+	public static final void writeData(OutputStream meshStream, MeshData data) throws IOException {
 		
-		writeInt(meshStream, data.getVertexCount(), true);
-		float[] vertices = data.getVertexArray().getBuffer(0).getDataAsFloats();
+		writeInt(meshStream, data.getVertices().length / 3, true);
 		
-		for(float vertex : vertices) {
+		for(float vertex : data.getVertices()) {
 			
 			writeFloat(meshStream, vertex, true);
 		}
-	}
-	
-	/**
-	 * 
-	 * @param meshStream
-	 * @param data
-	 * @throws IOException
-	 * @since 18.08.2018/0.2.0
-	 */
-	public static final void writeIndices(OutputStream meshStream, Mesh data) throws IOException {
 		
-		writeInt(meshStream, data.getIndexCount(), true);
-		int[] indices = data.getIndexBuffer().getDataAsInts();
+		writeInt(meshStream, data.getIndices().length, true);
 		
-		for(int index : indices) {
+		for(int index : data.getIndices()) {
 			
 			writeInt(meshStream, index, true);
 		}
-	}
-	
-	/**
-	 * 
-	 * @param meshStream
-	 * @param data
-	 * @throws IOException
-	 * @since 18.08.2018/0.2.0
-	 */
-	public static final void writeTexCoords(OutputStream meshStream, Mesh data) throws IOException {
 		
-		if(data.hasTextureCoordinates()) {
+		if(data.getTextureCoordinates() != null) {
 
-			float[] texCoords = data.getVertexArray().getBuffer(1).getDataAsFloats();
+			float[] texCoords = data.getTextureCoordinates();
 			writeInt(meshStream, texCoords.length / 2, true);
 				
 			for(float texCoord : texCoords) {
@@ -245,21 +221,11 @@ public final class XMeshFormat {
 				writeFloat(meshStream, texCoord, true);
 			}
 		}
-	}
-	
-	/**
-	 * 
-	 * @param meshStream
-	 * @param data
-	 * @throws IOException
-	 * @since 18.08.2018/0.2.0
-	 */
-	public static final void writeNormals(OutputStream meshStream, Mesh data) throws IOException {
 		
-		if(data.hasNormals()) {
+		if(data.getNormals() != null) {
 			
-			writeInt(meshStream, data.getFaceCount(), true);
-			float[] normals = data.getVertexArray().getBuffer(2).getDataAsFloats();
+			writeInt(meshStream, data.getIndices().length / 3, true);
+			float[] normals = data.getNormals();
 			
 			for(float normal : normals) {
 				

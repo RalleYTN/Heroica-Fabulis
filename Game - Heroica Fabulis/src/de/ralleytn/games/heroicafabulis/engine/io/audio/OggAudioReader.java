@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io;
+package de.ralleytn.games.heroicafabulis.engine.io.audio;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,31 +7,31 @@ import java.nio.ByteBuffer;
 
 import static org.lwjgl.openal.AL10.*;
 
-import de.ralleytn.games.heroicafabulis.engine.audio.ALBuffer;
+import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 20.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
-public class OggReader extends AudioReader {
+public class OggAudioReader extends Reader<AudioData> {
 
 	@Override
-	public ALBuffer read(InputStream inputStream) throws IOException {
+	public AudioData read(InputStream inputStream) throws IOException {
 		
 		try(OggInputStream oggStream = new OggInputStream(inputStream);
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+			ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 				
 			while(!oggStream.atEnd()) {
 				
-				buffer.write(oggStream.read());
+				out.write(oggStream.read());
 			}
 			
-			byte[] bytes = buffer.toByteArray();
-			ByteBuffer data = ByteBuffer.allocateDirect(bytes.length);
-			data.put(bytes);
-			data.rewind();
+			byte[] bytes = out.toByteArray();
+			ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
+			buffer.put(bytes);
+			buffer.rewind();
 			
 			int channels = oggStream.getOggInfo().channels;
 			int format = 0;
@@ -40,8 +40,14 @@ public class OggReader extends AudioReader {
 			if(channels == 2) format = AL_FORMAT_STEREO16;
 			else if(channels == 1) format = AL_FORMAT_MONO16;
 			else throw new IOException("Only mono and stereo sound is supported!");
+
+			AudioData data = new AudioData();
+			data.setChannels(channels);
+			data.setFormat(format);
+			data.setData(buffer);
+			data.setSampleRate(sampleRate);
 			
-			return createBuffer(format, data, sampleRate);
+			return data;
 		}
 	}
 }

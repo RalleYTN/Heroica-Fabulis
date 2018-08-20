@@ -1,15 +1,13 @@
-package de.ralleytn.games.heroicafabulis.engine.io.xmesh;
+package de.ralleytn.games.heroicafabulis.engine.io.meshes;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.StaticMesh;
 import de.ralleytn.games.heroicafabulis.engine.util.MeshUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
-import static de.ralleytn.games.heroicafabulis.engine.io.xmesh.XMeshFormat.*;
+import static de.ralleytn.games.heroicafabulis.engine.io.meshes.XMeshFormat.*;
 import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
 
 /**
@@ -18,10 +16,10 @@ import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
  * @version 18.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
-public class XMeshReader extends Reader<Mesh> {
+public class XMeshReader extends Reader<MeshData> {
 	
 	@Override
-	public Mesh read(InputStream inputStream) throws IOException {
+	public MeshData read(InputStream inputStream) throws IOException {
 		
 		try(InputStream meshStream = inputStream) {
 			
@@ -37,7 +35,13 @@ public class XMeshReader extends Reader<Mesh> {
 				normals = VectorUtil.toArray3f(MeshUtil.generateNormals(VectorUtil.toList3f(vertices), indices));
 			}
 			
-			return new StaticMesh(vertices, indices, texCoords, normals);
+			MeshData data = new MeshData();
+			data.setIndices(indices);
+			data.setNormals(normals);
+			data.setTextureCoordinates(texCoords);
+			data.setVertices(vertices);
+			
+			return data;
 		}
 	}
 }
