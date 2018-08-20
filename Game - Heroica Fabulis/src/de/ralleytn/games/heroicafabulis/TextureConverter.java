@@ -23,13 +23,18 @@ public class TextureConverter {
 		XImgWriter writer = new XImgWriter();
 		
 		try {
-			writer.write(new FileOutputStream("res/textures/stall.ximg"), reader.read(new FileInputStream("res/textures/stall.png")));
+			long rT1 = System.currentTimeMillis();
+			TextureData data = reader.read(new FileInputStream("res/textures/stall.png"));
+			System.out.println(System.currentTimeMillis() - rT1);
+			writer.write(new FileOutputStream("res/textures/stall.ximg"), data);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		long rt2 = System.currentTimeMillis();
 		TextureData data = new XImgTextureReader().read(new FileInputStream("res/textures/stall.ximg"));
+		System.out.println(System.currentTimeMillis() - rt2);
 		BufferedImage image = new BufferedImage(data.getWidth(), data.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		int index = 0;
 		
