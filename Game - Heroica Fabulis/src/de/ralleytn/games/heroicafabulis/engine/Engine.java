@@ -2,6 +2,10 @@ package de.ralleytn.games.heroicafabulis.engine;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -21,7 +25,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Class which is used to start and stop the engine. It also contains methods and constants that are important in the rest of the engine but
  * not really utility methods.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 21.08.2018/0.2.0
  * @since 31.07.2018/0.1.0
  */
 public final class Engine {
@@ -46,6 +50,8 @@ public final class Engine {
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final Vector3f AXIS_Z = new Vector3f(0.0F, 0.0F, 1.0F);
+	
+	private static final List<ExecutorService> EXECUTORS = new ArrayList<>();
 	
 	private static boolean RUNNING;
 	private static Game GAME;
@@ -100,6 +106,12 @@ public final class Engine {
 			OpenAL.destroy();
 			glfwTerminate();
 			glfwSetErrorCallback(null).free();
+			
+			for(ExecutorService executor : EXECUTORS) {
+				
+				executor.shutdown();
+			}
+			
 			RUNNING = false;
 		}
 	}
@@ -169,6 +181,29 @@ public final class Engine {
 			
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 21.08.2018/0.2.0
+	 */
+	public static final ExecutorService createExecutor() {
+		
+		ExecutorService executor = Executors.newSingleThreadExecutor(runnable -> {
+			
+			Thread thread = new Thread(runnable);
+			thread.setUncaughtExceptionHandler((t, exception) -> {
+				
+				Errors.print(exception);
+				Errors.prompt(exception, Errors.log(exception, getErrLogDirectory()));
+				Engine.stop();
+			});
+			thread.setDaemon(false);
+			return thread;
+		});
+		EXECUTORS.add(executor);
+		return executor;
 	}
 	
 	/**

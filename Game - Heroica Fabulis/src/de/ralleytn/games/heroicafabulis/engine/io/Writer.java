@@ -2,15 +2,21 @@ package de.ralleytn.games.heroicafabulis.engine.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
+
+import de.ralleytn.games.heroicafabulis.engine.Engine;
 
 /**
  * Represents a very abstract writer.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 12.08.2018/0.1.0
+ * @version 21.08.2018/0.2.0
  * @since 11.08.2018/0.1.0
  * @param <T> the type that should be written
  */
 public abstract class Writer<T> {
+	
+	private static final ExecutorService EXECUTOR = Engine.createExecutor();
 	
 	/**
 	 * Writes the given data on the {@linkplain OutputStream}.
@@ -20,4 +26,28 @@ public abstract class Writer<T> {
 	 * @since 11.08.2018/0.1.0
 	 */
 	public abstract void write(OutputStream outputStream, T data) throws IOException;
+	
+	/**
+	 * 
+	 * @param outputStream
+	 * @param data
+	 * @param onError
+	 * @param onFinish
+	 * @since 0.2.0
+	 */
+	public final void writeInBackground(OutputStream outputStream, T data, Consumer<IOException> onError, Runnable onFinish) {
+		
+		EXECUTOR.execute(() ->  {
+			
+			try {
+				
+				this.write(outputStream, data);
+				onFinish.run();
+				
+			} catch(IOException exception) {
+				
+				onError.accept(exception);
+			}
+		});
+	}
 }
