@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.engine.util;
 /**
  * Utility class containing methods for math problems that don't fit in any of the other utility classes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 21.08.2018/0.2.0
  * @since 16.08.2018/0.1.0
  */
 public final class MathUtil {
@@ -23,5 +23,17 @@ public final class MathUtil {
 	public static final int smallestCommonFactor(int x, int y) {
 		
 	    return (y == 0) ? x : smallestCommonFactor(y, x % y);
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @return
+	 * @since 21.08.2018/0.2.0
+	 */
+	public static final int fastfloor(double x) {
+		
+		int xAsInt = (int)x;
+		return x < xAsInt ? xAsInt - 1 : xAsInt;
 	}
 }
