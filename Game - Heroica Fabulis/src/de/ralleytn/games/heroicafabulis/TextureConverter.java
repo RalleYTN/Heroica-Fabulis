@@ -13,14 +13,14 @@ import javax.swing.JLabel;
 import de.ralleytn.games.heroicafabulis.engine.io.textures.DefaultTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.io.textures.TextureData;
 import de.ralleytn.games.heroicafabulis.engine.io.textures.XImgTextureReader;
-import de.ralleytn.games.heroicafabulis.engine.io.textures.XImgWriter;
+import de.ralleytn.games.heroicafabulis.engine.io.textures.XImgTextureWriter;
 
 public class TextureConverter {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		
 		DefaultTextureReader reader = new DefaultTextureReader();
-		XImgWriter writer = new XImgWriter();
+		XImgTextureWriter writer = new XImgTextureWriter();
 		
 		try {
 			long rT1 = System.currentTimeMillis();

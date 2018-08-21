@@ -11,12 +11,13 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 /**
  * Represents the currently processed universe.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 21.08.2018/0.2.0
  * @since 31.07.2018/0.1.0
  */
 public class Scene implements Renderable, Updatable {
 
 	private List<Entity> entities;
+	private List<Terrain> terrain;
 	private Light sun;
 	
 	/**
@@ -25,6 +26,7 @@ public class Scene implements Renderable, Updatable {
 	public Scene() {
 		
 		this.entities = new ArrayList<>();
+		this.terrain = new ArrayList<>();
 	}
 	
 	/**
@@ -35,6 +37,16 @@ public class Scene implements Renderable, Updatable {
 	public void addEntity(Entity entity) {
 		
 		this.entities.add(entity);
+	}
+	
+	/**
+	 * 
+	 * @param terrain
+	 * @since 21.08.2018/0.2.0
+	 */
+	public void addTerrain(Terrain terrain) {
+		
+		this.terrain.add(terrain);
 	}
 	
 	/**
@@ -58,12 +70,23 @@ public class Scene implements Renderable, Updatable {
 	}
 	
 	/**
+	 * 
+	 * @param terrain
+	 * @since 21.08.2018/0.2.0
+	 */
+	public void removeTerrain(Terrain terrain) {
+		
+		this.terrain.remove(terrain);
+	}
+	
+	/**
 	 * Removes everything from the scene.
 	 * @since 05.08.2018/0.1.0
 	 */
 	public void clear() {
 		
 		this.entities.clear();
+		this.terrain.clear();
 		this.sun = null;
 	}
 	
@@ -86,6 +109,8 @@ public class Scene implements Renderable, Updatable {
 				graphics.renderEntity(entity);
 			}
 		}
+		
+		graphics.renderTerrain(this.terrain);
 	}
 	
 	/**
@@ -95,6 +120,16 @@ public class Scene implements Renderable, Updatable {
 	public List<Entity> getEntities() {
 		
 		return Collections.unmodifiableList(this.entities);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 21.08.2018/0.2.0
+	 */
+	public List<Terrain> getTerrain() {
+		
+		return Collections.unmodifiableList(this.terrain);
 	}
 	
 	/**

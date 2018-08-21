@@ -12,7 +12,7 @@ import static de.ralleytn.games.heroicafabulis.engine.io.textures.XImgFormat.*;
  * @version 20.08.2018/0.2.0
  * @since 19.08.2018/0.2.0
  */
-public class XImgWriter extends Writer<TextureData> {
+public class XImgTextureWriter extends Writer<TextureData> {
 	
 	@Override
 	public void write(OutputStream outputStream, TextureData data) throws IOException {

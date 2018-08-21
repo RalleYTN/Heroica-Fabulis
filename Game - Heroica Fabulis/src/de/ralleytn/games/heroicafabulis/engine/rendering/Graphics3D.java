@@ -3,11 +3,14 @@ package de.ralleytn.games.heroicafabulis.engine.rendering;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.List;
+
 import javax.vecmath.Color4f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Game;
+import de.ralleytn.games.heroicafabulis.engine.Terrain;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
@@ -109,6 +112,45 @@ public class Graphics3D {
 		}
 		
 		this.renderMesh(mesh);
+	}
+	
+	public void renderTerrain(List<Terrain> terrain) {
+		
+		for(Terrain tile : terrain) {
+			
+			Mesh mesh = tile.getMesh();
+			Material material = tile.getMaterial();
+			ShaderPipeline shaderPipeline = tile.getShaderPipeline();
+			
+			if(this.shaderPipeline != shaderPipeline) {
+				
+				this.setShaderPipeline(shaderPipeline);
+			}
+			
+			if(this.shaderPipeline != null) {
+				
+				this.shaderPipeline.setUniform("projection", this.game.getCamera().getProjectionMatrix());
+				this.shaderPipeline.setUniform("transformation", tile.getTransformationMatrix());
+				this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
+				this.shaderPipeline.setUniform("terrainVertexCount", (float)Terrain.VERTEX_COUNT);
+				
+				if(material != this.material || this.material.hasChanged()) {
+					
+					this.material = material;
+					this.material.applyToShader(this.shaderPipeline);
+				}
+				
+				Light light = this.game.getScene().getSun();
+				
+				if(light != null) {
+					
+					this.shaderPipeline.setUniform("lightPos", light.getTranslation());
+					this.shaderPipeline.setUniform("lightColor", light.getColor());
+				}
+			}
+			
+			this.renderMesh(mesh);
+		}
 	}
 	
 	/**

@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 21.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
 public final class XMeshFormat {
@@ -94,10 +94,11 @@ public final class XMeshFormat {
 		float[] vertices = new float[length];
 		byte[] data = new byte[length * Float.BYTES];
 		int readBytes = meshStream.read(data);
+		int vertexIndex = 0;
 		
 		for(int index = 0; index < readBytes; index += Float.BYTES) {
 			
-			vertices[index] = Float.intBitsToFloat(((data[index] & 0xFF) << 24) | ((data[index + 1] & 0xFF) << 16) | ((data[index + 2] & 0xFF) << 8) | (data[index + 3] & 0xFF));
+			vertices[vertexIndex++] = Float.intBitsToFloat(((data[index] & 0xFF) << 24) | ((data[index + 1] & 0xFF) << 16) | ((data[index + 2] & 0xFF) << 8) | (data[index + 3] & 0xFF));
 		}
 		
 		return vertices;
@@ -112,11 +113,15 @@ public final class XMeshFormat {
 	 */
 	public static final int[] readIndices(InputStream meshStream) throws IOException {
 		
-		int[] indices = new int[readSignedInt(meshStream, true)];
+		int length = readSignedInt(meshStream, true);
+		int[] indices = new int[length];
+		byte[] data = new byte[length * Integer.BYTES];
+		int readBytes = meshStream.read(data);
+		int indexIndex = 0; // wat
 		
-		for(int index = 0; index < indices.length; index++) {
+		for(int index = 0; index < readBytes; index += Integer.BYTES) {
 			
-			indices[index] = readSignedInt(meshStream, true);
+			indices[indexIndex++] = ((data[index] & 0xFF) << 24) | ((data[index + 1] & 0xFF) << 16) | ((data[index + 2] & 0xFF) << 8) | (data[index + 3] & 0xFF);
 		}
 		
 		return indices;
@@ -131,11 +136,15 @@ public final class XMeshFormat {
 	 */
 	public static final float[] readTexCoords(InputStream meshStream) throws IOException {
 		
-		float[] texCoords = new float[readSignedInt(meshStream, true) * 2];
+		int length = readSignedInt(meshStream, true) * 2;
+		float[] texCoords = new float[length];
+		byte[] data = new byte[length * Float.BYTES];
+		int readBytes = meshStream.read(data);
+		int texCoordIndex = 0;
 		
-		for(int index = 0; index < texCoords.length; index++) {
+		for(int index = 0; index < readBytes; index += Float.BYTES) {
 			
-			texCoords[index] = readFloat(meshStream, true);
+			texCoords[texCoordIndex++] = Float.intBitsToFloat(((data[index] & 0xFF) << 24) | ((data[index + 1] & 0xFF) << 16) | ((data[index + 2] & 0xFF) << 8) | (data[index + 3] & 0xFF));
 		}
 		
 		return texCoords;
@@ -150,11 +159,15 @@ public final class XMeshFormat {
 	 */
 	public static final float[] readNormals(InputStream meshStream) throws IOException {
 		
-		float[] normals = new float[readSignedInt(meshStream, true) * 3];
+		int length = readSignedInt(meshStream, true) * 3;
+		float[] normals = new float[length];
+		byte[] data = new byte[length * Float.BYTES];
+		int readBytes = meshStream.read(data);
+		int normalIndex = 0;
 		
-		for(int index = 0; index < normals.length; index++) {
+		for(int index = 0; index < readBytes; index += Float.BYTES) {
 			
-			normals[index] = readFloat(meshStream, true);
+			normals[normalIndex++] = Float.intBitsToFloat(((data[index] & 0xFF) << 24) | ((data[index + 1] & 0xFF) << 16) | ((data[index + 2] & 0xFF) << 8) | (data[index + 3] & 0xFF));
 		}
 		
 		return normals;
