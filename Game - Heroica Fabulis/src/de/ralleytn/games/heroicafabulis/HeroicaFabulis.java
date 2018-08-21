@@ -13,6 +13,7 @@ import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
 import de.ralleytn.games.heroicafabulis.engine.audio.Source;
 import de.ralleytn.games.heroicafabulis.engine.io.audio.WavAudioReader;
 import de.ralleytn.games.heroicafabulis.engine.io.meshes.XMeshReader;
+import de.ralleytn.games.heroicafabulis.engine.io.textures.XImgTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.io.textures.png.PngReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
@@ -27,7 +28,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 /**
  * This is the main class in which the game components are assembled and the game is started.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 21.08.2018/0.2.0
  * @since 30.07.2018/0.1.0
  */
 public final class HeroicaFabulis extends Game {
@@ -78,7 +79,7 @@ public final class HeroicaFabulis extends Game {
 
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
 		
-		Texture colorMap = new Texture(new PngReader().read(new FileInputStream("res/textures/stall.png")));
+		Texture colorMap = new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/stall.ximg")));
 		
 		Material material = new Material();
 		material.setMinBrightness(0.1F);

@@ -114,7 +114,6 @@ public class PngReader extends Reader<TextureData> {
 									int alpha = imageData[index + 3];
 									
 									pixels[pixel++] = ((alpha & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
-									System.out.println(Integer.toHexString(pixels[pixel - 1]));
 									
 									if(pixel % width == 0) {
 										

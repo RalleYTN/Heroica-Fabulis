@@ -1,5 +1,6 @@
 package de.ralleytn.games.heroicafabulis.engine.io.textures;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,7 +12,7 @@ import static de.ralleytn.games.heroicafabulis.engine.util.IOUtil.*;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 19.08.2018/0.2.0
+ * @version 21.08.2018/0.2.0
  * @since 19.08.2018/0.2.0
  */
 public final class XImgFormat {
@@ -23,7 +24,9 @@ public final class XImgFormat {
 	//	- 2 = grayscale
 	// short width
 	// short height
-	// ABGR data
+	// for width * height
+	//	3 byte repeat count
+	// 	ABGR data
 	
 	/** @since 19.08.2018/0.2.0 */ public static final String SIGNATURE = "XIMG";
 	
@@ -84,38 +87,140 @@ public final class XImgFormat {
 	public static final void writePixels(OutputStream imageStream, TextureData data) throws IOException {
 		
 		boolean hasAlpha = data.hasAlpha();
-		boolean isGrayscale = data.isGrayscale();
+		boolean grayscale = data.isGrayscale();
 		int[] pixels = data.getPixels();
-
-		for(int index = 0; index < pixels.length; index++) {
-			
-			int pixel = pixels[index];
-			
-			int alpha = (pixel >> 24) & 0xFF;
-			int blue = (pixel >> 16) & 0xFF;
-			int green = (pixel >> 8) & 0xFF;
-			int red = pixel & 0xFF;
-			
-			if(hasAlpha && !isGrayscale) {
-				
-				writeInt(imageStream, pixel, true);
-				
-			} else if(!hasAlpha && !isGrayscale) {
-				
-				imageStream.write(blue);
-				imageStream.write(green);
-				imageStream.write(red);
-				
-			} else if(hasAlpha && isGrayscale) {
-				
-				imageStream.write(alpha);
-				imageStream.write(blue);
-				
-			} else if(!hasAlpha && isGrayscale) {
-				
-				imageStream.write(blue);
-			}
+		
+			   if(!hasAlpha && !grayscale) {writePixelsBGR(imageStream, pixels);
+		} else if( hasAlpha && !grayscale) {writePixelsABGR(imageStream, pixels);
+		} else if(!hasAlpha &&  grayscale) {writePixelsG(imageStream, pixels);
+		} else if( hasAlpha &&  grayscale) {writePixelsAG(imageStream, pixels);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param imageStream
+	 * @param pixels
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void writePixelsABGR(OutputStream imageStream, int[] pixels) throws IOException {
+		
+		int index = 1;
+		int oldPixel = pixels[0];
+		int repeat = 1;
+		
+		do {
+			
+			int pixel = pixels[index++];
+			
+			if(oldPixel != pixel || repeat == 255) {
+
+				imageStream.write(repeat);
+				imageStream.write((oldPixel >> 24) & 0xFF);
+				imageStream.write((oldPixel >> 16) & 0xFF);
+				imageStream.write((oldPixel >> 8) & 0xFF);
+				imageStream.write(oldPixel & 0xFF);
+				repeat = 0;
+			}
+			
+			oldPixel = pixel;
+			++repeat;
+			
+		} while(index < pixels.length);
+	}
+	
+	/**
+	 * 
+	 * @param imageStream
+	 * @param pixels
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void writePixelsBGR(OutputStream imageStream, int[] pixels) throws IOException {
+		
+		int index = 1;
+		int oldPixel = pixels[0];
+		int repeat = 1;
+		
+		do {
+			
+			int pixel = pixels[index++];
+			
+			if(oldPixel != pixel || repeat == 255) {
+
+				imageStream.write(repeat);
+				imageStream.write((oldPixel >> 16) & 0xFF);
+				imageStream.write((oldPixel >> 8) & 0xFF);
+				imageStream.write(oldPixel & 0xFF);
+				repeat = 0;
+			}
+			
+			oldPixel = pixel;
+			++repeat;
+			
+		} while(index < pixels.length);
+	}
+	
+	/**
+	 * 
+	 * @param imageStream
+	 * @param pixels
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void writePixelsAG(OutputStream imageStream, int[] pixels) throws IOException {
+		
+		int index = 1;
+		int oldPixel = pixels[0];
+		int repeat = 1;
+		
+		do {
+			
+			int pixel = pixels[index++];
+			
+			if(oldPixel != pixel || repeat == 255) {
+
+				imageStream.write(repeat);
+				imageStream.write((oldPixel >> 24) & 0xFF);
+				imageStream.write(oldPixel & 0xFF);
+				repeat = 0;
+			}
+			
+			oldPixel = pixel;
+			++repeat;
+			
+		} while(index < pixels.length);
+	}
+	
+	/**
+	 * 
+	 * @param imageStream
+	 * @param pixels
+	 * @throws IOException
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void writePixelsG(OutputStream imageStream, int[] pixels) throws IOException {
+		
+		int index = 1;
+		int oldPixel = pixels[0];
+		int repeat = 1;
+		
+		do {
+			
+			int pixel = pixels[index++];
+			
+			if(oldPixel != pixel || repeat == 255) {
+
+				imageStream.write(repeat);
+				imageStream.write(oldPixel & 0xFF);
+				repeat = 0;
+			}
+			
+			oldPixel = pixel;
+			++repeat;
+			
+		} while(index < pixels.length);
 	}
 	
 	/**
@@ -186,38 +291,112 @@ public final class XImgFormat {
 		boolean grayscale = getBit(flags, 1);
 		int[] pixels = new int[width * height];
 
-		for(int index = 0; index < pixels.length;) {
+		try(ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
 			
-			int pixel = 0;
-
-			if(hasAlpha && !grayscale) {
-				
-				pixel = readSignedInt(imageStream, true);
-				
-			} else if(hasAlpha && grayscale) {
-				
-				int alpha = imageStream.read();
-				int color = imageStream.read();
-				
-				pixel = ((alpha & 0xFF) << 24) | ((color & 0xFF) << 16) | ((color & 0xFF) << 8) | (color & 0xFF);
-				
-			} else if(!hasAlpha && !grayscale) {
-				
-				int blue = imageStream.read();
-				int green = imageStream.read();
-				int red = imageStream.read();
-				
-				pixel = ((255 & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
-				
-			} else if(!hasAlpha && grayscale) {
-				
-				int color = imageStream.read();
-				pixel = ((255 & 0xFF) << 24) | ((color & 0xFF) << 16) | ((color & 0xFF) << 8) | (color & 0xFF);
+			write(imageStream, buffer);
+			byte[] data = buffer.toByteArray();
+			
+				   if(!hasAlpha && !grayscale) {readPixelsBGR(data, pixels);
+			} else if( hasAlpha && !grayscale) {readPixelsABGR(data, pixels);
+			} else if(!hasAlpha &&  grayscale) {readPixelsG(data, pixels);
+			} else if( hasAlpha &&  grayscale) {readPixelsAG(data, pixels);
 			}
-
-			pixels[index++] = pixel;
 		}
 		
 		return pixels;
+	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @param pixels
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void readPixelsABGR(byte[] data, int[] pixels) {
+		
+		int index = 0;
+		
+		for(int offset = 0; offset < data.length; offset += 5) {
+			
+			int repetitions = data[offset] & 0xFF;
+			byte alpha = data[offset + 1];
+			byte blue = data[offset + 2];
+			byte green = data[offset + 3];
+			byte red = data[offset + 4];
+			
+			for(int repetition = 0; repetition < repetitions; repetition++) {
+				
+				pixels[index++] = ((alpha & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @param pixels
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void readPixelsBGR(byte[] data, int[] pixels) {
+		
+		int index = 0;
+		
+		for(int offset = 0; offset < data.length; offset += 4) {
+			
+			int repetitions = data[offset] & 0xFF;
+			byte blue = data[offset + 1];
+			byte green = data[offset + 2];
+			byte red = data[offset + 3];
+			
+			for(int repetition = 0; repetition < repetitions; repetition++) {
+				
+				pixels[index++] = ((255 & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @param pixels
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void readPixelsG(byte[] data, int[] pixels) {
+		
+		int index = 0;
+		
+		for(int offset = 0; offset < data.length; offset += 2) {
+			
+			int repetitions = data[offset] & 0xFF;
+			byte color = data[offset + 1];
+			
+			for(int repetition = 0; repetition < repetitions; repetition++) {
+				
+				pixels[index++] = ((255 & 0xFF) << 24) | ((color & 0xFF) << 16) | ((color & 0xFF) << 8) | (color & 0xFF);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @param pixels
+	 * @since 20.08.2018/0.2.0
+	 */
+	private static final void readPixelsAG(byte[] data, int[] pixels) {
+		
+		int index = 0;
+		
+		for(int offset = 0; offset < data.length; offset += 3) {
+			
+			int repetitions = data[offset] & 0xFF;
+			byte alpha = data[offset + 1];
+			byte color = data[offset + 2];
+			
+			for(int repetition = 0; repetition < repetitions; repetition++) {
+				
+				pixels[index++] = ((alpha & 0xFF) << 24) | ((color & 0xFF) << 16) | ((color & 0xFF) << 8) | (color & 0xFF);
+			}
+		}
 	}
 }
