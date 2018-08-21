@@ -90,11 +90,14 @@ public final class XMeshFormat {
 	 */
 	public static final float[] readVertices(InputStream meshStream) throws IOException {
 		
-		float[] vertices = new float[readSignedInt(meshStream, true) * 3];
+		int length = readSignedInt(meshStream, true) * 3;
+		float[] vertices = new float[length];
+		byte[] data = new byte[length * Float.BYTES];
+		int readBytes = meshStream.read(data);
 		
-		for(int index = 0; index < vertices.length; index++) {
+		for(int index = 0; index < readBytes; index += Float.BYTES) {
 			
-			vertices[index] = readFloat(meshStream, true);
+			vertices[index] = Float.intBitsToFloat(((data[index] & 0xFF) << 24) | ((data[index + 1] & 0xFF) << 16) | ((data[index + 2] & 0xFF) << 8) | (data[index + 3] & 0xFF));
 		}
 		
 		return vertices;

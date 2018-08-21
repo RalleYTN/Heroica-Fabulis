@@ -51,6 +51,37 @@ public class SimplexNoise {
 	 * 
 	 * @param x
 	 * @param y
+	 * @param width
+	 * @param height
+	 * @param resX
+	 * @param resY
+	 * @return
+	 * @since 21.08.2018/0.2.0
+	 */
+	public float[][] generateHeightMap(int x, int y, int width, int height, int resX, int resY) {
+		
+		int xEnd = x + width;
+		int yEnd = y + height;
+		
+		float[][] result = new float[resX][resY];
+		
+		for(int i = 0; i < resX; i++) {
+			
+			for(int j = 0; j < resY; j++) {
+				
+				int posX = x + i * ((xEnd - x) / resX);
+				int posY = y + j * ((yEnd - y) / resY);
+				result[i][j] = Math.min(1.0F, Math.max(0.0F, (float)(0.5D * (1 + this.getNoise(posX, posY)))));
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
 	 * @return
 	 * @since 21.08.2018/0.2.0
 	 */
@@ -63,7 +94,7 @@ public class SimplexNoise {
 			result += this.octaves[index].noise(x / this.frequencys[index], y / this.frequencys[index]) * this.amplitudes[index];
 		}
 		
-		return Math.max(0.0D, Math.min(1.0F, result));
+		return result;
 	}
 	
 	/**
@@ -86,7 +117,7 @@ public class SimplexNoise {
 	        result += this.octaves[index].noise(x / frequency, y / frequency, z / frequency) * amplitude;
 		}
 		
-		return Math.max(0.0D, Math.min(1.0F, result));
+		return result;
 	}
 	
 	/**
