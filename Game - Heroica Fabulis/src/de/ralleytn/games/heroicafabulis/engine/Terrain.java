@@ -40,6 +40,7 @@ public class Terrain extends RenderableObject {
 		this.position = new Vector2f(gridX * SIZE, gridY * SIZE);
 		this.mesh = this.generateMesh();
 		this.transformation = new Matrix4f();
+		this.rendering = true;
 		this.calcTransformationMatrix();
 	}
 	
