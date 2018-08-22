@@ -11,13 +11,14 @@ import static org.lwjgl.openal.ALC10.*;
 import org.lwjgl.openal.ALCCapabilities;
 
 /**
- * 
+ * Class containing methods that affect OpenAL as a whole and cannot be encapsulated.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 17.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public final class OpenAL {
 
+	// Collected them here so that I dont have to search for them.
 	/** @since 17.08.2018/0.2.0 */ public static final int DISTANCE_MODEL_NONE = AL_NONE;
 	/** @since 17.08.2018/0.2.0 */ public static final int DISTANCE_MODEL_INVERSE = AL_INVERSE_DISTANCE;
 	/** @since 17.08.2018/0.2.0 */ public static final int DISTANCE_MODEL_INVERSE_CLAMPED = AL_INVERSE_DISTANCE_CLAMPED;
@@ -36,7 +37,7 @@ public final class OpenAL {
 	private OpenAL() {}
 
 	/**
-	 * 
+	 * Creates the OpenAL context.
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final void create() {
@@ -49,6 +50,7 @@ public final class OpenAL {
 	}
 
 	/**
+	 * Destroys the OpenAL context.
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final void destroy() {
@@ -58,8 +60,8 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @param model
+	 * Sets the distance model.
+	 * @param model the distance model
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final void setDistanceModel(int model) {
@@ -68,8 +70,8 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @param factor
+	 * Sets the Doppler factor.
+	 * @param factor the Doppler factor
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final void setDopplerFactor(float factor) {
@@ -78,8 +80,8 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @param speed
+	 * Sets the speed of sound.
+	 * @param speed the speed of sound
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final void setSpeedOfSound(float speed) {
@@ -88,8 +90,7 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the listener
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Listener getListener() {
@@ -98,8 +99,7 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the device ID
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final long getDeviceID() {
@@ -108,8 +108,7 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the context ID
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final long getContextID() {
@@ -118,8 +117,7 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the distance model
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final int getDistanceModel() {
@@ -128,8 +126,7 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the Doppler factor
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final float getDopplerFactor() {
@@ -138,8 +135,7 @@ public final class OpenAL {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the speed of sound
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final float getSpeedOfSound() {

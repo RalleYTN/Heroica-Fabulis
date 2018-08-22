@@ -9,7 +9,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.geom.StaticMesh;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
- * 
+ * Represents a terrain tile in the grid.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 22.08.2018/0.2.0
  * @since 21.08.2018/0.2.0
@@ -17,13 +17,13 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 public class Terrain extends RenderableObject {
 
 	/**
-	 * 
+	 * The size of the grid in OpenGL units.
 	 * @since 21.08.2018/0.2.0
 	 */
 	public static final float SIZE = 200;
 	
 	/**
-	 * 
+	 * The amount of vertices along each axis.
 	 * @since 21.08.2018/0.2.0
 	 */
 	public static final int VERTEX_COUNT = 64;
@@ -31,9 +31,8 @@ public class Terrain extends RenderableObject {
 	private Vector2f position;
 	
 	/**
-	 * 
-	 * @param gridX
-	 * @param gridY
+	 * @param gridX position of the tile on the X axis of the world grid
+	 * @param gridY position of the tile on the Y axis of the world grid
 	 * @since 21.08.2018/0.2.0
 	 */
 	public Terrain(int gridX, int gridY) {
@@ -56,8 +55,8 @@ public class Terrain extends RenderableObject {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Generates the mesh for this tile.
+	 * @return the generated mesh
 	 * @since 21.08.2018/0.2.0
 	 */
 	private final StaticMesh generateMesh() {

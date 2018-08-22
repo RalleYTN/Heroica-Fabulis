@@ -199,7 +199,7 @@ public final class Engine {
 				Errors.prompt(exception, Errors.log(exception, getErrLogDirectory()));
 				Engine.stop();
 			});
-			thread.setDaemon(false);
+			thread.setDaemon(true);
 			return thread;
 		});
 		EXECUTORS.add(executor);

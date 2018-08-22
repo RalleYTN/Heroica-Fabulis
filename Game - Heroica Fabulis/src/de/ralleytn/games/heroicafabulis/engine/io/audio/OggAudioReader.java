@@ -45,7 +45,7 @@ public class OggAudioReader extends Reader<AudioData> {
 			data.setChannels(channels);
 			data.setFormat(format);
 			data.setData(buffer);
-			data.setSampleRate(sampleRate);
+			data.setFrequency(sampleRate);
 			
 			return data;
 		}

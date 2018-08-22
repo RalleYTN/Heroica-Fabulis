@@ -28,11 +28,11 @@ public abstract class Writer<T> {
 	public abstract void write(OutputStream outputStream, T data) throws IOException;
 	
 	/**
-	 * 
-	 * @param outputStream
-	 * @param data
-	 * @param onError
-	 * @param onFinish
+	 * Executed {@link #write(OutputStream, Object)} in the thread-pool for writing to the hard drive.
+	 * @param outputStream the {@linkplain OutputStream}
+	 * @param data the data to write
+	 * @param onError is executed when an error occurred
+	 * @param onFinish is executed when the operation finished without errors
 	 * @since 0.2.0
 	 */
 	public final void writeInBackground(OutputStream outputStream, T data, Consumer<IOException> onError, Runnable onFinish) {

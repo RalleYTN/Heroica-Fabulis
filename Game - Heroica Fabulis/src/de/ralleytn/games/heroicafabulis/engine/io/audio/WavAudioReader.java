@@ -67,7 +67,7 @@ public class WavAudioReader extends Reader<AudioData> {
 			data.setChannels(channels);
 			data.setData(createByteBuffer(buffer, bit16));
 			data.setFormat(format);
-			data.setSampleRate(sampleRate);
+			data.setFrequency(sampleRate);
 			
 			return data;
 			

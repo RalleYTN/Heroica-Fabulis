@@ -28,10 +28,10 @@ public abstract class Reader<T> {
 	public abstract T read(InputStream inputStream) throws IOException;
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @param onError
-	 * @param onFinish
+	 * Executes {@link #read(InputStream)} in the thread-pool for reading from the hard drive.
+	 * @param inputStream the {@linkplain InputStream} contains the data of {@code T}
+	 * @param onError is executed when an array occurs
+	 * @param onFinish is executed when the operation finished without errors
 	 * @since 21.08.2018/0.2.0
 	 */
 	public final void readInBackground(InputStream inputStream, Consumer<IOException> onError, Consumer<T> onFinish) {

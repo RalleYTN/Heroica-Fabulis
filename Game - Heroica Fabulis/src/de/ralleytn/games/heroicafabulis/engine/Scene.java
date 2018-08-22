@@ -1,7 +1,6 @@
 package de.ralleytn.games.heroicafabulis.engine;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
@@ -11,13 +10,12 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 /**
  * Represents the currently processed universe.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 22.08.2018/0.2.0
  * @since 31.07.2018/0.1.0
  */
 public class Scene implements Renderable, Updatable {
 
-	private List<Entity> entities;
-	private List<Terrain> terrain;
+	private List<RenderableObject> objects;
 	private Light sun;
 	
 	/**
@@ -25,8 +23,7 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public Scene() {
 		
-		this.entities = new ArrayList<>();
-		this.terrain = new ArrayList<>();
+		this.objects = new ArrayList<>();
 	}
 	
 	/**
@@ -36,17 +33,17 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public void addEntity(Entity entity) {
 		
-		this.entities.add(entity);
+		this.objects.add(entity);
 	}
 	
 	/**
-	 * 
-	 * @param terrain
+	 * Adds a terrain tile.
+	 * @param terrain the terrain tile
 	 * @since 21.08.2018/0.2.0
 	 */
 	public void addTerrain(Terrain terrain) {
 		
-		this.terrain.add(terrain);
+		this.objects.add(terrain);
 	}
 	
 	/**
@@ -66,17 +63,17 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public void removeEntity(Entity entity) {
 		
-		this.entities.remove(entity);
+		this.objects.remove(entity);
 	}
 	
 	/**
-	 * 
-	 * @param terrain
+	 * Removes a terrain tile.
+	 * @param terrain the terrain ntile
 	 * @since 21.08.2018/0.2.0
 	 */
 	public void removeTerrain(Terrain terrain) {
 		
-		this.terrain.remove(terrain);
+		this.objects.remove(terrain);
 	}
 	
 	/**
@@ -85,51 +82,32 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public void clear() {
 		
-		this.entities.clear();
-		this.terrain.clear();
+		this.objects.clear();
 		this.sun = null;
 	}
 	
 	@Override
 	public void update(float delta) {
 		
-		for(Entity entity : this.entities) {
+		for(RenderableObject object : this.objects) {
 
-			entity.update(delta);
+			if(object instanceof Entity) {
+				
+				((Entity)object).update(delta);
+			}
 		}
 	}
 
 	@Override
 	public void render(Graphics3D graphics) {
 		
-		for(Entity entity : this.entities) {
+		for(RenderableObject object : this.objects) {
 			
-			if(entity.isRendering()) {
+			if(object.isRendering()) {
 				
-				graphics.renderEntity(entity);
+				graphics.renderObject(object);
 			}
 		}
-		
-		graphics.renderTerrain(this.terrain);
-	}
-	
-	/**
-	 * @return an unmodifiable list of the entities in the scene
-	 * @since 11.08.2018/0.1.0
-	 */
-	public List<Entity> getEntities() {
-		
-		return Collections.unmodifiableList(this.entities);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 21.08.2018/0.2.0
-	 */
-	public List<Terrain> getTerrain() {
-		
-		return Collections.unmodifiableList(this.terrain);
 	}
 	
 	/**

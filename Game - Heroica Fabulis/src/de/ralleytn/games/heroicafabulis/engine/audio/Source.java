@@ -9,13 +9,15 @@ import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 import de.ralleytn.games.heroicafabulis.engine.Movable;
 
 /**
- * 
+ * Represents a source from which audio is emitted.
+ * 3D audio can only be simulated with mono sounds.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 17.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public class Source extends LWJGLObject implements Movable {
 
+	// Collected them here because I don't like searching for this stuff.
 	/** @since 17.08.2018/0.2.0 */ public static final int TYPE_UNDETERMINED = AL_UNDETERMINED;
 	/** @since 17.08.2018/0.2.0 */ public static final int TYPE_STATIC = AL_STATIC;
 	/** @since 17.08.2018/0.2.0 */ public static final int TYPE_STREAMING = AL_STREAMING;
@@ -44,6 +46,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
+	 * Plays the audio.
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void play() {
@@ -52,6 +55,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
+	 * Pauses the audio.
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void pause() {
@@ -60,6 +64,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
+	 * Stops the audio.
+	 * Basically pauses the audio and sets the position back to {@code 0}.
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void stop() {
@@ -68,6 +74,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
+	 * Rewinds the audio.
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void rewind() {
@@ -76,8 +83,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @param buffer
+	 * Sets the {@linkplain ALBuffer} with the audio data.
+	 * @param buffer the {@linkplain ALBuffer}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setBuffer(ALBuffer buffer) {
@@ -88,8 +95,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @param gain
+	 * Sets the volume of the source.
+	 * @param gain the volume
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setGain(float gain) {
@@ -98,8 +105,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param pitch
+	 * Sets the pitch.
+	 * @param pitch the pitch.
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setPitch(float pitch) {
@@ -108,8 +115,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param maxDistance
+	 * Sets the distance in which the sound can still be heard.
+	 * @param maxDistance the distance
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setMaxDistance(float maxDistance) {
@@ -118,8 +125,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param rolloffFactor
+	 * Sets the roll-of factor.
+	 * @param rolloffFactor the roll-off factor
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setRolloffFactor(float rolloffFactor) {
@@ -128,8 +135,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param minGain
+	 * Sets the minimum volume.
+	 * @param minGain the minimum volume
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setMinGain(float minGain) {

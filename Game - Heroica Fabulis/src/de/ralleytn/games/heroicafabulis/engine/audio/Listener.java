@@ -7,7 +7,7 @@ import static org.lwjgl.openal.AL10.*;
 import de.ralleytn.games.heroicafabulis.engine.Translatable;
 
 /**
- * 
+ * Represents the listener for sound.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 17.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
@@ -20,8 +20,8 @@ public final class Listener implements Translatable {
 	Listener() {}
 
 	/**
-	 * 
-	 * @param gain
+	 * Sets the master volume.
+	 * @param gain the master volume
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setGain(float gain) {
@@ -30,8 +30,8 @@ public final class Listener implements Translatable {
 	}
 
 	/**
-	 * 
-	 * @param orientation
+	 * Sets the orientation.
+	 * @param orientation the orientation
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setOrientation(int orientation) {
@@ -40,10 +40,11 @@ public final class Listener implements Translatable {
 	}
 
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Sets the velocity of the listener.
+	 * Required for Doppler effect.
+	 * @param x velocity on X axis
+	 * @param y velocity on Y axis
+	 * @param z velocity on Z axis
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void setVelocity(float x, float y, float z) {
@@ -78,8 +79,7 @@ public final class Listener implements Translatable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the master volume
 	 * @since 17.08.2018/0.2.0
 	 */
 	public float getGain() {
@@ -88,8 +88,7 @@ public final class Listener implements Translatable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the orientation
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getOrientation() {
@@ -98,8 +97,7 @@ public final class Listener implements Translatable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the velocity
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Vector3f getVelocity() {

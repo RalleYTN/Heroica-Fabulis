@@ -67,7 +67,7 @@ public class AiffAudioReader extends Reader<AudioData> {
 			AudioData data = new AudioData();
 			data.setChannels(channels);
 			data.setFormat(format);
-			data.setSampleRate(sampleRate);
+			data.setFrequency(sampleRate);
 			data.setData(createByteBuffer(buffer, bit16, audioFormat.getEncoding()));
 			
 			return data;

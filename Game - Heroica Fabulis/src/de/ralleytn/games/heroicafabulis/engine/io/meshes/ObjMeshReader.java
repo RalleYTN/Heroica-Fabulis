@@ -12,7 +12,7 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
-import de.ralleytn.games.heroicafabulis.engine.util.ArrayUtil;
+import de.ralleytn.games.heroicafabulis.engine.util.ListUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
 /**
@@ -96,7 +96,7 @@ public class ObjMeshReader extends Reader<MeshData> {
 		
 		MeshData data = new MeshData();
 		data.setVertices(VectorUtil.toArray3f(verticesList));
-		data.setIndices(ArrayUtil.toPrimitiveIntArray(indicesList));
+		data.setIndices(ListUtil.toPrimitiveIntArray(indicesList));
 		data.setTextureCoordinates(texCoords);
 		data.setNormals(normals);
 		

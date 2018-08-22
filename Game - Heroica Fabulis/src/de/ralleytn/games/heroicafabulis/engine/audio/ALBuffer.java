@@ -1,27 +1,25 @@
 package de.ralleytn.games.heroicafabulis.engine.audio;
 
-import java.nio.ByteBuffer;
-
 import static org.lwjgl.openal.AL10.*;
 
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioData;
 
 /**
- * 
+ * Represents a buffer from OpenAL.
+ * An {@linkplain ALBuffer} stores audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 22.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public class ALBuffer extends LWJGLObject {
-
+	
 	/**
 	 * @since 17.08.2018/0.2.0
 	 */
-	public ALBuffer(AudioData data) {
+	public ALBuffer() {
 		
 		this.id = alGenBuffers();
-		this.setData(data.getFormat(), data.getData(), data.getSampleRate());
 	}
 	
 	@Override
@@ -31,20 +29,17 @@ public class ALBuffer extends LWJGLObject {
 	}
 	
 	/**
-	 * 
-	 * @param format
-	 * @param data
-	 * @param frequency
+	 * Sets the data.
+	 * @param data the audio data
 	 * @since 17.08.2018/0.2.0
 	 */
-	public void setData(int format, ByteBuffer data, int frequency) {
+	public void setData(AudioData data) {
 		
-		alBufferData(this.id, format, data, frequency);
+		alBufferData(this.id, data.getFormat(), data.getData(), data.getFrequency());
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the frequency
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getFrequency() {
@@ -53,8 +48,7 @@ public class ALBuffer extends LWJGLObject {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the size of the buffer
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getSize() {
@@ -63,8 +57,7 @@ public class ALBuffer extends LWJGLObject {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the channel count
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getChannels() {
@@ -73,8 +66,7 @@ public class ALBuffer extends LWJGLObject {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the bit depth of the audio
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getBitDepth() {

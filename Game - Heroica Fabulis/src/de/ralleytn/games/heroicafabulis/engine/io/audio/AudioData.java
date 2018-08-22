@@ -5,14 +5,14 @@ import java.nio.ByteBuffer;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 22.08.2018/0.2.0
  * @since 20.08.2018/0.2.0
  */
 public class AudioData {
 
 	private int format;
 	private int channels;
-	private int sampleRate;
+	private int frequency;
 	private ByteBuffer data;
 	
 	/**
@@ -37,12 +37,12 @@ public class AudioData {
 	
 	/**
 	 * 
-	 * @param sampleRate
+	 * @param frequency
 	 * @since 20.08.2018/0.2.0
 	 */
-	public void setSampleRate(int sampleRate) {
+	public void setFrequency(int frequency) {
 		
-		this.sampleRate = sampleRate;
+		this.frequency = frequency;
 	}
 	
 	/**
@@ -80,9 +80,9 @@ public class AudioData {
 	 * @return
 	 * @since 20.08.2018/0.2.0
 	 */
-	public int getSampleRate() {
+	public int getFrequency() {
 		
-		return this.sampleRate;
+		return this.frequency;
 	}
 	
 	/**

@@ -18,6 +18,7 @@ public abstract class RenderableObject {
 	protected Material material;
 	protected ShaderPipeline shaderPipeline;
 	protected Matrix4f transformation;
+	protected boolean rendering;
 	
 	/**
 	 * Calculates the transformation matrix.
@@ -25,6 +26,16 @@ public abstract class RenderableObject {
 	 * @since 22.08.2018/0.2.0
 	 */
 	protected abstract void calcTransformationMatrix();
+	
+	/**
+	 * Enables or disables rendering for this object.
+	 * @param rendering {@code true} to enable rendering, {@code false} to disable it
+	 * @since 22.08.2018/0.2.0
+	 */
+	public void setRendering(boolean rendering) {
+		
+		this.rendering = rendering;
+	}
 
 	/**
 	 * Sets the shader pipeline.
@@ -80,5 +91,14 @@ public abstract class RenderableObject {
 	public ShaderPipeline getShaderPipeline() {
 		
 		return this.shaderPipeline;
+	}
+	
+	/**
+	 * @return {@code true} if this entity is rendering, else {@code false}
+	 * @since 22.08.2018/0.2.0
+	 */
+	public boolean isRendering() {
+		
+		return this.rendering;
 	}
 }

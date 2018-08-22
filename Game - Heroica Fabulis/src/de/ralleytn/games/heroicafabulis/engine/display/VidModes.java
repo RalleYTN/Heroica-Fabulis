@@ -58,9 +58,8 @@ public final class VidModes {
 	}
 	
 	/**
-	 * 
-	 * @param options
-	 * @return
+	 * @param options the game options
+	 * @return the vid mode from the game options
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final GLFWVidMode getVidMode(Options options) {

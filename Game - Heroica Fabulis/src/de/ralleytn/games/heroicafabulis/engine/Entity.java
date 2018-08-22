@@ -17,7 +17,6 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	private Vector3f translation;
 	private Vector3f rotation;
 	private Vector3f scale;
-	private boolean rendering;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -30,16 +29,6 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		this.transformation = new Matrix4f();
 		this.rendering = true;
 		this.calcTransformationMatrix();
-	}
-	
-	/**
-	 * Enables or disables rendering for this entity.
-	 * @param rendering {@code true} to enable rendering, {@code false} to disable it
-	 * @since 30.07.2018/0.1.0
-	 */
-	public void setRendering(boolean rendering) {
-		
-		this.rendering = rendering;
 	}
 	
 	/**
@@ -204,15 +193,6 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	public Vector3f getScale() {
 		
 		return this.scale;
-	}
-	
-	/**
-	 * @return {@code true} if this entity is rendering, else {@code false}
-	 * @since 10.08.2018/0.1.0
-	 */
-	public boolean isRendering() {
-		
-		return this.rendering;
 	}
 
 	@Override
