@@ -109,9 +109,8 @@ public abstract class Game implements Updatable {
 				glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 				
 				deltaTimer2 = System.nanoTime();
-				delta = (double)(deltaTimer2 - deltaTimer1) / 10000000;
+				delta = (deltaTimer2 - deltaTimer1) / 1000000.0D;
 				deltaTimer1 = deltaTimer2;
-				
 				float fDelta = (float)delta;
 				
 				this.scene.update(fDelta);

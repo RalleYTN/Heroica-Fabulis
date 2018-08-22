@@ -1,7 +1,7 @@
 package de.ralleytn.games.heroicafabulis.engine.io.textures;
 
 /**
- * 
+ * Represents texture data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 20.08.2018/0.2.0
  * @since 20.08.2018/0.2.0
@@ -13,12 +13,12 @@ public class TextureData {
 	private int[] pixels;
 	private boolean alpha;
 	private boolean grayscale;
-	private boolean foundOut;
+	private boolean checked;
 	
 	/**
-	 * 
-	 * @param width
-	 * @param height
+	 * Sets the image size.
+	 * @param width the image width in pixels
+	 * @param height the image height in pixels
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setSize(int width, int height) {
@@ -28,8 +28,8 @@ public class TextureData {
 	}
 	
 	/**
-	 * 
-	 * @param pixels
+	 * Sets the pixels.
+	 * @param pixels the pixels.
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setPixels(int[] pixels) {
@@ -38,8 +38,7 @@ public class TextureData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the image width in pixels
 	 * @since 20.08.2018/0.2.0
 	 */
 	public int getWidth() {
@@ -48,8 +47,7 @@ public class TextureData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the image height in pixels
 	 * @since 20.08.2018/0.2.0
 	 */
 	public int getHeight() {
@@ -58,8 +56,7 @@ public class TextureData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the pixels
 	 * @since 20.08.2018/0.2.0
 	 */
 	public int[] getPixels() {
@@ -68,39 +65,39 @@ public class TextureData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the image has alpha, else {@code false}
 	 * @since 20.08.2018/0.2.0
 	 */
 	public boolean hasAlpha() {
 		
-		if(!this.foundOut) {
+		if(!this.checked) {
 			
-			this.findOutIfGrayscaleAndHasAlpha();
+			this.checkIfGrayscaleAndHasAlpha();
 		}
 		
 		return this.alpha;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the image is grayscale, else {@code false}
 	 * @since 20.08.2018/0.2.0
 	 */
 	public boolean isGrayscale() {
 		
-		if(!this.foundOut) {
+		if(!this.checked) {
 			
-			this.findOutIfGrayscaleAndHasAlpha();
+			this.checkIfGrayscaleAndHasAlpha();
 		}
 		
 		return this.grayscale;
 	}
 	
 	/**
+	 * Goes through every pixel in the image to find out if this image has alpha and/or if it is a grayscale image.
+	 * Normally called only once.
 	 * @since 20.08.2018/0.2.0
 	 */
-	private final void findOutIfGrayscaleAndHasAlpha() {
+	private final void checkIfGrayscaleAndHasAlpha() {
 		
 		boolean grayscale = true;
 		
@@ -124,6 +121,6 @@ public class TextureData {
 		}
 		
 		this.grayscale = grayscale;
-		this.foundOut = true;
+		this.checked = true;
 	}
 }

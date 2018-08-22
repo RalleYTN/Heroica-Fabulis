@@ -10,7 +10,7 @@ import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
 import static de.ralleytn.games.heroicafabulis.engine.util.IOUtil.*;
 
 /**
- * 
+ * Contains methods for reading and writing XIMG image files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 21.08.2018/0.2.0
  * @since 19.08.2018/0.2.0
@@ -36,9 +36,9 @@ public final class XImgFormat {
 	private XImgFormat() {}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @throws IOException
+	 * Writes the XIMG signature.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	public static final void writeSignature(OutputStream imageStream) throws IOException {
@@ -50,10 +50,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param data
-	 * @throws IOException
+	 * Writes the flags on the stream.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @param data the flags
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	public static final void writeFlags(OutputStream imageStream, TextureData data) throws IOException {
@@ -65,10 +65,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param data
-	 * @throws IOException
+	 * Write the image size on the stream.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @param data the texture data
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	public static final void writeSize(OutputStream imageStream, TextureData data) throws IOException {
@@ -78,10 +78,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param data
-	 * @throws IOException
+	 * Writes the pixel data on the stream.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @param data the texture data
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	public static final void writePixels(OutputStream imageStream, TextureData data) throws IOException {
@@ -98,10 +98,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param pixels
-	 * @throws IOException
+	 * Writes the pixel data as binary ABGR data.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @param pixels the pixel data
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void writePixelsABGR(OutputStream imageStream, int[] pixels) throws IOException {
@@ -131,10 +131,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param pixels
-	 * @throws IOException
+	 * Writes the pixel data as binary BGR data.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @param pixels the pixel data
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void writePixelsBGR(OutputStream imageStream, int[] pixels) throws IOException {
@@ -163,10 +163,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param pixels
-	 * @throws IOException
+	 * Writes the pixel data as binary grayscale with alpha data.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @param pixels the pixel data
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void writePixelsAG(OutputStream imageStream, int[] pixels) throws IOException {
@@ -194,10 +194,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param pixels
-	 * @throws IOException
+	 * Writes the pixel data as grayscale binary data.
+	 * @param imageStream the {@linkplain OutputStream}
+	 * @param pixels the pixel data
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void writePixelsG(OutputStream imageStream, int[] pixels) throws IOException {
@@ -224,9 +224,9 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @throws IOException
+	 * Reads the XIMG signature from the stream.
+	 * @param imageStream the {@linkplain InputStream} with the image data
+	 * @throws IOException if an I/O error occurred
 	 * @since 19.08.2018/0.2.0
 	 */
 	public static final void readSignature(InputStream imageStream) throws IOException {
@@ -240,10 +240,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @return
-	 * @throws IOException
+	 * Reads the flags from the stream.
+	 * @param imageStream the {@linkplain InputStream} with the image data
+	 * @return the flags
+	 * @throws IOException if an I/O error occurred
 	 * @since 19.08.2018/0.2.0
 	 */
 	public static final int readFlags(InputStream imageStream) throws IOException {
@@ -252,10 +252,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @return
-	 * @throws IOException
+	 * Reads the image width from the stream.
+	 * @param imageStream the {@linkplain InputStream} with the image data
+	 * @return the image width
+	 * @throws IOException if an I/O error occurred
 	 * @since 19.08.2018/0.2.0
 	 */
 	public static final int readWidth(InputStream imageStream) throws IOException {
@@ -264,10 +264,10 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @return
-	 * @throws IOException
+	 * Reads the image height from the stream.
+	 * @param imageStream the {@linkplain InputStream} with the image data
+	 * @return the image height
+	 * @throws IOException if an I/O error occurred
 	 * @since 19.08.2018/0.2.0
 	 */
 	public static final int readHeight(InputStream imageStream) throws IOException {
@@ -276,13 +276,13 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param imageStream
-	 * @param flags
-	 * @param width
-	 * @param height
-	 * @return
-	 * @throws IOException
+	 * Reads the pixel data from the stream.
+	 * @param imageStream the {@linkplain InputStream} with the image data
+	 * @param flags the flags
+	 * @param width the image width
+	 * @param height the image height
+	 * @return the pixel data
+	 * @throws IOException if an I/O error occurred
 	 * @since 19.08.2018/0.2.0
 	 */
 	public static final int[] readPixels(InputStream imageStream, int flags, int width, int height) throws IOException {
@@ -307,9 +307,9 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param data
-	 * @param pixels
+	 * Converts the binary data into an {@code int} array with the pixel data.
+	 * @param data the binary image data
+	 * @param pixels the target pixel data array
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void readPixelsABGR(byte[] data, int[] pixels) {
@@ -332,9 +332,9 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param data
-	 * @param pixels
+	 * Converts the binary data into an {@code int} array with the pixel data.
+	 * @param data the binary image data
+	 * @param pixels the target pixel data array
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void readPixelsBGR(byte[] data, int[] pixels) {
@@ -356,9 +356,9 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param data
-	 * @param pixels
+	 * Converts the binary data into an {@code int} array with the pixel data.
+	 * @param data the binary image data
+	 * @param pixels the target pixel data array
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void readPixelsG(byte[] data, int[] pixels) {
@@ -378,9 +378,9 @@ public final class XImgFormat {
 	}
 	
 	/**
-	 * 
-	 * @param data
-	 * @param pixels
+	 * Converts the binary data into an {@code int} array with the pixel data.
+	 * @param data the binary image data
+	 * @param pixels the target pixel data array
 	 * @since 20.08.2018/0.2.0
 	 */
 	private static final void readPixelsAG(byte[] data, int[] pixels) {

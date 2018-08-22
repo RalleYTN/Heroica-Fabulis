@@ -7,7 +7,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.Writer;
 import static de.ralleytn.games.heroicafabulis.engine.io.textures.XImgFormat.*;
 
 /**
- * 
+ * Writer for XIMG image files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 20.08.2018/0.2.0
  * @since 19.08.2018/0.2.0

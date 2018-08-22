@@ -57,9 +57,9 @@ public class DefaultTextureReader extends Reader<TextureData> {
 	}
 	
 	/**
-	 * 
-	 * @param pixel
-	 * @return
+	 * Converts a pixel from ARGB to ABGR.
+	 * @param pixel the pixel that should be converted
+	 * @return the converted pixel
 	 * @since 18.08.2018/0.2.0
 	 */
 	private static final int convertARGBtoABGR(int pixel) {

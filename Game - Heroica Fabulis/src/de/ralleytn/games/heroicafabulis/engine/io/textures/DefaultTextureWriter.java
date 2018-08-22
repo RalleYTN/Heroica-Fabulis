@@ -15,7 +15,7 @@ import javax.imageio.stream.ImageOutputStream;
 import de.ralleytn.games.heroicafabulis.engine.io.Writer;
 
 /**
- * 
+ * Can write images in PNG, JPG, BMP and GIF format.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 21.08.2018/0.2.0
  * @since 21.08.2018/0.2.0
@@ -65,9 +65,9 @@ public class DefaultTextureWriter extends Writer<TextureData> {
 	}
 	
 	/**
-	 * 
-	 * @param data
-	 * @return
+	 * Creates a {@linkplain BufferedImage} based on an instance of {@linkplain TextureData}.
+	 * @param data the texture data
+	 * @return the created {@linkplain BufferedImage}
 	 * @since 21.08.2018/0.2.0
 	 */
 	private static final BufferedImage toBufferedImage(TextureData data) {
@@ -93,10 +93,10 @@ public class DefaultTextureWriter extends Writer<TextureData> {
 	}
 	
 	/**
-	 * 
-	 * @param image
-	 * @param hasAlpha
-	 * @return
+	 * Makes sure that if an image has no alpha that the color model will be RGB instead of ARGB.
+	 * @param image the image
+	 * @param hasAlpha {@code true} if the image has alpha, else {@code false}
+	 * @return the converted image.
 	 * @since 21.08.2018/0.2.0
 	 */
 	private final BufferedImage convertImage(BufferedImage image, boolean hasAlpha) {
@@ -117,8 +117,8 @@ public class DefaultTextureWriter extends Writer<TextureData> {
 	}
 	
 	/**
-	 * 
-	 * @param format
+	 * Sets the output format.
+	 * @param format the output format
 	 * @since 21.08.2018/0.2.0
 	 */
 	public void setOutputFormat(String format) {
@@ -127,8 +127,7 @@ public class DefaultTextureWriter extends Writer<TextureData> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the output format
 	 * @since 21.08.2018/0.2.0
 	 */
 	public String getOutputFormat() {
