@@ -2,6 +2,7 @@ package de.ralleytn.games.heroicafabulis.engine;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +26,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Class which is used to start and stop the engine. It also contains methods and constants that are important in the rest of the engine but
  * not really utility methods.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 22.08.2018/0.2.0
  * @since 31.07.2018/0.1.0
  */
 public final class Engine {
@@ -74,7 +75,7 @@ public final class Engine {
 
 		if(!RUNNING) {
 			
-			setupUncaughtExceptionHandler(game);
+			setupUncaughtExceptionHandler();
 			setSystemLAF();
 			loadNatives(game.getNativeDirectory());
 			Localization.loadAvailableLocales(game.getLocaleDirectory());
@@ -117,16 +118,15 @@ public final class Engine {
 	}
 	
 	/**
-	 * 
-	 * @param game
+	 * Sets up an {@linkplain UncaughtExceptionHandler} for the main thread.
 	 * @since 18.08.2018/0.2.0
 	 */
-	private static final void setupUncaughtExceptionHandler(Game game) {
+	private static final void setupUncaughtExceptionHandler() {
 		
 		Thread.currentThread().setUncaughtExceptionHandler((Thread thread, Throwable exception) -> {
 			
 			Errors.print(exception);
-			Errors.prompt(exception, Errors.log(exception, game.getErrLogDirectory()));
+			Errors.prompt(exception, Errors.log(exception, getErrLogDirectory()));
 			Engine.stop();
 		});
 	}
@@ -184,8 +184,8 @@ public final class Engine {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Creates and registers a new {@linkplain ExecutorService}.
+	 * @return the created {@linkplain ExecutorService}
 	 * @since 21.08.2018/0.2.0
 	 */
 	public static final ExecutorService createExecutor() {

@@ -16,7 +16,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.Loadable;
 import de.ralleytn.games.heroicafabulis.engine.io.Savable;
 
 /**
- * 
+ * Manages the game options.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 17.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
@@ -37,9 +37,8 @@ public class Options implements Loadable, Savable {
 	private String defaultResource;
 	
 	/**
-	 * 
-	 * @param file
-	 * @param defaultResource
+	 * @param file the options file
+	 * @param defaultResource resource on the class path with the default options
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Options(File file, String defaultResource) {
@@ -50,9 +49,9 @@ public class Options implements Loadable, Savable {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @param value
+	 * Sets an option.
+	 * @param key option name
+	 * @param value option value
 	 * @since 17.08.2018/0.2.0
 	 */
 	public void set(String key, Object value) {
@@ -108,9 +107,8 @@ public class Options implements Loadable, Savable {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param key option name
+	 * @return the option value as {@code boolean}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public boolean getBoolean(String key) {
@@ -119,9 +117,8 @@ public class Options implements Loadable, Savable {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param key option name
+	 * @return the option value as {@code float}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public float getFloat(String key) {
@@ -130,9 +127,8 @@ public class Options implements Loadable, Savable {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param key option name
+	 * @return the option value as {@code int}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getInt(String key) {
@@ -141,9 +137,8 @@ public class Options implements Loadable, Savable {
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param key option name
+	 * @return the option value as {@linkplain String}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public String getString(String key) {
@@ -152,9 +147,8 @@ public class Options implements Loadable, Savable {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * @param value an option value
+	 * @return the datatype of this value
 	 * @since 17.08.2018/0.2.0
 	 */
 	private static final char getDataType(Object value) {
@@ -166,10 +160,9 @@ public class Options implements Loadable, Savable {
 	}
 	
 	/**
-	 * 
-	 * @param dataType
-	 * @param toParse
-	 * @return
+	 * @param dataType the data type of the option value
+	 * @param toParse the raw option value data
+	 * @return the option value
 	 * @since 17.08.2018/0.2.0
 	 */
 	private static final Object getValue(char dataType, String toParse) {

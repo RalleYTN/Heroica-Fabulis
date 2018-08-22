@@ -4,25 +4,19 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
-import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
-import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
  * Represents an entity. An entity is an object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 15.08.2018/0.1.0
+ * @version 22.08.2018/0.2.0
  * @since 30.07.2018/0.1.0
  */
-public class Entity implements Movable, Scalable, Updatable {
+public class Entity extends RenderableObject implements Movable, Scalable, Updatable {
 	
 	private Vector3f translation;
 	private Vector3f rotation;
 	private Vector3f scale;
-	private Mesh mesh;
-	private Material material;
-	private Matrix4f transformation;
-	private ShaderPipeline shaderPipeline;
 	private boolean rendering;
 	
 	/**
@@ -36,16 +30,6 @@ public class Entity implements Movable, Scalable, Updatable {
 		this.transformation = new Matrix4f();
 		this.rendering = true;
 		this.calcTransformationMatrix();
-	}
-	
-	/**
-	 * Sets the shader pipeline which this entity should use.
-	 * @param shaderPipeline the shader pipeline
-	 * @since 12.08.2018/0.1.0
-	 */
-	public void setShaderPipeline(ShaderPipeline shaderPipeline) {
-		
-		this.shaderPipeline = shaderPipeline;
 	}
 	
 	/**
@@ -178,12 +162,8 @@ public class Entity implements Movable, Scalable, Updatable {
 		this.calcTransformationMatrix();
 	}
 	
-	/**
-	 * Calculates the transformation matrix.
-	 * The transformation matrix contains the translation, rotation and the scale of an entity and is used to render the entity with all of these values.
-	 * @since 10.08.2018/0.1.0
-	 */
-	private final void calcTransformationMatrix() {
+	@Override
+	protected final void calcTransformationMatrix() {
 		
 		this.transformation.setIdentity();
 		MatrixUtil.translate(this.translation, this.transformation);
@@ -207,17 +187,6 @@ public class Entity implements Movable, Scalable, Updatable {
 		
 		this.mesh = mesh;
 	}
-	
-	/**
-	 * Sets the material of this entity.
-	 * The material determines how the shader will render the entity.
-	 * @param material the material
-	 * @since 10.08.2018/0.1.0
-	 */
-	public void setMaterial(Material material) {
-		
-		this.material = material;
-	}
 
 	@Override
 	public Vector3f getTranslation() {
@@ -238,48 +207,12 @@ public class Entity implements Movable, Scalable, Updatable {
 	}
 	
 	/**
-	 * @return the current transformation matrix
-	 * @since 30.07.2018/0.1.0
-	 */
-	public Matrix4f getTransformationMatrix() {
-		
-		return this.transformation;
-	}
-	
-	/**
-	 * @return the mesh that this entity uses
-	 * @since 10.08.2018/0.1.0
-	 */
-	public Mesh getMesh() {
-		
-		return this.mesh;
-	}
-	
-	/**
-	 * @return the material
-	 * @since 10.08.2018/0.1.0
-	 */
-	public Material getMaterial() {
-		
-		return this.material;
-	}
-	
-	/**
 	 * @return {@code true} if this entity is rendering, else {@code false}
 	 * @since 10.08.2018/0.1.0
 	 */
 	public boolean isRendering() {
 		
 		return this.rendering;
-	}
-	
-	/**
-	 * @return the shader pipeline that this entity is using
-	 * @since 12.08.2018/0.1.0
-	 */
-	public ShaderPipeline getShaderPipeline() {
-		
-		return this.shaderPipeline;
 	}
 
 	@Override

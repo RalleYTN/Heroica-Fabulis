@@ -17,13 +17,12 @@ uniform mat4 transformation;
 uniform mat4 projection;
 uniform mat4 view;
 uniform vec3 lightPos;
-uniform float terrainVertexCount;
 
 void main(void) {
 
 	vec4 world = transformation * vec4(inVertex, 1.0);
 	gl_Position = projection * view * world;
-	texCoord = inTexCoord * terrainVertexCount;
+	texCoord = inTexCoord;
 	surfaceNormal = (transformation * vec4(inNormal, 0.0)).xyz;
 	toLightVector = lightPos - world.xyz;
 	toCameraVector = (inverse(view) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - world.xyz;

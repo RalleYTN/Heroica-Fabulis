@@ -85,6 +85,10 @@ public abstract class Game implements Updatable {
 		this.keyboardController = new KeyboardController(this);
 		this.camera = new Camera(this);
 		
+		// FIXME: BUG0003
+		// the delta calculation seems to be wrong.
+		// the game runs at different speeds when in windowed mode or fullscreen
+		
 		int wait = 0;
 		int frames = 0;
 		double fpsTimer1 = GLFW.glfwGetTime();
@@ -302,8 +306,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the game options
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Options getOptions() {

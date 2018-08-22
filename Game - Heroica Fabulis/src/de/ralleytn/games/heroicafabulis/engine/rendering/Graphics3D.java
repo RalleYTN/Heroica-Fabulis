@@ -132,7 +132,6 @@ public class Graphics3D {
 				this.shaderPipeline.setUniform("projection", this.game.getCamera().getProjectionMatrix());
 				this.shaderPipeline.setUniform("transformation", tile.getTransformationMatrix());
 				this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
-				this.shaderPipeline.setUniform("terrainVertexCount", (float)Terrain.VERTEX_COUNT);
 				
 				if(material != this.material || this.material.hasChanged()) {
 					

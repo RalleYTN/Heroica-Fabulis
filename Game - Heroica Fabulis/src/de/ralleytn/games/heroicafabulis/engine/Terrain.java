@@ -5,19 +5,16 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.StaticMesh;
-import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
-import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 22.08.2018/0.2.0
  * @since 21.08.2018/0.2.0
  */
-public class Terrain {
+public class Terrain extends RenderableObject {
 
 	/**
 	 * 
@@ -32,10 +29,6 @@ public class Terrain {
 	public static final int VERTEX_COUNT = 64;
 	
 	private Vector2f position;
-	private Mesh mesh;
-	private Material material;
-	private ShaderPipeline shaderPipeline;
-	private Matrix4f transformation;
 	
 	/**
 	 * 
@@ -51,11 +44,8 @@ public class Terrain {
 		this.calcTransformationMatrix();
 	}
 	
-	/**
-	 * 
-	 * @since 21.08.2018/0.2.0
-	 */
-	private final void calcTransformationMatrix() {
+	@Override
+	protected final void calcTransformationMatrix() {
 		
 		this.transformation.setIdentity();
 		MatrixUtil.translate(new Vector3f(this.position.x, 0, this.position.y), this.transformation);
@@ -63,26 +53,6 @@ public class Terrain {
 		MatrixUtil.rotate(0, Engine.AXIS_Y, this.transformation);
 		MatrixUtil.rotate(0, Engine.AXIS_Z, this.transformation);
 		MatrixUtil.scale(new Vector3f(1, 1, 1), this.transformation);
-	}
-	
-	/**
-	 * 
-	 * @param shaderPipeline
-	 * @since 21.08.2018/0.2.0
-	 */
-	public void setShaderPipeline(ShaderPipeline shaderPipeline) {
-		
-		this.shaderPipeline = shaderPipeline;
-	}
-	
-	/**
-	 * 
-	 * @param material
-	 * @since 21.08.2018/0.2.0
-	 */
-	public void setMaterial(Material material) {
-		
-		this.material = material;
 	}
 	
 	/**
@@ -117,8 +87,9 @@ public class Terrain {
 				normals[vp31] = 1;
 				normals[vp32] = 0;
 				
-				texCoords[vp2] = (float)j / (float)vcm1;
-				texCoords[vp2 + 1] = (float)i / (float)vcm1;
+				// The +i and +j is required for texture tiling
+				texCoords[vp2] = (float)j / (float)vcm1 + i;
+				texCoords[vp2 + 1] = (float)i / (float)vcm1 + j;
 				
 				pointer++;
 			}
@@ -151,45 +122,5 @@ public class Terrain {
 		data.setVertices(vertices);
 		
 		return new StaticMesh(data);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 21.08.2018/0.2.0
-	 */
-	public Mesh getMesh() {
-		
-		return this.mesh;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 21.08.2018/0.2.0
-	 */
-	public Matrix4f getTransformationMatrix() {
-		
-		return this.transformation;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 21.08.2018/0.2.0
-	 */
-	public Material getMaterial() {
-		
-		return this.material;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 21.08.2018/0.2.0
-	 */
-	public ShaderPipeline getShaderPipeline() {
-		
-		return this.shaderPipeline;
 	}
 }
