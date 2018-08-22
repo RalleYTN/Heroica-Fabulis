@@ -18,7 +18,7 @@ import static org.lwjgl.openal.AL10.*;
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 
 /**
- * 
+ * Reader for AIFF audio files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 20.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
@@ -79,11 +79,11 @@ public class AiffAudioReader extends Reader<AudioData> {
 	}
 	
 	/**
-	 * 
-	 * @param bytes
+	 * Wraps the audio data in a {@linkplain ByteBuffer}.
+	 * @param bytes the audio data
 	 * @param twoByteData
-	 * @param encoding
-	 * @return
+	 * @param encoding the encoding
+	 * @return the created {@linkplain ByteBuffer}
 	 * @since 17.08.2018/0.2.0
 	 */
 	private static final ByteBuffer createByteBuffer(byte[] bytes, boolean twoByteData, Encoding encoding) {

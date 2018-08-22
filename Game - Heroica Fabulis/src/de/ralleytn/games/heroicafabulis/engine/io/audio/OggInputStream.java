@@ -17,7 +17,7 @@ import com.jcraft.jorbis.DspState;
 import com.jcraft.jorbis.Info;
 
 /**
- * 
+ * {@linkplain InputStream} for reading Vorbis audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 17.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
@@ -45,9 +45,8 @@ public class OggInputStream extends InputStream {
 	private ByteBuffer pcmBuffer = BufferUtils.createByteBuffer(4096 * 500);
 
 	/**
-	 * 
-	 * @param input
-	 * @throws IOException
+	 * @param input the {@linkplain InputStream} that should be wrapped
+	 * @throws IOException if an I/O error occurred
 	 * @since 17.08.2018/0.2.0
 	 */
 	public OggInputStream(InputStream input) throws IOException {
@@ -64,9 +63,9 @@ public class OggInputStream extends InputStream {
 	}
 	
 	/**
-	 * 
-	 * @return
-	 * @throws IOException
+	 * Reads page and packet.
+	 * @return {@code true} if the method finished without errors, else {@code false}
+	 * @throws IOException if an I/O error occurred
 	 * @since 17.08.2018/0.2.0
 	 */
 	private boolean getPageAndPacket() throws IOException {
@@ -193,8 +192,8 @@ public class OggInputStream extends InputStream {
 	}
 	
 	/**
-	 * 
-	 * @throws IOException
+	 * Reads the Vorbis audio data.
+	 * @throws IOException if an I/O error occurred
 	 * @since 17.08.2018/0.2.0
 	 */
 	private void readPCM() throws IOException {
@@ -431,8 +430,7 @@ public class OggInputStream extends InputStream {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the stream reached the end, else {@code false}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public boolean atEnd() {
@@ -441,8 +439,7 @@ public class OggInputStream extends InputStream {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the {@linkplain Info} object
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Info getOggInfo() {

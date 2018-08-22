@@ -10,7 +10,7 @@ import static org.lwjgl.openal.AL10.*;
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 
 /**
- * 
+ * Reader for Vorbis audio files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 20.08.2018/0.2.0
  * @since 17.08.2018/0.2.0

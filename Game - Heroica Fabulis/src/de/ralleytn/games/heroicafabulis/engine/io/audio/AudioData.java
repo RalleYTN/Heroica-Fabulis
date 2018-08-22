@@ -2,8 +2,10 @@ package de.ralleytn.games.heroicafabulis.engine.io.audio;
 
 import java.nio.ByteBuffer;
 
+import org.lwjgl.openal.AL10;
+
 /**
- * 
+ * Represents audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 22.08.2018/0.2.0
  * @since 20.08.2018/0.2.0
@@ -16,9 +18,13 @@ public class AudioData {
 	private ByteBuffer data;
 	
 	/**
-	 * 
-	 * @param format
+	 * Sets the audio format.
+	 * @param format the format
 	 * @since 20.08.2018/0.2.0
+	 * @see AL10#AL_FORMAT_MONO8
+	 * @see AL10#AL_FORMAT_MONO16
+	 * @see AL10#AL_FORMAT_STEREO8
+	 * @see AL10#AL_FORMAT_STEREO16
 	 */
 	public void setFormat(int format) {
 		
@@ -26,8 +32,8 @@ public class AudioData {
 	}
 	
 	/**
-	 * 
-	 * @param channels
+	 * Sets the amount of channels.
+	 * @param channels the amount of channels
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setChannels(int channels) {
@@ -36,8 +42,8 @@ public class AudioData {
 	}
 	
 	/**
-	 * 
-	 * @param frequency
+	 * Sets the frequency.
+	 * @param frequency the frequency
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setFrequency(int frequency) {
@@ -46,8 +52,8 @@ public class AudioData {
 	}
 	
 	/**
-	 * 
-	 * @param data
+	 * Sets the actual audio data.
+	 * @param data the audio data
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setData(ByteBuffer data) {
@@ -56,8 +62,7 @@ public class AudioData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the format
 	 * @since 20.08.2018/0.2.0
 	 */
 	public int getFormat() {
@@ -66,8 +71,7 @@ public class AudioData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the channels
 	 * @since 20.08.2018/0.2.0
 	 */
 	public int getChannels() {
@@ -76,8 +80,7 @@ public class AudioData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the frequency
 	 * @since 20.08.2018/0.2.0
 	 */
 	public int getFrequency() {
@@ -86,8 +89,7 @@ public class AudioData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the audio data
 	 * @since 20.08.2018/0.2.0
 	 */
 	public ByteBuffer getData() {
