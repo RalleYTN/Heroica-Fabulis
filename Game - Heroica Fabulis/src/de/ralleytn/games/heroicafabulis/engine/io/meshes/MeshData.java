@@ -1,7 +1,7 @@
 package de.ralleytn.games.heroicafabulis.engine.io.meshes;
 
 /**
- * 
+ * Represents mesh data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 20.08.2018/0.2.0
  * @since 20.08.2018/0.2.0
@@ -14,8 +14,8 @@ public class MeshData {
 	private int[] indices;
 	
 	/**
-	 * 
-	 * @param vertices
+	 * Sets the vertices.
+	 * @param vertices the verices.
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setVertices(float[] vertices) {
@@ -24,8 +24,9 @@ public class MeshData {
 	}
 	
 	/**
-	 * 
-	 * @param texCoords
+	 * Sets the texture coordinates.
+	 * Can be {@code null}.
+	 * @param texCoords the texture coordinates
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setTextureCoordinates(float[] texCoords) {
@@ -34,8 +35,9 @@ public class MeshData {
 	}
 	
 	/**
-	 * 
-	 * @param normals
+	 * Sets the normals.
+	 * Can be {@code null}.
+	 * @param normals the normals
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setNormals(float[] normals) {
@@ -44,8 +46,8 @@ public class MeshData {
 	}
 	
 	/**
-	 * 
-	 * @param indices
+	 * Sets the indices.
+	 * @param indices the indices
 	 * @since 20.08.2018/0.2.0
 	 */
 	public void setIndices(int[] indices) {
@@ -54,8 +56,7 @@ public class MeshData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the vertices
 	 * @since 20.08.2018/0.2.0
 	 */
 	public float[] getVertices() {
@@ -64,8 +65,7 @@ public class MeshData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the texture coordinates
 	 * @since 20.08.2018/0.2.0
 	 */
 	public float[] getTextureCoordinates() {
@@ -74,8 +74,7 @@ public class MeshData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the normals
 	 * @since 20.08.2018/0.2.0
 	 */
 	public float[] getNormals() {
@@ -84,8 +83,7 @@ public class MeshData {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the indices
 	 * @since 20.08.2018/0.2.0
 	 */
 	public int[] getIndices() {

@@ -9,9 +9,9 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 
+ * Contains methods for reading and writing XMESH model files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 22.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
 public final class XMeshFormat {
@@ -54,9 +54,9 @@ public final class XMeshFormat {
 	private XMeshFormat() {}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @throws IOException
+	 * Reads the signature of an XMESH file.
+	 * @param meshStream the {@linkplain InputStream} with the mesh data
+	 * @throws IOException if the signature is incorrect
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final void readSignature(InputStream meshStream) throws IOException {
@@ -70,10 +70,10 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @return
-	 * @throws IOException
+	 * Reads the flags from the stream.
+	 * @param meshStream the {@linkplain InputStream} with the mesh data
+	 * @return the flags
+	 * @throws IOException if an I/O error occurred
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final int readFlags(InputStream meshStream) throws IOException {
@@ -82,10 +82,10 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @return
-	 * @throws IOException
+	 * Reads the vertices from the stream.
+	 * @param meshStream the {@linkplain InputStream} with the mesh data
+	 * @return the vertices
+	 * @throws IOException if an I/O error occurred
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final float[] readVertices(InputStream meshStream) throws IOException {
@@ -105,10 +105,10 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @return
-	 * @throws IOException
+	 * Reads the indices from the stream.
+	 * @param meshStream the {@linkplain InputStream} with the mesh data
+	 * @return the indices
+	 * @throws IOException if an I/O error occurred
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final int[] readIndices(InputStream meshStream) throws IOException {
@@ -128,10 +128,10 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @return
-	 * @throws IOException
+	 * Reads the texture coordinates from the stream.
+	 * @param meshStream the {@linkplain InputStream} with the mesh data
+	 * @return the texture coordinates
+	 * @throws IOException if an I/O error occurred
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final float[] readTexCoords(InputStream meshStream) throws IOException {
@@ -151,10 +151,10 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @return
-	 * @throws IOException
+	 * Reads the normals from the stream.
+	 * @param meshStream the {@linkplain InputStream} with the mesh data
+	 * @return the normals
+	 * @throws IOException if an I/O error occurred
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final float[] readNormals(InputStream meshStream) throws IOException {
@@ -174,13 +174,12 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @param data
-	 * @throws IOException
+	 * Writes the XMESH signature on the stream.
+	 * @param meshStream the {@linkplain OutputStream} with the mesh data
+	 * @throws IOException if an I/O error occurred
 	 * @since 18.08.2018/0.2.0
 	 */
-	public static final void writeSignature(OutputStream meshStream, MeshData data) throws IOException {
+	public static final void writeSignature(OutputStream meshStream) throws IOException {
 		
 		for(int index = 0; index < SIGNATURE.length(); index++) {
 			
@@ -189,10 +188,10 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @param data
-	 * @throws IOException
+	 * Writes the flags on the stream. The flags are automatically set by the mesh data.
+	 * @param meshStream the {@linkplain OutputStream} with the mesh data
+	 * @param data the mesh data
+	 * @throws IOException if an I/O error occurred
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final void writeFlags(OutputStream meshStream, MeshData data) throws IOException {
@@ -205,10 +204,10 @@ public final class XMeshFormat {
 	}
 	
 	/**
-	 * 
-	 * @param meshStream
-	 * @param data
-	 * @throws IOException
+	 * Writes the mesh data on the stream.
+	 * @param meshStream the {@linkplain OutputStream} with the mesh data
+	 * @param data the mesh data
+	 * @throws IOException if an I/O error occurred
 	 * @since 20.08.2018/0.2.0
 	 */
 	public static final void writeData(OutputStream meshStream, MeshData data) throws IOException {

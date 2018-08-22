@@ -16,7 +16,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.ListUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
 /**
- * 
+ * Reads Wavefront Object model files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 18.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
