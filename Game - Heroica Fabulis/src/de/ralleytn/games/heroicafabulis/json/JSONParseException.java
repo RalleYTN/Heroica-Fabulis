@@ -1,5 +1,11 @@
 package de.ralleytn.games.heroicafabulis.json;
 
+/**
+ * Exception thrown if something is wrong with the JSON data that is currently parsed.
+ * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
+ * @version 17.08.2018/0.2.0
+ * @since 17.08.2018/0.2.0
+ */
 public class JSONParseException extends Exception {
 	
 	private static final long serialVersionUID = -7880698968187728547L;
@@ -14,7 +20,7 @@ public class JSONParseException extends Exception {
 	
 	/**
 	 * @param errorType the error type
-	 * @since 
+	 * @since 17.08.2018/0.2.0
 	 */
 	public JSONParseException(int errorType) {
 		
@@ -24,7 +30,7 @@ public class JSONParseException extends Exception {
 	/**
 	 * @param errorType the error type
 	 * @param unexpectedObject the object that represents what was unexpected
-	 * @since 
+	 * @since 17.08.2018/0.2.0
 	 */
 	public JSONParseException(int errorType, Object unexpectedObject) {
 		
@@ -35,7 +41,7 @@ public class JSONParseException extends Exception {
 	 * @param position the character position (starting with 0) of the input where the error occurred
 	 * @param errorType the error type
 	 * @param unexpectedObject the object that represents what was unexpected
-	 * @since 
+	 * @since 17.08.2018/0.2.0
 	 */
 	public JSONParseException(int position, int errorType, Object unexpectedObject) {
 		
@@ -46,7 +52,7 @@ public class JSONParseException extends Exception {
 	
 	/**
 	 * @return the error type
-	 * @since 
+	 * @since 17.08.2018/0.2.0
 	 */
 	public int getErrorType() {
 		
@@ -55,7 +61,7 @@ public class JSONParseException extends Exception {
 	
 	/**
 	 * @return the character position (starting with 0) of the input where the error occurred
-	 * @since 
+	 * @since 17.08.2018/0.2.0
 	 */
 	public int getPosition() {
 		

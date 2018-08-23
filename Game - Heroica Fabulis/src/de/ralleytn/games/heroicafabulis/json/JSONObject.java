@@ -2,16 +2,13 @@ package de.ralleytn.games.heroicafabulis.json;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public class JSONObject extends HashMap<Object, Object> {
@@ -31,17 +28,6 @@ public class JSONObject extends HashMap<Object, Object> {
 	public JSONObject(Map<?, ?> map) {
 		
 		super(map);
-	}
-	
-	/**
-	 * 
-	 * @param json
-	 * @throws JSONParseException
-	 * @since 17.08.2018/0.2.0
-	 */
-	public JSONObject(String json) throws JSONParseException {
-		
-		super((JSONObject)JSON.parse(json));
 	}
 	
 	/**
@@ -164,30 +150,5 @@ public class JSONObject extends HashMap<Object, Object> {
 	public String getString(String key) {
 		
 		return JSONUtil.getString(this.get(key));
-	}
-
-	/**
-	 * 
-	 * @param key
-	 * @param format
-	 * @return
-	 * @throws ParseException
-	 * @since 17.08.2018/0.2.0
-	 */
-	public Date getDate(String key, DateFormat format) throws ParseException {
-		
-		return JSONUtil.getDate(this.get(key), format);
-	}
-
-	/**
-	 * 
-	 * @param key
-	 * @param type
-	 * @return
-	 * @since 17.08.2018/0.2.0
-	 */
-	public <T extends Enum<T>>T getEnum(String key, Class<T> type) {
-		
-		return JSONUtil.getEnum(this.get(key), type);
 	}
 }

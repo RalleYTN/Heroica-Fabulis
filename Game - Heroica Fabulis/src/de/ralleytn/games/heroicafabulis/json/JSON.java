@@ -2,15 +2,14 @@ package de.ralleytn.games.heroicafabulis.json;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
 /**
- * 
+ * Lightweight JSON parser.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSON {
@@ -23,37 +22,17 @@ public final class JSON {
 	private static final int S_IN_ERROR = -1;
 	
 	/**
+	 * Private because no instance of this class should exist.
 	 * @since 17.08.2018/0.2.0
 	 */
 	private JSON() {}
 	
 	/**
-	 * 
-	 * @param json
-	 * @return
-	 * @throws JSONParseException
-	 * @since 17.08.2018/0.2.0
-	 */
-	public static final Object parse(String json) throws JSONParseException {
-		
-		try(StringReader reader = new StringReader(json)) {
-			
-			return parse(reader);
-			
-		} catch(IOException exception) {
-			
-			// WILL NEVER HAPPEN!
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param reader
-	 * @return
-	 * @throws IOException
-	 * @throws JSONParseException
+	 * Parses JSON from a reader.
+	 * @param reader the reader
+	 * @return an object representing the parsed JSON
+	 * @throws IOException if an I/O error occurred
+	 * @throws JSONParseException if the JSON is invalid
 	 * @since 17.08.2018/0.2.0
 	 */
 	@SuppressWarnings("unchecked")

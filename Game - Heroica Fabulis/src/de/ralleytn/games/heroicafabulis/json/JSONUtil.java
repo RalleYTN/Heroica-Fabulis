@@ -1,15 +1,12 @@
 package de.ralleytn.games.heroicafabulis.json;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSONUtil {
@@ -48,14 +45,6 @@ public final class JSONUtil {
 		if(value != null) {
 			
 			       if(value instanceof JSONArray)  {return (JSONArray)value;
-			} else if(value instanceof boolean[])  {return new JSONArray((boolean[])value);
-			} else if(value instanceof byte[])     {return new JSONArray((byte[])value);
-			} else if(value instanceof char[])     {return new JSONArray((char[])value);
-			} else if(value instanceof short[])    {return new JSONArray((short[])value);
-			} else if(value instanceof int[])      {return new JSONArray((int[])value);
-			} else if(value instanceof long[])     {return new JSONArray((long[])value);
-			} else if(value instanceof float[])    {return new JSONArray((float[])value);
-			} else if(value instanceof double[])   {return new JSONArray((double[])value);
 			} else if(value instanceof Collection) {return new JSONArray((Collection<?>)value);
 			} else if(value.getClass().isArray())  {return new JSONArray(value);
 			}
@@ -201,48 +190,6 @@ public final class JSONUtil {
 		if(value != null) {
 			
 			return value.toString();
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param value
-	 * @param format
-	 * @return
-	 * @throws ParseException
-	 * @since 17.08.2018/0.2.0
-	 */
-	public static final Date getDate(Object value, DateFormat format) throws ParseException {
-
-		if(value != null) {
-			
-			return value instanceof Date ? (Date)value : format.parse(value.toString());
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param value
-	 * @param type
-	 * @return
-	 * @since 17.08.2018/0.2.0
-	 */
-	@SuppressWarnings("unchecked")
-	public static final <T extends Enum<T>>T getEnum(Object value, Class<T> type) {
-		
-		if(value != null) {
-			
-			for(Object enumConstant : type.getEnumConstants()) {
-				
-				if(((T)enumConstant).name().equals(value.toString())) {
-					
-					return (T)enumConstant;
-				}
-			}
 		}
 		
 		return null;
