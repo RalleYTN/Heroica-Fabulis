@@ -59,27 +59,28 @@ public final class JSON {
 			
 			if(status == S_INIT) {
 					   
-				if(tokenType == JSONToken.TYPE_VALUE) {
-					
-					status = S_IN_FINISHED_VALUE;
-					statusStack.push(status);
-					valueStack.push(tokenType);
-					
-				} else if(tokenType == JSONToken.TYPE_LEFT_BRACE) {
-					
-					status = S_IN_OBJECT;
-					statusStack.push(status);
-					valueStack.push(new JSONObject());
-					
-				} else if(tokenType == JSONToken.TYPE_LEFT_SQUARE) {
-					
-					status = S_IN_ARRAY;
-					statusStack.push(status);
-					valueStack.push(new JSONArray());
-					
-				} else {
-					
-					status = S_IN_ERROR;
+				switch(tokenType) {
+				
+					case JSONToken.TYPE_VALUE:
+						status = S_IN_FINISHED_VALUE;
+						statusStack.push(status);
+						valueStack.push(tokenType);
+						break;
+						
+					case JSONToken.TYPE_LEFT_BRACE:
+						status = S_IN_OBJECT;
+						statusStack.push(status);
+						valueStack.push(new JSONObject());
+						break;
+						
+					case JSONToken.TYPE_RIGHT_BRACE:
+						status = S_IN_ARRAY;
+						statusStack.push(status);
+						valueStack.push(new JSONArray());
+						break;
+						
+					default:
+						status = S_IN_ERROR;
 				}
 					   
 			} else if(status == S_IN_FINISHED_VALUE) {
@@ -95,36 +96,37 @@ public final class JSON {
 				
 			} else if(status == S_IN_OBJECT) {
 				
-				if(tokenType == JSONToken.TYPE_VALUE) {
-					
-					if(tokenValue instanceof String) {
+				switch(tokenType) {
+				
+					case JSONToken.TYPE_VALUE:
+						if(tokenValue instanceof String) {
+							
+							String key = (String)tokenValue;
+							valueStack.push(key);
+							status = S_PASSED_PAIR_KEY;
+							statusStack.push(status);
+							
+						} else {
+							
+							status = S_IN_ERROR;
+						}
+						break;
 						
-						String key = (String)tokenValue;
-						valueStack.push(key);
-						status = S_PASSED_PAIR_KEY;
-						statusStack.push(status);
+					case JSONToken.TYPE_RIGHT_BRACE:
+						if(valueStack.size() > 1){
+							
+							statusStack.pop();
+							valueStack.pop();
+							status = (int)statusStack.peek();
+							
+						} else {
+							
+							status = S_IN_FINISHED_VALUE;
+						}
+						break;
 						
-					} else {
-						
+					case JSONToken.TYPE_COMMA:
 						status = S_IN_ERROR;
-					}
-					
-				} else if(tokenType == JSONToken.TYPE_RIGHT_BRACE) {
-					
-					if(valueStack.size() > 1){
-						
-						statusStack.pop();
-						valueStack.pop();
-						status = (int)statusStack.peek();
-						
-					} else {
-						
-						status = S_IN_FINISHED_VALUE;
-					}
-					
-				} else if(tokenType != JSONToken.TYPE_COMMA) {
-					
-					status = S_IN_ERROR;
 				}
 				
 			} else if(status == S_PASSED_PAIR_KEY) {

@@ -1,14 +1,12 @@
 package de.ralleytn.games.heroicafabulis.json;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 
 /**
- * 
+ * Lexer for the JSON parser.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSONLexer {
@@ -126,16 +124,6 @@ public final class JSONLexer {
 	public JSONLexer(Reader in) {
 
 		this.reader = in;
-	}
-
-	/**
-	 * 
-	 * @param in
-	 * @since 17.08.2018/0.2.0
-	 */
-	public JSONLexer(InputStream in) {
-
-		this(new InputStreamReader(in));
 	}
 	
 	/**

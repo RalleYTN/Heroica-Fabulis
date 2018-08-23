@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 
+ * Utility class providing methods for working with JSON.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 23.08.2018/0.2.0
  * @since 17.08.2018/0.2.0
@@ -17,9 +17,9 @@ public final class JSONUtil {
 	private JSONUtil() {}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain JSONObject}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final JSONObject getObject(Object value) {
@@ -35,9 +35,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain JSONArray}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final JSONArray getArray(Object value) {
@@ -54,9 +54,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain Boolean}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Boolean getBoolean(Object value) {
@@ -72,9 +72,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain Byte}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Byte getByte(Object value) {
@@ -90,9 +90,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain Short}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Short getShort(Object value) {
@@ -108,9 +108,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain Integer}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Integer getInteger(Object value) {
@@ -126,9 +126,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain Long}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Long getLong(Object value) {
@@ -144,9 +144,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain Float}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Float getFloat(Object value) {
@@ -162,9 +162,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain Double}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final Double getDouble(Object value) {
@@ -180,9 +180,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
+	 * Converts the given object to a {@linkplain String}.
+	 * @param value the value
+	 * @return the result or {@code null} if the given object could not be converted
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static final String getString(Object value) {
@@ -196,9 +196,9 @@ public final class JSONUtil {
 	}
 	
 	/**
-	 * 
-	 * @param string
-	 * @param builder
+	 * Escapes a string with JSON rules.
+	 * @param string the string that should be escaped
+	 * @param builder the target on which the result should be written
 	 * @since 17.08.2018/0.2.0
 	 */
 	public static void escape(String string, StringBuilder builder) {
