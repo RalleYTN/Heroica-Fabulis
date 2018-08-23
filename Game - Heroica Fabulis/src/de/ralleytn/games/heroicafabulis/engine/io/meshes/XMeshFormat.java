@@ -16,32 +16,31 @@ import java.nio.charset.StandardCharsets;
  */
 public final class XMeshFormat {
 	
-	// everything is big endian
-	// first 5 bytes = XMESH signature
-	// next byte = flags
-	// 	- bit 1 = has texture coordinates
-	//	- bit 2 = has normals
-	// 	- bit 8 = generate normals
-	// next 4 bytes = signed integer = vertex count
-	// next 4 * vertex count * 3 bytes = vertices
-	//	- each 4 byte block represents a signed float
-	//	- each vertex has 3 floats
-	//	- each vertex is ordered XYZ
-	// next 4 bytes = signed integer = index count
-	// next 4 * index count bytes = indices
-	//	- each 4 byte block represents a signed integer
+	// BIG ENDIAN
+	// 5 byte = XMESH signature
+	// 1 byte = flags
+	// 	- 0 = has texture coordinates
+	//	- 1 = has normals
+	// 	- 7 = generate normals
+	// 4 byte signed integer = vertex count
+	// for 4 * vertex count * 3 bytes
+	//	- 4 byte signed float = vx
+	//	- 4 byte signed float = vy
+	//	- 4 byte signed float = vz
+	// 4 bytes signed integer = index count
+	// for index count * 4 bytes
+	//	- 4 byte signed integer = index
 	// if has tex coords
-	//	- next 4 bytes = signed integer = tex coord count
-	//	- next 4 * tex coord count * 2 bytes = tex coords
-	//		- each 4 byte block represents a signed float
-	//		- each tex coord has 2 floats
-	//		- each tex coord is orderd UV(XY)
+	//	- 4 bytes signed integer = tex coord count
+	//	- for 4 * tex coord count * 2 bytes
+	//		- 4 byte signed float = vtx
+	//		- 4 byte signed float = vty
 	// if has normals
-	//	- next 4 bytes = signed integer = normal count
-	//	- next 4 * normal count * 3 bytes = normals
-	//		- each 4 byte block represents a signed float
-	//		- each normal has 3 floats
-	//		- each normal is ordered XYZ
+	//	- 4 bytes signed integer = normal count
+	//	- for 4 * normal count * 3 bytes
+	//		- 4 byte signed float = vnx
+	//		- 4 byte signed float = vny
+	//		- 4 byte signed float = vnz
 	
 	/**
 	 * @since 18.08.2018/0.2.0
