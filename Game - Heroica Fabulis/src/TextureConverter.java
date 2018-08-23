@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * 
+ * Tool for converting between PNG and XIMG images.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 22.08.2018/1.0.0
  * @since 22.08.2018/1.0.0
@@ -24,13 +24,12 @@ public final class TextureConverter {
 	private TextureConverter() {}
 	
 	/**
-	 * 
-	 * @param args
-	 * @throws IOException
+	 * @param args 0 = source file path, 1 = target file path
+	 * @throws IOException if an I/O error occurred
 	 * @since 22.08.2018/1.0.0
 	 */
 	public static void main(String[] args) throws IOException {
-		
+
 		File source = new File(args[0]);
 		File target = new File(args[1]);
 		
@@ -286,11 +285,11 @@ public final class TextureConverter {
 	}
 	
 	/**
-	 * 
-	 * @param binary
-	 * @param position
-	 * @param bit
-	 * @return
+	 * Sets a single bit in a binary sequence.
+	 * @param binary the binary sequence
+	 * @param position the position (right to left starting from 0)
+	 * @param bit the value of the bit
+	 * @return the binary sequence with the set bit
 	 * @since 22.08.2018/1.0.0
 	 */
 	private static final int setBit(int binary, int position, boolean bit) {

@@ -5,9 +5,9 @@ import java.util.Random;
 import de.ralleytn.games.heroicafabulis.engine.util.MathUtil;
 
 /**
- * 
+ * Implementation of a simplex noise octave.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 21.08.2018/0.2.0
  */
 public class SimplexNoiseOctave {
@@ -39,6 +39,7 @@ public class SimplexNoiseOctave {
 		222, 114,  67,  29,  24,  72, 243, 141, 128, 195,  78,  66, 215, 61,  156, 180
 	};
 	private static final int LENGTH = P_SUPPLY.length * 2;
+	private static final int SWAP_COUNT = 10;
 	private static final double F2 = 0.5D * (Math.sqrt(3.0D) - 1.0D);
 	private static final double G2 = (3.0D - Math.sqrt(3.0D)) / 6.0D;
 	private static final double F3 = 1.0D / 3.0D;
@@ -49,16 +50,14 @@ public class SimplexNoiseOctave {
 	private final short[] permMod12 = new short[LENGTH];
 
 	/**
-	 * 
-	 * @param seed
-	 * @param swapCount
+	 * @param seed the seed for this octave
 	 * @since 21.08.2018/0.2.0
 	 */
-	public SimplexNoiseOctave(long seed, int swapCount) {
+	public SimplexNoiseOctave(long seed) {
 		
 		Random random = new Random(seed);
 		
-		for(int index = 0; index < swapCount; index++) {
+		for(int index = 0; index < SWAP_COUNT; index++) {
 			
 			int swapFrom = random.nextInt(this.p.length);
 	        int swapTo = random.nextInt(this.p.length);
@@ -76,11 +75,11 @@ public class SimplexNoiseOctave {
 	}
 
 	/**
-	 * 
-	 * @param gradient
-	 * @param x
-	 * @param y
-	 * @return
+	 * Dot function for a gradient.
+	 * @param gradient the gradient
+	 * @param x X
+	 * @param y Y
+	 * @return the dot value
 	 * @since 21.08.2018/0.2.0
 	 */
 	private static final double dot(Gradient gradient, double x, double y) {
@@ -89,12 +88,12 @@ public class SimplexNoiseOctave {
 	}
 
 	/**
-	 * 
-	 * @param gradient
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
+	 * Dot function for a gradient.
+	 * @param gradient the gradient
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 * @return the dot value
 	 * @since 21.08.2018/0.2.0
 	 */
 	private static final double dot(Gradient gradient, double x, double y, double z) {
@@ -103,10 +102,10 @@ public class SimplexNoiseOctave {
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
+	 * Makes a two dimensional noise.
+	 * @param x X
+	 * @param y Y
+	 * @return the noise
 	 * @since 21.08.2018/0.2.0
 	 */
 	public double noise(double x, double y) {
@@ -194,11 +193,11 @@ public class SimplexNoiseOctave {
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
+	 * Makes a three dimensional noise.
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 * @return the noise
 	 * @since 21.08.2018/0.2.0
 	 */
 	public double noise(double x, double y, double z) {
@@ -365,7 +364,7 @@ public class SimplexNoiseOctave {
 	}
 	
 	/**
-	 * 
+	 * Represents a gradient.
 	 * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
 	 * @version 21.08.2018/0.2.0
 	 * @since 21.08.2018/0.2.0
@@ -377,10 +376,9 @@ public class SimplexNoiseOctave {
 		private final double z;
 		
 		/**
-		 * 
-		 * @param x
-		 * @param y
-		 * @param z
+		 * @param x X
+		 * @param y Y
+		 * @param z Z
 		 * @since 21.08.2018/0.2.0
 		 */
 		private Gradient(double x, double y, double z) {

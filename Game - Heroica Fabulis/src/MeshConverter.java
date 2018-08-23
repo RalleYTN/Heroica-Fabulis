@@ -15,14 +15,14 @@ import javax.vecmath.Vector3f;
  * @version 23.08.2018/0.2.0
  * @since 22.08.2018/0.2.0
  */
-public final class ModelConverter {
+public final class MeshConverter {
 
 	private static final String XMESH_SIGNATURE = "XMESH";
 	
 	/**
 	 * @since 22.08.2018/0.2.0
 	 */
-	private ModelConverter() {}
+	private MeshConverter() {}
 	
 	/**
 	 * 
@@ -31,6 +31,11 @@ public final class ModelConverter {
 	 * @since 22.08.2018/0.2.0
 	 */
 	public static void main(String[] args) throws IOException {
+		
+		args = new String[] {
+			"res/meshes/stall.xmesh",
+			"res/meshes/stall2.obj"
+		};
 		
 		File source = new File(args[0]);
 		File target = new File(args[1]);
@@ -63,15 +68,13 @@ public final class ModelConverter {
 						boolean hasTexCoords = (flags & 1) == 1;
 						boolean hasNormals = ((flags >> 1) & 1) == 1;
 						boolean generateNormals = ((flags >> 7) & 1) == 1;
-						List<Vector3f> vertices = null;
+						List<Vector3f> vertices = new ArrayList<>();
 						List<Vector2f> texCoords = null;
 						List<Vector3f> normals = null;
 						
 						int vertexCount = ((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF);
-						int length = vertexCount * 3;
-						vertices = new ArrayList<Vector3f>();
 						
-						for(int v = 0; v < length; v += 3) {
+						for(int v = 0; v < vertexCount; v++) {
 							
 							float x = Float.intBitsToFloat(((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF));
 							float y = Float.intBitsToFloat(((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF));
@@ -82,18 +85,17 @@ public final class ModelConverter {
 						int indexCount = ((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF);
 						int[] indices = new int[indexCount];
 						
-						for(int i = 0; i < indices.length; i++) {
+						for(int i = 0; i < indexCount; i++) {
 							
 							indices[i] = ((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF);
 						}
-
+						
 						if(hasTexCoords) {
 							
 							texCoords = new ArrayList<>();
 							int texCoordCount = ((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF);
-							length = texCoordCount * 2;
 							
-							for(int vt = 0; vt < length; vt += 2) {
+							for(int vt = 0; vt < texCoordCount; vt++) {
 								
 								float x = Float.intBitsToFloat(((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF));
 								float y = Float.intBitsToFloat(((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF));
@@ -105,9 +107,12 @@ public final class ModelConverter {
 							
 							normals = new ArrayList<>();
 							int normalCount = ((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF);
-							length = normalCount * 3;
+
+							// FIXME
+							// I just suddenly run out of bytes even though it doesn't make sense.
+							// All of the counts are correct and nowhere is the offset incremented wrong.
 							
-							for(int vn = 0; vn < length; vn += 3) {
+							for(int vn = 0; vn < normalCount; vn++) {
 								
 								float x = Float.intBitsToFloat(((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF));
 								float y = Float.intBitsToFloat(((data[offset++] & 0xFF) << 24) | ((data[offset++] & 0xFF) << 16) | ((data[offset++] & 0xFF) << 8) | (data[offset++] & 0xFF));

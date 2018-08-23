@@ -3,10 +3,11 @@ package de.ralleytn.games.heroicafabulis.engine.util.math;
 import java.util.Random;
 
 /**
- * 
+ * Implementation of the simplex noise algorithm.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 21.08.2018/0.2.0
+ * @see <a href="https://en.wikipedia.org/wiki/Simplex_noise">Wikipedia</a>
  */
 public class SimplexNoise {
 
@@ -16,20 +17,17 @@ public class SimplexNoise {
 	private int largestFeature;
 	private double persistance;
 	private long seed;
-	private int swapCount;
 	
 	/**
-	 * 
-	 * @param largestFeature
-	 * @param persistance
-	 * @param seed
-	 * @param swapCount
+	 * @param largestFeature size of the largest possible feature
+	 * @param persistence the persistence
+	 * @param seed the seed
 	 * @since 21.08.2018/0.2.0
 	 */
-	public SimplexNoise(int largestFeature, double persistance, long seed, int swapCount) {
+	public SimplexNoise(int largestFeature, double persistence, long seed) {
 		
 		this.largestFeature = largestFeature;
-		this.persistance = persistance;
+		this.persistance = persistence;
 		this.seed = seed;
 		
 		int octaveCount = (int)Math.ceil(Math.log10(largestFeature) / Math.log10(2.0D));
@@ -41,36 +39,34 @@ public class SimplexNoise {
 		
 		for(int index = 0; index < octaveCount; index++) {
 			
-			this.octaves[index] = new SimplexNoiseOctave(random.nextLong(), swapCount);
+			this.octaves[index] = new SimplexNoiseOctave(random.nextInt());
 			this.frequencys[index] = Math.pow(2, index);
-			this.amplitudes[index] = Math.pow(persistance, octaveCount - index);
+			this.amplitudes[index] = Math.pow(persistence, octaveCount - index);
 		}
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param resX
-	 * @param resY
-	 * @return
+	 * Generates a height map.
+	 * @param x X coordinate
+	 * @param y Y coordinate
+	 * @param width width
+	 * @param height height
+	 * @return the generated height map
 	 * @since 21.08.2018/0.2.0
 	 */
-	public float[][] generateHeightMap(int x, int y, int width, int height, int resX, int resY) {
+	public float[][] generateHeightMap(int x, int y, int width, int height) {
 		
 		int xEnd = x + width;
 		int yEnd = y + height;
 		
-		float[][] result = new float[resX][resY];
+		float[][] result = new float[width][height];
 		
-		for(int i = 0; i < resX; i++) {
+		for(int i = 0; i < width; i++) {
 			
-			for(int j = 0; j < resY; j++) {
+			for(int j = 0; j < height; j++) {
 				
-				int posX = x + i * ((xEnd - x) / resX);
-				int posY = y + j * ((yEnd - y) / resY);
+				int posX = x + i * ((xEnd - x) / width);
+				int posY = y + j * ((yEnd - y) / height);
 				result[i][j] = Math.min(1.0F, Math.max(0.0F, (float)(0.5D * (1 + this.getNoise(posX, posY)))));
 			}
 		}
@@ -79,10 +75,10 @@ public class SimplexNoise {
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
+	 * Generates a two dimensional noise.
+	 * @param x X coordinate
+	 * @param y Y coordinate
+	 * @return the generated noise
 	 * @since 21.08.2018/0.2.0
 	 */
 	public double getNoise(int x, int y) {
@@ -98,11 +94,11 @@ public class SimplexNoise {
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
+	 * Generates a three dimensional noise.
+	 * @param x X coordinate
+	 * @param y Y coordinate
+	 * @param z Z coordinate
+	 * @return the generated noise
 	 * @since 21.08.2018/0.2.0
 	 */
 	public double getNoise(int x, int y, int z) {
@@ -121,8 +117,7 @@ public class SimplexNoise {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the largest possible feature
 	 * @since 21.08.2018/0.2.0
 	 */
 	public int getLargestFeature() {
@@ -131,8 +126,7 @@ public class SimplexNoise {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the persistence
 	 * @since 21.08.2018/0.2.0
 	 */
 	public double getPersistance() {
@@ -141,22 +135,11 @@ public class SimplexNoise {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the seed
 	 * @since 21.08.2018/0.2.0
 	 */
 	public long getSeed() {
 		
 		return this.seed;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 21.08.2018/0.2.0
-	 */
-	public int getSwapCount() {
-		
-		return this.swapCount;
 	}
 }
