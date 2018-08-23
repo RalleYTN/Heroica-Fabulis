@@ -1,11 +1,9 @@
 package de.ralleytn.games.heroicafabulis.engine.io.textures.png;
 
-import de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil;
-
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 19.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 18.08.2018/0.2.0
  */
 public class IHDR extends PngChunk {
@@ -35,8 +33,8 @@ public class IHDR extends PngChunk {
 		
 		super(length, TYPE_IHDR, data, crc);
 		
-		this.width = (int)BinaryUtil.getUnsignedInteger(data[0], data[1], data[2], data[3], true);
-		this.height = (int)BinaryUtil.getUnsignedInteger(data[4], data[5], data[6], data[7], true);
+		this.width = (int)((((data[0] & 0xFF) << 24) | ((data[1] & 0xFF) << 16) | ((data[2] & 0xFF) << 8) | (data[3] & 0xFF)) & 0xFFFFFFFFL);
+		this.height = (int)((((data[4] & 0xFF) << 24) | ((data[5] & 0xFF) << 16) | ((data[6] & 0xFF) << 8) | (data[7] & 0xFF)) & 0xFFFFFFFFL);
 		this.bitDepth = data[8];
 		this.colorType = data[9];
 		this.compressionMethod = data[10];

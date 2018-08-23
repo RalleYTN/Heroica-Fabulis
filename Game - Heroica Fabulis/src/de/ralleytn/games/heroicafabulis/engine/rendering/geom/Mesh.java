@@ -1,13 +1,14 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 import de.ralleytn.games.heroicafabulis.engine.Disposable;
+import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.rendering.GLBuffer;
 import de.ralleytn.games.heroicafabulis.engine.rendering.VertexArray;
 
 /**
  * Represents an abstract mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Mesh implements Disposable {
@@ -57,6 +58,13 @@ public abstract class Mesh implements Disposable {
 			this.vertexArray.dispose();
 		}
 	}
+	
+	/**
+	 * Wraps the mesh data in an instance of {@linkplain MeshData}.
+	 * @return the created instance of {@linkplain MeshData}
+	 * @since 23.08.2018/0.2.0
+	 */
+	public abstract MeshData createMeshData();
 	
 	/**
 	 * Sets the face culling mode.
@@ -126,8 +134,7 @@ public abstract class Mesh implements Disposable {
 	public abstract boolean hasTextureCoordinates();
 	
 	/**
-	 * 
-	 * @return
+	 * @return the index buffer
 	 * @since 18.08.2018/0.2.0
 	 */
 	public GLBuffer getIndexBuffer() {

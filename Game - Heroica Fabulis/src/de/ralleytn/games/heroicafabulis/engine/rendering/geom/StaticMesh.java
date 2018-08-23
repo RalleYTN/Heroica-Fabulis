@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.VertexArray;
 /**
  * Represents an unmodifiable mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 23.08.2018/0.2.0
  * @since 04.08.2018/0.1.0
  */
 public class StaticMesh extends Mesh {
@@ -87,11 +87,7 @@ public class StaticMesh extends Mesh {
 		return this.textureCoordinates;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 * @since 20.08.2018/0.2.0
-	 */
+	@Override
 	public MeshData createMeshData() {
 		
 		MeshData data = new MeshData();

@@ -21,9 +21,9 @@ public final class VectorUtil {
 	private VectorUtil() {}
 	
 	/**
-	 * 
-	 * @param values
-	 * @return
+	 * Converts a {@code float} array into a list of 2D vectors.
+	 * @param values the {@code float} array
+	 * @return the created list with the 2D vectors
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final List<Vector2f> toList2f(float[] values) {
@@ -57,9 +57,9 @@ public final class VectorUtil {
 	}
 	
 	/**
-	 * 
-	 * @param vectors
-	 * @return
+	 * Converts a list with 3D vectors into a {@code float} array.
+	 * @param vectors the list with the 3D vectors
+	 * @return the created {@code float} array
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final float[] toArray3f(List<Vector3f> vectors) {
@@ -79,9 +79,9 @@ public final class VectorUtil {
 	}
 	
 	/**
-	 * 
-	 * @param vectors
-	 * @return
+	 * Converts a list with 2D vectors into a {@code float} array.
+	 * @param vectors the list with the 2D vectors
+	 * @return the created {@code float} array
 	 * @since 18.08.2018/0.2.0
 	 */
 	public static final float[] toArray2f(List<Vector2f> vectors) {

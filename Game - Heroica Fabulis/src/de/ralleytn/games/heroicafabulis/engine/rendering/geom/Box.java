@@ -148,6 +148,14 @@ public class Box extends StaticMesh {
 		};
 	}
 	
+	/**
+	 * Creates the mesh data for the box.
+	 * @param width the box width
+	 * @param height the box height
+	 * @param depth the box depth
+	 * @return the created mesh data
+	 * @since 20.08.2018/0.2.0
+	 */
 	private static final MeshData createMeshData(float width, float height, float depth) {
 		
 		float[] vertices = createVertices(width, height, depth);

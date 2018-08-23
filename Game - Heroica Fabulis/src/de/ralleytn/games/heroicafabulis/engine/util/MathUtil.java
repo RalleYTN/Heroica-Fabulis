@@ -26,10 +26,11 @@ public final class MathUtil {
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @return
+	 * A method with the functionality of {@link Math#floor(double)} but faster.
+	 * @param x the value
+	 * @return the result
 	 * @since 21.08.2018/0.2.0
+	 * @see Math#floor(double)
 	 */
 	public static final int fastfloor(double x) {
 		

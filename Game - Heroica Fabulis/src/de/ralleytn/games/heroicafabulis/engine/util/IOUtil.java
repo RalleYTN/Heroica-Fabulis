@@ -1,16 +1,17 @@
 package de.ralleytn.games.heroicafabulis.engine.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
+import static de.ralleytn.games.heroicafabulis.engine.util.BinaryUtil.*;
+
 /**
  * Utility class containing methods for working with input and output streams.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 19.08.2018/0.2.0
+ * @version 24.08.2018/0.2.0
  * @since 11.08.2018/0.1.0
  */
 public final class IOUtil {
@@ -36,6 +37,19 @@ public final class IOUtil {
 	}
 	
 	/**
+	 * Reads a string from the given input stream.
+	 * @param stream the input stream
+	 * @param length the byte length
+	 * @return the read string
+	 * @throws IOException if an I/O error occurred
+	 * @since 23.08.2018/0.2.0
+	 */
+	public static final String readString(InputStream stream, int length) throws IOException {
+		
+		return new String(readBytes(stream, length));
+	}
+	
+	/**
 	 * Reads a float from the given input stream.
 	 * @param inputStream the input stream
 	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
@@ -45,8 +59,7 @@ public final class IOUtil {
 	 */
 	public static final float readFloat(InputStream inputStream, boolean bigEndian) throws IOException {
 		
-		int[] bytes = read(inputStream, 4);
-		return Float.intBitsToFloat(BinaryUtil.getSignedInteger(bytes[0], bytes[1], bytes[2], bytes[3], bigEndian));
+		return Float.intBitsToFloat(readSignedInt(inputStream, bigEndian));
 	}
 	
 	/**
@@ -59,8 +72,7 @@ public final class IOUtil {
 	 */
 	public static final double readDouble(InputStream inputStream, boolean bigEndian) throws IOException {
 		
-		int[] bytes = read(inputStream, 8);
-		return Double.longBitsToDouble(BinaryUtil.getSignedLong(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bigEndian));
+		return Double.longBitsToDouble(readSignedLong(inputStream, bigEndian));
 	}
 	
 	/**
@@ -73,8 +85,7 @@ public final class IOUtil {
 	 */
 	public static final int readUnsignedShort(InputStream inputStream, boolean bigEndian) throws IOException {
 		
-		int[] bytes = read(inputStream, 2);
-		return BinaryUtil.getUnsignedShort(bytes[0], bytes[1], bigEndian);
+		return readSignedShort(inputStream, bigEndian) & 0xFFFF;
 	}
 	
 	/**
@@ -87,12 +98,11 @@ public final class IOUtil {
 	 */
 	public static final long readUnsignedInt(InputStream inputStream, boolean bigEndian) throws IOException {
 		
-		int[] bytes = read(inputStream, 4);
-		return BinaryUtil.getUnsignedInteger(bytes[0], bytes[1], bytes[2], bytes[3], bigEndian);
+		return readSignedInt(inputStream, bigEndian) & 0xFFFFFFFFL;
 	}
 	
 	/**
-	 * reads a signed short from the given input stream.
+	 * Reads a signed short from the given input stream.
 	 * @param inputStream the input stream
 	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
 	 * @return the read short
@@ -101,12 +111,14 @@ public final class IOUtil {
 	 */
 	public static final short readSignedShort(InputStream inputStream, boolean bigEndian) throws IOException {
 		
-		int[] bytes = read(inputStream, 2);
-		return BinaryUtil.getSignedShort(bytes[0], bytes[1], bigEndian);
+		byte[] bytes = new byte[Short.BYTES];
+		return (short)(bigEndian ?
+				((bytes[0] & 0xFF) << 8) | (bytes[1] & 0xFF) :	// Big Endian
+				((bytes[1] & 0xFF) << 8) | (bytes[0] & 0xFF));	// Small Endian
 	}
 	
 	/**
-	 * reads a signed int from the given input stream.
+	 * Reads a signed integer from the given input stream.
 	 * @param inputStream the input stream
 	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
 	 * @return the read int
@@ -115,8 +127,10 @@ public final class IOUtil {
 	 */
 	public static final int readSignedInt(InputStream inputStream, boolean bigEndian) throws IOException {
 		
-		int[] bytes = read(inputStream, 4);
-		return BinaryUtil.getSignedInteger(bytes[0], bytes[1], bytes[2], bytes[3], bigEndian);
+		byte[] bytes = readBytes(inputStream, Integer.BYTES);
+		return bigEndian ?
+				((bytes[0] & 0xFF) << 24) | ((bytes[1] & 0xFF) << 16) | ((bytes[2] & 0xFF) << 8) | (bytes[3] & 0xFF) :	// Big Endian
+				((bytes[3] & 0xFF) << 24) | ((bytes[2] & 0xFF) << 16) | ((bytes[1] & 0xFF) << 8) | (bytes[0] & 0xFF);	// Small Endian
 	}
 	
 	/**
@@ -129,42 +143,38 @@ public final class IOUtil {
 	 */
 	public static final long readSignedLong(InputStream inputStream, boolean bigEndian) throws IOException {
 		
-		int[] bytes = read(inputStream, 8);
-		return BinaryUtil.getSignedLong(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bigEndian);
+		byte[] bytes = readBytes(inputStream, Long.BYTES);
+		return bigEndian ?
+				((bytes[0] & 0xFFL) << 56L) | ((bytes[1] & 0xFFL) << 48L) | ((bytes[2] & 0xFFL) << 40L) | ((bytes[3] & 0xFFL) << 32L) | ((bytes[4] & 0xFFL) << 24L) | ((bytes[5] & 0xFFL) << 16L) | ((bytes[6] & 0xFFL) << 8L) | (bytes[7] | 0xFFL) :	// Big Endian
+				((bytes[7] & 0xFFL) << 56L) | ((bytes[6] & 0xFFL) << 48L) | ((bytes[5] & 0xFFL) << 40L) | ((bytes[4] & 0xFFL) << 32L) | ((bytes[3] & 0xFFL) << 24L) | ((bytes[2] & 0xFFL) << 16L) | ((bytes[1] & 0xFFL) << 8L) | (bytes[0] | 0xFFL);	// Small Endian
 	}
 	
 	/**
+	 * Reads a certain amount of bytes from the given input stream.
 	 * @param stream the input stream
-	 * @param length the byte length
-	 * @return {@code length} bytes from the input stream as an {@code int} array
+	 * @param length the amount of bytes that should be read
+	 * @return the read bytes (the array length can be smaller than the given {@code length} parameter, that means the end of file was reached)
 	 * @throws IOException if an I/O error occurred
-	 * @since 11.08.2018/0.1.0
-	 */
-	public static final int[] read(InputStream stream, int length) throws IOException {
-		
-		int[] data = new int[length];
-		
-		for(int index = 0; index < data.length; index++) {
-			
-			data[index] = stream.read();
-		}
-		
-		return data;
-	}
-	
-	/**
-	 * 
-	 * @param stream
-	 * @param length
-	 * @return
-	 * @throws IOException
 	 * @since 19.08.2018/0.2.0
 	 */
 	public static final byte[] readBytes(InputStream stream, int length) throws IOException {
 		
 		byte[] buffer = new byte[length];
-		stream.read(buffer);
-		return buffer;
+		int readByteCount = stream.read(buffer);
+		
+		if(readByteCount == length) {
+			
+			return buffer;
+		}
+		
+		byte[] data = new byte[readByteCount];
+		
+		for(int index = 0; index < readByteCount; index++) {
+			
+			data[index] = buffer[index];
+		}
+		
+		return data;
 	}
 	
 	/**
@@ -199,37 +209,10 @@ public final class IOUtil {
 			            
 			outStream.write(buffer, 0, read);
 		}
-				
+		
 		outStream.flush();
 	}
-	
-	/**
-	 * Writes up to 8 bytes on the given output stream.
-	 * @param stream the output stream
-	 * @param binary64BitSequence the bytes
-	 * @param length the number of bytes to be written
-	 * @param bigEndian {@code true} for big endian byte order, {@code false} for small endian byte order
-	 * @throws IOException if an I/O error occurred
-	 * @since 11.08.2018/0.1.0
-	 */
-	public static final void writeBytes(OutputStream stream, long binary64BitSequence, int length, boolean bigEndian) throws IOException {
-		
-		if(bigEndian) {
-			
-			for(int position = length - 1; position >= 0; position--) {
-				
-				stream.write(BinaryUtil.getByte(binary64BitSequence, position));
-			}
-			
-		} else {
-			
-			for(int position = 0; position < length; position++) {
-				
-				stream.write(BinaryUtil.getByte(binary64BitSequence, position));
-			}
-		}
-	}
-	
+
 	/**
 	 * Writes a {@linkplain String} on the given output stream.
 	 * @param stream the output stream
@@ -244,6 +227,18 @@ public final class IOUtil {
 	}
 	
 	/**
+	 * Writes a {@linkplain String} on the given output stream.
+	 * @param stream the output stream
+	 * @param data the data
+	 * @throws IOException if an I/O error occurred
+	 * @since 23.08.2018/0.2.0
+	 */
+	public static final void writeString(OutputStream stream, String data) throws IOException {
+		
+		stream.write(data.getBytes());
+	}
+	
+	/**
 	 * Writes a {@code int} on the given output stream.
 	 * @param stream the output stream
 	 * @param data the data
@@ -252,8 +247,8 @@ public final class IOUtil {
 	 * @since 11.08.2018/0.1.0
 	 */
 	public static final void writeShort(OutputStream stream, short data, boolean bigEndian) throws IOException {
-		
-		writeBytes(stream, data, Short.BYTES, bigEndian);
+
+		stream.write(toBytes(data, Short.BYTES, bigEndian));
 	}
 	
 	/**
@@ -266,7 +261,7 @@ public final class IOUtil {
 	 */
 	public static final void writeInt(OutputStream stream, int data, boolean bigEndian) throws IOException {
 		
-		writeBytes(stream, data, Integer.BYTES, bigEndian);
+		stream.write(toBytes(data, Integer.BYTES, bigEndian));
 	}
 	
 	/**
@@ -279,7 +274,7 @@ public final class IOUtil {
 	 */
 	public static final void writeLong(OutputStream stream, long data, boolean bigEndian) throws IOException {
 		
-		writeBytes(stream, data, Long.BYTES, bigEndian);
+		stream.write(toBytes(data, Long.BYTES, bigEndian));
 	}
 	
 	/**
@@ -292,7 +287,7 @@ public final class IOUtil {
 	 */
 	public static final void writeFloat(OutputStream stream, float data, boolean bigEndian) throws IOException {
 
-		writeBytes(stream, Float.floatToRawIntBits(data), Integer.BYTES, bigEndian);
+		stream.write(toBytes(Float.floatToRawIntBits(data), Float.BYTES, bigEndian));
 	}
 	
 	/**
@@ -305,24 +300,6 @@ public final class IOUtil {
 	 */
 	public static final void writeDouble(OutputStream stream, double data, boolean bigEndian) throws IOException {
 		
-		writeBytes(stream, Double.doubleToRawLongBits(data), Long.BYTES, bigEndian);
-	}
-	
-	/**
-	 * Convenience method for closing instances of {@linkplain Closable} without needing to wrap another try-catch block arround it.
-	 * @param closable the {@linkplain Closable}
-	 * @since 11.08.2018/0.1.0
-	 */
-	public static final void close(Closeable closable) {
-		
-		try {
-			
-			closable.close();
-			
-		} catch(IOException exception) {
-			
-			// SHOULD NEVER HAPPEN!
-			throw new RuntimeException(exception.getMessage());
-		}
+		stream.write(toBytes(Double.doubleToRawLongBits(data), Double.BYTES, bigEndian));
 	}
 }
