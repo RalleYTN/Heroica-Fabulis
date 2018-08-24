@@ -6,7 +6,7 @@ import java.io.Reader;
 /**
  * Lexer for the JSON parser.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 23.08.2018/0.2.0
+ * @version 24.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSONLexer {
@@ -465,119 +465,111 @@ public final class JSONLexer {
 			
 			if(value < 25 || value > 48) {
 				
-				if(value == 11) {
-					
-					this.sbuffer.append(this.getText());
-					
-				} else if(value == 4) {
-					
-					this.sbuffer = new StringBuffer();
-					this.begin(STATE_STRING_BEGIN);
-					
-				} else if(value == 16) {
-					
-					this.sbuffer.append('\b');
-					
-				} else if(value == 6) {
-					
-					return new JSONToken(JSONToken.TYPE_RIGHT_BRACE, null);
+				switch(value) {
 				
-				} else if(value == 23) {
-					
-					return new JSONToken(JSONToken.TYPE_VALUE, Boolean.valueOf(this.getText()));
-				
-				} else if(value == 22) {
-					
-					return new JSONToken(JSONToken.TYPE_VALUE, null);
-					
-				} else if(value == 13) {
-					
-					this.begin(STATE_INITIAL);
-					return new JSONToken(JSONToken.TYPE_VALUE, this.sbuffer.toString());
-					
-				} else if(value == 12) {
-					
-					this.sbuffer.append('\\');
-					
-				} else if(value == 21) {
-					
-					return new JSONToken(JSONToken.TYPE_VALUE, Double.valueOf(this.getText()));
-				
-				} else if(value == 1) {
-					
-					throw new JSONParseException(this.charPos, JSONParseException.ERROR_UNEXPECTED_CHAR, this.charAt(0));
-				
-				} else if(value == 8) {
-					
-					return new JSONToken(JSONToken.TYPE_RIGHT_SQUARE, null);
-					
-				} else if(value == 19) {
-					
-					this.sbuffer.append('\r');
-				
-				} else if(value == 15) {
-					
-					this.sbuffer.append('/');
-					
-				} else if(value == 10) {
-					
-					return new JSONToken(JSONToken.TYPE_COLON, null);
-					
-				} else if(value == 14) {
-					
-					this.sbuffer.append('"');
-					
-				} else if(value == 5) {
-					
-					return new JSONToken(JSONToken.TYPE_LEFT_BRACE, null);
-					
-				} else if(value == 17) {
-					
-					this.sbuffer.append('\f');
-					
-				} else if(value == 24) {
-					
-					try {
+					case 11:
+						this.sbuffer.append(this.getText());
+						break;
 						
-						int ch = Integer.parseInt(this.getText().substring(2), 16);
-						this.sbuffer.append((char)ch);
+					case 4:
+						this.sbuffer = new StringBuffer();
+						this.begin(STATE_STRING_BEGIN);
+						break;
 						
-					} catch(Exception exception) {
+					case 16:
+						this.sbuffer.append('\b');
+						break;
 						
-						throw new JSONParseException(this.charPos, JSONParseException.ERROR_UNEXPECTED_EXCEPTION, exception);
-					}
-					
-				} else if(value == 20) {
-					
-					this.sbuffer.append('\t');
-					
-				} else if(value == 7) {
-					
-					return new JSONToken(JSONToken.TYPE_LEFT_SQUARE, null);
-					
-				} else if(value == 2) {
-					
-					return new JSONToken(JSONToken.TYPE_VALUE, Long.valueOf(this.getText()));
-					
-				} else if(value == 18) {
-					
-					this.sbuffer.append('\n');
-					
-				} else if(value == 9) {
-					
-					return new JSONToken(JSONToken.TYPE_COMMA, null);
-					
-				} else if(value != 3) {
-				
-					if(input == STATE_EOF && this.startRead == this.currentPos) {
-			        
-						this.eof = true;
-						return null;
+					case 6:
+						return new JSONToken(JSONToken.TYPE_RIGHT_BRACE, null);
 						
-					} else {
+					case 23:
+						return new JSONToken(JSONToken.TYPE_VALUE, Boolean.valueOf(this.getText()));
+						
+					case 22:
+						return new JSONToken(JSONToken.TYPE_VALUE, null);
+						
+					case 13:
+						this.begin(STATE_INITIAL);
+						return new JSONToken(JSONToken.TYPE_VALUE, this.sbuffer.toString());
+						
+					case 12:
+						this.sbuffer.append('\\');
+						break;
+						
+					case 21:
+						return new JSONToken(JSONToken.TYPE_VALUE, Double.valueOf(this.getText()));
+						
+					case 1:
+						throw new JSONParseException(this.charPos, JSONParseException.ERROR_UNEXPECTED_CHAR, this.charAt(0));
+						
+					case 8:
+						return new JSONToken(JSONToken.TYPE_RIGHT_SQUARE, null);
+						
+					case 19:
+						this.sbuffer.append('\r');
+						break;
+						
+					case 15:
+						this.sbuffer.append('/');
+						break;
+						
+					case 10:
+						return new JSONToken(JSONToken.TYPE_COLON, null);
+						
+					case 14:
+						this.sbuffer.append('"');
+						break;
+						
+					case 5:
+						return new JSONToken(JSONToken.TYPE_LEFT_BRACE, null);
+						
+					case 17:
+						this.sbuffer.append('\f');
+						break;
+						
+					case 24:
+						try {
+							
+							int ch = Integer.parseInt(this.getText().substring(2), 16);
+							this.sbuffer.append((char)ch);
+							
+						} catch(Exception exception) {
+							
+							throw new JSONParseException(this.charPos, JSONParseException.ERROR_UNEXPECTED_EXCEPTION, exception);
+						}
+						break;
+						
+					case 20:
+						this.sbuffer.append('\t');
+						break;
+						
+					case 7:
+						return new JSONToken(JSONToken.TYPE_LEFT_SQUARE, null);
+						
+					case 2:
+						return new JSONToken(JSONToken.TYPE_VALUE, Long.valueOf(this.getText()));
+						
+					case 18:
+						this.sbuffer.append('\n');
+						break;
+						
+					case 9:
+						return new JSONToken(JSONToken.TYPE_COMMA, null);
+						
+					default:
+						if(value != 3) {
+							
+							if(input == STATE_EOF && this.startRead == this.currentPos) {
+					        
+								this.eof = true;
+								return null;
+								
+							} else {
 
-						this.error(ERR_TYPE_NO_MATCH);
-					}
+								this.error(ERR_TYPE_NO_MATCH);
+							}
+						}
 				}
 			}
 		}
