@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.json;
 /**
  * Represents a token used for parsing JSON data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 24.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSONToken {
@@ -47,5 +47,11 @@ public final class JSONToken {
 	public final Object getValue() {
 		
 		return this.value;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return String.valueOf(this.value);
 	}
 }
