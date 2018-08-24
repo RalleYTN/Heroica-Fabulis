@@ -8,12 +8,14 @@ import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.openal.ALC.*;
 import static org.lwjgl.openal.ALC10.*;
+
+import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.ALCCapabilities;
 
 /**
  * Class containing methods that affect OpenAL as a whole and cannot be encapsulated.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 24.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public final class OpenAL {
@@ -44,7 +46,7 @@ public final class OpenAL {
 		
 		OpenAL.DEVICE_ID = alcOpenDevice((ByteBuffer)null);
 		ALCCapabilities deviceCaps = createCapabilities(OpenAL.DEVICE_ID);
-		OpenAL.CONTEXT_ID = alcCreateContext(OpenAL.DEVICE_ID, (IntBuffer)null);
+		OpenAL.CONTEXT_ID = alcCreateContext(OpenAL.DEVICE_ID, createContextAttributes(60, false));
 		alcMakeContextCurrent(OpenAL.CONTEXT_ID);
 		createCapabilities(deviceCaps);
 	}
@@ -141,5 +143,22 @@ public final class OpenAL {
 	public static final float getSpeedOfSound() {
 		
 		return alGetFloat(AL_SPEED_OF_SOUND);
+	}
+	
+	/**
+	 * Creates the context attributes.
+	 * @param refreshRate the refresh rate in Hz
+	 * @param sync context should be synchronous
+	 * @return the created context attributes
+	 * @since 24.08.2018/0.2.0
+	 */
+	private static final IntBuffer createContextAttributes(int refreshRate, boolean sync) {
+		
+		IntBuffer attributes = BufferUtils.createIntBuffer(16);
+		attributes.put(ALC_REFRESH);
+		attributes.put(refreshRate);
+		attributes.put(ALC_SYNC);
+		attributes.put(sync ? ALC_TRUE : ALC_FALSE);
+		return attributes;
 	}
 }
