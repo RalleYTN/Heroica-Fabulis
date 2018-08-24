@@ -60,9 +60,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 	
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain JSONObject} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public JSONObject getObject(int index) {
@@ -71,9 +70,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 	
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain JSONArray} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public JSONArray getArray(int index) {
@@ -82,9 +80,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain Boolean} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Boolean getBoolean(int index) {
@@ -93,9 +90,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain Byte} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Byte getByte(int index) {
@@ -104,9 +100,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain Short} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Short getShort(int index) {
@@ -115,9 +110,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain Integer} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Integer getInteger(int index) {
@@ -126,9 +120,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain Long} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Long getLong(int index) {
@@ -137,9 +130,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain Float} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Float getFloat(int index) {
@@ -148,9 +140,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain Double} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Double getDouble(int index) {
@@ -159,9 +150,8 @@ public class JSONArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * @param index the array index
+	 * @return the value at the given index as an instance of {@linkplain String} or {@code null} if it cannot be represented by it or the value is actually {@code null}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public String getString(int index) {
