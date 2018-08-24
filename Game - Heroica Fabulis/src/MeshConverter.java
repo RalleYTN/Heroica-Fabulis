@@ -10,7 +10,7 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 /**
- * 
+ * Tool for converting between OBJ and XMESH models.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 23.08.2018/0.2.0
  * @since 22.08.2018/0.2.0
@@ -20,14 +20,14 @@ public final class MeshConverter {
 	private static final String XMESH_SIGNATURE = "XMESH";
 	
 	/**
+	 * Private because no instances of this class should exist.
 	 * @since 22.08.2018/0.2.0
 	 */
 	private MeshConverter() {}
 	
 	/**
-	 * 
-	 * @param args
-	 * @throws IOException 
+	 * @param args 0 = source file, 1 = target file
+	 * @throws IOException if an I/O error occurred
 	 * @since 22.08.2018/0.2.0
 	 */
 	public static void main(String[] args) throws IOException {
@@ -219,7 +219,7 @@ public final class MeshConverter {
 				
 			} else {
 				
-				
+				// TODO
 			}
 		}
 	}
