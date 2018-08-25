@@ -70,9 +70,9 @@ public final class MeshUtil {
 			for(int index = 0; index < mVertices.length; index += 3) {
 				
 				Vector3f vertex = MatrixUtil.multiply(transformation, mVertices[index], mVertices[index + 1], mVertices[index + 2]);
-				vertices[iv++] = vertex.x + transformation.m30;
-				vertices[iv++] = vertex.y + transformation.m31;
-				vertices[iv++] = vertex.z + transformation.m32;
+				vertices[iv++] = vertex.x;
+				vertices[iv++] = vertex.y;
+				vertices[iv++] = vertex.z;
 				
 				Vector3f normal = MatrixUtil.multiply(transformation, mNormals[index], mNormals[index + 1], mNormals[index + 2]);
 				normals[ivn++] = normal.x;

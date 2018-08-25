@@ -79,7 +79,7 @@ public final class HeroicaFabulis extends Game {
 	public void initialize(Game game) throws EngineException, IOException {
 		
 		FlyCamBehavior behavior = new FlyCamBehavior();
-		behavior.setSpeed(0.0002F);
+		behavior.setSpeed(0.002F);
 		game.getCamera().setBehavior(behavior);
 		
 		this.getCamera().setTranslation(0, 1, 0);
@@ -120,7 +120,7 @@ public final class HeroicaFabulis extends Game {
 			new Vector3f(1F, 1F, 0.0F)
 		);
 		
-		StaticMesh grassMesh = new StaticMesh(MeshUtil.mergeLazy(Arrays.asList(quad, quad.copy()), Arrays.asList(
+		StaticMesh grassMesh = new StaticMesh(MeshUtil.mergeLazy(Arrays.asList(quad, quad), Arrays.asList(
 			MatrixUtil.createTransformationMatrx(
 				new Vector3f(0.0F, 0.0F, 0.0F),
 				new Vector3f(0.0F, 0.0F, 0.0F),
