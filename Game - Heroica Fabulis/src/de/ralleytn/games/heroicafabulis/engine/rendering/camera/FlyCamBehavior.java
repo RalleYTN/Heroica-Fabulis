@@ -13,7 +13,7 @@ import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
 /**
  * Represents the behavior of a flying camera commonly used for debugging purposes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 25.08.2018/0.3.0
  * @since 13.08.2018/0.1.0
  */
 public class FlyCamBehavior extends CameraBehavior {
@@ -22,7 +22,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	private float speed;
 	private boolean invertY;
 	private boolean invertX;
-	private boolean flip;
+	private boolean flipping;
 	private int upKey;
 	private int downKey;
 	private int leftKey;
@@ -61,6 +61,116 @@ public class FlyCamBehavior extends CameraBehavior {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param mouseSensitivity
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setMouseSensitivity(float mouseSensitivity) {
+		
+		this.mouseSensitivity = mouseSensitivity;
+	}
+	
+	/**
+	 * 
+	 * @param speed
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setSpeed(float speed) {
+		
+		this.speed = speed;
+	}
+	
+	/**
+	 * 
+	 * @param invertY
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setInvertY(boolean invertY) {
+		
+		this.invertY = invertY;
+	}
+	
+	/**
+	 * 
+	 * @param invertX
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setInvertX(boolean invertX) {
+		
+		this.invertX = invertX;
+	}
+	
+	/**
+	 * 
+	 * @param flipping
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setFlipping(boolean flipping) {
+		
+		this.flipping = flipping;
+	}
+	
+	/**
+	 * 
+	 * @param upKey
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setUpKey(int upKey) {
+		
+		this.upKey = upKey;
+	}
+	
+	/**
+	 * 
+	 * @param downKey
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setDownKey(int downKey) {
+		
+		this.downKey = downKey;
+	}
+	
+	/**
+	 * 
+	 * @param leftKey
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setLeftKey(int leftKey) {
+		
+		this.leftKey = leftKey;
+	}
+	
+	/**
+	 * 
+	 * @param rightKey
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setRightKey(int rightKey) {
+		
+		this.rightKey = rightKey;
+	}
+	
+	/**
+	 * 
+	 * @param forwardKey
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setForwardKey(int forwardKey) {
+		
+		this.forwardKey = forwardKey;
+	}
+	
+	/**
+	 * 
+	 * @param backwardKey
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setBackwardKey(int backwardKey) {
+		
+		this.backwardKey = backwardKey;
+	}
+	
 	@Override
 	public void update(float delta) {
 		
@@ -76,7 +186,7 @@ public class FlyCamBehavior extends CameraBehavior {
 		
 		this.getCamera().rotate(((this.invertY ? -deltaY : deltaY) * this.mouseSensitivity) * delta, ((this.invertX ? -deltaX : deltaX) * this.mouseSensitivity) * delta, 0.0F);
 		
-		if(!this.flip) {
+		if(!this.flipping) {
 			
 			Vector3f rotation = this.getCamera().getRotation();
 			rotation.x = Math.min(Math.max(rotation.x, -90.0F), 90.0F);
@@ -110,5 +220,115 @@ public class FlyCamBehavior extends CameraBehavior {
 			
 			camera.move(Direction.DOWN, this.speed * delta);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getMouseSensitivity() {
+		
+		return this.mouseSensitivity;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getSpeed() {
+		
+		return this.speed;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public boolean invertY() {
+		
+		return this.invertY;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public boolean invertX() {
+		
+		return this.invertX;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public boolean allowsFlipping() {
+		
+		return this.flipping;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public int getUpKey() {
+		
+		return this.upKey;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public int getDownKey() {
+		
+		return this.downKey;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public int getLeftKey() {
+		
+		return this.leftKey;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public int getRightKey() {
+		
+		return this.rightKey;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public int getForwardKey() {
+		
+		return this.forwardKey;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public int getBackwardKey() {
+		
+		return this.backwardKey;
 	}
 }

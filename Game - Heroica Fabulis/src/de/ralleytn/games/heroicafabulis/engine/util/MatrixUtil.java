@@ -8,7 +8,7 @@ import de.ralleytn.games.heroicafabulis.engine.Engine;
 /**
  * Utility class containg methods for working with matrices.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 25.08.2018/0.3.0
  * @since 11.08.2018/0.1.0
  */
 public final class MatrixUtil {
@@ -17,6 +17,26 @@ public final class MatrixUtil {
 	 * @since 11.08.2018/0.1.0
 	 */
 	private MatrixUtil() {}
+	
+	/**
+	 * 
+	 * @param translation
+	 * @param rotation
+	 * @param scale
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public static final Matrix4f createTransformationMatrx(Vector3f translation, Vector3f rotation, Vector3f scale) {
+		
+		Matrix4f transformation = new Matrix4f();
+		transformation.setIdentity();
+		translate(translation, transformation);
+		rotate((float)Math.toRadians(rotation.x), Engine.AXIS_X, transformation);
+		rotate((float)Math.toRadians(rotation.y), Engine.AXIS_Y, transformation);
+		rotate((float)Math.toRadians(rotation.z), Engine.AXIS_Z, transformation);
+		scale(scale, transformation);
+		return transformation;
+	}
 	
 	/**
 	 * Converts a {@linkplain Matrix4f} to a float array.

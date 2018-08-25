@@ -2,6 +2,7 @@ package de.ralleytn.games.heroicafabulis.engine.rendering.shader;
 
 import javax.vecmath.Color4f;
 
+import de.ralleytn.games.heroicafabulis.engine.Copyable;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
 
 import static org.lwjgl.opengl.GL13.*;
@@ -12,23 +13,32 @@ import static org.lwjgl.opengl.GL13.*;
  * @version 25.08.2018/0.3.0
  * @since 10.08.2018/0.1.0
  */
-public class Material {
-
-	private static final String UNIFORM_AFFECTED_BY_LIGHT = "matAffectedByLight";
-	private static final String UNIFORM_BRIGHTNESS = "matBrightness";
-	private static final String UNIFORM_COLOR = "matColor";
+public class Material implements Copyable<Material> {
+	
 	private static final String UNIFORM_USE_OVERLAY1 = "matUseOverlay1";
 	private static final String UNIFORM_USE_OVERLAY2 = "matUseOverlay2";
 	private static final String UNIFORM_USE_OVERLAY3 = "matUseOverlay3";
 	private static final String UNIFORM_USE_COLOR_MAP = "matUseColorMap";
 	private static final String UNIFORM_USE_SPECULAR_MAP = "matUseSpecularMap";
 	private static final String UNIFORM_USE_NORMAL_MAP = "matUseNormalMap";
+	private static final String UNIFORM_USE_BLEND_MAP = "matUseBlendMap";
+	
 	private static final String UNIFORM_COLOR_MAP = "matColorMap";
 	private static final String UNIFORM_NORMAL_MAP = "matNormalMap";
+	private static final String UNIFORM_BLEND_MAP = "matBlendMap";
 	private static final String UNIFORM_OVERLAY1 = "matOverlay1";
 	private static final String UNIFORM_OVERLAY2 = "matOverlay2";
 	private static final String UNIFORM_OVERLAY3 = "matOverlay3";
 	private static final String UNIFORM_SPECULAR = "matSpecular";
+	
+	private static final String UNIFORM_COLOR_MAP_TILING = "matColorMapTiling";
+	private static final String UNIFORM_NORMAL_MAP_TILING = "matNormalMapTiling";
+	private static final String UNIFORM_BLEND_MAP_TILING = "matBlendMapTiling";
+	private static final String UNIFORM_SPECULAR_MAP_TILING = "matSpecularMapTiling";
+	private static final String UNIFORM_OVERLAY1_TILING = "matOverlay1Tiling";
+	private static final String UNIFORM_OVERLAY2_TILING = "matOverlay2Tiling";
+	private static final String UNIFORM_OVERLAY3_TILING = "matOverlay3Tiling";
+	
 	private static final String UNIFORM_MIN_BRIGHTNESS = "matMinBrightness";
 	private static final String UNIFORM_SHINE_DAMPING = "matShineDamping";
 	private static final String UNIFORM_SPECULAR_MAP = "matSpecularMap";
@@ -36,13 +46,24 @@ public class Material {
 	private static final String UNIFORM_ALLOW_TRANSPARENCY = "matAllowTransparency";
 	private static final String UNIFORM_USE_UPWARDS_NORMALS = "matUseUpwardsNormals";
 	private static final String UNIFORM_AFFECTED_BY_FOG = "matAffectedByFog";
+	private static final String UNIFORM_AFFECTED_BY_LIGHT = "matAffectedByLight";
+	private static final String UNIFORM_BRIGHTNESS = "matBrightness";
+	private static final String UNIFORM_COLOR = "matColor";
 	
 	private Texture colorMap;		// 0
 	private Texture specularMap;	// 1
 	private Texture normalMap;		// 2
+	private Texture blendMap;		// 3
 	private Texture overlay1;		// 31
 	private Texture overlay2;		// 30
 	private Texture overlay3;		// 29
+	private float colorMapTiling;
+	private float specularMapTiling;
+	private float normalMapTiling;
+	private float blendMapTiling;
+	private float overlay1Tiling;
+	private float overlay2Tiling;
+	private float overlay3Tiling;
 	private Color4f color;
 	private Fog fog;
 	private float reflectivity;
@@ -63,6 +84,13 @@ public class Material {
 		this.shineDamping = 1.0F;
 		this.brightness = 1.0F;
 		this.color = new Color4f(1.0F, 0.0F, 1.0F, 1.0F);
+		this.colorMapTiling = 1.0F;
+		this.specularMapTiling = 1.0F;
+		this.normalMapTiling = 1.0F;
+		this.blendMapTiling = 1.0F;
+		this.overlay1Tiling = 1.0F;
+		this.overlay2Tiling = 1.0F;
+		this.overlay3Tiling = 1.0F;
 	}
 	
 	/**
@@ -99,6 +127,17 @@ public class Material {
 	}
 	
 	/**
+	 * 
+	 * @param blendMap
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setBlendMap(Texture blendMap) {
+		
+		this.blendMap = blendMap;
+		this.changed = true;
+	}
+	
+	/**
 	 * Sets the overlay on layer 1.
 	 * @param overlay1 overlay texture
 	 * @since 10.08.2018/0.1.0
@@ -128,6 +167,83 @@ public class Material {
 	public void setOverlay3(Texture overlay3) {
 		
 		this.overlay3 = overlay3;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param tiling
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setColorMapTiling(float tiling) {
+		
+		this.colorMapTiling = tiling;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param tiling
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setSpecularMapTiling(float tiling) {
+		
+		this.specularMapTiling = tiling;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param tiling
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setNormalMapTiling(float tiling) {
+		
+		this.normalMapTiling = tiling;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param tiling
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setBlendMapTiling(float tiling) {
+		
+		this.blendMapTiling = tiling;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param tiling
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setOverlay1Tiling(float tiling) {
+		
+		this.overlay1Tiling = tiling;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param tiling
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setOverlay2Tiling(float tiling) {
+		
+		this.overlay2Tiling = tiling;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param tiling
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setOverlay3Tiling(float tiling) {
+		
+		this.overlay3Tiling = tiling;
 		this.changed = true;
 	}
 	
@@ -269,6 +385,16 @@ public class Material {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public Texture getBlendMap() {
+		
+		return this.blendMap;
+	}
+	
+	/**
 	 * @return the overlay texture for layer 1
 	 * @since 10.08.2018/0.1.0
 	 */
@@ -293,6 +419,76 @@ public class Material {
 	public Texture getOverlay3() {
 		
 		return this.overlay3;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getColorMapTiling() {
+		
+		return this.colorMapTiling;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getSpecularMapTiling() {
+		
+		return this.specularMapTiling;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getNormalMapTiling() {
+		
+		return this.normalMapTiling;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getBlendMapTiling() {
+		
+		return this.blendMapTiling;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getOverlay1Tiling() {
+		
+		return this.overlay1Tiling;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getOverlay2Tiling() {
+		
+		return this.overlay2Tiling;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public float getOverlay3Tiling() {
+		
+		return this.overlay3Tiling;
 	}
 	
 	/**
@@ -400,11 +596,12 @@ public class Material {
 		pipeline.setUniform(UNIFORM_COLOR, this.color);
 		pipeline.setUniform(UNIFORM_ALLOW_TRANSPARENCY, this.transparency);
 
-		this.applyTexture(pipeline, this.colorMap, UNIFORM_USE_COLOR_MAP, UNIFORM_COLOR_MAP, GL_TEXTURE0, 0);
-		this.applyTexture(pipeline, this.normalMap, UNIFORM_USE_NORMAL_MAP, UNIFORM_NORMAL_MAP, GL_TEXTURE2, 2);
-		this.applyTexture(pipeline, this.overlay1, UNIFORM_USE_OVERLAY1, UNIFORM_OVERLAY1, GL_TEXTURE31, 31);
-		this.applyTexture(pipeline, this.overlay2, UNIFORM_USE_OVERLAY2, UNIFORM_OVERLAY2, GL_TEXTURE30, 30);
-		this.applyTexture(pipeline, this.overlay3, UNIFORM_USE_OVERLAY3, UNIFORM_OVERLAY3, GL_TEXTURE29, 29);
+		this.applyTexture(pipeline, this.colorMap,  UNIFORM_USE_COLOR_MAP,  UNIFORM_COLOR_MAP,  GL_TEXTURE0,   0, UNIFORM_COLOR_MAP_TILING,  this.colorMapTiling);
+		this.applyTexture(pipeline, this.normalMap, UNIFORM_USE_NORMAL_MAP, UNIFORM_NORMAL_MAP, GL_TEXTURE2,   2, UNIFORM_NORMAL_MAP_TILING, this.normalMapTiling);
+		this.applyTexture(pipeline, this.blendMap,  UNIFORM_USE_BLEND_MAP,  UNIFORM_BLEND_MAP,  GL_TEXTURE3,   3, UNIFORM_BLEND_MAP_TILING,  this.blendMapTiling);
+		this.applyTexture(pipeline, this.overlay1,  UNIFORM_USE_OVERLAY1,   UNIFORM_OVERLAY1,   GL_TEXTURE31, 31, UNIFORM_OVERLAY1_TILING,   this.overlay1Tiling);
+		this.applyTexture(pipeline, this.overlay2,  UNIFORM_USE_OVERLAY2,   UNIFORM_OVERLAY2,   GL_TEXTURE30, 30, UNIFORM_OVERLAY2_TILING,   this.overlay2Tiling);
+		this.applyTexture(pipeline, this.overlay3,  UNIFORM_USE_OVERLAY3,   UNIFORM_OVERLAY3,   GL_TEXTURE29, 29, UNIFORM_OVERLAY3_TILING,   this.overlay3Tiling);
 
 		if(this.affectedByLight) {
 			
@@ -415,7 +612,7 @@ public class Material {
 			if(this.specular) {
 				
 				pipeline.setUniform(UNIFORM_SHINE_DAMPING, this.shineDamping);
-				this.applyTexture(pipeline, this.specularMap, UNIFORM_USE_SPECULAR_MAP, UNIFORM_SPECULAR_MAP, GL_TEXTURE1, 1);
+				this.applyTexture(pipeline, this.specularMap, UNIFORM_USE_SPECULAR_MAP, UNIFORM_SPECULAR_MAP, GL_TEXTURE1, 1, UNIFORM_SPECULAR_MAP_TILING, this.specularMapTiling);
 
 				if(this.specularMap == null) {
 					
@@ -443,9 +640,11 @@ public class Material {
 	 * @param uniformname of the uniform variable that contains the texture
 	 * @param slot the OpenGL texture slot
 	 * @param position the slot as number
+	 * @param tilingUniform
+	 * @param tiling
 	 * @since 15.08.2018/0.1.0
 	 */
-	private final void applyTexture(ShaderPipeline pipeline, Texture texture, String uniformUse, String uniform, int slot, int position) {
+	private final void applyTexture(ShaderPipeline pipeline, Texture texture, String uniformUse, String uniform, int slot, int position, String tilingUniform, float tiling) {
 		
 		boolean use = (texture != null);
 		pipeline.setUniform(uniformUse, use);
@@ -455,6 +654,7 @@ public class Material {
 			glActiveTexture(slot);
 			texture.bind();
 			pipeline.setUniform(uniform, position);
+			pipeline.setUniform(tilingUniform, tiling);
 		}
 	}
 	
@@ -465,5 +665,38 @@ public class Material {
 	public boolean hasChanged() {
 		
 		return this.changed;
+	}
+
+	@Override
+	public Material copy() {
+		
+		Material material = new Material();
+		material.changed = true;
+		material.affectedByLight = this.affectedByLight;
+		material.blendMap = this.blendMap;
+		material.blendMapTiling = this.blendMapTiling;
+		material.brightness = this.brightness;
+		material.color = this.color;
+		material.colorMap = this.colorMap;
+		material.colorMapTiling = this.colorMapTiling;
+		material.fog = this.fog;
+		material.minBrightness = this.minBrightness;
+		material.normalMap = this.normalMap;
+		material.normalMapTiling = this.normalMapTiling;
+		material.overlay1 = this.overlay1;
+		material.overlay2 = this.overlay2;
+		material.overlay3 = this.overlay3;
+		material.overlay1Tiling = this.overlay1Tiling;
+		material.overlay2Tiling = this.overlay2Tiling;
+		material.overlay3Tiling = this.overlay3Tiling;
+		material.reflectivity = this.reflectivity;
+		material.shineDamping = this.shineDamping;
+		material.specular = this.specular;
+		material.specularMap = this.specularMap;
+		material.specularMapTiling = this.specularMapTiling;
+		material.transparency = this.transparency;
+		material.upwardsNormals = this.upwardsNormals;
+		
+		return material;
 	}
 }

@@ -9,10 +9,10 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents an entity. An entity is an object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 25.08.2018/0.3.0
  * @since 30.07.2018/0.1.0
  */
-public class Entity extends RenderableObject implements Movable, Scalable, Updatable {
+public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Copyable<Entity> {
 	
 	private Vector3f translation;
 	private Vector3f rotation;
@@ -197,4 +197,20 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 	@Override
 	public void update(float delta) {}
+
+	@Override
+	public Entity copy() {
+		
+		Entity entity = new Entity();
+		entity.material = this.material;
+		entity.mesh = this.mesh;
+		entity.rendering = this.rendering;
+		entity.rotation = new Vector3f(this.rotation);
+		entity.scale = new Vector3f(this.scale);
+		entity.translation = new Vector3f(this.translation);
+		entity.transformation = new Matrix4f(this.transformation);
+		entity.shaderPipeline = this.shaderPipeline;
+		
+		return entity;
+	}
 }

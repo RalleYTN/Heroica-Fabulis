@@ -3,6 +3,7 @@ package de.ralleytn.games.heroicafabulis;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.vecmath.Vector3f;
 
@@ -12,6 +13,7 @@ import de.ralleytn.games.heroicafabulis.engine.Errors;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.Terrain;
 import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
+import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.io.meshes.XMeshReader;
 import de.ralleytn.games.heroicafabulis.engine.io.textures.XImgTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
@@ -23,6 +25,8 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.shader.BasicShaderPipel
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Fog;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
+import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
+import de.ralleytn.games.heroicafabulis.engine.util.MeshUtil;
 
 /**
  * This is the main class in which the game components are assembled and the game is started.
@@ -74,7 +78,10 @@ public final class HeroicaFabulis extends Game {
 	@Override
 	public void initialize(Game game) throws EngineException, IOException {
 		
-		game.getCamera().setBehavior(new FlyCamBehavior());
+		FlyCamBehavior behavior = new FlyCamBehavior();
+		behavior.setSpeed(0.0002F);
+		game.getCamera().setBehavior(behavior);
+		
 		this.getCamera().setTranslation(0, 1, 0);
 
 		ShaderPipeline shaderPipeline = new BasicShaderPipeline(new File("res/shaders"), "basic");
@@ -90,7 +97,11 @@ public final class HeroicaFabulis extends Game {
 		
 		Material terrainMaterial = new Material();
 		terrainMaterial.setMinBrightness(0.3F);
-		terrainMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/grass.ximg"))));
+		//terrainMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/grass.ximg"))));
+		terrainMaterial.setOverlay1(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/street.ximg"))));
+		terrainMaterial.setBlendMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/blendMap1.ximg"))));
+		terrainMaterial.setColorMapTiling(Terrain.VERTEX_COUNT);
+		terrainMaterial.setOverlay1Tiling(30);
 		terrainMaterial.setAffectedByLight(true);
 		terrainMaterial.setFog(fog);
 		
@@ -102,18 +113,31 @@ public final class HeroicaFabulis extends Game {
 		grassMaterial.setUpwardsNormals(true);
 		grassMaterial.setFog(fog);
 		
-		Quad quad = new Quad(
+		MeshData quad = Quad.generateMeshData(
 			new Vector3f(0.0F, 1F, 0.0F),
 			new Vector3f(0.0F, 0.0F, 0.0F),
 			new Vector3f(1F, 0.0F, 0.0F),
 			new Vector3f(1F, 1F, 0.0F)
 		);
-		quad.setCullMode(Quad.CULLING_DISABLED);
+		
+		StaticMesh grassMesh = new StaticMesh(MeshUtil.mergeLazy(Arrays.asList(quad, quad.copy()), Arrays.asList(
+			MatrixUtil.createTransformationMatrx(
+				new Vector3f(0.0F, 0.0F, 0.0F),
+				new Vector3f(0.0F, 0.0F, 0.0F),
+				new Vector3f(1.0F, 1.0F, 1.0F)
+			),
+			MatrixUtil.createTransformationMatrx(
+				new Vector3f(0F, 0.0F, -0F),
+				new Vector3f(0.0F, 90.0F, 0.0F),
+				new Vector3f(1.0F, 1.0F, 1.0F)
+			)
+		)));
+		grassMesh.setCullMode(StaticMesh.CULLING_DISABLED);
 
 		Entity grass = new Entity();
 		grass.setShaderPipeline(shaderPipeline);
 		grass.setMaterial(grassMaterial);
-		grass.setMesh(quad);
+		grass.setMesh(grassMesh);
 		grass.setTranslation(0, 0, 1);
 
 		Entity stall = new Entity();

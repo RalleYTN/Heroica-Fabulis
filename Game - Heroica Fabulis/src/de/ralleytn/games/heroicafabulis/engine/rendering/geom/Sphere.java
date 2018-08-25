@@ -5,7 +5,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 24.08.2018/0.3.0
+ * @version 25.08.2018/0.3.0
  * @since 24.08.2018/0.3.0
  */
 public class Sphere extends StaticMesh {
@@ -30,7 +30,7 @@ public class Sphere extends StaticMesh {
 	 * @return
 	 * @since 24.08.2018/0.3.0
 	 */
-	private static final MeshData generateMeshData(float radius, int rings, int sectors) {
+	public static final MeshData generateMeshData(float radius, int rings, int sectors) {
 		
 		final float R = (float)(1./(rings - 1));
 		final float S = (float)(1./(sectors - 1));

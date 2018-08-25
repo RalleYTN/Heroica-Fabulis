@@ -11,7 +11,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 /**
  * Represents a simple box mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 25.08.2018/0.3.0
  * @since 05.08.2018/0.1.0
  */
 public class Box extends StaticMesh {
@@ -156,7 +156,7 @@ public class Box extends StaticMesh {
 	 * @return the created mesh data
 	 * @since 20.08.2018/0.2.0
 	 */
-	private static final MeshData createMeshData(float width, float height, float depth) {
+	public static final MeshData createMeshData(float width, float height, float depth) {
 		
 		float[] vertices = createVertices(width, height, depth);
 		float[] normals = createNormals(width, height, depth);

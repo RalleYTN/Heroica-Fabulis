@@ -11,7 +11,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 24.08.2018/0.3.0
+ * @version 25.08.2018/0.3.0
  * @since 24.08.2018/0.3.0
  */
 public class Quad extends StaticMesh {
@@ -52,7 +52,7 @@ public class Quad extends StaticMesh {
 	 * @return
 	 * @since 24.08.2018/0.3.0
 	 */
-	private static final MeshData generateMeshData(Vector3f p1, Vector3f p2, Vector3f p3, Vector3f p4) {
+	public static final MeshData generateMeshData(Vector3f p1, Vector3f p2, Vector3f p3, Vector3f p4) {
 		
 		float[] vertices = {
 				

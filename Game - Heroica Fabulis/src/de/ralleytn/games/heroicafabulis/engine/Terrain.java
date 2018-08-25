@@ -11,7 +11,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents a terrain tile in the grid.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 25.08.2018/0.3.0
  * @since 21.08.2018/0.2.0
  */
 public class Terrain extends RenderableObject {
@@ -87,9 +87,8 @@ public class Terrain extends RenderableObject {
 				normals[vp31] = 1;
 				normals[vp32] = 0;
 				
-				// The +i and +j is required for texture tiling
-				texCoords[vp2] = (float)j / (float)vcm1 + i;
-				texCoords[vp2 + 1] = (float)i / (float)vcm1 + j;
+				texCoords[vp2] = (float)j / (float)vcm1;
+				texCoords[vp2 + 1] = (float)i / (float)vcm1;
 				
 				pointer++;
 			}

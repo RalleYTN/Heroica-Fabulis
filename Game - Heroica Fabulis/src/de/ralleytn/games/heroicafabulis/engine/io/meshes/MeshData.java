@@ -1,12 +1,15 @@
 package de.ralleytn.games.heroicafabulis.engine.io.meshes;
 
+import de.ralleytn.games.heroicafabulis.engine.Copyable;
+import de.ralleytn.games.heroicafabulis.engine.util.ArrayUtil;
+
 /**
  * Represents mesh data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 25.08.2018/0.3.0
  * @since 20.08.2018/0.2.0
  */
-public class MeshData {
+public class MeshData implements Copyable<MeshData> {
 
 	private float[] vertices;
 	private float[] texCoords;
@@ -89,5 +92,17 @@ public class MeshData {
 	public int[] getIndices() {
 		
 		return this.indices;
+	}
+
+	@Override
+	public MeshData copy() {
+		
+		MeshData data = new MeshData();
+		data.indices = ArrayUtil.copy(this.indices);
+		data.normals = ArrayUtil.copy(this.normals);
+		data.texCoords = ArrayUtil.copy(this.texCoords);
+		data.vertices = ArrayUtil.copy(this.vertices);
+		
+		return data;
 	}
 }
