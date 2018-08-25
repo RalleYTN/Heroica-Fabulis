@@ -93,7 +93,7 @@ public class Graphics3D {
 			this.shaderPipeline.setUniform("transformation", object.getTransformationMatrix());
 			this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
 			
-			if(material != this.material || this.material.hasChanged()) {
+			if(material != this.material || this.material.hasChanged() || (this.material.getFog() != null && this.material.getFog().hasChanged())) {
 				
 				this.material = material;
 				this.material.applyToShader(this.shaderPipeline);

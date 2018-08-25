@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL13.*;
 /**
  * Represents a material. Materials are used to tell the shader <b>how</b> a mesh should be rendered.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 25.08.2018/0.3.0
  * @since 10.08.2018/0.1.0
  */
 public class Material {
@@ -33,6 +33,9 @@ public class Material {
 	private static final String UNIFORM_SHINE_DAMPING = "matShineDamping";
 	private static final String UNIFORM_SPECULAR_MAP = "matSpecularMap";
 	private static final String UNIFORM_REFLECTIVITY = "matReflectivity";
+	private static final String UNIFORM_ALLOW_TRANSPARENCY = "matAllowTransparency";
+	private static final String UNIFORM_USE_UPWARDS_NORMALS = "matUseUpwardsNormals";
+	private static final String UNIFORM_AFFECTED_BY_FOG = "matAffectedByFog";
 	
 	private Texture colorMap;		// 0
 	private Texture specularMap;	// 1
@@ -41,12 +44,15 @@ public class Material {
 	private Texture overlay2;		// 30
 	private Texture overlay3;		// 29
 	private Color4f color;
+	private Fog fog;
 	private float reflectivity;
 	private float shineDamping;
 	private float minBrightness;
 	private float brightness;
 	private boolean affectedByLight;
 	private boolean specular;
+	private boolean transparency;
+	private boolean upwardsNormals;
 	private boolean changed;
 	
 	/**
@@ -137,6 +143,17 @@ public class Material {
 	}
 	
 	/**
+	 * 
+	 * @param fog
+	 * @since 25.08.2018/0.3.0
+	 */
+	public void setFog(Fog fog) {
+		
+		this.fog = fog;
+		this.changed = true;
+	}
+	
+	/**
 	 * Sets the reflectivity of the object.
 	 * @param reflectivity the reflectivity (default = {@code 0.0F})
 	 * @since 10.08.2018/0.1.0
@@ -199,6 +216,28 @@ public class Material {
 	public void setSpecular(boolean specular) {
 		
 		this.specular = specular;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param transparency
+	 * @since 24.08.2018/0.3.0
+	 */
+	public void setTransparent(boolean transparency) {
+		
+		this.transparency = transparency;
+		this.changed = true;
+	}
+	
+	/**
+	 * 
+	 * @param upwardsNormals
+	 * @since 24.08.2018/0.3.0
+	 */
+	public void setUpwardsNormals(boolean upwardsNormals) {
+		
+		this.upwardsNormals = upwardsNormals;
 		this.changed = true;
 	}
 	
@@ -266,6 +305,16 @@ public class Material {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @since 25.08.2018/0.3.0
+	 */
+	public Fog getFog() {
+		
+		return this.fog;
+	}
+	
+	/**
 	 * @return the reflectivity of the object
 	 * @since 10.08.2018/0.1.0
 	 */
@@ -320,6 +369,26 @@ public class Material {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @since 24.08.2018/0.3.0
+	 */
+	public boolean isTransparent() {
+		
+		return this.transparency;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 24.08.2018/0.3.0
+	 */
+	public boolean usesUpwardsNormals() {
+		
+		return this.upwardsNormals;
+	}
+	
+	/**
 	 * Applies this material to a shader pipeline.
 	 * @param pipeline the shader pipeline
 	 * @since 12.08.2018/0.1.0
@@ -329,6 +398,7 @@ public class Material {
 		pipeline.setUniform(UNIFORM_AFFECTED_BY_LIGHT, this.affectedByLight);
 		pipeline.setUniform(UNIFORM_BRIGHTNESS, this.brightness);
 		pipeline.setUniform(UNIFORM_COLOR, this.color);
+		pipeline.setUniform(UNIFORM_ALLOW_TRANSPARENCY, this.transparency);
 
 		this.applyTexture(pipeline, this.colorMap, UNIFORM_USE_COLOR_MAP, UNIFORM_COLOR_MAP, GL_TEXTURE0, 0);
 		this.applyTexture(pipeline, this.normalMap, UNIFORM_USE_NORMAL_MAP, UNIFORM_NORMAL_MAP, GL_TEXTURE2, 2);
@@ -340,6 +410,7 @@ public class Material {
 			
 			pipeline.setUniform(UNIFORM_SPECULAR, this.specular);
 			pipeline.setUniform(UNIFORM_MIN_BRIGHTNESS, this.minBrightness);
+			pipeline.setUniform(UNIFORM_USE_UPWARDS_NORMALS, this.upwardsNormals);
 			
 			if(this.specular) {
 				
@@ -351,6 +422,14 @@ public class Material {
 					pipeline.setUniform(UNIFORM_REFLECTIVITY, this.reflectivity);
 				}
 			}
+		}
+
+		boolean affectedByFog = this.fog != null;
+		pipeline.setUniform(UNIFORM_AFFECTED_BY_FOG, affectedByFog);
+		
+		if(affectedByFog) {
+			
+			this.fog.applyToShader(pipeline);
 		}
 		
 		this.changed = false;

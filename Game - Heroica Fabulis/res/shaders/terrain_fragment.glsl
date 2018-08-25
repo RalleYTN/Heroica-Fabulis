@@ -1,13 +1,10 @@
-// Author: Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
-// Version: 11.08.2018/0.1.0
-// Since: 11.08.2018/0.1.0
-
 #version 460 core
 
 in vec2 texCoord;
 in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
+in float fogVisibility;
 
 out vec4 color;
 
@@ -21,6 +18,7 @@ uniform sampler2D matOverlay3;
 uniform vec4 matColor;
 
 uniform vec3 lightColor;
+uniform vec3 fogColor;
 
 uniform bool matAffectedByLight;
 uniform bool matSpecular;
@@ -92,4 +90,5 @@ void main(void) {
 	}
 	
 	color *= brightness;
+	color = mix(vec4(fogColor, 1.0), color, fogVisibility);
 }
