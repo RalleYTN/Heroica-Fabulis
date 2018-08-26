@@ -71,7 +71,7 @@ public class Music {
 				
 				while(!Thread.interrupted()) {
 					
-					Thread.sleep(100);
+					Thread.sleep(10);
 				}
 				
 			} catch(InterruptedException exception) {

@@ -19,11 +19,83 @@ import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 /**
  * Reads Wave audio files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public class WavAudioReader extends Reader<AudioData> {
 
+	private AudioInputStream inputStream;
+	private int sampleRate;
+	private int channels;
+	private int sampleSizeInBits;
+	private int sampleSizeInBytes;
+	private int format;
+	private int bufferSize;
+	private long totalFrames;
+	private long currentFrame;
+	
+	/**
+	 * 
+	 * @since 17.08.2018/0.2.0
+	 */
+	public WavAudioReader() {}
+	
+	/**
+	 * 
+	 * @param inputStream
+	 * @throws UnsupportedAudioFileException
+	 * @throws IOException
+	 * @since 26.08.2018/0.3.0
+	 */
+	public WavAudioReader(InputStream inputStream) throws UnsupportedAudioFileException, IOException {
+
+		this.inputStream = inputStream instanceof AudioInputStream ? (AudioInputStream)inputStream : AudioSystem.getAudioInputStream(new BufferedInputStream(inputStream));
+		AudioFormat audioFormat = this.inputStream.getFormat();
+		this.sampleRate = (int)audioFormat.getSampleRate();
+		this.channels = audioFormat.getChannels();
+		this.sampleSizeInBits = audioFormat.getSampleSizeInBits();
+		this.sampleSizeInBytes = this.sampleSizeInBytes / 8;
+		this.format = getFormat(this.channels, this.sampleSizeInBits);
+		this.totalFrames = this.inputStream.getFrameLength();
+		this.bufferSize = 32;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @since 26.08.2018/0.3.0
+	 */
+	public AudioData nextFrame() throws IOException {
+		
+		if(this.currentFrame >= this.totalFrames) {
+			
+			byte[] buffer = new byte[(this.channels * this.sampleSizeInBytes) * this.bufferSize];
+			this.inputStream.read(buffer);
+			
+			AudioData data = new AudioData();
+			data.setChannels(this.channels);
+			data.setData(createByteBuffer(buffer, this.sampleSizeInBits == 16));
+			data.setFormat(this.format);
+			data.setFrequency(this.sampleRate);
+			
+			this.currentFrame += this.bufferSize;
+			return data;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param bufferSize
+	 * @since 26.08.2018/0.3.0
+	 */
+	public void setBufferSize(int bufferSize) {
+		
+		this.bufferSize = bufferSize;
+	}
+	
 	@Override
 	public AudioData read(InputStream inputStream) throws IOException {
 		
@@ -34,25 +106,7 @@ public class WavAudioReader extends Reader<AudioData> {
 			int sampleRate = (int)audioFormat.getSampleRate();
 			int channels = audioFormat.getChannels();
 			int sampleSizeInBits = audioFormat.getSampleSizeInBits();
-			int format = 0;
-			boolean bit16 = sampleSizeInBits == 16;
-
-			if(channels == 1) {
-				
-				if(sampleSizeInBits == 8) format = AL_FORMAT_MONO8;
-				else if(bit16) format = AL_FORMAT_MONO16;
-				else throw new IOException("Illegal sample size!");
-				
-			} else if(channels == 2) {
-				
-				if(sampleSizeInBits == 8) format = AL_FORMAT_STEREO8;
-				else if(bit16) format = AL_FORMAT_STEREO16;
-				else throw new IOException("Illegal sample size!");
-				
-			} else {
-				
-				throw new IOException("Only mono and stereo sound is supported!");
-			}
+			int format = getFormat(channels, sampleSizeInBits);
 			
 			byte[] buffer = new byte[channels * (int)audioStream.getFrameLength() * sampleSizeInBits / 8];
 			int read = 0;
@@ -65,7 +119,7 @@ public class WavAudioReader extends Reader<AudioData> {
 			
 			AudioData data = new AudioData();
 			data.setChannels(channels);
-			data.setData(createByteBuffer(buffer, bit16));
+			data.setData(createByteBuffer(buffer, sampleSizeInBits == 16));
 			data.setFormat(format);
 			data.setFrequency(sampleRate);
 			
@@ -74,6 +128,44 @@ public class WavAudioReader extends Reader<AudioData> {
 		} catch(UnsupportedAudioFileException exception) {
 			
 			throw new IOException(exception);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 26.08.2018/0.3.0
+	 */
+	public int getBufferSize() {
+		
+		return this.bufferSize;
+	}
+	
+	/**
+	 * 
+	 * @param channels
+	 * @param sampleSizeInBits
+	 * @return
+	 * @throws IOException
+	 * @since 26.08.2018/0.3.0
+	 */
+	private static final int getFormat(int channels, int sampleSizeInBits) throws IOException {
+		
+		if(channels == 1) {
+			
+			if(sampleSizeInBits == 8) return AL_FORMAT_MONO8;
+			else if(sampleSizeInBits == 16) return AL_FORMAT_MONO16;
+			else throw new IOException("Illegal sample size!");
+			
+		} else if(channels == 2) {
+			
+			if(sampleSizeInBits == 8) return AL_FORMAT_STEREO8;
+			else if(sampleSizeInBits == 16) return AL_FORMAT_STEREO16;
+			else throw new IOException("Illegal sample size!");
+			
+		} else {
+			
+			throw new IOException("Only mono and stereo sound is supported!");
 		}
 	}
 	
