@@ -12,7 +12,7 @@ import de.ralleytn.games.heroicafabulis.engine.Movable;
  * Represents a source from which audio is emitted.
  * 3D audio can only be simulated with mono sounds.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public class Source extends LWJGLObject implements Movable {
@@ -43,6 +43,59 @@ public class Source extends LWJGLObject implements Movable {
 		this.stop();
 		this.setBuffer(null);
 		alDeleteSources(this.id);
+	}
+	
+	/**
+	 * 
+	 * @param buffer
+	 * @since 26.08.2018/0.3.0
+	 */
+	public void queueBuffer(ALBuffer buffer) {
+		
+		alSourceQueueBuffers(this.id, buffer.getID());
+	}
+	
+	/**
+	 * 
+	 * @param buffers
+	 * @since 26.08.2018/0.3.0
+	 */
+	public void queueBuffers(ALBuffer[] buffers) {
+		
+		int[] ids = new int[buffers.length];
+		
+		for(int index = 0; index < buffers.length; index++) {
+			
+			ids[index] = buffers[index].getID();
+		}
+		
+		alSourceQueueBuffers(this.id, ids);
+	}
+	
+	/**
+	 * 
+	 * @since 26.08.2018/0.3.0
+	 */
+	public void unqueueBuffers() {
+		
+		alSourceUnqueueBuffers(this.id);
+	}
+	
+	/**
+	 * 
+	 * @param buffers
+	 * @since 26.08.2018/0.3.0
+	 */
+	public void unqueueBuffers(ALBuffer[] buffers) {
+		
+		int[] ids = new int[buffers.length];
+		
+		for(int index = 0; index < buffers.length; index++) {
+			
+			ids[index] = buffers[index].getID();
+		}
+		
+		alSourceUnqueueBuffers(this.id, ids);
 	}
 	
 	/**
@@ -201,7 +254,8 @@ public class Source extends LWJGLObject implements Movable {
 	 */
 	public void setRelativeToListener(boolean relativeToListener) {
 		
-		alSourcei(this.id, AL_SOURCE_RELATIVE, relativeToListener ? AL_TRUE : AL_FALSE);
+		// For some weird reason these values have to be this way
+		alSourcei(this.id, AL_SOURCE_RELATIVE, relativeToListener ? AL_FALSE : AL_TRUE);
 	}
 
 	/**
@@ -474,6 +528,16 @@ public class Source extends LWJGLObject implements Movable {
 	public int getType() {
 		
 		return alGetSourcei(this.id, AL_SOURCE_TYPE);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 26.08.2018/0.3.0
+	 */
+	public int getProcessedBuffersCount() {
+		
+		return alGetSourcei(this.id, AL_BUFFERS_PROCESSED);
 	}
 	
 	/**

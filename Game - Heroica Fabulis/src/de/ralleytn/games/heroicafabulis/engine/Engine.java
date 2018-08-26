@@ -26,7 +26,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Class which is used to start and stop the engine. It also contains methods and constants that are important in the rest of the engine but
  * not really utility methods.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 31.07.2018/0.1.0
  */
 public final class Engine {
@@ -123,7 +123,7 @@ public final class Engine {
 	 */
 	private static final void setupUncaughtExceptionHandler() {
 		
-		Thread.currentThread().setUncaughtExceptionHandler((Thread thread, Throwable exception) -> {
+		Thread.currentThread().setUncaughtExceptionHandler((thread, exception) -> {
 			
 			Errors.print(exception);
 			Errors.prompt(exception, Errors.log(exception, getErrLogDirectory()));

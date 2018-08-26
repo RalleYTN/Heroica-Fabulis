@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.engine.util;
 /**
  * Utility class containing methods for working with arrays.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 25.08.2018/0.3.0
  * @since 11.08.2018/0.1.0
  */
 public final class ArrayUtil {
@@ -13,27 +13,6 @@ public final class ArrayUtil {
 	 * @since 11.08.2018/0.1.0
 	 */
 	private ArrayUtil() {}
-	
-	/**
-	 * 
-	 * @param array
-	 * @return
-	 * @since 26.08.2018/0.3.0
-	 */
-	public static final int getHighestValue(int[] array) {
-		
-		int highest = Integer.MIN_VALUE;
-		
-		for(int element : array) {
-			
-			if(element > highest) {
-				
-				highest = element;
-			}
-		}
-		
-		return highest;
-	}
 	
 	/**
 	 * 

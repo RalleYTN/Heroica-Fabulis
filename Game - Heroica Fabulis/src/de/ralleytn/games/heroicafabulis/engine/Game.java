@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.lwjgl.glfw.GLFW;
 
+import de.ralleytn.games.heroicafabulis.engine.audio.Music;
 import de.ralleytn.games.heroicafabulis.engine.display.Display;
 import de.ralleytn.games.heroicafabulis.engine.input.KeyboardController;
 import de.ralleytn.games.heroicafabulis.engine.input.MouseController;
@@ -17,7 +18,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -32,6 +33,7 @@ public abstract class Game implements Updatable {
 	private MouseController mouseController;
 	private KeyboardController keyboardController;
 	private Options options;
+	private Music music;
 	private int fps;
 	private int fpsCap;
 	
@@ -84,6 +86,7 @@ public abstract class Game implements Updatable {
 		
 		this.keyboardController = new KeyboardController(this);
 		this.camera = new Camera(this);
+		this.music = new Music();
 		
 		// FIXME: BUG0003
 		// the delta calculation seems to be wrong.
@@ -311,5 +314,15 @@ public abstract class Game implements Updatable {
 	public Options getOptions() {
 		
 		return this.options;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 26.08.2018/0.3.0
+	 */
+	public Music getMusic() {
+		
+		return this.music;
 	}
 }

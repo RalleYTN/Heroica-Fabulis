@@ -1,19 +1,26 @@
 package de.ralleytn.games.heroicafabulis.engine.audio;
 
+import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
 import static org.lwjgl.openal.AL10.*;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import de.ralleytn.games.heroicafabulis.engine.Translatable;
 
 /**
  * Represents the listener for sound.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public final class Listener implements Translatable {
 
+	private static final int ORIENTATION_BUFFER_SIZE = 24;
+	
 	/**
 	 * @since 17.08.2018/0.2.0
 	 */
@@ -31,12 +38,22 @@ public final class Listener implements Translatable {
 
 	/**
 	 * Sets the orientation.
-	 * @param orientation the orientation
+	 * @param viewMatrix the orientation
 	 * @since 17.08.2018/0.2.0
 	 */
-	public void setOrientation(int orientation) {
+	public void setOrientation(Matrix4f viewMatrix) {
 		
-		alListeneri(AL_ORIENTATION, orientation);
+		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(ORIENTATION_BUFFER_SIZE);
+	    byteBuffer.order(ByteOrder.nativeOrder());
+	    FloatBuffer orientationBuffer = byteBuffer.asFloatBuffer();
+	    orientationBuffer.put(0, viewMatrix.m01);
+	    orientationBuffer.put(1, viewMatrix.m02);
+	    orientationBuffer.put(2, viewMatrix.m03);
+	    orientationBuffer.put(3, viewMatrix.m11);
+	    orientationBuffer.put(4, viewMatrix.m12);
+	    orientationBuffer.put(5, viewMatrix.m13);
+		
+		alListenerfv(AL_ORIENTATION, orientationBuffer);
 	}
 
 	/**

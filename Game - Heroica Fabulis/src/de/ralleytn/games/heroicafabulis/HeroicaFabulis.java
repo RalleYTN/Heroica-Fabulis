@@ -7,12 +7,17 @@ import java.util.Arrays;
 
 import javax.vecmath.Vector3f;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
 import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.Terrain;
+import de.ralleytn.games.heroicafabulis.engine.audio.ALBuffer;
 import de.ralleytn.games.heroicafabulis.engine.audio.OpenAL;
+import de.ralleytn.games.heroicafabulis.engine.audio.Source;
+import de.ralleytn.games.heroicafabulis.engine.io.audio.WavAudioReader;
 import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.io.meshes.XMeshReader;
 import de.ralleytn.games.heroicafabulis.engine.io.textures.XImgTextureReader;
@@ -31,10 +36,13 @@ import de.ralleytn.games.heroicafabulis.engine.util.MeshUtil;
 /**
  * This is the main class in which the game components are assembled and the game is started.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 30.07.2018/0.1.0
  */
 public final class HeroicaFabulis extends Game {
+	
+	private Source source;
+	private long time = System.currentTimeMillis();
 	
 	/**
 	 * @throws IOException 
@@ -79,7 +87,7 @@ public final class HeroicaFabulis extends Game {
 	public void initialize(Game game) throws EngineException, IOException {
 		
 		FlyCamBehavior behavior = new FlyCamBehavior();
-		behavior.setSpeed(0.002F);
+		behavior.setSpeed(0.02F);
 		game.getCamera().setBehavior(behavior);
 		
 		this.getCamera().setTranslation(0, 1, 0);
@@ -108,6 +116,65 @@ public final class HeroicaFabulis extends Game {
 		terrainMaterial.setOverlay1Tiling(30);
 		terrainMaterial.setAffectedByLight(true);
 		terrainMaterial.setFog(fog);
+
+		Entity stall = new Entity();
+		stall.setShaderPipeline(shaderPipeline);
+		stall.setMaterial(stallMaterial);
+		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
+		stall.setTranslation(0, 0, -10);
+		
+		this.populateGrass(shaderPipeline, fog, -32, -32, 64, 64);
+		
+		Terrain terrain0 = new Terrain(-1, -1);
+		terrain0.setMaterial(terrainMaterial);
+		terrain0.setShaderPipeline(terrainShaderPipeline);
+		
+		Terrain terrain1 = new Terrain(0, -1);
+		terrain1.setMaterial(terrainMaterial);
+		terrain1.setShaderPipeline(terrainShaderPipeline);
+		
+		Terrain terrain2 = new Terrain(-1, 0);
+		terrain2.setMaterial(terrainMaterial);
+		terrain2.setShaderPipeline(terrainShaderPipeline);
+		
+		Terrain terrain3 = new Terrain(0, 0);
+		terrain3.setMaterial(terrainMaterial);
+		terrain3.setShaderPipeline(terrainShaderPipeline);
+
+		Light sun = new Light();
+		sun.setTranslation(0, 10, 0);
+		
+		game.getScene().addEntity(stall);
+		game.getScene().setSun(sun);
+		game.getScene().addTerrain(terrain0);
+		game.getScene().addTerrain(terrain1);
+		game.getScene().addTerrain(terrain2);
+		game.getScene().addTerrain(terrain3);
+		
+		ALBuffer buffer = new ALBuffer();
+		buffer.setData(new WavAudioReader().read(new FileInputStream("res/audio/sounds/sample.wav")));
+		
+		source = new Source();
+		source.setBuffer(buffer);
+		source.setRelativeToListener(true);
+		source.setTranslation(0, 0, 0);
+	}
+
+	@Override
+	public void update(float delta) {
+		
+		this.getDisplay().setTitle(this.getTitle() + " (" + this.getCurrentFPS() + ")");
+		OpenAL.getListener().setTranslation(this.getCamera().getTranslation());
+		OpenAL.getListener().setOrientation(this.getCamera().getViewMatrix());
+		
+		if(System.currentTimeMillis() - time >= 3000) {
+			
+			time = System.currentTimeMillis();
+			source.play();
+		}
+	}
+	
+	private void populateGrass(ShaderPipeline pipeline, Fog fog, int x, int y, int width, int height) throws IOException {
 		
 		Material grassMaterial = new Material();
 		grassMaterial.setMinBrightness(0.1F);
@@ -138,55 +205,18 @@ public final class HeroicaFabulis extends Game {
 		)));
 		grassMesh.setCullMode(StaticMesh.CULLING_DISABLED);
 		
-		Entity grass = new Entity();
-		grass.setShaderPipeline(shaderPipeline);
-		grass.setMaterial(grassMaterial);
-		grass.setMesh(grassMesh);
-		grass.setTranslation(0, 0, 1);
-		
-		Entity grass2 = grass.copy();
-		grass2.rotate(0, 30, 0);
-		grass2.translate(1F, 0, 1F);
-
-		Entity stall = new Entity();
-		stall.setShaderPipeline(shaderPipeline);
-		stall.setMaterial(stallMaterial);
-		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
-		stall.setTranslation(0, 0, -10);
-		
-		Terrain terrain0 = new Terrain(-1, -1);
-		terrain0.setMaterial(terrainMaterial);
-		terrain0.setShaderPipeline(terrainShaderPipeline);
-		
-		Terrain terrain1 = new Terrain(0, -1);
-		terrain1.setMaterial(terrainMaterial);
-		terrain1.setShaderPipeline(terrainShaderPipeline);
-		
-		Terrain terrain2 = new Terrain(-1, 0);
-		terrain2.setMaterial(terrainMaterial);
-		terrain2.setShaderPipeline(terrainShaderPipeline);
-		
-		Terrain terrain3 = new Terrain(0, 0);
-		terrain3.setMaterial(terrainMaterial);
-		terrain3.setShaderPipeline(terrainShaderPipeline);
-
-		Light sun = new Light();
-		sun.setTranslation(0, 10, 0);
-		
-		game.getScene().addEntity(stall);
-		game.getScene().addEntity(grass);
-		game.getScene().addEntity(grass2);
-		game.getScene().setSun(sun);
-		game.getScene().addTerrain(terrain0);
-		game.getScene().addTerrain(terrain1);
-		game.getScene().addTerrain(terrain2);
-		game.getScene().addTerrain(terrain3);
-	}
-
-	@Override
-	public void update(float delta) {
-		
-		this.getDisplay().setTitle(this.getTitle() + " (" + this.getCurrentFPS() + ")");
-		OpenAL.getListener().setTranslation(this.getCamera().getTranslation());
+		for(int i = x; i < x + width; i++) {
+			
+			for(int j = y; j < y + height; j++) {
+				
+				Entity grass = new Entity();
+				grass.setShaderPipeline(pipeline);
+				grass.setMaterial(grassMaterial);
+				grass.setMesh(grassMesh);
+				grass.setRotation(0, (float)(Math.random() * 359), 0);
+				grass.setTranslation((float)(i + Math.random() - 0.2F), 0, (float)(j + Math.random() - 0.2F));
+				this.getScene().addEntity(grass);
+			}
+		}
 	}
 }
