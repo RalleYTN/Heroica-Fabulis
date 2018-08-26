@@ -67,9 +67,9 @@ public final class MatrixUtil {
 	public static final Vector3f multiply(Matrix4f matrix, float x, float y, float z) {
 		
 		Vector3f result = new Vector3f();
-		result.x = x * matrix.m00 + y * matrix.m01 + z * matrix.m02;
-		result.y = x * matrix.m10 + y * matrix.m11 + z * matrix.m12;
-		result.z = x * matrix.m20 + y * matrix.m21 + z * matrix.m22;
+		result.x = (x * matrix.m00) + (y * matrix.m10) + (z * matrix.m20) + matrix.m30;
+		result.y = (x * matrix.m01) + (y * matrix.m11) + (z * matrix.m21) + matrix.m31;
+		result.z = (x * matrix.m02) + (y * matrix.m12) + (z * matrix.m22) + matrix.m32;
 		return result;
 	}
 	

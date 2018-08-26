@@ -89,6 +89,10 @@ public final class HeroicaFabulis extends Game {
 
 		Fog fog = new Fog();
 		
+		Material playerMaterial = new Material();
+		playerMaterial.setMinBrightness(0.1F);
+		playerMaterial.setAffectedByLight(true);
+		
 		Material stallMaterial = new Material();
 		stallMaterial.setMinBrightness(0.1F);
 		stallMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/stall.ximg"))));
@@ -97,7 +101,7 @@ public final class HeroicaFabulis extends Game {
 		
 		Material terrainMaterial = new Material();
 		terrainMaterial.setMinBrightness(0.3F);
-		//terrainMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/grass.ximg"))));
+		terrainMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/grass.ximg"))));
 		terrainMaterial.setOverlay1(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/street.ximg"))));
 		terrainMaterial.setBlendMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/blendMap1.ximg"))));
 		terrainMaterial.setColorMapTiling(Terrain.VERTEX_COUNT);
@@ -113,32 +117,36 @@ public final class HeroicaFabulis extends Game {
 		grassMaterial.setUpwardsNormals(true);
 		grassMaterial.setFog(fog);
 		
-		MeshData quad = Quad.generateMeshData(
-			new Vector3f(0.0F, 1F, 0.0F),
+		MeshData grassMeshData = Quad.generateMeshData(
+			new Vector3f(0.0F, 1.0F, 0.0F),
 			new Vector3f(0.0F, 0.0F, 0.0F),
-			new Vector3f(1F, 0.0F, 0.0F),
-			new Vector3f(1F, 1F, 0.0F)
+			new Vector3f(1.0F, 0.0F, 0.0F),
+			new Vector3f(1.0F, 1.0F, 0.0F)
 		);
 		
-		StaticMesh grassMesh = new StaticMesh(MeshUtil.mergeLazy(Arrays.asList(quad, quad), Arrays.asList(
+		StaticMesh grassMesh = new StaticMesh(MeshUtil.mergeLazy(Arrays.asList(grassMeshData, grassMeshData), Arrays.asList(
 			MatrixUtil.createTransformationMatrx(
-				new Vector3f(0.0F, 0.0F, 0.0F),
+				new Vector3f(0.0F, 0.0F, 0.0F), 
 				new Vector3f(0.0F, 0.0F, 0.0F),
 				new Vector3f(1.0F, 1.0F, 1.0F)
 			),
 			MatrixUtil.createTransformationMatrx(
-				new Vector3f(0F, 0.0F, -0F),
+				new Vector3f(0.5F, 0.0F, 0.5F),
 				new Vector3f(0.0F, 90.0F, 0.0F),
 				new Vector3f(1.0F, 1.0F, 1.0F)
 			)
 		)));
 		grassMesh.setCullMode(StaticMesh.CULLING_DISABLED);
-
+		
 		Entity grass = new Entity();
 		grass.setShaderPipeline(shaderPipeline);
 		grass.setMaterial(grassMaterial);
 		grass.setMesh(grassMesh);
 		grass.setTranslation(0, 0, 1);
+		
+		Entity grass2 = grass.copy();
+		grass2.rotate(0, 30, 0);
+		grass2.translate(1F, 0, 1F);
 
 		Entity stall = new Entity();
 		stall.setShaderPipeline(shaderPipeline);
@@ -167,6 +175,7 @@ public final class HeroicaFabulis extends Game {
 		
 		game.getScene().addEntity(stall);
 		game.getScene().addEntity(grass);
+		game.getScene().addEntity(grass2);
 		game.getScene().setSun(sun);
 		game.getScene().addTerrain(terrain0);
 		game.getScene().addTerrain(terrain1);

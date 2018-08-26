@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Utility class providing methods for working with lists and other collections.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 22.08.2018/0.2.0
  */
 public final class ListUtil {
@@ -15,6 +15,38 @@ public final class ListUtil {
 	 * @since 22.08.2018/0.2.0
 	 */
 	private ListUtil() {}
+	
+	/**
+	 * 
+	 * @param list
+	 * @param array
+	 * @since 26.08.2018/0.3.0
+	 */
+	public static final void addFloatArray(List<Float> list, float[] array) {
+		
+		for(float element : array) {
+			
+			list.add(element);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param list
+	 * @return
+	 * @since 26.08.2018/0.3.0
+	 */
+	public static final float[] toPrimitiveFloatArray(List<Float> list) {
+		
+		float[] array = new float[list.size()];
+		
+		for(int index = 0; index < array.length; index++) {
+			
+			array[index] = list.get(index);
+		}
+		
+		return array;
+	}
 	
 	/**
 	 * Converts a list of integers to an {@code int} array.
