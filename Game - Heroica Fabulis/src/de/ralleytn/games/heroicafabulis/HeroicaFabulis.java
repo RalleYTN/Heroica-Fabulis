@@ -7,8 +7,6 @@ import java.util.Arrays;
 
 import javax.vecmath.Vector3f;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
 import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
@@ -123,7 +121,7 @@ public final class HeroicaFabulis extends Game {
 		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
 		stall.setTranslation(0, 0, -10);
 		
-		this.populateGrass(shaderPipeline, fog, -32, -32, 64, 64);
+		this.populateGrass(shaderPipeline, fog, -64, -64, 128, 128);
 		
 		Terrain terrain0 = new Terrain(-1, -1);
 		terrain0.setMaterial(terrainMaterial);
@@ -215,6 +213,7 @@ public final class HeroicaFabulis extends Game {
 				grass.setMesh(grassMesh);
 				grass.setRotation(0, (float)(Math.random() * 359), 0);
 				grass.setTranslation((float)(i + Math.random() - 0.2F), 0, (float)(j + Math.random() - 0.2F));
+				grass.setRenderDistance(30);
 				this.getScene().addEntity(grass);
 			}
 		}

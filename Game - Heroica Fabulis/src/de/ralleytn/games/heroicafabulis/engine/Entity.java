@@ -9,7 +9,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents an entity. An entity is an object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 25.08.2018/0.3.0
+ * @version 26.08.2018/0.3.0
  * @since 30.07.2018/0.1.0
  */
 public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Copyable<Entity> {
@@ -17,6 +17,8 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	private Vector3f translation;
 	private Vector3f rotation;
 	private Vector3f scale;
+	private Mesh mesh;
+	private float renderDistance;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -28,7 +30,18 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		this.scale = new Vector3f(1.0F, 1.0F, 1.0F);
 		this.transformation = new Matrix4f();
 		this.rendering = true;
+		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
+	}
+	
+	/**
+	 * 
+	 * @param renderDistance
+	 * @since 26.08.2018/0.3.0
+	 */
+	public void setRenderDistance(float renderDistance) {
+		
+		this.renderDistance = renderDistance;
 	}
 	
 	/**
@@ -194,6 +207,15 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		
 		return this.scale;
 	}
+	
+	/**
+	 * @return the mesh
+	 * @since 22.08.2018/0.2.0
+	 */
+	public Mesh getMesh() {
+		
+		return this.mesh;
+	}
 
 	@Override
 	public void update(float delta) {}
@@ -212,5 +234,15 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		entity.shaderPipeline = this.shaderPipeline;
 		
 		return entity;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 26.08.2018/0.3.0
+	 */
+	public float getRenderDistance() {
+		
+		return this.renderDistance;
 	}
 }

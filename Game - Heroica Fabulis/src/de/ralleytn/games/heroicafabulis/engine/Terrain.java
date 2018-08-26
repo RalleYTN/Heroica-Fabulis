@@ -5,13 +5,14 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.StaticMesh;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
  * Represents a terrain tile in the grid.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 25.08.2018/0.3.0
+ * @version 26.08.2018/0.3.0
  * @since 21.08.2018/0.2.0
  */
 public class Terrain extends RenderableObject {
@@ -29,6 +30,7 @@ public class Terrain extends RenderableObject {
 	public static final int VERTEX_COUNT = 64;
 	
 	private Vector2f position;
+	private Mesh mesh;
 	
 	/**
 	 * @param gridX position of the tile on the X axis of the world grid
@@ -121,5 +123,14 @@ public class Terrain extends RenderableObject {
 		data.setVertices(vertices);
 		
 		return new StaticMesh(data);
+	}
+	
+	/**
+	 * @return the mesh
+	 * @since 22.08.2018/0.2.0
+	 */
+	public Mesh getMesh() {
+		
+		return this.mesh;
 	}
 }

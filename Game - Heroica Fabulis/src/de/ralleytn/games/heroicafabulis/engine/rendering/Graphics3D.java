@@ -6,8 +6,9 @@ import static org.lwjgl.opengl.GL20.*;
 import javax.vecmath.Color4f;
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.games.heroicafabulis.engine.Entity;
 import de.ralleytn.games.heroicafabulis.engine.Game;
-import de.ralleytn.games.heroicafabulis.engine.RenderableObject;
+import de.ralleytn.games.heroicafabulis.engine.Terrain;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
@@ -16,7 +17,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 /**
  * Manages the rendering of 3D graphics.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.1.0
+ * @version 26.08.2018/0.3.0
  * @since 30.07.2018/0.1.0
  */
 public class Graphics3D {
@@ -72,15 +73,15 @@ public class Graphics3D {
 	}
 	
 	/**
-	 * Renders an instance of {@linkplain RenderableObject}.
-	 * @param object the object
-	 * @since 22.08.2018/0.2.0
+	 * 
+	 * @param terrain
+	 * @since 26.08.2018/0.3.0
 	 */
-	public void renderObject(RenderableObject object) {
+	public void renderTerrain(Terrain terrain) {
 		
-		Mesh mesh = object.getMesh();
-		Material material = object.getMaterial();
-		ShaderPipeline shaderPipeline = object.getShaderPipeline();
+		Mesh mesh = terrain.getMesh();
+		Material material = terrain.getMaterial();
+		ShaderPipeline shaderPipeline = terrain.getShaderPipeline();
 		
 		if(this.shaderPipeline != shaderPipeline) {
 			
@@ -90,7 +91,47 @@ public class Graphics3D {
 		if(this.shaderPipeline != null) {
 			
 			this.shaderPipeline.setUniform("projection", this.game.getCamera().getProjectionMatrix());
-			this.shaderPipeline.setUniform("transformation", object.getTransformationMatrix());
+			this.shaderPipeline.setUniform("transformation", terrain.getTransformationMatrix());
+			this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
+			
+			if(material != this.material || this.material.hasChanged() || (this.material.getFog() != null && this.material.getFog().hasChanged())) {
+				
+				this.material = material;
+				this.material.applyToShader(this.shaderPipeline);
+			}
+			
+			Light light = this.game.getScene().getSun();
+			
+			if(light != null) {
+				
+				this.shaderPipeline.setUniform("lightPos", light.getTranslation());
+				this.shaderPipeline.setUniform("lightColor", light.getColor());
+			}
+		}
+		
+		this.renderMesh(mesh);
+	}
+	
+	/**
+	 * Renders an instance of {@linkplain Entity}.
+	 * @param entity the object
+	 * @since 26.08.2018/0.3.0
+	 */
+	public void renderEntity(Entity entity) {
+		
+		Mesh mesh = entity.getMesh();
+		Material material = entity.getMaterial();
+		ShaderPipeline shaderPipeline = entity.getShaderPipeline();
+		
+		if(this.shaderPipeline != shaderPipeline) {
+			
+			this.setShaderPipeline(shaderPipeline);
+		}
+		
+		if(this.shaderPipeline != null) {
+			
+			this.shaderPipeline.setUniform("projection", this.game.getCamera().getProjectionMatrix());
+			this.shaderPipeline.setUniform("transformation", entity.getTransformationMatrix());
 			this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
 			
 			if(material != this.material || this.material.hasChanged() || (this.material.getFog() != null && this.material.getFog().hasChanged())) {

@@ -9,7 +9,7 @@ import javax.vecmath.Vector3f;
 /**
  * Utility class containing methods for working with vectors.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 11.08.2018/0.1.0
  */
 public final class VectorUtil {
@@ -19,6 +19,18 @@ public final class VectorUtil {
 	 * @since 11.08.2018/0.1.0
 	 */
 	private VectorUtil() {}
+	
+	/**
+	 * 
+	 * @param p1
+	 * @param p2
+	 * @return
+	 * @since 26.08.2018/0.3.0
+	 */
+	public static final float getDistance(Vector3f p1, Vector3f p2) {
+
+		return (float)Math.pow(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2), 0.5F);
+	}
 	
 	/**
 	 * Converts a {@code float} array into a list of 2D vectors.

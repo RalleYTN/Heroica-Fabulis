@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.engine.util;
 /**
  * Utility class containing methods for math problems that don't fit in any of the other utility classes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 21.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 16.08.2018/0.1.0
  */
 public final class MathUtil {
@@ -13,6 +13,17 @@ public final class MathUtil {
 	 * @since 16.08.2018/0.1.0
 	 */
 	private MathUtil() {}
+	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @since 26.08.2018/0.3.0
+	 */
+	public static final float positive(float value) {
+		
+		return value < 0 ? -value : value;
+	}
 	
 	/**
 	 * @param x first value

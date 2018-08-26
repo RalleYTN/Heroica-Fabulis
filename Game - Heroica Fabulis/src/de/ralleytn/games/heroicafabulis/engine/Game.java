@@ -53,7 +53,7 @@ public abstract class Game implements Updatable {
 		this.nativeDirectory = new File(this.options.getString(Options.OPTION_NATIVE_DIRECTORY));
 		this.errLogDirectory = new File(this.options.getString(Options.OPTION_ERR_LOG_DIRECTORY));
 		this.localeDirectory = new File(this.options.getString(Options.OPTION_LOCALE_DIRECTORY));
-		this.scene = new Scene();
+		this.scene = new Scene(this);
 		this.fpsCap = this.options.getInt(Options.OPTION_FPS_CAP);
 	}
 	

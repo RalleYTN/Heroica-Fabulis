@@ -2,7 +2,6 @@ package de.ralleytn.games.heroicafabulis.engine;
 
 import javax.vecmath.Matrix4f;
 
-import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.Material;
 import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 
@@ -14,7 +13,6 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
  */
 public abstract class RenderableObject {
 
-	protected Mesh mesh;
 	protected Material material;
 	protected ShaderPipeline shaderPipeline;
 	protected Matrix4f transformation;
@@ -55,15 +53,6 @@ public abstract class RenderableObject {
 	public void setMaterial(Material material) {
 		
 		this.material = material;
-	}
-
-	/**
-	 * @return the mesh
-	 * @since 22.08.2018/0.2.0
-	 */
-	public Mesh getMesh() {
-		
-		return this.mesh;
 	}
 
 	/**

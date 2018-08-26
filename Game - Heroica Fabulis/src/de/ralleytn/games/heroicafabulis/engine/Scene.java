@@ -6,24 +6,32 @@ import java.util.List;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Renderable;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
+import de.ralleytn.games.heroicafabulis.engine.util.MathUtil;
+import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
 /**
  * Represents the currently processed universe.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 26.08.2018/0.3.0
  * @since 31.07.2018/0.1.0
  */
 public class Scene implements Renderable, Updatable {
 
-	private List<RenderableObject> objects;
+	private final Game game;
+	
+	private List<Entity> entities;
+	private List<Terrain> terrain;
 	private Light sun;
 	
 	/**
+	 * @param game
 	 * @since 05.08.2018
 	 */
-	public Scene() {
+	public Scene(Game game) {
 		
-		this.objects = new ArrayList<>();
+		this.game = game;
+		this.entities = new ArrayList<>();
+		this.terrain = new ArrayList<>();
 	}
 	
 	/**
@@ -33,7 +41,7 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public void addEntity(Entity entity) {
 		
-		this.objects.add(entity);
+		this.entities.add(entity);
 	}
 	
 	/**
@@ -43,7 +51,7 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public void addTerrain(Terrain terrain) {
 		
-		this.objects.add(terrain);
+		this.terrain.add(terrain);
 	}
 	
 	/**
@@ -63,17 +71,17 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public void removeEntity(Entity entity) {
 		
-		this.objects.remove(entity);
+		this.entities.remove(entity);
 	}
 	
 	/**
 	 * Removes a terrain tile.
-	 * @param terrain the terrain ntile
+	 * @param terrain the terrain tile
 	 * @since 21.08.2018/0.2.0
 	 */
 	public void removeTerrain(Terrain terrain) {
 		
-		this.objects.remove(terrain);
+		this.terrain.remove(terrain);
 	}
 	
 	/**
@@ -82,30 +90,36 @@ public class Scene implements Renderable, Updatable {
 	 */
 	public void clear() {
 		
-		this.objects.clear();
+		this.entities.clear();
+		this.terrain.clear();
 		this.sun = null;
 	}
 	
 	@Override
 	public void update(float delta) {
 		
-		for(RenderableObject object : this.objects) {
+		for(Entity entity : this.entities) {
 
-			if(object instanceof Entity) {
-				
-				((Entity)object).update(delta);
-			}
+			entity.update(delta);
 		}
 	}
 
 	@Override
 	public void render(Graphics3D graphics) {
 		
-		for(RenderableObject object : this.objects) {
+		for(Entity entity : this.entities) {
 			
-			if(object.isRendering()) {
+			if(entity.isRendering() && MathUtil.positive(VectorUtil.getDistance(this.game.getCamera().getTranslation(), entity.getTranslation())) <= entity.getRenderDistance()) {
 				
-				graphics.renderObject(object);
+				graphics.renderEntity(entity);
+			}
+		}
+		
+		for(Terrain terrain : this.terrain) {
+			
+			if(terrain.isRendering()) {
+				
+				graphics.renderTerrain(terrain);
 			}
 		}
 	}
