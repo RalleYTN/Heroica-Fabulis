@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.EngineException;
@@ -161,6 +162,14 @@ public final class HeroicaFabulis extends Game {
 		source.setBuffer(buffer);
 		source.setRelativeToListener(true);
 		source.setTranslation(0, 0, 0);
+		
+		try {
+			this.getMusic().setAudioFile(new File("res/audio/music/strings3.wav"));
+			this.getMusic().play();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -173,7 +182,7 @@ public final class HeroicaFabulis extends Game {
 		if(System.currentTimeMillis() - time >= 3000) {
 			
 			time = System.currentTimeMillis();
-			source.play();
+			//source.play();
 		}
 	}
 	

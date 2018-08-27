@@ -54,10 +54,10 @@ public class WavAudioReader extends Reader<AudioData> {
 		this.sampleRate = (int)audioFormat.getSampleRate();
 		this.channels = audioFormat.getChannels();
 		this.sampleSizeInBits = audioFormat.getSampleSizeInBits();
-		this.sampleSizeInBytes = this.sampleSizeInBytes / 8;
+		this.sampleSizeInBytes = this.sampleSizeInBits / 8;
 		this.format = getFormat(this.channels, this.sampleSizeInBits);
 		this.totalFrames = this.inputStream.getFrameLength();
-		this.bufferSize = 32;
+		this.bufferSize = this.sampleSizeInBytes == 2 ? 64 : 128;
 	}
 	
 	/**
@@ -78,11 +78,10 @@ public class WavAudioReader extends Reader<AudioData> {
 	 */
 	public AudioData nextChunk() throws IOException {
 		
-		if(this.currentFrame >= this.totalFrames) {
-			
+		if(this.currentFrame < this.totalFrames) {
+
 			byte[] buffer = new byte[(this.channels * this.sampleSizeInBytes) * this.bufferSize];
-			this.inputStream.read(buffer);
-			
+			this.inputStream.read(buffer, 0, buffer.length);
 			AudioData data = new AudioData();
 			data.setChannels(this.channels);
 			data.setData(createByteBuffer(buffer, this.sampleSizeInBits == 16));

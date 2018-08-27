@@ -10,6 +10,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import de.ralleytn.games.heroicafabulis.engine.Engine;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
+import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioData;
 import de.ralleytn.games.heroicafabulis.engine.io.audio.WavAudioReader;
 
 /**
@@ -20,7 +21,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.audio.WavAudioReader;
  */
 public class Music {
 
-	private static final int QUEUE_CAPACITY = 3;
+	private static final int QUEUE_CAPACITY = 16;
 	
 	private Source source;
 	private File file;
@@ -60,12 +61,9 @@ public class Music {
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void setAudioFile(File file) throws UnsupportedAudioFileException, IOException {
-		
-		this.source.stop();
-		this.source.unqueueBuffers();
+
 		this.file = file;
 		this.reader = new WavAudioReader(new FileInputStream(file));
-		this.source.setLooping(false); // if this value is true, the number of processed buffers is always 0
 	}
 	
 	/**
@@ -75,10 +73,14 @@ public class Music {
 	 */
 	public void rewind() throws IOException {
 		
+		this.stop();
 		this.reader.reset();
-		this.queue.offer(new ALBuffer(this.reader.nextChunk()));
-		this.queue.offer(new ALBuffer(this.reader.nextChunk()));
-		this.queue.offer(new ALBuffer(this.reader.nextChunk()));
+		
+		for(int index = 0; index < QUEUE_CAPACITY; index++) {
+			
+			this.queue.offer(new ALBuffer(this.reader.nextChunk()));
+		}
+		
 		this.source.queueBuffers(this.queue.toArray(new ALBuffer[QUEUE_CAPACITY]));
 	}
 	
@@ -96,8 +98,8 @@ public class Music {
 		
 		this.stop();
 		this.rewind();
-		this.source.play();
 		this.thread.start();
+		this.source.play();
 	}
 	
 	/**
@@ -141,16 +143,6 @@ public class Music {
 	 * @return
 	 * @since 26.08.2018/0.3.0
 	 */
-	public Source getSource() {
-		
-		return this.source;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 26.08.2018/0.3.0
-	 */
 	public File getFile() {
 		
 		return this.file;
@@ -164,6 +156,8 @@ public class Music {
 	 */
 	private final class Play implements Runnable {
 
+		private boolean end;
+		
 		@Override
 		public void run() {
 			
@@ -175,9 +169,36 @@ public class Music {
 						
 						int processedCount = Music.this.source.getProcessedBuffersCount();
 						
-						if(processedCount > 0) {
+						while(processedCount > 0) {
 							
+							try {
+								
+								ALBuffer buffer = Music.this.queue.poll();
+								Music.this.source.unqueueBuffers(new ALBuffer[] {buffer});
+								
+								if(!this.end) {
+									
+									AudioData data = Music.this.reader.nextChunk();
+									
+									if(data != null) {
+										
+										buffer.setData(data);
+										Music.this.source.queueBuffer(buffer);
+										Music.this.queue.offer(buffer);
+										
+									} else {
+										
+										this.end = true;
+									}
+								}
 							
+							} catch(IOException exception) {
+								
+								Errors.print(exception);
+								Errors.prompt(exception, Errors.log(exception, Engine.getErrLogDirectory()));
+							}
+							
+							processedCount--;
 						}
 						
 						Thread.sleep(10);
