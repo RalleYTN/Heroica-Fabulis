@@ -17,7 +17,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 /**
  * Manages the rendering of 3D graphics.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 27.08.2018/0.3.0
  * @since 30.07.2018/0.1.0
  */
 public class Graphics3D {
@@ -25,6 +25,7 @@ public class Graphics3D {
 	private final Game game;
 	private ShaderPipeline shaderPipeline;
 	private Material material;
+	private Mesh lastRenderedMesh;
 	
 	/**
 	 * @param game the {@linkplain Game} instance this manager belongs to
@@ -60,16 +61,20 @@ public class Graphics3D {
 	 */
 	public void renderMesh(Mesh mesh) {
 		
-		this.setFaceCulling(mesh.getCullMode());
-		VertexArray array = mesh.getVertexArray();
-		array.bind();
-		array.enable(0);									// Vertices
-		if(mesh.hasTextureCoordinates()) array.enable(1);	// TexCoords
-		if(mesh.hasNormals()) array.enable(2);				// Normals
-		glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, 0);
-		if(mesh.hasNormals()) array.disable(2);				// Normals
-		if(mesh.hasTextureCoordinates()) array.disable(1);	// TexCoords
-		array.disable(0);									// Vertices
+		if(this.lastRenderedMesh != mesh) {
+			
+			this.setFaceCulling(mesh.getCullMode());
+			VertexArray array = mesh.getVertexArray();
+			array.bind();
+			array.enable(0);
+			if(mesh.hasTextureCoordinates()) array.enable(1);
+			if(mesh.hasNormals()) array.enable(2);
+			glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, 0);
+			if(mesh.hasNormals()) array.disable(2);
+			if(mesh.hasTextureCoordinates()) array.disable(1);
+			array.disable(0);
+			this.lastRenderedMesh = mesh;
+		}
 	}
 	
 	/**
