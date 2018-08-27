@@ -19,10 +19,10 @@ import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 /**
  * Reads Wave audio files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 27.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
-public class WavAudioReader extends Reader<AudioData> {
+public class WavAudioReader extends Reader<AudioData> implements AutoCloseable {
 
 	private AudioInputStream inputStream;
 	private int sampleRate;
@@ -62,11 +62,21 @@ public class WavAudioReader extends Reader<AudioData> {
 	
 	/**
 	 * 
+	 * @throws IOException
+	 * @since 27.08.2018/0.3.0
+	 */
+	public void reset() throws IOException {
+		
+		this.inputStream.reset();
+	}
+	
+	/**
+	 * 
 	 * @return
 	 * @throws IOException
 	 * @since 26.08.2018/0.3.0
 	 */
-	public AudioData nextFrame() throws IOException {
+	public AudioData nextChunk() throws IOException {
 		
 		if(this.currentFrame >= this.totalFrames) {
 			
@@ -204,5 +214,11 @@ public class WavAudioReader extends Reader<AudioData> {
 		
 		buffer.rewind();
 		return buffer;
+	}
+
+	@Override
+	public void close() throws Exception {
+		
+		this.inputStream.close();
 	}
 }

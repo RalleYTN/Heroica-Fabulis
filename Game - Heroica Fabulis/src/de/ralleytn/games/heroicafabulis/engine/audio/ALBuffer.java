@@ -9,7 +9,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioData;
  * Represents a buffer from OpenAL.
  * An {@linkplain ALBuffer} stores audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 27.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public class ALBuffer extends LWJGLObject {
@@ -20,6 +20,18 @@ public class ALBuffer extends LWJGLObject {
 	public ALBuffer() {
 		
 		this.id = alGenBuffers();
+	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @since 27.08.2018/0.3.0
+	 */
+	public ALBuffer(AudioData data) {
+		
+		this();
+		
+		this.setData(data);
 	}
 	
 	@Override
