@@ -28,6 +28,8 @@ public class Music {
 	private Play play;
 	private WavAudioReader reader;
 	private Queue<ALBuffer> queue;
+	private Object monitor;
+	private boolean paused;
 	
 	/**
 	 * 
@@ -38,6 +40,7 @@ public class Music {
 		this.source = new Source();
 		this.play = new Play();
 		this.queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
+		this.monitor = new Object();
 		
 		this.thread = new Thread(this.play);
 		this.thread.setUncaughtExceptionHandler((thread, exception) -> {
@@ -86,6 +89,11 @@ public class Music {
 	 */
 	public void play() throws IOException {
 		
+		if(this.paused) {
+			
+			this.resume();
+		}
+		
 		this.stop();
 		this.rewind();
 		this.source.play();
@@ -99,6 +107,12 @@ public class Music {
 	public void resume() {
 		
 		this.source.play();
+		
+		synchronized(this.monitor) {
+			
+			this.paused = false;
+			this.monitor.notifyAll();
+		}
 	}
 	
 	/**
@@ -108,6 +122,7 @@ public class Music {
 	public void pause() {
 		
 		this.source.pause();
+		this.paused = true;
 	}
 	
 	/**
@@ -156,14 +171,22 @@ public class Music {
 				
 				while(!Thread.interrupted()) {
 					
-					int processedCount = Music.this.source.getProcessedBuffersCount();
-					
-					if(processedCount > 0) {
+					synchronized(Music.this.monitor) {
 						
+						int processedCount = Music.this.source.getProcessedBuffersCount();
 						
+						if(processedCount > 0) {
+							
+							
+						}
+						
+						Thread.sleep(10);
+						
+						if(Music.this.paused) {
+							
+							Music.this.monitor.wait();
+						}
 					}
-					
-					Thread.sleep(10);
 				}
 				
 			} catch(InterruptedException exception) {
