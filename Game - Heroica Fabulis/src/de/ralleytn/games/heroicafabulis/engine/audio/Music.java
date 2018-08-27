@@ -1,17 +1,13 @@
 package de.ralleytn.games.heroicafabulis.engine.audio;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import de.ralleytn.games.heroicafabulis.engine.Engine;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
 import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioData;
-import de.ralleytn.games.heroicafabulis.engine.io.audio.WavAudioReader;
+import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioReader;
 
 /**
  * 
@@ -24,10 +20,9 @@ public class Music {
 	private static final int QUEUE_CAPACITY = 16;
 	
 	private Source source;
-	private File file;
 	private Thread thread;
 	private Play play;
-	private WavAudioReader reader;
+	private AudioReader reader;
 	private Queue<ALBuffer> queue;
 	private Object monitor;
 	private boolean paused;
@@ -55,15 +50,12 @@ public class Music {
 	
 	/**
 	 * 
-	 * @param file
-	 * @throws UnsupportedAudioFileException
-	 * @throws IOException
-	 * @since 26.08.2018/0.3.0
+	 * @param reader
+	 * @since 27.08.2018/0.3.0
 	 */
-	public void setAudioFile(File file) throws UnsupportedAudioFileException, IOException {
+	public void setReader(AudioReader reader) {
 
-		this.file = file;
-		this.reader = new WavAudioReader(new FileInputStream(file));
+		this.reader = reader;
 	}
 	
 	/**
@@ -141,11 +133,11 @@ public class Music {
 	/**
 	 * 
 	 * @return
-	 * @since 26.08.2018/0.3.0
+	 * @since 27.08.2018/0.3.0
 	 */
-	public File getFile() {
+	public AudioReader getReader() {
 		
-		return this.file;
+		return this.reader;
 	}
 	
 	/**
@@ -156,10 +148,10 @@ public class Music {
 	 */
 	private final class Play implements Runnable {
 
-		private boolean end;
-		
 		@Override
 		public void run() {
+			
+			boolean end = false;
 			
 			try {
 				
@@ -176,7 +168,7 @@ public class Music {
 								ALBuffer buffer = Music.this.queue.poll();
 								Music.this.source.unqueueBuffers(new ALBuffer[] {buffer});
 								
-								if(!this.end) {
+								if(!end) {
 									
 									AudioData data = Music.this.reader.nextChunk();
 									
@@ -186,9 +178,14 @@ public class Music {
 										Music.this.source.queueBuffer(buffer);
 										Music.this.queue.offer(buffer);
 										
+										if(Music.this.source.getState() == Source.STATE_STOPPED) {
+											
+											Music.this.source.play();
+										}
+										
 									} else {
 										
-										this.end = true;
+										end = true;
 									}
 								}
 							

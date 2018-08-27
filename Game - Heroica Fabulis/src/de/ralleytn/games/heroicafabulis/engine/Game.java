@@ -126,7 +126,6 @@ public abstract class Game implements Updatable {
 				
 				this.update(fDelta);
 				this.scene.render(graphics3D);
-				
 				this.display.swapBuffers();
 				
 				frames++;
