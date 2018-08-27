@@ -121,7 +121,7 @@ public final class HeroicaFabulis extends Game {
 		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
 		stall.setTranslation(0, 0, -10);
 		
-		this.populateGrass(shaderPipeline, fog, -64, -64, 128, 128);
+		this.populateGrass(shaderPipeline, fog, -200, -200, 400, 400);
 		
 		Terrain terrain0 = new Terrain(-1, -1);
 		terrain0.setMaterial(terrainMaterial);
@@ -142,7 +142,12 @@ public final class HeroicaFabulis extends Game {
 		Light sun = new Light();
 		sun.setTranslation(0, 10, 0);
 		
+		Entity stall2 = stall.copy();
+		stall2.setTranslation(10, 0, 0);
+		stall2.setRotation(0, 45, 0);
+		
 		game.getScene().addEntity(stall);
+		game.getScene().addEntity(stall2);
 		game.getScene().setSun(sun);
 		game.getScene().addTerrain(terrain0);
 		game.getScene().addTerrain(terrain1);
@@ -213,7 +218,7 @@ public final class HeroicaFabulis extends Game {
 				grass.setMesh(grassMesh);
 				grass.setRotation(0, (float)(Math.random() * 359), 0);
 				grass.setTranslation((float)(i + Math.random() - 0.2F), 0, (float)(j + Math.random() - 0.2F));
-				grass.setRenderDistance(30);
+				grass.setRenderDistance(60);
 				this.getScene().addEntity(grass);
 			}
 		}

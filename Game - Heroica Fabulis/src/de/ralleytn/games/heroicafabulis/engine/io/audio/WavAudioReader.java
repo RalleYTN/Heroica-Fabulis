@@ -22,7 +22,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.Reader;
  * @version 27.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
-public class WavAudioReader extends Reader<AudioData> implements AutoCloseable {
+public class WavAudioReader extends Reader<AudioData> {
 
 	private AudioInputStream inputStream;
 	private int sampleRate;
@@ -216,7 +216,10 @@ public class WavAudioReader extends Reader<AudioData> implements AutoCloseable {
 		return buffer;
 	}
 
-	@Override
+	/**
+	 * 
+	 * @since 27.08.2018/0.3.0
+	 */
 	public void close() throws Exception {
 		
 		this.inputStream.close();

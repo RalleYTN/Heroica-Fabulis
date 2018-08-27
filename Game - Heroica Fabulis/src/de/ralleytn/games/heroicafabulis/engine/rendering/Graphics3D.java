@@ -61,20 +61,34 @@ public class Graphics3D {
 	 */
 	public void renderMesh(Mesh mesh) {
 		
+		VertexArray array = mesh.getVertexArray();
+		
+		/*if(this.lastRenderedMesh != mesh && ) {
+			
+			if(mesh.hasNormals()) array.disable(2);
+			if(mesh.hasTextureCoordinates()) array.disable(1);
+			array.disable(0);
+		}*/
+		
 		if(this.lastRenderedMesh != mesh) {
 			
+			if(this.lastRenderedMesh != null) {
+				
+				VertexArray lastMeshArray = this.lastRenderedMesh.getVertexArray();
+				if(this.lastRenderedMesh.hasNormals()) lastMeshArray.disable(2);
+				if(this.lastRenderedMesh.hasTextureCoordinates()) lastMeshArray.disable(1);
+				lastMeshArray.disable(0);
+			}
+			
 			this.setFaceCulling(mesh.getCullMode());
-			VertexArray array = mesh.getVertexArray();
 			array.bind();
 			array.enable(0);
 			if(mesh.hasTextureCoordinates()) array.enable(1);
 			if(mesh.hasNormals()) array.enable(2);
-			glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, 0);
-			if(mesh.hasNormals()) array.disable(2);
-			if(mesh.hasTextureCoordinates()) array.disable(1);
-			array.disable(0);
 			this.lastRenderedMesh = mesh;
 		}
+		
+		glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, 0);
 	}
 	
 	/**
