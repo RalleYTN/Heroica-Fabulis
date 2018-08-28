@@ -19,30 +19,30 @@ import com.jcraft.jorbis.Info;
 /**
  * {@linkplain InputStream} for reading Vorbis audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 17.08.2018/0.2.0
+ * @version 28.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public class OggInputStream extends InputStream {
 
-	private int conversionSize = 4096 * 4;
-	private byte[] conversionBuffer = new byte[this.conversionSize];
+	private int conversionSize;
+	private byte[] conversionBuffer;
 	private InputStream input;
-	private Info oggInfo = new Info();
+	private Info oggInfo;
 	private boolean endOfStream;
-	private SyncState syncState = new SyncState();
-	private StreamState streamState = new StreamState();
-	private Page page = new Page();
-	private Packet packet = new Packet();
-	private Comment comment = new Comment();
-	private DspState dspState = new DspState();
-	private Block vorbisBlock = new Block(this.dspState);
+	private SyncState syncState;
+	private StreamState streamState;
+	private Page page;
+	private Packet packet;
+	private Comment comment;
+	private DspState dspState;
+	private Block vorbisBlock;
 	private byte[] buffer;
 	private int bytes = 0;
-	private boolean bigEndian = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
-	private boolean endOfBitStream = true;
-	private boolean initialized = false;
+	private boolean bigEndian;
+	private boolean endOfBitStream;
+	private boolean initialized;
 	private int readIndex;
-	private ByteBuffer pcmBuffer = BufferUtils.createByteBuffer(4096 * 500);
+	private ByteBuffer pcmBuffer;
 
 	/**
 	 * @param input the {@linkplain InputStream} that should be wrapped
@@ -51,7 +51,44 @@ public class OggInputStream extends InputStream {
 	 */
 	public OggInputStream(InputStream input) throws IOException {
 		
+		this.bigEndian = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
+		this.oggInfo = new Info();
 		this.input = input;
+		this.mark(0);
+		this.reset();
+		this.syncState.init();
+		this.readPCM();
+	}
+	
+	@Override
+	public synchronized void mark(int readlimit) {
+		
+		this.input.mark(readlimit);
+	}
+	
+	@Override
+	public boolean markSupported() {
+		
+		return true;
+	}
+	
+	@Override
+	public synchronized void reset() throws IOException {
+		
+		this.conversionSize = 4096 * 4;
+		this.conversionBuffer = new byte[this.conversionSize];
+		this.endOfStream = false;
+		this.syncState = new SyncState();
+		this.streamState = new StreamState();
+		this.page = new Page();
+		this.packet = new Packet();
+		this.comment = new Comment();
+		this.dspState = new DspState();
+		this.vorbisBlock = new Block(this.dspState);
+		this.endOfBitStream = true;
+		this.initialized = false;
+		this.pcmBuffer = BufferUtils.createByteBuffer(4096 * 500);
+		this.input.reset();
 		this.syncState.init();
 		this.readPCM();
 	}

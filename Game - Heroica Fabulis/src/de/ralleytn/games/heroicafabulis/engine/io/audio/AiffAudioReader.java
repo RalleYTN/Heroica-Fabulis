@@ -13,18 +13,46 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import static org.lwjgl.openal.AL10.*;
-
-import de.ralleytn.games.heroicafabulis.engine.io.Reader;
-
 /**
  * Reader for AIFF audio files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 28.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
-public class AiffAudioReader extends Reader<AudioData> {
+public class AiffAudioReader extends AudioReader {
 
+	private Encoding encoding;
+	
+	/**
+	 * 
+	 * @since 28.08.2028/0.3.0
+	 */
+	public AiffAudioReader() {
+		
+		super();
+	}
+	
+	/**
+	 * 
+	 * @param inputStream
+	 * @throws IOException
+	 * @throws UnsupportedAudioFileException
+	 * @since 28.08.2018/0.3.0
+	 */
+	public AiffAudioReader(InputStream inputStream) throws IOException, UnsupportedAudioFileException {
+
+		this.inputStream = inputStream instanceof AudioInputStream ? (AudioInputStream)inputStream : AudioSystem.getAudioInputStream(new BufferedInputStream(inputStream));
+		AudioFormat audioFormat = ((AudioInputStream)this.inputStream).getFormat();
+		this.encoding = audioFormat.getEncoding();
+		this.sampleRate = (int)audioFormat.getSampleRate();
+		this.channels = audioFormat.getChannels();
+		this.sampleSizeInBits = audioFormat.getSampleSizeInBits();
+		this.sampleSizeInBytes = this.sampleSizeInBits / 8;
+		this.format = getFormat(this.channels, this.sampleSizeInBits);
+		this.totalFrames = ((AudioInputStream)this.inputStream).getFrameLength();
+		this.bufferSize = this.sampleSizeInBytes == 2 ? 64 : 128;
+	}
+	
 	@Override
 	public AudioData read(InputStream inputStream) throws IOException {
 		
@@ -35,25 +63,7 @@ public class AiffAudioReader extends Reader<AudioData> {
 			int sampleRate = (int)audioFormat.getSampleRate();
 			int channels = audioFormat.getChannels();
 			int sampleSizeInBits = audioFormat.getSampleSizeInBits();
-			int format = 0;
-			boolean bit16 = sampleSizeInBits == 16;
-			
-			if(channels == 1) {
-				
-				if(sampleSizeInBits == 8) format = AL_FORMAT_MONO8;
-				else if(bit16) format = AL_FORMAT_MONO16;
-				else throw new IOException("Illegal sample size!");
-				
-			} else if(channels == 2) {
-				
-				if(sampleSizeInBits == 8) format = AL_FORMAT_STEREO8;
-				else if(bit16) format = AL_FORMAT_STEREO16;
-				else throw new IOException("Illegal sample size!");
-				
-			} else {
-				
-				throw new IOException("Only mono and stereo sound is supported!");
-			}
+			int format = getFormat(channels, sampleSizeInBits);
 			
 			byte[] buffer = new byte[channels * (int)audioStream.getFrameLength() * sampleSizeInBits / 8];
 			int read = 0;
@@ -68,7 +78,7 @@ public class AiffAudioReader extends Reader<AudioData> {
 			data.setChannels(channels);
 			data.setFormat(format);
 			data.setFrequency(sampleRate);
-			data.setData(createByteBuffer(buffer, bit16, audioFormat.getEncoding()));
+			data.setData(createByteBuffer(buffer, sampleSizeInBits == 16, audioFormat.getEncoding()));
 			
 			return data;
 			
@@ -121,5 +131,25 @@ public class AiffAudioReader extends Reader<AudioData> {
 		
 		buffer.rewind();
 		return buffer;
+	}
+
+	@Override
+	public AudioData nextChunk() throws IOException {
+		
+		if(this.currentFrame < this.totalFrames) {
+
+			byte[] buffer = new byte[(this.channels * this.sampleSizeInBytes) * this.bufferSize];
+			this.inputStream.read(buffer, 0, buffer.length);
+			AudioData data = new AudioData();
+			data.setChannels(this.channels);
+			data.setData(createByteBuffer(buffer, this.sampleSizeInBits == 16, this.encoding));
+			data.setFormat(this.format);
+			data.setFrequency(this.sampleRate);
+			
+			this.currentFrame += this.bufferSize;
+			return data;
+		}
+		
+		return null;
 	}
 }

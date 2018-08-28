@@ -163,13 +163,13 @@ public final class HeroicaFabulis extends Game {
 		source.setRelativeToListener(true);
 		source.setTranslation(0, 0, 0);
 		
-		try {
-			this.getMusic().setReader(new WavAudioReader(new FileInputStream(new File("res/audio/music/strings3.wav"))));
+			try {
+				this.getMusic().setReader(new WavAudioReader(new FileInputStream(new File("res/audio/music/strings3.wav"))));
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.getMusic().play();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override

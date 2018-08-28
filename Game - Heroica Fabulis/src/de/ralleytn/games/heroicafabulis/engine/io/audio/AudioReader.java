@@ -19,12 +19,12 @@ import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 27.08.2018/0.3.0
+ * @version 28.08.2018/0.3.0
  * @since 27.08.2018/0.3.0
  */
 public abstract class AudioReader extends Reader<AudioData> {
 
-	protected AudioInputStream inputStream;
+	protected InputStream inputStream;
 	protected int sampleRate;
 	protected int channels;
 	protected int sampleSizeInBits;
@@ -50,13 +50,13 @@ public abstract class AudioReader extends Reader<AudioData> {
 	public AudioReader(InputStream inputStream) throws IOException, UnsupportedAudioFileException {
 		
 		this.inputStream = inputStream instanceof AudioInputStream ? (AudioInputStream)inputStream : AudioSystem.getAudioInputStream(new BufferedInputStream(inputStream));
-		AudioFormat audioFormat = this.inputStream.getFormat();
+		AudioFormat audioFormat = ((AudioInputStream)this.inputStream).getFormat();
 		this.sampleRate = (int)audioFormat.getSampleRate();
 		this.channels = audioFormat.getChannels();
 		this.sampleSizeInBits = audioFormat.getSampleSizeInBits();
 		this.sampleSizeInBytes = this.sampleSizeInBits / 8;
 		this.format = getFormat(this.channels, this.sampleSizeInBits);
-		this.totalFrames = this.inputStream.getFrameLength();
+		this.totalFrames = ((AudioInputStream)this.inputStream).getFrameLength();
 		this.bufferSize = this.sampleSizeInBytes == 2 ? 64 : 128;
 	}
 	
