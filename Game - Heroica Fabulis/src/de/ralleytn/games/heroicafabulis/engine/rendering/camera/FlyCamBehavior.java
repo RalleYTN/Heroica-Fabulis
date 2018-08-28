@@ -35,8 +35,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	 */
 	public FlyCamBehavior() {
 		
-		this.mouseSensitivity = 0.1F;
-		this.speed = 0.05F;
+		this.mouseSensitivity = 0.02F;
+		this.speed = 1.0F;
 		this.upKey = GLFW_KEY_SPACE;
 		this.downKey = GLFW_KEY_LEFT_SHIFT;
 		this.forwardKey = GLFW_KEY_W;

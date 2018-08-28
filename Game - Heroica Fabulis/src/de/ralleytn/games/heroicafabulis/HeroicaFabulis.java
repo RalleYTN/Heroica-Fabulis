@@ -169,6 +169,7 @@ public final class HeroicaFabulis extends Game {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			this.getMusic().setVolume(0.3F);
 			this.getMusic().play();
 	}
 
@@ -182,7 +183,7 @@ public final class HeroicaFabulis extends Game {
 		if(System.currentTimeMillis() - time >= 3000) {
 			
 			time = System.currentTimeMillis();
-			//source.play();
+			source.play();
 		}
 	}
 	

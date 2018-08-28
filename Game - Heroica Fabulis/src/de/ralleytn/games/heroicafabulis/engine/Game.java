@@ -18,7 +18,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 28.08.2018/0.3.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -58,6 +58,16 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @since 28.08.2018/0.3.0
+	 */
+	public static final long getTime() {
+		
+		return System.nanoTime() / 1000000;
+	}
+	
+	/**
 	 * Is called when the game loop started.
 	 * @param game the game for which the game loop started
 	 * @throws EngineException just here to give the exception back to {@link #start()}
@@ -88,7 +98,7 @@ public abstract class Game implements Updatable {
 		this.camera = new Camera(this);
 		this.music = new Music();
 		
-		// FIXME: BUG0003
+		// FIXED: BUG0003
 		// the delta calculation seems to be wrong.
 		// the game runs at different speeds when in windowed mode or fullscreen
 		
@@ -96,9 +106,8 @@ public abstract class Game implements Updatable {
 		int frames = 0;
 		double fpsTimer1 = GLFW.glfwGetTime();
 		double fpsTimer2 = 0;
-		double delta = 0;
-		long deltaTimer1 = System.nanoTime();
-		long deltaTimer2 = 0;
+		float delta = 0;
+		long lastFrameTime = getTime();
 		Graphics3D graphics3D = new Graphics3D(this);
 		Exception exitException = null;
 		this.initialize(this);
@@ -111,20 +120,19 @@ public abstract class Game implements Updatable {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 				
-				deltaTimer2 = System.nanoTime();
-				delta = (deltaTimer2 - deltaTimer1) / 1000000.0D;
-				deltaTimer1 = deltaTimer2;
-				float fDelta = (float)delta;
+				long currentFrameTime = getTime();
+				delta = currentFrameTime - lastFrameTime;
+				lastFrameTime = currentFrameTime;
 				
-				this.scene.update(fDelta);
+				this.scene.update(delta);
 				CameraBehavior behavior = this.camera.getBehavior();
 				
 				if(behavior != null) {
 					
-					behavior.update(fDelta);
+					behavior.update(delta);
 				}
 				
-				this.update(fDelta);
+				this.update(delta);
 				this.scene.render(graphics3D);
 				this.display.swapBuffers();
 				

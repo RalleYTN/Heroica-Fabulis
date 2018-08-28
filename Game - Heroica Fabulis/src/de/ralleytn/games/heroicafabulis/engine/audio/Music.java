@@ -78,6 +78,16 @@ public class Music {
 	
 	/**
 	 * 
+	 * @param gain
+	 * @since 28.08.2018/0.3.0
+	 */
+	public void setVolume(float gain) {
+		
+		this.source.setGain(gain);
+	}
+	
+	/**
+	 * 
 	 * @throws IOException 
 	 * @since 26.08.2018/0.3.0
 	 */
@@ -161,6 +171,11 @@ public class Music {
 						
 						int processedCount = Music.this.source.getProcessedBuffersCount();
 						
+						if(end && processedCount == 0) {
+							
+							Music.this.stop();
+						}
+						
 						while(processedCount > 0) {
 							
 							try {
@@ -178,11 +193,6 @@ public class Music {
 										Music.this.source.queueBuffer(buffer);
 										Music.this.queue.offer(buffer);
 										
-										if(Music.this.source.getState() == Source.STATE_STOPPED) {
-											
-											Music.this.source.play();
-										}
-										
 									} else {
 										
 										end = true;
@@ -196,6 +206,11 @@ public class Music {
 							}
 							
 							processedCount--;
+						}
+						
+						if(Music.this.source.getState() == Source.STATE_STOPPED) {
+							
+							Music.this.source.play();
 						}
 						
 						Thread.sleep(10);
