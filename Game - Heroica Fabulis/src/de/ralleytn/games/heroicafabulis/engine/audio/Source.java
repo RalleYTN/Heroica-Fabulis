@@ -12,7 +12,7 @@ import de.ralleytn.games.heroicafabulis.engine.Movable;
  * Represents a source from which audio is emitted.
  * 3D audio can only be simulated with mono sounds.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 27.08.2018/0.3.0
+ * @version 29.08.2018/0.3.0
  * @since 17.08.2018/0.2.0
  */
 public class Source extends LWJGLObject implements Movable {
@@ -254,8 +254,7 @@ public class Source extends LWJGLObject implements Movable {
 	 */
 	public void setRelativeToListener(boolean relativeToListener) {
 		
-		// For some weird reason these values have to be this way
-		alSourcei(this.id, AL_SOURCE_RELATIVE, relativeToListener ? AL_FALSE : AL_TRUE);
+		alSourcei(this.id, AL_SOURCE_RELATIVE, relativeToListener ? AL_TRUE : AL_FALSE);
 	}
 
 	/**

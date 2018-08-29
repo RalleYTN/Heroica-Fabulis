@@ -2,6 +2,7 @@ package de.ralleytn.games.heroicafabulis.engine.rendering.shader;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Tuple2f;
@@ -19,7 +20,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 /**
  * Represents a shader pipeline.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 29.08.2018/0.3.0
  * @since 10.08.2018/0.1.0
  */
 public class ShaderPipeline extends LWJGLObject implements Bindable {
@@ -87,36 +88,59 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
+	 * 
+	 * @param uniform
+	 * @param action
+	 * @return
+	 * @since 29.08.2018/0.3.0
+	 */
+	private final boolean setUniform(String uniform, Consumer<Integer> action) {
+		
+		int location = this.getUniformLocation(uniform);
+		
+		if(location != -1) {
+			
+			action.accept(location);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, Matrix4f value) {
+	public boolean setUniform(String uniform, Matrix4f value) {
 		
-		glUniformMatrix4fv(this.getUniformLocation(uniform), false, MatrixUtil.toArray4f(value));
+		return this.setUniform(uniform, location -> glUniformMatrix4fv(location, false, MatrixUtil.toArray4f(value)));
 	}
 
 	/**
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, float value) {
+	public boolean setUniform(String uniform, float value) {
 
-		glUniform1f(this.getUniformLocation(uniform), value);
+		return this.setUniform(uniform, location -> glUniform1f(location, value));
 	}
 
 	/**
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, Tuple2f value) {
+	public boolean setUniform(String uniform, Tuple2f value) {
 		
-		glUniform2f(this.getUniformLocation(uniform), value.x, value.y);
+		return this.setUniform(uniform, location -> glUniform2f(location, value.x, value.y));
 	}
 
 	/**
@@ -124,22 +148,24 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * @param uniform variable name
 	 * @param x X component of the variable value
 	 * @param y Y component of the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, float x, float y) {
+	public boolean setUniform(String uniform, float x, float y) {
 		
-		glUniform2f(this.getUniformLocation(uniform), x, y);
+		return this.setUniform(uniform, location -> glUniform2f(location, x, y));
 	}
 
 	/**
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, Tuple3f value) {
+	public boolean setUniform(String uniform, Tuple3f value) {
 		
-		glUniform3f(this.getUniformLocation(uniform), value.x, value.y, value.z);
+		return this.setUniform(uniform, location -> glUniform3f(location, value.x, value.y, value.z));
 	}
 
 	/**
@@ -148,22 +174,24 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * @param x X component of the variable value
 	 * @param y Y component of the variable value
 	 * @param z Z component of the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, float x, float y, float z) {
+	public boolean setUniform(String uniform, float x, float y, float z) {
 		
-		glUniform3f(this.getUniformLocation(uniform), x, y, z);
+		return this.setUniform(uniform, location -> glUniform3f(location, x, y, z));
 	}
 
 	/**
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, Tuple4f value) {
+	public boolean setUniform(String uniform, Tuple4f value) {
 		
-		glUniform4f(this.getUniformLocation(uniform), value.x, value.y, value.z, value.w);
+		return this.setUniform(uniform, location -> glUniform4f(location, value.x, value.y, value.z, value.w));
 	}
 
 	/**
@@ -173,33 +201,36 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * @param y Y component of the variable value
 	 * @param z Z component of the variable value
 	 * @param w W component of the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, float x, float y, float z, float w) {
+	public boolean setUniform(String uniform, float x, float y, float z, float w) {
 		
-		glUniform4f(this.getUniformLocation(uniform), x, y, z, w);
+		return this.setUniform(uniform, location -> glUniform4f(location, x, y, z, w));
 	}
 
 	/**
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, int value) {
+	public boolean setUniform(String uniform, int value) {
 		
-		glUniform1i(this.getUniformLocation(uniform), value);
+		return this.setUniform(uniform, location -> glUniform1i(location, value));
 	}
 	
 	/**
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
+	 * @return
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void setUniform(String uniform, boolean value) {
+	public boolean setUniform(String uniform, boolean value) {
 		
-		glUniform1i(this.getUniformLocation(uniform), value ? GL_TRUE : GL_FALSE);
+		return this.setUniform(uniform, location -> glUniform1i(location, value ? GL_TRUE : GL_FALSE));
 	}
 	
 	/**

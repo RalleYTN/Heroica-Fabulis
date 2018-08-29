@@ -12,7 +12,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioReader;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 27.08.2018/0.3.0
+ * @version 29.08.2018/0.3.0
  * @since 26.08.2018/0.3.0
  */
 public class Music {
@@ -26,6 +26,7 @@ public class Music {
 	private Queue<ALBuffer> queue;
 	private Object monitor;
 	private boolean paused;
+	private boolean looping;
 	
 	/**
 	 * 
@@ -55,7 +56,30 @@ public class Music {
 	 */
 	public void setReader(AudioReader reader) {
 
+		if(this.reader != null && reader != this.reader) {
+			
+			try {
+				
+				this.reader.close();
+				
+			} catch(IOException exception) {
+				
+				// SHOULD NEVER HAPPEN!
+				throw new RuntimeException(exception);
+			}
+		}
+		
 		this.reader = reader;
+	}
+	
+	/**
+	 * 
+	 * @param looping
+	 * @since 29.08.2018/0.3.0
+	 */
+	public void setLooping(boolean looping) {
+		
+		this.looping = looping;
 	}
 	
 	/**
@@ -98,7 +122,6 @@ public class Music {
 			this.resume();
 		}
 		
-		this.stop();
 		this.rewind();
 		this.thread.start();
 		this.source.play();
@@ -152,8 +175,28 @@ public class Music {
 	
 	/**
 	 * 
+	 * @return
+	 * @since 29.08.2018/0.3.0
+	 */
+	public float getVolume() {
+		
+		return this.source.getGain();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 29.08.2018/0.3.0
+	 */
+	public boolean isLooping() {
+		
+		return this.looping;
+	}
+	
+	/**
+	 * 
 	 * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
-	 * @version 26.08.2018/0.3.0
+	 * @version 29.08.2018/0.3.0
 	 * @since 26.08.2018/0.3.0
 	 */
 	private final class Play implements Runnable {
@@ -174,6 +217,11 @@ public class Music {
 						if(end && processedCount == 0) {
 							
 							Music.this.stop();
+							
+							if(Music.this.looping) {
+								
+								Music.this.play();
+							}
 						}
 						
 						while(processedCount > 0) {
@@ -222,9 +270,11 @@ public class Music {
 					}
 				}
 				
-			} catch(InterruptedException exception) {
+			} catch(InterruptedException exception) {// DO NOTHING!
+			} catch(IOException exception) {
 				
-				// DO NOTHING!
+				Errors.print(exception);
+				Errors.prompt(exception, Errors.log(exception, Engine.getErrLogDirectory()));
 			}
 		}
 	}

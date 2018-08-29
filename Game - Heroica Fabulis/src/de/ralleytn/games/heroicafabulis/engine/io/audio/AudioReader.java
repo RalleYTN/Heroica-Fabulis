@@ -19,7 +19,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 28.08.2018/0.3.0
+ * @version 29.08.2018/0.3.0
  * @since 27.08.2018/0.3.0
  */
 public abstract class AudioReader extends Reader<AudioData> {
@@ -90,9 +90,10 @@ public abstract class AudioReader extends Reader<AudioData> {
 	
 	/**
 	 * 
+	 * @throws IOException 
 	 * @since 27.08.2018/0.3.0
 	 */
-	public void close() throws Exception {
+	public void close() throws IOException {
 		
 		this.inputStream.close();
 	}
