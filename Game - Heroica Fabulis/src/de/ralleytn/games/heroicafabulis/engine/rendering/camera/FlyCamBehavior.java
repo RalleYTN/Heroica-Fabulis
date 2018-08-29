@@ -62,8 +62,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param mouseSensitivity
+	 * Sets the mouse sensitivity.
+	 * @param mouseSensitivity mouse sensitivity
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setMouseSensitivity(float mouseSensitivity) {
@@ -72,8 +72,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param speed
+	 * Sets the movement speed.
+	 * @param speed the movement speed
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setSpeed(float speed) {
@@ -82,8 +82,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param invertY
+	 * Sets if the Y axis is inverted.
+	 * @param invertY {@code true} to invert Y axis, {@code false} to not invert it
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setInvertY(boolean invertY) {
@@ -92,8 +92,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param invertX
+	 * Sets if the X axis is inverted.
+	 * @param invertX {@code true} to invert X axis, {@code false} to not invert it
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setInvertX(boolean invertX) {
@@ -102,8 +102,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param flipping
+	 * Sets whether the camera is allowed to flip over its X axis or not.
+	 * @param flipping {@code true} the camera can stand on its head, {@code false} camera cannot rotate more than 90° on the X axis
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setFlipping(boolean flipping) {
@@ -112,8 +112,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param upKey
+	 * Sets the up key.
+	 * @param upKey the up key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setUpKey(int upKey) {
@@ -122,8 +122,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param downKey
+	 * Sets the down key.
+	 * @param downKey the down key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setDownKey(int downKey) {
@@ -132,8 +132,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param leftKey
+	 * Sets the left key.
+	 * @param leftKey the left key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setLeftKey(int leftKey) {
@@ -142,8 +142,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param rightKey
+	 * Sets the right key.
+	 * @param rightKey the right key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setRightKey(int rightKey) {
@@ -152,8 +152,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param forwardKey
+	 * Sets the forward key.
+	 * @param forwardKey the forward key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setForwardKey(int forwardKey) {
@@ -162,8 +162,8 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @param backwardKey
+	 * Sets the backward key.
+	 * @param backwardKey the backward key.
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setBackwardKey(int backwardKey) {
@@ -223,8 +223,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the mouse sensitivity
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getMouseSensitivity() {
@@ -233,8 +232,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the movement speed
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getSpeed() {
@@ -243,8 +241,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the Y axis is inverted, else {@code false}
 	 * @since 25.08.2018/0.3.0
 	 */
 	public boolean invertY() {
@@ -253,8 +250,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the X axis is inverted, else {@code false}
 	 * @since 25.08.2018/0.3.0
 	 */
 	public boolean invertX() {
@@ -263,8 +259,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the camera can flip, else {@code false}
 	 * @since 25.08.2018/0.3.0
 	 */
 	public boolean allowsFlipping() {
@@ -273,8 +268,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the up key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public int getUpKey() {
@@ -283,8 +277,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the down key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public int getDownKey() {
@@ -293,8 +286,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the left key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public int getLeftKey() {
@@ -303,8 +295,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the right key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public int getRightKey() {
@@ -313,8 +304,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the forward key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public int getForwardKey() {
@@ -323,8 +313,7 @@ public class FlyCamBehavior extends CameraBehavior {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the backward key
 	 * @since 25.08.2018/0.3.0
 	 */
 	public int getBackwardKey() {
