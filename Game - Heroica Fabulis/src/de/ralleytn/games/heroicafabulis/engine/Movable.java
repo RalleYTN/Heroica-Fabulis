@@ -5,7 +5,7 @@ import javax.vecmath.Vector3f;
 /**
  * Interface that extends {@linkplain Translatable} and {@linkplain Rotatable} and adds translation based on rotation on the Y axis.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 14.08.2018/0.1.0
+ * @version 29.08.2018/0.3.0
  * @since 14.08.2018/0.1.0
  */
 public interface Movable extends Translatable, Rotatable {
@@ -21,47 +21,45 @@ public interface Movable extends Translatable, Rotatable {
 		float nUnits = -units;
 		Vector3f rotation = this.getRotation();
 		
-		// If-Else is faster than Switch-Case
-		// And since this is called over and over again in the main game loop we need the speed.
-		if(direction == Direction.FORWARD) {
+		float rY = 0.0F;
+		float x = 0.0F;
+		float z = 0.0F;
+		float y = 0.0F;
+		
+		switch(direction) {
+		
+			case BACKWARD:
+				rY = (float)Math.toRadians(rotation.y - 90.0F);
+				x = (float)Math.cos(rY) * nUnits;
+				z = (float)Math.sin(rY) * nUnits;
+				break;
 			
-			float rY = (float)Math.toRadians(rotation.y - 90.0F);
-			float x = (float)Math.cos(rY) * units;
-			float z = (float)Math.sin(rY) * units;
+			case DOWN:
+				y = nUnits;
+				break;
 			
-			this.translate(x, 0.0F, z);
+			case FORWARD:
+				rY = (float)Math.toRadians(rotation.y - 90.0F);
+				x = (float)Math.cos(rY) * units;
+				z = (float)Math.sin(rY) * units;
+				break;
 			
-		} else if(direction == Direction.LEFT) {
-		 
-			float rY = (float)Math.toRadians(rotation.y);
-			float x = (float)Math.cos(rY) * nUnits;
-			float z = (float)Math.sin(rY) * nUnits;
+			case LEFT:
+				rY = (float)Math.toRadians(rotation.y);
+				x = (float)Math.cos(rY) * nUnits;
+				z = (float)Math.sin(rY) * nUnits;
+				break;
 			
-			this.translate(x, 0.0F, z);
+			case RIGHT:
+				rY = (float)Math.toRadians(rotation.y);
+				x = (float)Math.cos(rY) * units;
+				z = (float)Math.sin(rY) * units;
+				break;
 			
-		} else if(direction == Direction.RIGHT) {
-			
-			float rY = (float)Math.toRadians(rotation.y);
-			float x = (float)Math.cos(rY) * units;
-			float z = (float)Math.sin(rY) * units;
-			
-			this.translate(x, 0.0F, z);
-			
-		} else if(direction == Direction.UP) {
-			
-			this.translate(0.0F, units, 0.0F);
-			
-		} else if(direction == Direction.DOWN) {
-			
-			this.translate(0.0F, nUnits, 0.0F);
-			
-		} else if(direction == Direction.BACKWARD) {
-			
-			float rY = (float)Math.toRadians(rotation.y - 90.0F);
-			float x = (float)Math.cos(rY) * nUnits;
-			float z = (float)Math.sin(rY) * nUnits;
-			
-			this.translate(x, 0.0F, z);
+			case UP:
+				y = units;
 		}
+		
+		this.translate(x, y, z);
 	}
 }

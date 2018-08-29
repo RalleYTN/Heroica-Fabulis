@@ -46,8 +46,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @param buffer
+	 * Queues a buffer.
+	 * @param buffer the buffer
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void queueBuffer(ALBuffer buffer) {
@@ -56,8 +56,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @param buffers
+	 * Queues multiple buffers.
+	 * @param buffers the buffers
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void queueBuffers(ALBuffer[] buffers) {
@@ -73,7 +73,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
+	 * Unqueues all buffers.
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void unqueueBuffers() {
@@ -82,8 +82,8 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @param buffers
+	 * Unqueues selected buffers-
+	 * @param buffers the buffers
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void unqueueBuffers(ALBuffer[] buffers) {
@@ -460,8 +460,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the looping flag is set, otherwise {@code false}
 	 * @since 17.08.2018/0.2.0
 	 */
 	public boolean isLooping() {
@@ -470,8 +469,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the state of the source
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getState() {
@@ -480,8 +478,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the audio offset in seconds
 	 * @since 17.08.2018/0.2.0
 	 */
 	public float getOffsetInSeconds() {
@@ -490,8 +487,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the audio offset in samples
 	 * @since 17.08.2018/0.2.0
 	 */
 	public float getOffsetInSamples() {
@@ -500,8 +496,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the audio offset in bytes
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getOffsetInBytes() {
@@ -510,8 +505,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the current buffer
 	 * @since 17.08.2018/0.2.0
 	 */
 	public ALBuffer getBuffer() {
@@ -520,8 +514,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the source type
 	 * @since 17.08.2018/0.2.0
 	 */
 	public int getType() {
@@ -530,8 +523,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the amount of buffers that were processed in the queue
 	 * @since 26.08.2018/0.3.0
 	 */
 	public int getProcessedBuffersCount() {
@@ -540,8 +532,7 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the velocity
 	 * @since 17.08.2018/0.2.0
 	 */
 	public Vector3f getVelocity() {

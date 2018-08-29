@@ -6,10 +6,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import de.ralleytn.games.heroicafabulis.engine.Engine;
 import de.ralleytn.games.heroicafabulis.engine.Errors;
+import de.ralleytn.games.heroicafabulis.engine.Game;
 import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioReader;
 
 /**
- * 
+ * Represents the music player for the game.
+ * All of the audio data will be streamed with this class.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 29.08.2018/0.3.0
  * @since 26.08.2018/0.3.0
@@ -28,8 +30,10 @@ public class Music {
 	private boolean looping;
 	
 	/**
-	 * 
+	 * No other instances of this class should be created.
+	 * Use {@link Game#getMusic()} instead.
 	 * @since 26.08.2018/0.3.0
+	 * @see Game#getMusic()
 	 */
 	public Music() {
 		
@@ -49,8 +53,8 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @param reader
+	 * Sets the reader from which the audio data comes from.
+	 * @param reader the reader
 	 * @since 27.08.2018/0.3.0
 	 */
 	public void setReader(AudioReader reader) {
@@ -72,8 +76,8 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @param looping
+	 * Sets the looping flag.
+	 * @param looping {@code true} = audio will restart from the beginning when the end is reached, {@code false} = audio stops playing if the end is reached
 	 * @since 29.08.2018/0.3.0
 	 */
 	public void setLooping(boolean looping) {
@@ -82,8 +86,8 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @throws IOException
+	 * Rewinds the audio.
+	 * @throws IOException if an I/O error occurs
 	 * @since 27.08.2018/0.3.0
 	 */
 	public void rewind() throws IOException {
@@ -100,8 +104,8 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @param gain
+	 * Sets the volume.
+	 * @param gain {@code 1.0F} = 100%, {@code 0.0F} = 0%
 	 * @since 28.08.2018/0.3.0
 	 */
 	public void setVolume(float gain) {
@@ -110,8 +114,8 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @throws IOException 
+	 * Plays the audio from the beginning.
+	 * @throws IOException if an I/O error occurs
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void play() throws IOException {
@@ -127,7 +131,7 @@ public class Music {
 	}
 	
 	/**
-	 * 
+	 * Resumes playing after being paused.
 	 * @since 27.08.2018/0.3.0
 	 */
 	public void resume() {
@@ -142,7 +146,7 @@ public class Music {
 	}
 	
 	/**
-	 * 
+	 * Pauses the audio.
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void pause() {
@@ -152,7 +156,7 @@ public class Music {
 	}
 	
 	/**
-	 * 
+	 * Stops the audio.
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void stop() {
@@ -163,8 +167,7 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the current reader
 	 * @since 27.08.2018/0.3.0
 	 */
 	public AudioReader getReader() {
@@ -173,8 +176,7 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the current volume
 	 * @since 29.08.2018/0.3.0
 	 */
 	public float getVolume() {
@@ -183,8 +185,7 @@ public class Music {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the current value of the looping flag
 	 * @since 29.08.2018/0.3.0
 	 */
 	public boolean isLooping() {
@@ -193,7 +194,7 @@ public class Music {
 	}
 	
 	/**
-	 * 
+	 * Represents the play action.
 	 * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
 	 * @version 29.08.2018/0.3.0
 	 * @since 26.08.2018/0.3.0

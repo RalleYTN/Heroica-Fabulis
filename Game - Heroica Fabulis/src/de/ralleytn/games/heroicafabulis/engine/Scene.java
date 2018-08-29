@@ -24,7 +24,7 @@ public class Scene implements Renderable, Updatable {
 	private Light sun;
 	
 	/**
-	 * @param game
+	 * @param game the instance of {@linkplain Game} this scene belongs to
 	 * @since 05.08.2018
 	 */
 	public Scene(Game game) {

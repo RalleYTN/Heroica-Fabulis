@@ -22,8 +22,7 @@ public class ALBuffer extends LWJGLObject {
 	}
 	
 	/**
-	 * 
-	 * @param data
+	 * @param data the audio data that should be stored in this buffer
 	 * @since 27.08.2018/0.3.0
 	 */
 	public ALBuffer(AudioData data) {

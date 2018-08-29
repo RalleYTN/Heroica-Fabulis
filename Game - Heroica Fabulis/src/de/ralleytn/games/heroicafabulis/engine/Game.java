@@ -58,8 +58,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the system time in milliseconds
 	 * @since 28.08.2018/0.3.0
 	 */
 	public static final long getTime() {
@@ -324,8 +323,7 @@ public abstract class Game implements Updatable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the music player for the game
 	 * @since 26.08.2018/0.3.0
 	 */
 	public Music getMusic() {

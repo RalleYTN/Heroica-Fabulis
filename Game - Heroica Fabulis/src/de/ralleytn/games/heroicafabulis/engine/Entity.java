@@ -35,8 +35,9 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	}
 	
 	/**
-	 * 
-	 * @param renderDistance
+	 * Sets the render distance.
+	 * If the distance between the player and the entity is higher than the render distance, the object will no longer be rendered.
+	 * @param renderDistance the render distance
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void setRenderDistance(float renderDistance) {
@@ -237,8 +238,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the render distance
 	 * @since 26.08.2018/0.3.0
 	 */
 	public float getRenderDistance() {
