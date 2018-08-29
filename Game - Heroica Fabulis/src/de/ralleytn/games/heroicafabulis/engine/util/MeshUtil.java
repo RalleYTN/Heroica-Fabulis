@@ -6,7 +6,7 @@ import java.util.List;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.MeshData;
 
 /**
  * Utility class containg methods for working with meshes.

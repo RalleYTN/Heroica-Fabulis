@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
 
 import com.jcraft.jorbis.Info;
 
+import de.ralleytn.games.heroicafabulis.engine.audio.AudioData;
+
 import static org.lwjgl.openal.AL10.*;
 
 /**

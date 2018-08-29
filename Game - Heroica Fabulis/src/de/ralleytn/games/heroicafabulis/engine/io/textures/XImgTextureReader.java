@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
+import de.ralleytn.games.heroicafabulis.engine.rendering.TextureData;
 
 /**
  * Reader for XIMG image files.

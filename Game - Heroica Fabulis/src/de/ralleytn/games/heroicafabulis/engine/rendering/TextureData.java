@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io.textures;
+package de.ralleytn.games.heroicafabulis.engine.rendering;
 
 /**
  * Represents texture data.

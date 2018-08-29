@@ -1,7 +1,5 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
-import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
-
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)

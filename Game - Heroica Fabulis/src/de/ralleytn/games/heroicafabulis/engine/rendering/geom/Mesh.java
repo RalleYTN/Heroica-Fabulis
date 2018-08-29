@@ -1,7 +1,6 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 import de.ralleytn.games.heroicafabulis.engine.Disposable;
-import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.rendering.GLBuffer;
 import de.ralleytn.games.heroicafabulis.engine.rendering.VertexArray;
 

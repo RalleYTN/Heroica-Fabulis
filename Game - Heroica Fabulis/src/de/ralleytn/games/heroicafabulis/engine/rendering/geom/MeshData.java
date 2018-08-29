@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io.meshes;
+package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 import de.ralleytn.games.heroicafabulis.engine.Copyable;
 import de.ralleytn.games.heroicafabulis.engine.util.ArrayUtil;

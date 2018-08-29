@@ -1,4 +1,4 @@
-package de.ralleytn.games.heroicafabulis.engine.io.audio;
+package de.ralleytn.games.heroicafabulis.engine.audio;
 
 import java.nio.ByteBuffer;
 

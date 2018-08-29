@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import de.ralleytn.games.heroicafabulis.engine.io.Writer;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.MeshData;
 
 /**
  * Writes XMESH model files.

@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.MeshData;
+
 /**
  * Contains methods for reading and writing XMESH model files.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)

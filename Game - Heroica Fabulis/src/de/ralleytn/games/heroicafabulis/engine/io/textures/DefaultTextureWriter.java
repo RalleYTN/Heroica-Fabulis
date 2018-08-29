@@ -13,6 +13,7 @@ import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.ImageOutputStream;
 
 import de.ralleytn.games.heroicafabulis.engine.io.Writer;
+import de.ralleytn.games.heroicafabulis.engine.rendering.TextureData;
 
 /**
  * Can write images in PNG, JPG, BMP and GIF format.

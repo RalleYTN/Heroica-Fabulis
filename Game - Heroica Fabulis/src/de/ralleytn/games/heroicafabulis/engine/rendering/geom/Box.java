@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.util.MeshUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 

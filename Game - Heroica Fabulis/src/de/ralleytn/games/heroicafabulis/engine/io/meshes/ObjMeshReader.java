@@ -12,6 +12,7 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.util.ListUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 

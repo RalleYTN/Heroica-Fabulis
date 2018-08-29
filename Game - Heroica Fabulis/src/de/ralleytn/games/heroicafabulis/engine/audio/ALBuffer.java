@@ -3,7 +3,6 @@ package de.ralleytn.games.heroicafabulis.engine.audio;
 import static org.lwjgl.openal.AL10.*;
 
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
-import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioData;
 
 /**
  * Represents a buffer from OpenAL.

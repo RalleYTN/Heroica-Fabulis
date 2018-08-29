@@ -16,7 +16,6 @@ import org.lwjgl.opengl.GL45;
 
 import de.ralleytn.games.heroicafabulis.engine.Bindable;
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
-import de.ralleytn.games.heroicafabulis.engine.io.textures.TextureData;
 
 /**
  * Represents an OpenGL texture.

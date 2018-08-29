@@ -4,8 +4,8 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.games.heroicafabulis.engine.io.meshes.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
+import de.ralleytn.games.heroicafabulis.engine.rendering.geom.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.StaticMesh;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
