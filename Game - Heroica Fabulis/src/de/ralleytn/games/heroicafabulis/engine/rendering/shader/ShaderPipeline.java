@@ -88,10 +88,11 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @param uniform
-	 * @param action
-	 * @return
+	 * Wrapper for setting uniform variables.
+	 * This method just checks if the uniform variable exists and if it does, executes the given consumer (which is supposed to actually set the uniform variable).
+	 * @param uniform the uniform variable name
+	 * @param action the action to be executed when the uniform variable exists
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 29.08.2018/0.3.0
 	 */
 	private final boolean setUniform(String uniform, Consumer<Integer> action) {
@@ -111,7 +112,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, Matrix4f value) {
@@ -123,7 +124,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, float value) {
@@ -135,7 +136,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, Tuple2f value) {
@@ -148,7 +149,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * @param uniform variable name
 	 * @param x X component of the variable value
 	 * @param y Y component of the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, float x, float y) {
@@ -160,7 +161,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, Tuple3f value) {
@@ -174,7 +175,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * @param x X component of the variable value
 	 * @param y Y component of the variable value
 	 * @param z Z component of the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, float x, float y, float z) {
@@ -186,7 +187,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, Tuple4f value) {
@@ -201,7 +202,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * @param y Y component of the variable value
 	 * @param z Z component of the variable value
 	 * @param w W component of the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, float x, float y, float z, float w) {
@@ -213,7 +214,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, int value) {
@@ -225,7 +226,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	 * Sets a uniform variable.
 	 * @param uniform variable name
 	 * @param value the variable value
-	 * @return
+	 * @return {@code true} if the variable exists, {@code false} if it doesn't
 	 * @since 11.08.2018/0.1.0
 	 */
 	public boolean setUniform(String uniform, boolean value) {

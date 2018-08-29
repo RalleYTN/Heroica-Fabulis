@@ -127,8 +127,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param blendMap
+	 * Sets the blend map.
+	 * @param blendMap the blend map
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setBlendMap(Texture blendMap) {
@@ -171,8 +171,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param tiling
+	 * Sets the tiling for the color map.
+	 * @param tiling the tiling
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setColorMapTiling(float tiling) {
@@ -182,8 +182,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param tiling
+	 * Sets the tiling for the specular map.
+	 * @param tiling the tiling
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setSpecularMapTiling(float tiling) {
@@ -193,8 +193,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param tiling
+	 * Sets the tiling for the normal map.
+	 * @param tiling the tiling
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setNormalMapTiling(float tiling) {
@@ -204,8 +204,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param tiling
+	 * Sets the tiling for the blend map.
+	 * @param tiling the tiling
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setBlendMapTiling(float tiling) {
@@ -215,8 +215,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param tiling
+	 * Sets the tiling for the first overlay.
+	 * @param tiling the tiling
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setOverlay1Tiling(float tiling) {
@@ -226,8 +226,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param tiling
+	 * Sets the tiling for the second overlay.
+	 * @param tiling the tiling
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setOverlay2Tiling(float tiling) {
@@ -237,8 +237,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param tiling
+	 * Sets the tiling for the third overlay.
+	 * @param tiling the tiling
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setOverlay3Tiling(float tiling) {
@@ -259,8 +259,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param fog
+	 * Sets the fog.
+	 * @param fog the fog
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setFog(Fog fog) {
@@ -336,8 +336,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param transparency
+	 * Sets if transparency is allowed.
+	 * @param transparency {@code true} allow transparency, {@code false} always opaque
 	 * @since 24.08.2018/0.3.0
 	 */
 	public void setTransparent(boolean transparency) {
@@ -347,8 +347,8 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @param upwardsNormals
+	 * Sets if the model uses upwards normals.
+	 * @param upwardsNormals {@code true} upwards normals, {@code false} actual normals
 	 * @since 24.08.2018/0.3.0
 	 */
 	public void setUpwardsNormals(boolean upwardsNormals) {
@@ -385,8 +385,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the blend map
 	 * @since 25.08.2018/0.3.0
 	 */
 	public Texture getBlendMap() {
@@ -422,8 +421,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the tiling for the color map
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getColorMapTiling() {
@@ -432,8 +430,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the tiling for the specular map
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getSpecularMapTiling() {
@@ -442,8 +439,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the tiling for the normal map
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getNormalMapTiling() {
@@ -452,8 +448,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the tiling for the blend map
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getBlendMapTiling() {
@@ -462,8 +457,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the tiling for the first overlay
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getOverlay1Tiling() {
@@ -472,8 +466,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the tiling for the second overlay
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getOverlay2Tiling() {
@@ -482,8 +475,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the tiling for the third overlay
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getOverlay3Tiling() {
@@ -501,8 +493,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the fog
 	 * @since 25.08.2018/0.3.0
 	 */
 	public Fog getFog() {
@@ -565,8 +556,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if transparency is allowed, else {@code false}
 	 * @since 24.08.2018/0.3.0
 	 */
 	public boolean isTransparent() {
@@ -575,8 +565,7 @@ public class Material implements Copyable<Material> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if upwards normals are used, else {@code false}
 	 * @since 24.08.2018/0.3.0
 	 */
 	public boolean usesUpwardsNormals() {

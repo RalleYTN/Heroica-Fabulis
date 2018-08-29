@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.engine.rendering.shader;
 import javax.vecmath.Color3f;
 
 /**
- * 
+ * Container for values that decide how "foggy" objects become when the distance between the camera and the object increases/decreases.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 25.08.2018/0.3.0
  * @since 25.08.2018/0.3.0
@@ -30,8 +30,8 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @param gradient
+	 * Sets the gradient.
+	 * @param gradient the gradient
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setGradient(float gradient) {
@@ -41,8 +41,8 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @param density
+	 * Sets the density.
+	 * @param density the density
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setDensity(float density) {
@@ -52,8 +52,8 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @param color
+	 * Sets the color.
+	 * @param color the color
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void setColor(Color3f color) {
@@ -63,8 +63,7 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the gradient
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getGradient() {
@@ -73,8 +72,7 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the density
 	 * @since 25.08.2018/0.3.0
 	 */
 	public float getDensity() {
@@ -83,8 +81,7 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the color
 	 * @since 25.08.2018/0.3.0
 	 */
 	public Color3f getColor() {
@@ -93,8 +90,7 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if one of the values was changed since they were applied the last time, else {@code true}
 	 * @since 25.08.2018/0.3.0
 	 */
 	public boolean hasChanged() {
@@ -103,8 +99,8 @@ public class Fog {
 	}
 	
 	/**
-	 * 
-	 * @param pipeline
+	 * Applies the fog to a shader pipeline.
+	 * @param pipeline the shader pipeline.
 	 * @since 25.08.2018/0.3.0
 	 */
 	public void applyToShader(ShaderPipeline pipeline) {
