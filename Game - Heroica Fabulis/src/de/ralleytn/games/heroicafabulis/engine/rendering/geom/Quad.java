@@ -8,7 +8,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.MeshUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
 /**
- * 
+ * Represents a simple quad mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 25.08.2018/0.3.0
  * @since 24.08.2018/0.3.0
@@ -30,11 +30,10 @@ public class Quad extends StaticMesh {
 	};
 	
 	/**
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
+	 * @param p1 point 1
+	 * @param p2 point 2
+	 * @param p3 point 3
+	 * @param p4 point 4
 	 * @since 24.08.2018/0.3.0
 	 */
 	public Quad(Vector3f p1, Vector3f p2, Vector3f p3, Vector3f p4) {
@@ -43,12 +42,12 @@ public class Quad extends StaticMesh {
 	}
 	
 	/**
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
-	 * @return
+	 * Generates the mesh data.
+	 * @param p1 point 1
+	 * @param p2 point 2
+	 * @param p3 point 3
+	 * @param p4 point 4
+	 * @return the generated mesh data
 	 * @since 24.08.2018/0.3.0
 	 */
 	public static final MeshData generateMeshData(Vector3f p1, Vector3f p2, Vector3f p3, Vector3f p4) {

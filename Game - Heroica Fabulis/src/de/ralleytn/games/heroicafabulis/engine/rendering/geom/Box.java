@@ -10,7 +10,7 @@ import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 /**
  * Represents a simple box mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 25.08.2018/0.3.0
+ * @version 29.08.2018/0.3.0
  * @since 05.08.2018/0.1.0
  */
 public class Box extends StaticMesh {
@@ -75,45 +75,20 @@ public class Box extends StaticMesh {
 	 */
 	public Box(float width, float height, float depth) {
 
-		super(createMeshData(width, height, depth));
+		super(generateMeshData(width, height, depth));
 	}
 	
 	/**
-	 * Creates the normals for the mesh.
-	 * @param width the width
-	 * @param height the height
-	 * @param depth the depth
-	 * @return the generated normals
-	 * @since 11.08.2018/0.1.0
+	 * Creates the mesh data for the box.
+	 * @param width the box width
+	 * @param height the box height
+	 * @param depth the box depth
+	 * @return the created mesh data
+	 * @since 20.08.2018/0.2.0
 	 */
-	private static final float[] createNormals(float width, float height, float depth) {
+	public static final MeshData generateMeshData(float width, float height, float depth) {
 		
-		List<Vector3f> list = MeshUtil.generateNormals(VectorUtil.toList3f(createVertices(width, height, depth)), INDICES);
-		float[] normals = new float[list.size() * 3];
-		int index = 0;
-		
-		for(Vector3f vector : list) {
-			
-			normals[index] = vector.x;
-			normals[index + 1] = vector.y;
-			normals[index + 2] = vector.z;
-			index += 3;
-		}
-		
-		return normals;
-	}
-	
-	/**
-	 * Creates the vertices of the box.
-	 * @param width the width
-	 * @param height the height
-	 * @param depth the depth
-	 * @return the vertices
-	 * @since 05.08.2018/0.1.0
-	 */
-	private static final float[] createVertices(float width, float height, float depth) {
-
-		return new float[] {
+		float[] vertices = new float[] {
 				
 			0, height, 0,
 			0, 0, 0,
@@ -145,20 +120,18 @@ public class Box extends StaticMesh {
 			width, 0, 0,
 			width, 0, depth
 		};
-	}
-	
-	/**
-	 * Creates the mesh data for the box.
-	 * @param width the box width
-	 * @param height the box height
-	 * @param depth the box depth
-	 * @return the created mesh data
-	 * @since 20.08.2018/0.2.0
-	 */
-	public static final MeshData createMeshData(float width, float height, float depth) {
 		
-		float[] vertices = createVertices(width, height, depth);
-		float[] normals = createNormals(width, height, depth);
+		List<Vector3f> list = MeshUtil.generateNormals(VectorUtil.toList3f(vertices), INDICES);
+		float[] normals = new float[list.size() * 3];
+		int index = 0;
+		
+		for(Vector3f vector : list) {
+			
+			normals[index] = vector.x;
+			normals[index + 1] = vector.y;
+			normals[index + 2] = vector.z;
+			index += 3;
+		}
 		
 		MeshData data = new MeshData();
 		data.setVertices(vertices);

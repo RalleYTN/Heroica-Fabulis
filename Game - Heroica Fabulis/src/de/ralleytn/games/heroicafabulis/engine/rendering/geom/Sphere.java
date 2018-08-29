@@ -1,7 +1,7 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 
 /**
- * 
+ * Represents a simple sphere mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 25.08.2018/0.3.0
  * @since 24.08.2018/0.3.0
@@ -9,10 +9,9 @@ package de.ralleytn.games.heroicafabulis.engine.rendering.geom;
 public class Sphere extends StaticMesh {
 
 	/**
-	 * 
-	 * @param radius
-	 * @param rings
-	 * @param sectors
+	 * @param radius the sphere radius
+	 * @param rings the amount of rings (horizontal)
+	 * @param sectors the amount of sectors (vertical)
 	 * @since 24.08.2018/0.3.0
 	 */
 	public Sphere(float radius, int rings, int sectors) {
@@ -21,11 +20,11 @@ public class Sphere extends StaticMesh {
 	}
 
 	/**
-	 * 
-	 * @param radius
-	 * @param rings
-	 * @param sectors
-	 * @return
+	 * Generates the mesh data.
+	 * @param radius the sphere radius
+	 * @param rings the amount of rings (horizontal)
+	 * @param sectors the amount of sectors (vertical)
+	 * @return the generated mesh data.
 	 * @since 24.08.2018/0.3.0
 	 */
 	public static final MeshData generateMeshData(float radius, int rings, int sectors) {
