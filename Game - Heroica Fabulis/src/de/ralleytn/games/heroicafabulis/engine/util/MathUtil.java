@@ -15,17 +15,6 @@ public final class MathUtil {
 	private MathUtil() {}
 	
 	/**
-	 * 
-	 * @param value
-	 * @return
-	 * @since 26.08.2018/0.3.0
-	 */
-	public static final float positive(float value) {
-		
-		return value < 0 ? -value : value;
-	}
-	
-	/**
 	 * @param x first value
 	 * @param y second value
 	 * @return the smallest common factor

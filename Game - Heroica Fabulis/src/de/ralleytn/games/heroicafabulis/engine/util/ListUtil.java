@@ -17,9 +17,9 @@ public final class ListUtil {
 	private ListUtil() {}
 	
 	/**
-	 * 
-	 * @param list
-	 * @param array
+	 * Adds all of the elements in the array to the list.
+	 * @param list the list
+	 * @param array the array
 	 * @since 26.08.2018/0.3.0
 	 */
 	public static final void addFloatArray(List<Float> list, float[] array) {
@@ -31,9 +31,9 @@ public final class ListUtil {
 	}
 	
 	/**
-	 * 
-	 * @param list
-	 * @return
+	 * Converts a list of {@code float}s into a {@code float} array.
+	 * @param list the list
+	 * @return the array
 	 * @since 26.08.2018/0.3.0
 	 */
 	public static final float[] toPrimitiveFloatArray(List<Float> list) {

@@ -19,11 +19,11 @@ public final class MatrixUtil {
 	private MatrixUtil() {}
 	
 	/**
-	 * 
-	 * @param translation
-	 * @param rotation
-	 * @param scale
-	 * @return
+	 * Creates a new transformation matrix.
+	 * @param translation the translation
+	 * @param rotation the rotation
+	 * @param scale the scale
+	 * @return the created transformation matrix
 	 * @since 25.08.2018/0.3.0
 	 */
 	public static final Matrix4f createTransformationMatrx(Vector3f translation, Vector3f rotation, Vector3f scale) {

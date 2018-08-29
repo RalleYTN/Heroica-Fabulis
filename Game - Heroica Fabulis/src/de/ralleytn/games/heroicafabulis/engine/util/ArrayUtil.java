@@ -15,9 +15,9 @@ public final class ArrayUtil {
 	private ArrayUtil() {}
 	
 	/**
-	 * 
-	 * @param array
-	 * @return
+	 * Creates a copy of an {@code int} array.
+	 * @param array the array
+	 * @return the copy
 	 * @since 25.08.2018/0.3.0
 	 */
 	public static final int[] copy(int[] array) {
@@ -33,9 +33,9 @@ public final class ArrayUtil {
 	}
 	
 	/**
-	 * 
-	 * @param array
-	 * @return
+	 * Creates a copy of a {@code float} array.
+	 * @param array the array
+	 * @return the copy
 	 * @since 25.08.2018/0.3.0
 	 */
 	public static final float[] copy(float[] array) {

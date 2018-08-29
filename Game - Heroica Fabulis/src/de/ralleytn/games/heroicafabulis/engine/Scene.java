@@ -6,13 +6,12 @@ import java.util.List;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Graphics3D;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Renderable;
 import de.ralleytn.games.heroicafabulis.engine.rendering.light.Light;
-import de.ralleytn.games.heroicafabulis.engine.util.MathUtil;
 import de.ralleytn.games.heroicafabulis.engine.util.VectorUtil;
 
 /**
  * Represents the currently processed universe.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 29.08.2018/0.3.0
  * @since 31.07.2018/0.1.0
  */
 public class Scene implements Renderable, Updatable {
@@ -109,7 +108,7 @@ public class Scene implements Renderable, Updatable {
 		
 		for(Entity entity : this.entities) {
 			
-			if(entity.isRendering() && MathUtil.positive(VectorUtil.getDistance(this.game.getCamera().getTranslation(), entity.getTranslation())) <= entity.getRenderDistance()) {
+			if(entity.isRendering() && VectorUtil.getDistance(this.game.getCamera().getTranslation(), entity.getTranslation()) <= entity.getRenderDistance()) {
 				
 				graphics.renderEntity(entity);
 			}

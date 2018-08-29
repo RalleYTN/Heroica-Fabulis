@@ -21,15 +21,15 @@ public final class VectorUtil {
 	private VectorUtil() {}
 	
 	/**
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @return
+	 * Calculates the distance between two points in a 3D space.
+	 * @param p1 point 1
+	 * @param p2 point 2
+	 * @return the distance
 	 * @since 26.08.2018/0.3.0
 	 */
 	public static final float getDistance(Vector3f p1, Vector3f p2) {
 
-		return (float)Math.pow(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2), 0.5F);
+		return (float)Math.abs(Math.pow(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2), 0.5F));
 	}
 	
 	/**

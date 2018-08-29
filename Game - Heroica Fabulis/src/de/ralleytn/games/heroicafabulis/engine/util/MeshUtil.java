@@ -23,10 +23,16 @@ public final class MeshUtil {
 	private MeshUtil() {}
 	
 	/**
-	 * 
-	 * @param meshes
-	 * @param transformations
-	 * @return
+	 * Merges multiple meshes lazily.
+	 * <ol>
+	 * <li>The vertices and normals are multiplied with the corresponding transformation</li>
+	 * <li>Vertices, texture coordinate, normals and indices are merged together.</li>
+	 * <li>The indices are incremented.</li>
+	 * </ol>
+	 * The purpose of this method is to allow fast merging for situations where it will already create the optimal result.
+	 * @param meshes the meshes
+	 * @param transformations the transformations.
+	 * @return the merged mesh
 	 * @since 26.08.2018/0.3.0
 	 */
 	public static final MeshData mergeLazy(List<MeshData> meshes, List<Matrix4f> transformations) {
