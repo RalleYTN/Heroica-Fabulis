@@ -3,7 +3,6 @@ package de.ralleytn.games.heroicafabulis.engine.audio;
 import javax.vecmath.Vector3f;
 
 import static org.lwjgl.openal.AL11.*;
-import static org.lwjgl.openal.AL10.*;
 
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 import de.ralleytn.games.heroicafabulis.engine.Movable;
@@ -49,6 +48,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Queues a buffer.
 	 * @param buffer the buffer
 	 * @since 26.08.2018/0.3.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void queueBuffer(ALBuffer buffer) {
 		
@@ -59,6 +59,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Queues multiple buffers.
 	 * @param buffers the buffers
 	 * @since 26.08.2018/0.3.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void queueBuffers(ALBuffer[] buffers) {
 		
@@ -75,6 +76,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * Unqueues all buffers.
 	 * @since 26.08.2018/0.3.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void unqueueBuffers() {
 		
@@ -85,6 +87,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Unqueues selected buffers-
 	 * @param buffers the buffers
 	 * @since 26.08.2018/0.3.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void unqueueBuffers(ALBuffer[] buffers) {
 		
@@ -101,6 +104,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * Plays the audio.
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void play() {
 		
@@ -110,6 +114,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * Pauses the audio.
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void pause() {
 		
@@ -120,6 +125,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Stops the audio.
 	 * Basically pauses the audio and sets the position back to {@code 0}.
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void stop() {
 		
@@ -129,6 +135,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * Rewinds the audio.
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void rewind() {
 		
@@ -139,6 +146,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Sets the {@linkplain ALBuffer} with the audio data.
 	 * @param buffer the {@linkplain ALBuffer}
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setBuffer(ALBuffer buffer) {
 		
@@ -151,6 +159,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Sets the volume of the source.
 	 * @param gain the volume
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setGain(float gain) {
 		
@@ -161,6 +170,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Sets the pitch.
 	 * @param pitch the pitch.
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setPitch(float pitch) {
 		
@@ -171,6 +181,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Sets the distance in which the sound can still be heard.
 	 * @param maxDistance the distance
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setMaxDistance(float maxDistance) {
 		
@@ -181,6 +192,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Sets the roll-of factor.
 	 * @param rolloffFactor the roll-off factor
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setRolloffFactor(float rolloffFactor) {
 		
@@ -191,6 +203,7 @@ public class Source extends LWJGLObject implements Movable {
 	 * Sets the minimum volume.
 	 * @param minGain the minimum volume
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setMinGain(float minGain) {
 		
@@ -198,9 +211,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param maxGain
+	 * Sets the maximum volume.
+	 * @param maxGain the maximum volume
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setMaxGain(float maxGain) {
 		
@@ -208,9 +222,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param referenceDistance
+	 * Sets the reference distance.
+	 * @param referenceDistance the reference distance
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setReferenceDistance(float referenceDistance) {
 		
@@ -218,9 +233,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param coneOuterGain
+	 * Sets the cone outer gain.
+	 * @param coneOuterGain the cone outer gain
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setConeOuterGain(float coneOuterGain) {
 		
@@ -228,9 +244,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param coneInnerAngle
+	 * Sets the cone inner angle.
+	 * @param coneInnerAngle the cone inner angle
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setConeInnerAngle(float coneInnerAngle) {
 		
@@ -238,9 +255,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param coneOuterAngle
+	 * Sets the cone outer angle.
+	 * @param coneOuterAngle the cone outer angle
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setConeOuterAngle(float coneOuterAngle) {
 		
@@ -248,9 +266,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @param relativeToListener
+	 * Sets if the audio should be relative to the listener or not.
+	 * @param relativeToListener {@code true} = the audio is always relative to the listener, {@code false} = the audio has its own position
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setRelativeToListener(boolean relativeToListener) {
 		
@@ -258,9 +277,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param offset
+	 * Sets the offset in seconds.
+	 * @param offset the offset
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setOffsetInSeconds(float offset) {
 		
@@ -268,9 +288,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param offset
+	 * Sets the offset in samples.
+	 * @param offset the offset
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setOffsetInSamples(float offset) {
 		
@@ -278,9 +299,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @param offset
+	 * Sets the offset in bytes.
+	 * @param offset the offset
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setOffsetInBytes(int offset) {
 		
@@ -288,9 +310,10 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @param looping
+	 * Sets the looping flag.
+	 * @param looping value of the looping flag
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public void setLooping(boolean looping) {
 		
@@ -350,9 +373,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the volume
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getGain() {
 		
@@ -360,9 +383,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the pitch
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getPitch() {
 		
@@ -370,9 +393,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the maximum distance
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getMaxDistance() {
 		
@@ -380,9 +403,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the roll off factor
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getRolloffFactor() {
 		
@@ -390,9 +413,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the minimum volume
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getMinGain() {
 		
@@ -400,9 +423,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the maximum volume
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getMaxGain() {
 		
@@ -410,9 +433,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the reference distance
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getReferenceDistance() {
 		
@@ -420,9 +443,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the cone outer gain
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getConeOuterGain() {
 		
@@ -430,9 +453,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the cone inner angle
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getConeInnerAngle() {
 		
@@ -440,9 +463,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the cone outer angle
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getConeOuterAngle() {
 		
@@ -450,9 +473,9 @@ public class Source extends LWJGLObject implements Movable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return {@code true} if the audio is played relative to the listener, else {@code false}
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public boolean isRelativeToListener() {
 		
@@ -462,6 +485,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return {@code true} if the looping flag is set, otherwise {@code false}
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public boolean isLooping() {
 		
@@ -471,6 +495,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the state of the source
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public int getState() {
 		
@@ -480,6 +505,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the audio offset in seconds
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getOffsetInSeconds() {
 		
@@ -489,6 +515,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the audio offset in samples
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public float getOffsetInSamples() {
 		
@@ -498,6 +525,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the audio offset in bytes
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public int getOffsetInBytes() {
 
@@ -507,6 +535,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the current buffer
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public ALBuffer getBuffer() {
 		
@@ -516,6 +545,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the source type
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public int getType() {
 		
@@ -525,6 +555,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the amount of buffers that were processed in the queue
 	 * @since 26.08.2018/0.3.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public int getProcessedBuffersCount() {
 		
@@ -534,6 +565,7 @@ public class Source extends LWJGLObject implements Movable {
 	/**
 	 * @return the velocity
 	 * @since 17.08.2018/0.2.0
+	 * @see <a href="https://www.openal.org/documentation/openal-1.1-specification.pdf">OpenAL 1.1 Specification</a>
 	 */
 	public Vector3f getVelocity() {
 		

@@ -23,7 +23,6 @@ import de.ralleytn.games.heroicafabulis.engine.audio.AudioData;
 public class WavAudioReader extends AudioReader {
 	
 	/**
-	 * 
 	 * @since 17.08.2018/0.2.0
 	 */
 	public WavAudioReader() {
@@ -32,10 +31,9 @@ public class WavAudioReader extends AudioReader {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @throws UnsupportedAudioFileException
-	 * @throws IOException
+	 * @param inputStream the input stream from which the audio should be streamed
+	 * @throws UnsupportedAudioFileException if the audio is not supported
+	 * @throws IOException if an I/O error occurred
 	 * @since 26.08.2018/0.3.0
 	 */
 	public WavAudioReader(InputStream inputStream) throws UnsupportedAudioFileException, IOException {
@@ -101,7 +99,7 @@ public class WavAudioReader extends AudioReader {
 	/**
 	 * Wraps the audio data in a {@linkplain ByteBuffer}.
 	 * @param bytes the audio data
-	 * @param twoByteData
+	 * @param twoByteData the sample size in bits is 16
 	 * @return the created {@linkplain ByteBuffer}
 	 * @since 17.08.2018/0.2.0
 	 */

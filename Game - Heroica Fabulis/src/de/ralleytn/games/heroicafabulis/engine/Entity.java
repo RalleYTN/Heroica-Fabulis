@@ -7,7 +7,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Mesh;
 import de.ralleytn.games.heroicafabulis.engine.util.MatrixUtil;
 
 /**
- * Represents an entity. An entity is an object on the scene.
+ * Represents an entity. An entity is a transformable and updatable object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 26.08.2018/0.3.0
  * @since 30.07.2018/0.1.0

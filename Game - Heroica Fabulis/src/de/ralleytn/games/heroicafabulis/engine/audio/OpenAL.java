@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.openal.AL.*;
-import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.openal.ALC.*;
 import static org.lwjgl.openal.ALC10.*;

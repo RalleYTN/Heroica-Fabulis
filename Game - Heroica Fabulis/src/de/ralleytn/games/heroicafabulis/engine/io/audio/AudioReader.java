@@ -18,7 +18,7 @@ import de.ralleytn.games.heroicafabulis.engine.audio.AudioData;
 import de.ralleytn.games.heroicafabulis.engine.io.Reader;
 
 /**
- * 
+ * Represents an abstract audio reader with streaming capabilities.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
  * @version 29.08.2018/0.3.0
  * @since 27.08.2018/0.3.0
@@ -36,16 +36,14 @@ public abstract class AudioReader extends Reader<AudioData> {
 	protected long currentFrame;
 	
 	/**
-	 * 
 	 * @since 27.08.2018/0.3.0
 	 */
 	public AudioReader() {}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @throws IOException
-	 * @throws UnsupportedAudioFileException
+	 * @param inputStream the input stream from which audio should be streamed
+	 * @throws IOException if an I/O error occurred
+	 * @throws UnsupportedAudioFileException if the audio is not supported
 	 * @since 27.08.2018/0.3.0
 	 */
 	public AudioReader(InputStream inputStream) throws IOException, UnsupportedAudioFileException {
@@ -62,16 +60,16 @@ public abstract class AudioReader extends Reader<AudioData> {
 	}
 	
 	/**
-	 * 
-	 * @return
-	 * @throws IOException
+	 * Reads a chunk from the stream. the size of the chunk is typically {@code channels * sampleSizeInBytes * bufferSize}.
+	 * @return the read chunk or {@code null} if the end of the stream is reached
+	 * @throws IOException if an I/O error occurred
 	 * @since 27.08.2018/0.3.0
 	 */
 	public abstract AudioData nextChunk() throws IOException;
 	
 	/**
-	 * 
-	 * @param bufferSize
+	 * Sets the buffer size.
+	 * @param bufferSize the buffer size
 	 * @since 27.08.2018/0.3.0
 	 */
 	public void setBufferSize(int bufferSize) {
@@ -80,8 +78,8 @@ public abstract class AudioReader extends Reader<AudioData> {
 	}
 	
 	/**
-	 * 
-	 * @throws IOException
+	 * Resets the underlying input stream.
+	 * @throws IOException if an I/O error occurred
 	 * @since 27.08.2018/0.3.0
 	 */
 	public void reset() throws IOException {
@@ -90,8 +88,8 @@ public abstract class AudioReader extends Reader<AudioData> {
 	}
 	
 	/**
-	 * 
-	 * @throws IOException 
+	 * Closes the underlying input stream.
+	 * @throws IOException if an I/O error occurred
 	 * @since 27.08.2018/0.3.0
 	 */
 	public void close() throws IOException {
@@ -100,8 +98,7 @@ public abstract class AudioReader extends Reader<AudioData> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the buffer size
 	 * @since 27.08.2018/0.3.0
 	 */
 	public int getBufferSize() {
@@ -110,11 +107,11 @@ public abstract class AudioReader extends Reader<AudioData> {
 	}
 	
 	/**
-	 * 
-	 * @param channels
-	 * @param sampleSizeInBits
-	 * @return
-	 * @throws IOException
+	 * Takes in the channel count and the sample size in bits to determine the OpenAL audio format.
+	 * @param channels the channel count
+	 * @param sampleSizeInBits the sample size in bits
+	 * @return the OpenAL format
+	 * @throws IOException if no supported format can be found
 	 * @since 27.08.2018/0.3.0
 	 */
 	protected static final int getFormat(int channels, int sampleSizeInBits) throws IOException {

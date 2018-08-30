@@ -2,8 +2,6 @@ package de.ralleytn.games.heroicafabulis.engine.audio;
 
 import java.nio.ByteBuffer;
 
-import org.lwjgl.openal.AL10;
-
 /**
  * Represents audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)

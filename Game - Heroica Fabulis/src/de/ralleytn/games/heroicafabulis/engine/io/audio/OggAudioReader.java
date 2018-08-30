@@ -21,7 +21,6 @@ import static org.lwjgl.openal.AL10.*;
 public class OggAudioReader extends AudioReader {
 
 	/**
-	 * 
 	 * @since 28.08.2018/0.3.0
 	 */
 	public OggAudioReader() {
@@ -30,9 +29,8 @@ public class OggAudioReader extends AudioReader {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @throws IOException
+	 * @param inputStream the input stream from which the audio should be streamed
+	 * @throws IOException if an I/O error occurred
 	 * @since 28.08.2018/0.3.0
 	 */
 	public OggAudioReader(InputStream inputStream) throws IOException {

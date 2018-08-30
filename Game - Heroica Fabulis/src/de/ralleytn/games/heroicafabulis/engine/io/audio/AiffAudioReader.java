@@ -27,7 +27,6 @@ public class AiffAudioReader extends AudioReader {
 	private Encoding encoding;
 	
 	/**
-	 * 
 	 * @since 28.08.2028/0.3.0
 	 */
 	public AiffAudioReader() {
@@ -36,10 +35,9 @@ public class AiffAudioReader extends AudioReader {
 	}
 	
 	/**
-	 * 
-	 * @param inputStream
-	 * @throws IOException
-	 * @throws UnsupportedAudioFileException
+	 * @param inputStream The input stream from which the audio should be streamed.
+	 * @throws IOException if an I/O error occurred
+	 * @throws UnsupportedAudioFileException if the audio is not supported
 	 * @since 28.08.2018/0.3.0
 	 */
 	public AiffAudioReader(InputStream inputStream) throws IOException, UnsupportedAudioFileException {
@@ -94,7 +92,7 @@ public class AiffAudioReader extends AudioReader {
 	/**
 	 * Wraps the audio data in a {@linkplain ByteBuffer}.
 	 * @param bytes the audio data
-	 * @param twoByteData
+	 * @param twoByteData sample size in bits is 16
 	 * @param encoding the encoding
 	 * @return the created {@linkplain ByteBuffer}
 	 * @since 17.08.2018/0.2.0

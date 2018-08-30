@@ -36,6 +36,7 @@ public abstract class Mesh implements Disposable {
 		this.cullMode = CULLING_BACK;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void finalize() throws Throwable {
 		
