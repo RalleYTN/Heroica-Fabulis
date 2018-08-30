@@ -17,7 +17,7 @@ import de.ralleytn.games.heroicafabulis.engine.rendering.shader.ShaderPipeline;
 /**
  * Manages the rendering of 3D graphics.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 27.08.2018/0.3.0
+ * @version 30.08.2018/0.3.0
  * @since 30.07.2018/0.1.0
  */
 public class Graphics3D {
@@ -26,6 +26,7 @@ public class Graphics3D {
 	private ShaderPipeline shaderPipeline;
 	private Material material;
 	private Mesh lastRenderedMesh;
+	private int cullMode;
 	
 	/**
 	 * @param game the {@linkplain Game} instance this manager belongs to
@@ -62,25 +63,24 @@ public class Graphics3D {
 	public void renderMesh(Mesh mesh) {
 		
 		VertexArray array = mesh.getVertexArray();
-		
-		/*if(this.lastRenderedMesh != mesh && ) {
-			
-			if(mesh.hasNormals()) array.disable(2);
-			if(mesh.hasTextureCoordinates()) array.disable(1);
-			array.disable(0);
-		}*/
-		
+
 		if(this.lastRenderedMesh != mesh) {
 			
-			if(this.lastRenderedMesh != null) {
+			// Is it really necessary to disable?
+			// I can save a little bit of performance by reducing the native calls.
+			/*if(this.lastRenderedMesh != null) {
 				
 				VertexArray lastMeshArray = this.lastRenderedMesh.getVertexArray();
 				if(this.lastRenderedMesh.hasNormals()) lastMeshArray.disable(2);
 				if(this.lastRenderedMesh.hasTextureCoordinates()) lastMeshArray.disable(1);
 				lastMeshArray.disable(0);
+			}*/
+			
+			if(this.cullMode != mesh.getCullMode()) {
+				
+				this.setFaceCulling(mesh.getCullMode());
 			}
 			
-			this.setFaceCulling(mesh.getCullMode());
 			array.bind();
 			array.enable(0);
 			if(mesh.hasTextureCoordinates()) array.enable(1);
@@ -92,8 +92,8 @@ public class Graphics3D {
 	}
 	
 	/**
-	 * 
-	 * @param terrain
+	 * Renders a chunk of terrain.
+	 * @param terrain the terrain chunk
 	 * @since 26.08.2018/0.3.0
 	 */
 	public void renderTerrain(Terrain terrain) {
@@ -211,5 +211,7 @@ public class Graphics3D {
 			
 			glDisable(GL_CULL_FACE);
 		}
+		
+		this.cullMode = mode;
 	}
 }

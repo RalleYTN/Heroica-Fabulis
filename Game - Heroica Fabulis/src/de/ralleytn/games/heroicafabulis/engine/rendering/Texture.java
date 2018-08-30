@@ -44,7 +44,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	
 	/**
 	 * Instead of using this constructor directly, you should use a {@linkplain TextureReader}.
-	 * @param data
+	 * @param data the texture data
 	 * @since 04.08.2018/0.1.0
 	 */
 	public Texture(TextureData data) {
@@ -259,8 +259,8 @@ public class Texture extends LWJGLObject implements Bindable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Creates a {@linkplain TextureData} object based on this texture.
+	 * @return the created object
 	 * @since 20.08.2018/0.2.0
 	 */
 	public TextureData createTextureData() {
