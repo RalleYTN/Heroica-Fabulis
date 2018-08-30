@@ -1,7 +1,7 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL30.*;
 
 import javax.vecmath.Color4f;
 import javax.vecmath.Vector3f;
@@ -81,10 +81,10 @@ public class Graphics3D {
 				this.setFaceCulling(mesh.getCullMode());
 			}
 			
-			array.bind();
-			array.enable(0);
-			if(mesh.hasTextureCoordinates()) array.enable(1);
-			if(mesh.hasNormals()) array.enable(2);
+			glBindVertexArray(array.getID());
+			glEnableVertexAttribArray(0);
+			if(mesh.hasTextureCoordinates()) glEnableVertexAttribArray(1);
+			if(mesh.hasNormals()) glEnableVertexAttribArray(2);
 			this.lastRenderedMesh = mesh;
 		}
 		

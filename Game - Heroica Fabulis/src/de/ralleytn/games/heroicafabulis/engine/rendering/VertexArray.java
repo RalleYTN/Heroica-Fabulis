@@ -1,7 +1,6 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering;
 
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import static org.lwjgl.opengl.GL30.*;
 
 import de.ralleytn.games.heroicafabulis.engine.Bindable;
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
@@ -9,7 +8,7 @@ import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 /**
  * Object wrapper for the OpenGL vertex arrays.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 30.08.2018/0.3.0
  * @since 04.08.2018/0.1.0
  */
 public class VertexArray extends LWJGLObject implements Bindable {
@@ -22,7 +21,7 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	public VertexArray() {
 		
 		this.buffers = new GLBuffer[16];
-		this.id = GL30.glGenVertexArrays();
+		this.id = glGenVertexArrays();
 	}
 	
 	@Override
@@ -33,14 +32,14 @@ public class VertexArray extends LWJGLObject implements Bindable {
 			buffer.dispose();
 		}
 		
-		GL30.glDeleteVertexArrays(this.id);
+		glDeleteVertexArrays(this.id);
 		this.buffers = null;
 	}
 
 	@Override
 	public void bind() {
 		
-		GL30.glBindVertexArray(this.id);
+		glBindVertexArray(this.id);
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	@Override
 	public void unbind() {
 		
-		GL30.glBindVertexArray(0);
+		glBindVertexArray(0);
 	}
 	
 	/**
@@ -64,7 +63,7 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	public void store(GLBuffer buffer, int index, int vertexSize, int dataType) {
 		
 		buffer.bind();
-		GL20.glVertexAttribPointer(index, vertexSize, dataType, false, 0, 0);
+		glVertexAttribPointer(index, vertexSize, dataType, false, 0, 0);
 		this.buffers[index] = buffer;
 	}
 	
@@ -75,7 +74,7 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	 */
 	public void enable(int index) {
 		
-		GL20.glEnableVertexAttribArray(index);
+		glEnableVertexAttribArray(index);
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class VertexArray extends LWJGLObject implements Bindable {
 	 */
 	public void disable(int index) {
 		
-		GL20.glDisableVertexAttribArray(index);
+		glDisableVertexAttribArray(index);
 	}
 
 	/**

@@ -1,18 +1,12 @@
 package de.ralleytn.games.heroicafabulis.engine.rendering;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
 import javax.vecmath.Color4f;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL45;
+import static org.lwjgl.opengl.GL45.*;
 
 import de.ralleytn.games.heroicafabulis.engine.Bindable;
 import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
@@ -20,64 +14,123 @@ import de.ralleytn.games.heroicafabulis.engine.LWJGLObject;
 /**
  * Represents an OpenGL texture.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 30.08.2018/0.3.0
  * @since 04.08.2018/0.1.0
  */
 public class Texture extends LWJGLObject implements Bindable {
 
 	// I collect the enums here because they are scattered among different classes which makes it really annoying to find them
 	
-	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_NEAREST = GL11.GL_NEAREST;
-	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_LINEAR = GL11.GL_LINEAR;
-	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_NEAREST_MIPMAP_NEAREST = GL11.GL_NEAREST_MIPMAP_NEAREST;
-	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_NEAREST_MIPMAP_LINEAR = GL11.GL_NEAREST_MIPMAP_LINEAR;
-	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_LINEAR_MIPMAP_NEAREST = GL11.GL_LINEAR_MIPMAP_NEAREST;
-	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_LINEAR_MIPMAP_LINEAR = GL11.GL_LINEAR_MIPMAP_LINEAR;
+	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_NEAREST = GL_NEAREST;
+	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_LINEAR = GL_LINEAR;
+	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_NEAREST_MIPMAP_NEAREST = GL_NEAREST_MIPMAP_NEAREST;
+	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_NEAREST_MIPMAP_LINEAR = GL_NEAREST_MIPMAP_LINEAR;
+	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_LINEAR_MIPMAP_NEAREST = GL_LINEAR_MIPMAP_NEAREST;
+	/** @since 04.08.2018/0.1.0 */ public static final int FILTER_LINEAR_MIPMAP_LINEAR = GL_LINEAR_MIPMAP_LINEAR;
 	
-	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_REPEAT = GL11.GL_REPEAT;
-	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_MIRRORED_REPEAT = GL14.GL_MIRRORED_REPEAT;
-	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_CLAMP_TO_EDGE = GL12.GL_CLAMP_TO_EDGE;
-	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_CLAMP_TO_BORDER = GL13.GL_CLAMP_TO_BORDER;
+	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_REPEAT = GL_REPEAT;
+	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_MIRRORED_REPEAT = GL_MIRRORED_REPEAT;
+	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE;
+	/** @since 04.08.2018/0.1.0 */ public static final int WRAP_CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER;
 	
 	private int width;
 	private int height;
 	
 	/**
-	 * Instead of using this constructor directly, you should use a {@linkplain TextureReader}.
 	 * @param data the texture data
 	 * @since 04.08.2018/0.1.0
 	 */
 	public Texture(TextureData data) {
+		
+		this(data, false);
+	}
+	
+	/**
+	 * @param data the texture data
+	 * @param generateMipMap if this value is true, a mipmap will be generated for this texture
+	 * @since 30.08.2018/0.3.0
+	 */
+	public Texture(TextureData data, boolean generateMipMap) {
+		
+		this.initialize(data, generateMipMap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this.width, this.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, this.createBuffer(data));
+		
+		if(generateMipMap) {
+			
+			glGenerateTextureMipmap(this.id);
+		}
+		
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
+	/**
+	 * @param data the texture data for level 0
+	 * @param mipmap the texture data for the other levels (will not use mipmaps if {@code null})
+	 * @since 30.08.2018/0.3.0
+	 */
+	public Texture(TextureData data, TextureData[] mipmap) {
+
+		boolean hasMipmap = mipmap != null;
+		this.initialize(data, hasMipmap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this.width, this.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, this.createBuffer(data));
+		
+		if(hasMipmap) {
+			
+			for(int index = 0; index < mipmap.length; index++) {
+				
+				glTexImage2D(GL_TEXTURE_2D, index + 1, GL_RGBA, this.width, this.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, this.createBuffer(mipmap[index]));
+			}
+		}
+		
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
+	/**
+	 * Initializes the class fields and default texture parameters.
+	 * @param data the texture data on level 0
+	 * @param useMipmap {@code true} if mipmaps are used, else {@code false}
+	 * @since 30.08.2018/0.3.0
+	 */
+	private final void initialize(TextureData data, boolean useMipmap) {
+		
+		this.width = data.getWidth();
+		this.height = data.getHeight();
+		
+		this.id = glGenTextures();
+		glBindTexture(GL_TEXTURE_2D, this.id);
+		glTextureParameteri(this.id, GL_TEXTURE_MIN_FILTER, useMipmap ? FILTER_NEAREST_MIPMAP_NEAREST : FILTER_NEAREST);
+		glTextureParameteri(this.id, GL_TEXTURE_MAG_FILTER, FILTER_NEAREST);
+		glTextureParameteri(this.id, GL_TEXTURE_WRAP_S, WRAP_REPEAT);
+		glTextureParameteri(this.id, GL_TEXTURE_WRAP_T, WRAP_REPEAT);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	}
+	
+	/**
+	 * Wraps the pixel data in an {@linkplain IntBuffer}.
+	 * @param data the texture data
+	 * @return the created {@linkplain IntBuffer}
+	 * @since 30.08.2018/0.3.0
+	 */
+	private final IntBuffer createBuffer(TextureData data) {
 		
 		int[] pixels = data.getPixels();
 		IntBuffer buffer = ByteBuffer.allocateDirect(pixels.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
 		buffer.put(pixels);
 		buffer.flip();
 		
-		this.width = data.getWidth();
-		this.height = data.getHeight();
-		
-		this.id = GL11.glGenTextures();
-		this.bind();
-		this.setMinFilter(Texture.FILTER_NEAREST);
-		this.setMagFilter(Texture.FILTER_NEAREST);
-		this.setWrapS(Texture.WRAP_REPEAT);
-		this.setWrapT(Texture.WRAP_REPEAT);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this.width, this.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-		this.unbind();
+		return buffer;
 	}
 	
 	@Override
 	public void dispose() {
 		
-		GL11.glDeleteTextures(this.id);
+		glDeleteTextures(this.id);
 	}
 
 	@Override
 	public void bind() {
 		
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
+		glBindTexture(GL_TEXTURE_2D, this.id);
 	}
 
 	/**
@@ -87,7 +140,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	@Override
 	public void unbind() {
 		
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
 	/**
@@ -96,7 +149,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void generateMipmap() {
 		
-		GL45.glGenerateTextureMipmap(this.id);
+		glGenerateTextureMipmap(this.id);
 	}
 	
 	/**
@@ -106,7 +159,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void setWrapS(int wrapS) {
 		
-		GL45.glTextureParameteri(this.id, GL11.GL_TEXTURE_WRAP_S, wrapS);
+		glTextureParameteri(this.id, GL_TEXTURE_WRAP_S, wrapS);
 	}
 	
 	/**
@@ -116,7 +169,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void setWrapT(int wrapT) {
 		
-		GL45.glTextureParameteri(this.id, GL11.GL_TEXTURE_WRAP_T, wrapT);
+		glTextureParameteri(this.id, GL_TEXTURE_WRAP_T, wrapT);
 	}
 	
 	/**
@@ -129,7 +182,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void setBorderColor(float red, float green, float blue, float alpha) {
 		
-		GL45.glTextureParameterfv(this.id, GL11.GL_TEXTURE_BORDER_COLOR, new float[] {red, green, blue, alpha});
+		glTextureParameterfv(this.id, GL_TEXTURE_BORDER_COLOR, new float[] {red, green, blue, alpha});
 	}
 	
 	/**
@@ -139,7 +192,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void setBorderColor(Color4f color) {
 		
-		GL45.glTextureParameterfv(this.id, GL11.GL_TEXTURE_BORDER_COLOR, new float[] {color.x, color.y, color.z, color.w});
+		glTextureParameterfv(this.id, GL_TEXTURE_BORDER_COLOR, new float[] {color.x, color.y, color.z, color.w});
 	}
 	
 	/**
@@ -149,7 +202,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void setLODBias(float lodBias) {
 		
-		GL45.glTextureParameterf(this.id, GL14.GL_TEXTURE_LOD_BIAS, lodBias);
+		glTextureParameterf(this.id, GL_TEXTURE_LOD_BIAS, lodBias);
 	}
 	
 	/**
@@ -159,7 +212,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void setMinFilter(int minFilter) {
 		
-		GL45.glTextureParameteri(this.id, GL11.GL_TEXTURE_MIN_FILTER, minFilter);
+		glTextureParameteri(this.id, GL_TEXTURE_MIN_FILTER, minFilter);
 	}
 	
 	/**
@@ -169,7 +222,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public void setMagFilter(int magFilter) {
 		
-		GL45.glTextureParameteri(this.id, GL11.GL_TEXTURE_MAG_FILTER, magFilter);
+		glTextureParameteri(this.id, GL_TEXTURE_MAG_FILTER, magFilter);
 	}
 	
 	/**
@@ -178,7 +231,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public int getWrapS() {
 		
-		return GL45.glGetTextureParameteri(this.id, GL11.GL_TEXTURE_WRAP_S);
+		return glGetTextureParameteri(this.id, GL_TEXTURE_WRAP_S);
 	}
 	
 	/**
@@ -187,7 +240,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public int getWrapT() {
 		
-		return GL45.glGetTextureParameteri(this.id, GL11.GL_TEXTURE_WRAP_T);
+		return glGetTextureParameteri(this.id, GL_TEXTURE_WRAP_T);
 	}
 	
 	/**
@@ -196,7 +249,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public int getMinFilter() {
 		
-		return GL45.glGetTextureParameteri(this.id, GL11.GL_TEXTURE_MIN_FILTER);
+		return glGetTextureParameteri(this.id, GL_TEXTURE_MIN_FILTER);
 	}
 	
 	/**
@@ -205,7 +258,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public int getMagFilter() {
 		
-		return GL45.glGetTextureParameteri(this.id, GL11.GL_TEXTURE_MAG_FILTER);
+		return glGetTextureParameteri(this.id, GL_TEXTURE_MAG_FILTER);
 	}
 	
 	/**
@@ -214,7 +267,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	 */
 	public float getLODBias() {
 		
-		return GL45.glGetTextureParameterf(this.id, GL14.GL_TEXTURE_LOD_BIAS);
+		return glGetTextureParameterf(this.id, GL_TEXTURE_LOD_BIAS);
 	}
 	
 	/**
@@ -225,7 +278,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	public int[] getData(int level) {
 		
 		int[] pixels = new int[this.width * this.height];
-		GL45.glGetTextureImage(this.id, level, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, pixels);
+		glGetTextureImage(this.id, level, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 		return pixels;
 	}
 	
@@ -236,7 +289,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	public Color4f getBorderColor() {
 		
 		float[] color = new float[4];
-		GL45.glGetTextureParameterfv(this.id, GL11.GL_TEXTURE_BORDER_COLOR, color);
+		glGetTextureParameterfv(this.id, GL_TEXTURE_BORDER_COLOR, color);
 		return new Color4f(color[0], color[1], color[2], color[3]);
 	}
 	
