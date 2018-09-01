@@ -10,7 +10,6 @@ public abstract class LWJGLObject implements Disposable {
 
 	protected int id;
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void finalize() throws Throwable {
 		

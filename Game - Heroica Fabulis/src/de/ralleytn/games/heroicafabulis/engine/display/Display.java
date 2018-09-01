@@ -99,7 +99,6 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void finalize() throws Throwable {
 		

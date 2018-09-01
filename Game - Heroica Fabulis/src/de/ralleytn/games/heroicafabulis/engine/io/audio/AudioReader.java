@@ -49,6 +49,8 @@ public abstract class AudioReader extends Reader<AudioData> {
 	public AudioReader(InputStream inputStream) throws IOException, UnsupportedAudioFileException {
 		
 		this.inputStream = inputStream instanceof AudioInputStream ? (AudioInputStream)inputStream : AudioSystem.getAudioInputStream(new BufferedInputStream(inputStream));
+		this.inputStream.mark(Integer.MAX_VALUE);
+		
 		AudioFormat audioFormat = ((AudioInputStream)this.inputStream).getFormat();
 		this.sampleRate = (int)audioFormat.getSampleRate();
 		this.channels = audioFormat.getChannels();
@@ -85,6 +87,7 @@ public abstract class AudioReader extends Reader<AudioData> {
 	public void reset() throws IOException {
 		
 		this.inputStream.reset();
+		this.currentFrame = 0;
 	}
 	
 	/**

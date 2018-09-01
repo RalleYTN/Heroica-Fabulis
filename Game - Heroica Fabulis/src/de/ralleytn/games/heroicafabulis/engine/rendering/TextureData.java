@@ -3,7 +3,7 @@ package de.ralleytn.games.heroicafabulis.engine.rendering;
 /**
  * Represents texture data. Temporary container for texture data which is important for loading texture data in another thread.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 20.08.2018/0.2.0
+ * @version 01.09.2018/0.3.0
  * @since 20.08.2018/0.2.0
  */
 public class TextureData {
@@ -14,6 +14,55 @@ public class TextureData {
 	private boolean alpha;
 	private boolean grayscale;
 	private boolean checked;
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return
+	 * @since 01.09.2018/0.3.0
+	 */
+	public TextureData getSubImage(int x, int y, int width, int height) {
+		
+		int start = y * width + x;
+		int end = start + width * height;
+		int index = 0;
+		int[] pixels = new int[width * height];
+		
+		for(int i = start; i < end; i++) {
+			
+			pixels[index++] = this.pixels[i];
+		}
+		
+		TextureData data = new TextureData();
+		data.setPixels(pixels);
+		data.setSize(width, height);
+		
+		return data;
+	}
+	
+	/**
+	 * 
+	 * @since 01.09.2018/0.3.0
+	 */
+	public void removeHalfTransparency() {
+		
+		for(int index = 0; index < this.pixels.length; index++) {
+			
+			int pixel = this.pixels[index];
+			int alpha = (pixel >> 24) & 0xFF;
+			int blue = (pixel >> 16) & 0xFF;
+			int green = (pixel >> 8) & 0xFF;
+			int red = pixel & 0xFF;
+			
+			if(alpha != 255 && alpha != 0) {
+				
+				this.pixels[index] = ((255 & 0xFF) << 24) | ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
+			}
+		}
+	}
 	
 	/**
 	 * Sets the image size.

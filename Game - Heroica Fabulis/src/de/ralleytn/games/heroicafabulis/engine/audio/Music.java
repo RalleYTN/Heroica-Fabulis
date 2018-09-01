@@ -13,7 +13,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.audio.AudioReader;
  * Represents the music player for the game.
  * All of the audio data will be streamed with this class.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 29.08.2018/0.3.0
+ * @version 31.08.2018/0.3.0
  * @since 26.08.2018/0.3.0
  */
 public class Music {
@@ -41,6 +41,10 @@ public class Music {
 		this.play = new Play();
 		this.queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
 		this.monitor = new Object();
+		this.createThread();
+	}
+	
+	private final void createThread() {
 		
 		this.thread = new Thread(this.play);
 		this.thread.setUncaughtExceptionHandler((thread, exception) -> {
@@ -164,6 +168,7 @@ public class Music {
 		this.source.stop();
 		this.source.unqueueBuffers();
 		this.thread.interrupt();
+		this.createThread();
 	}
 	
 	/**
@@ -217,11 +222,6 @@ public class Music {
 						if(end && processedCount == 0) {
 							
 							Music.this.stop();
-							
-							if(Music.this.looping) {
-								
-								Music.this.play();
-							}
 						}
 						
 						while(processedCount > 0) {
@@ -256,11 +256,6 @@ public class Music {
 							processedCount--;
 						}
 						
-						if(Music.this.source.getState() == Source.STATE_STOPPED) {
-							
-							Music.this.source.play();
-						}
-						
 						Thread.sleep(10);
 						
 						if(Music.this.paused) {
@@ -270,11 +265,9 @@ public class Music {
 					}
 				}
 				
-			} catch(InterruptedException exception) {// DO NOTHING!
-			} catch(IOException exception) {
+			} catch(InterruptedException exception) {
 				
-				Errors.print(exception);
-				Errors.prompt(exception, Errors.log(exception, Engine.getErrLogDirectory()));
+				// DO NOTHING!
 			}
 		}
 	}

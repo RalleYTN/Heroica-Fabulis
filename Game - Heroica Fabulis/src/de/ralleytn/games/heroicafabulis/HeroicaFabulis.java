@@ -20,6 +20,7 @@ import de.ralleytn.games.heroicafabulis.engine.io.audio.WavAudioReader;
 import de.ralleytn.games.heroicafabulis.engine.io.meshes.XMeshReader;
 import de.ralleytn.games.heroicafabulis.engine.io.textures.XImgTextureReader;
 import de.ralleytn.games.heroicafabulis.engine.rendering.Texture;
+import de.ralleytn.games.heroicafabulis.engine.rendering.TextureData;
 import de.ralleytn.games.heroicafabulis.engine.rendering.camera.FlyCamBehavior;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.MeshData;
 import de.ralleytn.games.heroicafabulis.engine.rendering.geom.Quad;
@@ -102,14 +103,14 @@ public final class HeroicaFabulis extends Game {
 		
 		Material stallMaterial = new Material();
 		stallMaterial.setMinBrightness(0.1F);
-		stallMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/stall.ximg"))));
+		stallMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/stall.ximg")), true));
 		stallMaterial.setAffectedByLight(true);
 		stallMaterial.setFog(fog);
 		
 		Material terrainMaterial = new Material();
 		terrainMaterial.setMinBrightness(0.3F);
-		terrainMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/grass.ximg"))));
-		terrainMaterial.setOverlay1(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/street.ximg"))));
+		terrainMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/grass.ximg")), true));
+		terrainMaterial.setOverlay1(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/street.ximg")), true));
 		terrainMaterial.setBlendMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/blendMap1.ximg"))));
 		terrainMaterial.setColorMapTiling(Terrain.VERTEX_COUNT);
 		terrainMaterial.setOverlay1Tiling(30);
@@ -160,7 +161,6 @@ public final class HeroicaFabulis extends Game {
 		
 		source = new Source();
 		source.setBuffer(buffer);
-		source.setRelativeToListener(true);
 		source.setTranslation(0, 0, 0);
 		
 			try {
@@ -170,6 +170,7 @@ public final class HeroicaFabulis extends Game {
 				e.printStackTrace();
 			}
 			this.getMusic().setVolume(0.3F);
+			this.getMusic().setLooping(true);
 			this.getMusic().play();
 	}
 
@@ -191,7 +192,9 @@ public final class HeroicaFabulis extends Game {
 		
 		Material grassMaterial = new Material();
 		grassMaterial.setMinBrightness(0.1F);
-		grassMaterial.setColorMap(new Texture(new XImgTextureReader().read(new FileInputStream("res/textures/grass2.ximg"))));
+		TextureData data = new XImgTextureReader().read(new FileInputStream("res/textures/grass2.ximg"));
+		data.removeHalfTransparency();
+		grassMaterial.setColorMap(new Texture(data, true));
 		grassMaterial.setAffectedByLight(true);
 		grassMaterial.setTransparent(true);
 		grassMaterial.setUpwardsNormals(true);
