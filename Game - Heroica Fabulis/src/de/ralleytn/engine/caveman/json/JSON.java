@@ -11,7 +11,7 @@ import java.util.Stack;
 /**
  * Lightweight JSON parser.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 24.08.2018/0.3.0
+ * @version 03.09.2018/0.4.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSON {
@@ -76,7 +76,7 @@ public final class JSON {
 							valueStack.push(new JSONObject());
 							break;
 							
-						case TYPE_RIGHT_BRACE:
+						case TYPE_LEFT_SQUARE:
 							status = STATUS_IN_ARRAY;
 							statusStack.push(status);
 							valueStack.push(new JSONArray());
@@ -91,11 +91,9 @@ public final class JSON {
 					if(tokenType == TYPE_EOF) {
 						
 						return valueStack.pop();
-						
-					} else {
-						
-						throw new JSONParseException(lexer.getCharacterPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
 					}
+					
+					throw new JSONParseException(lexer.getCharacterPosition(), JSONParseException.ERROR_UNEXPECTED_TOKEN, token);
 					
 				case STATUS_IN_OBJECT:
 					switch(tokenType) {

@@ -39,7 +39,7 @@ public class XImgTextureWriter extends Writer<TextureData> {
 			
 			if(!hasAlpha && !grayscale) {
 				
-				do {
+				while(index < pixels.length) {
 					
 					int pixel = pixels[index++];
 					
@@ -54,12 +54,11 @@ public class XImgTextureWriter extends Writer<TextureData> {
 					
 					oldPixel = pixel;
 					++repeat;
-					
-				} while(index < pixels.length);
+				}
 				
 			} else if(hasAlpha && !grayscale) {
 				
-				do {
+				while(index < pixels.length) {
 					
 					int pixel = pixels[index++];
 					
@@ -75,12 +74,11 @@ public class XImgTextureWriter extends Writer<TextureData> {
 					
 					oldPixel = pixel;
 					++repeat;
-					
-				} while(index < pixels.length);
+				}
 				
 			} else if(!hasAlpha && grayscale) {
 				
-				do {
+				while(index < pixels.length) {
 					
 					int pixel = pixels[index++];
 					
@@ -93,12 +91,11 @@ public class XImgTextureWriter extends Writer<TextureData> {
 					
 					oldPixel = pixel;
 					++repeat;
-					
-				} while(index < pixels.length);
+				}
 				
 			} else if(hasAlpha && grayscale) {
 				
-				do {
+				while(index < pixels.length) {
 					
 					int pixel = pixels[index++];
 					
@@ -112,8 +109,7 @@ public class XImgTextureWriter extends Writer<TextureData> {
 					
 					oldPixel = pixel;
 					++repeat;
-					
-				} while(index < pixels.length);
+				}
 			}
 		}
 	}

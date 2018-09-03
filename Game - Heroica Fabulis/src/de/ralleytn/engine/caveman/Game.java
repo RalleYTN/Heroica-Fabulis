@@ -1,8 +1,11 @@
 package de.ralleytn.engine.caveman;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 
 import de.ralleytn.engine.caveman.audio.Music;
@@ -13,12 +16,13 @@ import de.ralleytn.engine.caveman.rendering.Graphics3D;
 import de.ralleytn.engine.caveman.rendering.camera.Camera;
 import de.ralleytn.engine.caveman.rendering.camera.CameraBehavior;
 
+import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 28.08.2018/0.3.0
+ * @version 03.09.2018/0.4.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -64,6 +68,34 @@ public abstract class Game implements Updatable {
 	public static final long getTime() {
 		
 		return System.nanoTime() / 1000000;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 03.09.2018/0.4.0
+	 */
+	public BufferedImage screenshot() {
+		
+		int[] width = new int[1];
+		int[] height = new int[1];
+		glfwGetFramebufferSize(this.display.getID(), width, height);
+		BufferedImage image = new BufferedImage(width[0], height[0], BufferedImage.TYPE_INT_RGB);
+		ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 3);
+		glReadPixels(0, 0, image.getWidth(), image.getHeight(), GL_RGB, GL_UNSIGNED_BYTE, buffer);
+		
+		for(int x = image.getWidth() - 1; x >= 0; x--) {
+			
+			for(int y = image.getHeight() - 1; y >= 0; y--) {
+				
+				int index = (x + image.getWidth() * y) * 3;
+				int sy = image.getHeight() - 1 - y;
+				int rgb = (((buffer.get(index) & 0xFF) & 0xFF) << 16) | (((buffer.get(index + 1) & 0xFF) & 0xFF) << 8) | ((buffer.get(index + 2) & 0xFF) & 0xFF);
+				image.setRGB(x, sy, rgb);
+			}
+		}
+		
+		return image;
 	}
 	
 	/**
