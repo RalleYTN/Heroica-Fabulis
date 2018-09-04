@@ -24,6 +24,7 @@ import de.ralleytn.engine.caveman.rendering.TextureData;
 import de.ralleytn.engine.caveman.rendering.camera.FlyCamBehavior;
 import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 import de.ralleytn.engine.caveman.rendering.geom.QuadMesh;
+import de.ralleytn.engine.caveman.rendering.geom.SphereMesh;
 import de.ralleytn.engine.caveman.rendering.geom.StaticMesh;
 import de.ralleytn.engine.caveman.rendering.light.Light;
 import de.ralleytn.engine.caveman.rendering.shader.BasicShaderPipeline;
@@ -145,6 +146,7 @@ public final class HeroicaFabulis extends Game {
 		sun.setTranslation(0, 10, 0);
 		
 		Entity stall2 = stall.copy();
+		//stall2.setMesh(new SphereMesh(1, 12, 12));
 		stall2.setTranslation(10, 0, 0);
 		stall2.setRotation(0, 45, 0);
 		

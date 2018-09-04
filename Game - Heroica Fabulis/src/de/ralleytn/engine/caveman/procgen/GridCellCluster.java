@@ -6,24 +6,26 @@ package de.ralleytn.engine.caveman.procgen;
  * @version 04.09.2018/0.4.0
  * @since 01.09.2018/0.4.0
  */
-public class CellCluster {
+public class GridCellCluster {
 
-	private final Cell[] cells;
+	private final GridCell[] cells;
 	private final int width;
 	private final int height;
 	private final int depth;
 	private final int x;
 	private final int y;
 	private final int z;
+	private final GridCell.Type type;
 	
 	/**
 	 * 
 	 * @param cell
 	 * @since 01.09.2018/0.4.0
 	 */
-	public CellCluster(Cell cell) {
+	public GridCellCluster(GridCell cell) {
 		
-		this.cells = new Cell[] {cell};
+		this.cells = new GridCell[] {cell};
+		this.type = cell.getType();
 		
 		this.width = cell.getWidth();
 		this.height = cell.getHeight();
@@ -37,11 +39,13 @@ public class CellCluster {
 	/**
 	 * 
 	 * @param cells
+	 * @param type
 	 * @since 01.09.2018/0.4.0
 	 */
-	public CellCluster(Cell[] cells) {
+	public GridCellCluster(GridCell[] cells, GridCell.Type type) {
 		
 		this.cells = cells;
+		this.type = type;
 		
 		this.width = 0;
 		this.height = 0;
@@ -52,7 +56,7 @@ public class CellCluster {
 		this.z = 0;
 	}
 	
-	public boolean intersects(CellCluster cluster) {
+	public boolean intersects(GridCellCluster cluster) {
 		
 		return false;
 	}
@@ -62,7 +66,7 @@ public class CellCluster {
 	 * @return
 	 * @since 01.09.2018/0.4.0
 	 */
-	public Cell[] getCells() {
+	public GridCell[] getCells() {
 		
 		return this.cells;
 	}
@@ -132,16 +136,26 @@ public class CellCluster {
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
-	public CellCluster copy() {
+	public GridCell.Type getType() {
 		
-		Cell[] cells = new Cell[this.cells.length];
+		return this.type;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
+	public GridCellCluster copy() {
+		
+		GridCell[] cells = new GridCell[this.cells.length];
 		
 		for(int index = 0; index < cells.length; index++) {
 			
 			cells[index] = this.cells[index].copy();
 		}
 		
-		CellCluster cluster = new CellCluster(cells);
+		GridCellCluster cluster = new GridCellCluster(cells, this.type);
 		return cluster;
 	}
 }

@@ -125,6 +125,7 @@ public class Texture extends LWJGLObject implements Bindable {
 	public void dispose() {
 		
 		glDeleteTextures(this.id);
+		this.disposed = true;
 	}
 
 	@Override

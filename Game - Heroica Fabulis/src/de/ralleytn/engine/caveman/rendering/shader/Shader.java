@@ -52,6 +52,7 @@ public class Shader extends LWJGLObject implements Loadable {
 	public void dispose() {
 		
 		glDeleteShader(this.id);
+		this.disposed = true;
 	}
 	
 	@Override

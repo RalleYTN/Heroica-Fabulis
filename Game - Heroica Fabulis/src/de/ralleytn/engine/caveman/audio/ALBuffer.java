@@ -38,6 +38,7 @@ public class ALBuffer extends LWJGLObject {
 	public void dispose() {
 		
 		alDeleteBuffers(this.id);
+		this.disposed = true;
 	}
 	
 	/**

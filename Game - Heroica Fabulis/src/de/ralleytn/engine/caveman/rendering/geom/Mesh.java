@@ -7,7 +7,7 @@ import de.ralleytn.engine.caveman.rendering.VertexArray;
 /**
  * Represents an abstract mesh.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 23.08.2018/0.2.0
+ * @version 04.09.2018/0.4.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Mesh implements Disposable {
@@ -21,6 +21,7 @@ public abstract class Mesh implements Disposable {
 	protected int indexCount;
 	protected int faceCount;
 	protected int cullMode;
+	protected boolean disposed;
 	
 	// Has to be a member because it isn't stored in the vertex array.
 	// Because it is not stored in the vertex array, the garbage collector will try to collect it and call its finalize method.
@@ -52,9 +53,10 @@ public abstract class Mesh implements Disposable {
 	@Override
 	public void dispose() {
 		
-		if(this.vertexArray != null) {
+		if(!this.disposed && this.vertexArray != null) {
 			
 			this.vertexArray.dispose();
+			this.disposed = true;
 		}
 	}
 	
@@ -139,5 +141,11 @@ public abstract class Mesh implements Disposable {
 	public GLBuffer getIndexBuffer() {
 		
 		return this.indexBuffer;
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		
+		return this.disposed;
 	}
 }

@@ -8,7 +8,7 @@ import de.ralleytn.engine.caveman.LWJGLObject;
 /**
  * Object wrapper for the OpenGL vertex arrays.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 30.08.2018/0.3.0
+ * @version 04.09.2018/0.4.0
  * @since 04.08.2018/0.1.0
  */
 public class VertexArray extends LWJGLObject implements Bindable {
@@ -29,11 +29,15 @@ public class VertexArray extends LWJGLObject implements Bindable {
 		
 		for(GLBuffer buffer : this.buffers) {
 			
-			buffer.dispose();
+			if(buffer != null) {
+				
+				buffer.dispose();
+			}
 		}
 		
 		glDeleteVertexArrays(this.id);
 		this.buffers = null;
+		this.disposed = true;
 	}
 
 	@Override

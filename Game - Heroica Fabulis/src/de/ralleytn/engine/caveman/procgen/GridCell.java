@@ -1,5 +1,8 @@
 package de.ralleytn.engine.caveman.procgen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.vecmath.Matrix4f;
 
 import de.ralleytn.engine.caveman.Entity;
@@ -10,10 +13,11 @@ import de.ralleytn.engine.caveman.Entity;
  * @version 04.09.2018/0.4.0
  * @since 01.09.2018/0.4.0
  */
-public class Cell extends Entity {
+public class GridCell extends Entity {
 
 	protected final boolean[][][] layout;
 	protected final Type type;
+	protected final List<GridCellOpening> openings;
 	
 	/**
 	 * 
@@ -21,11 +25,23 @@ public class Cell extends Entity {
 	 * @param type
 	 * @since 01.09.2018/0.4.0
 	 */
-	public Cell(boolean[][][] layout, Type type) {
+	public GridCell(boolean[][][] layout, Type type) {
 		
 		super();
+		
+		this.openings = new ArrayList<>();
 		this.layout = layout;
 		this.type = type;
+	}
+	
+	/**
+	 * 
+	 * @param opening
+	 * @since 04.09.2018/0.4.0
+	 */
+	public void addOpening(GridCellOpening opening) {
+		
+		this.openings.add(opening);
 	}
 	
 	/**
@@ -34,7 +50,7 @@ public class Cell extends Entity {
 	 * @return
 	 * @since 01.09.2018/0.4.0
 	 */
-	public boolean intersects(Cell cell) {
+	public boolean intersects(GridCell cell) {
 		
 		int x = (int)this.getTranslation().x;
 		int y = (int)this.getTranslation().y;
@@ -94,9 +110,19 @@ public class Cell extends Entity {
 	
 	/**
 	 * 
+	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Cell copy() {
+	public List<GridCellOpening> getOpenings() {
+		
+		return this.openings;
+	}
+	
+	/**
+	 * 
+	 * @since 04.09.2018/0.4.0
+	 */
+	public GridCell copy() {
 		
 		boolean[][][] layout = new boolean[this.layout.length][this.layout[0].length][this.layout[0][0].length];
 		
@@ -111,7 +137,7 @@ public class Cell extends Entity {
 			}
 		}
 		
-		Cell cell = new Cell(layout, this.type);
+		GridCell cell = new GridCell(layout, this.type);
 		cell.material = this.material;
 		cell.rendering = this.rendering;
 		cell.shaderPipeline = this.shaderPipeline;

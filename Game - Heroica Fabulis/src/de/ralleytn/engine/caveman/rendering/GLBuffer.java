@@ -53,6 +53,7 @@ public class GLBuffer extends LWJGLObject implements Bindable {
 	public void dispose() {
 		
 		glDeleteBuffers(this.id);
+		this.disposed = true;
 	}
 	
 	@Override

@@ -42,6 +42,7 @@ public class Source extends LWJGLObject implements Movable {
 		this.stop();
 		this.setBuffer(null);
 		alDeleteSources(this.id);
+		this.disposed = true;
 	}
 	
 	/**

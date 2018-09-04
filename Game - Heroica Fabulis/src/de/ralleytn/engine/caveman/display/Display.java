@@ -23,7 +23,7 @@ import de.ralleytn.engine.caveman.util.MathUtil;
  * There can only be a single instance of this class that was created with the {@link Engine#start(java.io.File, java.io.File, String)} method.
  * It represents the game window.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 18.08.2018/0.2.0
+ * @version 04.09.2018/0.4.0
  * @since 31.07.2018/0.1.0
  */
 public class Display implements Disposable, Controller<DisplayEvent> {
@@ -63,6 +63,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	private int maxHeight;
 	private boolean fullscreen;
 	private boolean vsync;
+	private boolean disposed;
 	private Game game;
 	
 	/**
@@ -115,8 +116,12 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	@Override
 	public void dispose() {
 		
-		Callbacks.glfwFreeCallbacks(this.id);
-		glfwDestroyWindow(this.id);
+		if(!this.disposed) {
+			
+			Callbacks.glfwFreeCallbacks(this.id);
+			glfwDestroyWindow(this.id);
+			this.disposed = true;
+		}
 	}
 	
 	/**
@@ -543,5 +548,11 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	public List<Consumer<DisplayEvent>>[] getListeners() {
 
 		return listeners;
+	}
+
+	@Override
+	public boolean isDisposed() {
+		
+		return this.disposed;
 	}
 }

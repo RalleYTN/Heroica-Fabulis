@@ -9,13 +9,17 @@ package de.ralleytn.engine.caveman;
 public abstract class LWJGLObject implements Disposable {
 
 	protected int id;
+	protected boolean disposed;
 	
 	@Override
 	protected void finalize() throws Throwable {
 		
 		try {
 		
-			this.dispose();
+			if(!this.disposed) {
+				
+				this.dispose();
+			}
 			
 		} finally {
 			
@@ -30,5 +34,11 @@ public abstract class LWJGLObject implements Disposable {
 	public int getID() {
 		
 		return this.id;
+	}
+	
+	@Override
+	public boolean isDisposed() {
+		
+		return this.disposed;
 	}
 }

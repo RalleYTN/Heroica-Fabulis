@@ -43,6 +43,7 @@ public class ShaderPipeline extends LWJGLObject implements Bindable {
 	public void dispose() {
 		
 		glDeleteProgram(this.id);
+		this.disposed = true;
 	}
 	
 	@Override
