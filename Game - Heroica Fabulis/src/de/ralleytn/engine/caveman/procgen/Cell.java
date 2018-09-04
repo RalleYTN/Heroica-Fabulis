@@ -21,6 +21,7 @@ public class Cell extends Entity {
 	 */
 	public Cell(boolean[][][] layout, Type type) {
 		
+		super();
 		this.layout = layout;
 		this.type = type;
 	}

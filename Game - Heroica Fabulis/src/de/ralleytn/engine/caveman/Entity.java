@@ -9,16 +9,19 @@ import de.ralleytn.engine.caveman.util.MatrixUtil;
 /**
  * Represents an entity. An entity is a transformable and updatable object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 04.09.2018/0.4.0
  * @since 30.07.2018/0.1.0
  */
 public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Copyable<Entity> {
+	
+	private static long ID_SUPPLY = Long.MIN_VALUE;
 	
 	private Vector3f translation;
 	private Vector3f rotation;
 	private Vector3f scale;
 	private Mesh mesh;
 	private float renderDistance;
+	private long id;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -32,6 +35,18 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		this.rendering = true;
 		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
+		this.assignID();
+	}
+	
+	/**
+	 * 
+	 * @since 04.09.2018/0.4.0
+	 */
+	private final void assignID() {
+		
+		long id = ID_SUPPLY++;
+		id = id != 0 ? id : ID_SUPPLY++;
+		this.id = id;
 	}
 	
 	/**
@@ -228,6 +243,16 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	public float getRenderDistance() {
 		
 		return this.renderDistance;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
+	public final long getID() {
+		
+		return this.id;
 	}
 	
 	@Override
