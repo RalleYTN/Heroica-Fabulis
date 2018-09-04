@@ -1,6 +1,7 @@
 package de.ralleytn.engine.caveman;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.ralleytn.engine.caveman.rendering.Graphics3D;
@@ -11,7 +12,7 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
 /**
  * Represents the currently processed universe.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 29.08.2018/0.3.0
+ * @version 04.09.2018/0.4.0
  * @since 31.07.2018/0.1.0
  */
 public class Scene implements Renderable, Updatable {
@@ -81,6 +82,15 @@ public class Scene implements Renderable, Updatable {
 	public void removeTerrain(Terrain terrain) {
 		
 		this.terrain.remove(terrain);
+	}
+	
+	/**
+	 * 
+	 * @since 04.09.2018/0.4.0
+	 */
+	public void compact() {
+		
+		Collections.sort(this.entities);
 	}
 	
 	/**

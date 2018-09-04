@@ -2,7 +2,6 @@ package de.ralleytn.engine.caveman.rendering.shader;
 
 import javax.vecmath.Color4f;
 
-import de.ralleytn.engine.caveman.Copyable;
 import de.ralleytn.engine.caveman.rendering.Texture;
 
 import static org.lwjgl.opengl.GL13.*;
@@ -13,7 +12,7 @@ import static org.lwjgl.opengl.GL13.*;
  * @version 25.08.2018/0.3.0
  * @since 10.08.2018/0.1.0
  */
-public class Material implements Copyable<Material> {
+public class Material {
 	
 	private static final String UNIFORM_USE_OVERLAY1 = "matUseOverlay1";
 	private static final String UNIFORM_USE_OVERLAY2 = "matUseOverlay2";
@@ -656,7 +655,11 @@ public class Material implements Copyable<Material> {
 		return this.changed;
 	}
 
-	@Override
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
 	public Material copy() {
 		
 		Material material = new Material();

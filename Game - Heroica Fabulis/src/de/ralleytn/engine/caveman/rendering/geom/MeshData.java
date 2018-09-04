@@ -1,6 +1,5 @@
 package de.ralleytn.engine.caveman.rendering.geom;
 
-import de.ralleytn.engine.caveman.Copyable;
 import de.ralleytn.engine.caveman.util.ArrayUtil;
 
 /**
@@ -9,7 +8,7 @@ import de.ralleytn.engine.caveman.util.ArrayUtil;
  * @version 25.08.2018/0.3.0
  * @since 20.08.2018/0.2.0
  */
-public class MeshData implements Copyable<MeshData> {
+public class MeshData {
 
 	private float[] vertices;
 	private float[] texCoords;
@@ -94,7 +93,11 @@ public class MeshData implements Copyable<MeshData> {
 		return this.indices;
 	}
 
-	@Override
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
 	public MeshData copy() {
 		
 		MeshData data = new MeshData();

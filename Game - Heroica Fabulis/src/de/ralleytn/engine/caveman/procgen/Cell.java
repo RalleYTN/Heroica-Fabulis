@@ -90,8 +90,11 @@ public class Cell extends Entity {
 		return this.type;
 	}
 	
-	@Override
-	public Entity copy() {
+	/**
+	 * 
+	 * @since 04.09.2018/0.4.0
+	 */
+	public Cell copy() {
 		
 		boolean[][][] layout = new boolean[this.layout.length][this.layout[0].length][this.layout[0][0].length];
 		

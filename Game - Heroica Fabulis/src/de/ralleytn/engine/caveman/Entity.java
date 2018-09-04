@@ -12,7 +12,7 @@ import de.ralleytn.engine.caveman.util.MatrixUtil;
  * @version 04.09.2018/0.4.0
  * @since 30.07.2018/0.1.0
  */
-public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Copyable<Entity> {
+public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity> {
 	
 	private static long ID_SUPPLY = Long.MIN_VALUE;
 	
@@ -255,7 +255,21 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		return this.id;
 	}
 	
-	@Override
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
+	private final int getSortValue() {
+		
+		return this.material.hashCode() * this.mesh.hashCode();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
 	public Entity copy() {
 		
 		Entity entity = new Entity();
@@ -269,5 +283,13 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		entity.shaderPipeline = this.shaderPipeline;
 		
 		return entity;
+	}
+
+	@Override
+	public int compareTo(Entity o) {
+		
+		int sortValue = this.getSortValue();
+		int oSortValue = o.getSortValue();
+		return sortValue == oSortValue ? 0 : (sortValue > oSortValue ? 1 : -1);
 	}
 }
