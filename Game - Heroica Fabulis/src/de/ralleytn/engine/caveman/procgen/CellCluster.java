@@ -3,7 +3,7 @@ package de.ralleytn.engine.caveman.procgen;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 03.09.2018/0.4.0
+ * @version 04.09.2018/0.4.0
  * @since 01.09.2018/0.4.0
  */
 public class CellCluster {
@@ -125,5 +125,23 @@ public class CellCluster {
 	public int getZ() {
 		
 		return this.z;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
+	public CellCluster copy() {
+		
+		Cell[] cells = new Cell[this.cells.length];
+		
+		for(int index = 0; index < cells.length; index++) {
+			
+			cells[index] = this.cells[index].copy();
+		}
+		
+		CellCluster cluster = new CellCluster(cells);
+		return cluster;
 	}
 }
