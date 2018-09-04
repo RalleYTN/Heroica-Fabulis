@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 /**
  * Represents audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 04.09.2018/0.4.0
  * @since 20.08.2018/0.2.0
  */
 public class AudioData {
@@ -93,5 +93,21 @@ public class AudioData {
 	public ByteBuffer getData() {
 		
 		return this.data;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
+	public AudioData copy() {
+		
+		AudioData data = new AudioData();
+		data.channels = this.channels;
+		data.format = this.format;
+		data.frequency = this.frequency;
+		data.data = this.data.duplicate();
+		
+		return data;
 	}
 }

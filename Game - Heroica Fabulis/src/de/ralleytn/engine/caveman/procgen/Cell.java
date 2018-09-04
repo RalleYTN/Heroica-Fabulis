@@ -1,5 +1,7 @@
 package de.ralleytn.engine.caveman.procgen;
 
+import javax.vecmath.Matrix4f;
+
 import de.ralleytn.engine.caveman.Entity;
 
 /**
@@ -110,7 +112,15 @@ public class Cell extends Entity {
 		}
 		
 		Cell cell = new Cell(layout, this.type);
-		// TODO
+		cell.material = this.material;
+		cell.rendering = this.rendering;
+		cell.shaderPipeline = this.shaderPipeline;
+		cell.transformation = new Matrix4f(this.transformation);
+		cell.setMesh(this.getMesh());
+		cell.setRenderDistance(this.getRenderDistance());
+		cell.setTranslation(this.getTranslation());
+		cell.setRotation(this.getRotation());
+		cell.setScale(this.getScale());
 		
 		return cell;
 	}
@@ -118,7 +128,7 @@ public class Cell extends Entity {
 	/**
 	 * 
 	 * @author Ralph Niemitz
-	 * @version 01.09.2018/0.4.0
+	 * @version 04.09.2018/0.4.0
 	 * @since 01.09.2018/0.4.0
 	 */
 	public static enum Type {
@@ -141,6 +151,21 @@ public class Cell extends Entity {
 		/**
 		 * @since 01.09.2018/0.4.0
 		 */
-		CORRIDOR_X
+		CORRIDOR_X,
+		
+		/**
+		 * @since 04.09.2018/0.4.0
+		 */
+		STAIRWAY_I,
+		
+		/**
+		 * @since 04.09.2018/0.4.0
+		 */
+		STAIRWAY_T,
+		
+		/**
+		 * @since 04.09.2018/0.4.0
+		 */
+		STAIRWAY_U
 	}
 }

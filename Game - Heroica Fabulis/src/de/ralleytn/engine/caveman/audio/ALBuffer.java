@@ -8,10 +8,12 @@ import de.ralleytn.engine.caveman.LWJGLObject;
  * Represents a buffer from OpenAL.
  * An {@linkplain ALBuffer} stores audio data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 27.08.2018/0.3.0
+ * @version 04.09.2018/0.4.0
  * @since 17.08.2018/0.2.0
  */
 public class ALBuffer extends LWJGLObject {
+	
+	private int format;
 	
 	/**
 	 * @since 17.08.2018/0.2.0
@@ -45,7 +47,8 @@ public class ALBuffer extends LWJGLObject {
 	 */
 	public void setData(AudioData data) {
 		
-		alBufferData(this.id, data.getFormat(), data.getData(), data.getFrequency());
+		this.format = data.getFormat();
+		alBufferData(this.id, this.format, data.getData(), data.getFrequency());
 	}
 	
 	/**
@@ -82,5 +85,15 @@ public class ALBuffer extends LWJGLObject {
 	public int getBitDepth() {
 		
 		return alGetBufferi(this.id, AL_BITS);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 04.09.2018/0.4.0
+	 */
+	public int getFormat() {
+		
+		return this.format;
 	}
 }
