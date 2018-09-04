@@ -220,7 +220,16 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 	@Override
 	public void update(float delta) {}
-
+	
+	/**
+	 * @return the render distance
+	 * @since 26.08.2018/0.3.0
+	 */
+	public float getRenderDistance() {
+		
+		return this.renderDistance;
+	}
+	
 	@Override
 	public Entity copy() {
 		
@@ -235,14 +244,5 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		entity.shaderPipeline = this.shaderPipeline;
 		
 		return entity;
-	}
-	
-	/**
-	 * @return the render distance
-	 * @since 26.08.2018/0.3.0
-	 */
-	public float getRenderDistance() {
-		
-		return this.renderDistance;
 	}
 }

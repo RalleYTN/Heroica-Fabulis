@@ -5,10 +5,10 @@ import de.ralleytn.engine.caveman.Entity;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 01.09.2018/0.4.0
+ * @version 04.09.2018/0.4.0
  * @since 01.09.2018/0.4.0
  */
-public abstract class Cell extends Entity {
+public class Cell extends Entity {
 
 	protected final boolean[][][] layout;
 	protected final Type type;
@@ -87,6 +87,28 @@ public abstract class Cell extends Entity {
 	public Type getType() {
 		
 		return this.type;
+	}
+	
+	@Override
+	public Entity copy() {
+		
+		boolean[][][] layout = new boolean[this.layout.length][this.layout[0].length][this.layout[0][0].length];
+		
+		for(int x = 0; x < this.getWidth(); x++) {
+			
+			for(int y = 0; y < this.getHeight(); y++) {
+				
+				for(int z = 0; z < this.getDepth(); z++) {
+					
+					layout[x][y][z] = this.layout[x][y][z];
+				}
+			}
+		}
+		
+		Cell cell = new Cell(layout, this.type);
+		// TODO
+		
+		return cell;
 	}
 	
 	/**
