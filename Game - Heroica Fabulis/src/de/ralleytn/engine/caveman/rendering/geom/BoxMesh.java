@@ -13,7 +13,7 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
  * @version 29.08.2018/0.3.0
  * @since 05.08.2018/0.1.0
  */
-public class Box extends StaticMesh {
+public class BoxMesh extends StaticMesh {
 
 	private static final int[] INDICES = {
 			
@@ -62,7 +62,7 @@ public class Box extends StaticMesh {
 	 * @param size the size the box should have
 	 * @since 05.08.2018/0.1.0
 	 */
-	public Box(Vector3f size) {
+	public BoxMesh(Vector3f size) {
 		
 		this(size.x, size.y, size.z);
 	}
@@ -73,7 +73,7 @@ public class Box extends StaticMesh {
 	 * @param depth the depth
 	 * @since 05.08.2018/0.1.0
 	 */
-	public Box(float width, float height, float depth) {
+	public BoxMesh(float width, float height, float depth) {
 
 		super(generateMeshData(width, height, depth));
 	}

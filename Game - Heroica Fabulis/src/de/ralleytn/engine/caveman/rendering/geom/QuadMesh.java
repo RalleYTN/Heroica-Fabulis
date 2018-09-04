@@ -13,7 +13,7 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
  * @version 25.08.2018/0.3.0
  * @since 24.08.2018/0.3.0
  */
-public class Quad extends StaticMesh {
+public class QuadMesh extends StaticMesh {
 
 	private static final int[] INDICES = {
 			
@@ -36,7 +36,7 @@ public class Quad extends StaticMesh {
 	 * @param p4 point 4
 	 * @since 24.08.2018/0.3.0
 	 */
-	public Quad(Vector3f p1, Vector3f p2, Vector3f p3, Vector3f p4) {
+	public QuadMesh(Vector3f p1, Vector3f p2, Vector3f p3, Vector3f p4) {
 		
 		super(generateMeshData(p1, p2, p3, p4));
 	}

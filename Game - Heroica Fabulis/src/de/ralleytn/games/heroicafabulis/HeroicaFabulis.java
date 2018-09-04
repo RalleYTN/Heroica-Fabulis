@@ -23,7 +23,7 @@ import de.ralleytn.engine.caveman.rendering.Texture;
 import de.ralleytn.engine.caveman.rendering.TextureData;
 import de.ralleytn.engine.caveman.rendering.camera.FlyCamBehavior;
 import de.ralleytn.engine.caveman.rendering.geom.MeshData;
-import de.ralleytn.engine.caveman.rendering.geom.Quad;
+import de.ralleytn.engine.caveman.rendering.geom.QuadMesh;
 import de.ralleytn.engine.caveman.rendering.geom.StaticMesh;
 import de.ralleytn.engine.caveman.rendering.light.Light;
 import de.ralleytn.engine.caveman.rendering.shader.BasicShaderPipeline;
@@ -200,7 +200,7 @@ public final class HeroicaFabulis extends Game {
 		grassMaterial.setUpwardsNormals(true);
 		grassMaterial.setFog(fog);
 		
-		MeshData grassMeshData = Quad.generateMeshData(
+		MeshData grassMeshData = QuadMesh.generateMeshData(
 			new Vector3f(0.0F, 1.0F, 0.0F),
 			new Vector3f(0.0F, 0.0F, 0.0F),
 			new Vector3f(1.0F, 0.0F, 0.0F),

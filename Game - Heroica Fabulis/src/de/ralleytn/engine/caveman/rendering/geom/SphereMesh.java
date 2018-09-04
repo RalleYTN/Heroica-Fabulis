@@ -6,7 +6,7 @@ package de.ralleytn.engine.caveman.rendering.geom;
  * @version 25.08.2018/0.3.0
  * @since 24.08.2018/0.3.0
  */
-public class Sphere extends StaticMesh {
+public class SphereMesh extends StaticMesh {
 
 	/**
 	 * @param radius the sphere radius
@@ -14,7 +14,7 @@ public class Sphere extends StaticMesh {
 	 * @param sectors the amount of sectors (vertical)
 	 * @since 24.08.2018/0.3.0
 	 */
-	public Sphere(float radius, int rings, int sectors) {
+	public SphereMesh(float radius, int rings, int sectors) {
 		
 		super(generateMeshData(radius, rings, sectors));
 	}
