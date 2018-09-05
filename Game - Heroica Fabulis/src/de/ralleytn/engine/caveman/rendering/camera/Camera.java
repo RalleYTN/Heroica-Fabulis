@@ -12,7 +12,7 @@ import de.ralleytn.engine.caveman.util.MatrixUtil;
 /**
  * Represents the game camera. There should be only a single instance of it at a time.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 05.09.2018/0.4.0
  * @since 11.08.2018/0.1.0
  */
 public class Camera implements Movable {
@@ -304,5 +304,17 @@ public class Camera implements Movable {
 	public Game getGame() {
 		
 		return this.game;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public Vector3f getViewDirection() {
+		
+		Vector3f viewDirection = new Vector3f(this.view.m02, this.view.m12, this.view.m22);
+		viewDirection.normalize();
+		return viewDirection;
 	}
 }

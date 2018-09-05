@@ -4,12 +4,13 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.engine.caveman.rendering.geom.Mesh;
+import de.ralleytn.engine.caveman.shape3d.Box3D;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
 
 /**
  * Represents an entity. An entity is a transformable and updatable object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 04.09.2018/0.4.0
+ * @version 05.09.2018/0.4.0
  * @since 30.07.2018/0.1.0
  */
 public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity> {
@@ -22,6 +23,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	private Mesh mesh;
 	private float renderDistance;
 	private long id;
+	private Box3D boundingBox;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -33,6 +35,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		this.scale = new Vector3f(1.0F, 1.0F, 1.0F);
 		this.transformation = new Matrix4f();
 		this.rendering = true;
+		this.boundingBox = new Box3D();
 		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
 		this.assignID();
@@ -68,6 +71,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.setRotation(x, y, z);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -78,6 +82,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.setRotation(newRotation);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -88,6 +93,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Scalable.super.setScale(x, y, z);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -98,6 +104,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Scalable.super.setScale(newScale);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -108,6 +115,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.setTranslation(x, y, z);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -118,6 +126,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.setTranslation(newTranslation);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -128,6 +137,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Scalable.super.scale(x, y, z);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -138,6 +148,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Scalable.super.scale(factor);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -148,6 +159,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.rotate(x, y, z);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -158,6 +170,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.rotate(velocity);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -168,6 +181,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.translate(x, y, z);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	/**
@@ -178,6 +192,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 
 		Movable.super.translate(velocity);
 		this.calcTransformationMatrix();
+		this.calcBoundingBox();
 	}
 	
 	@Override
@@ -189,6 +204,45 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		MatrixUtil.rotate((float)Math.toRadians(this.rotation.y), Engine.AXIS_Y, this.transformation);
 		MatrixUtil.rotate((float)Math.toRadians(this.rotation.z), Engine.AXIS_Z, this.transformation);
 		MatrixUtil.scale(this.scale, this.transformation);
+	}
+	
+	/**
+	 * 
+	 * @since 05.09.2018/0.4.0
+	 */
+	private final void calcBoundingBox() {
+		
+		if(this.mesh != null) {
+			
+			float[] vertices = this.mesh.getVertexArray().getBuffer(0).getDataAsFloats();
+			
+			float xn = Float.MAX_VALUE;
+			float yn = xn;
+			float zn = xn;
+			
+			float xf = Float.MIN_VALUE;
+			float yf = xf;
+			float zf = xf;
+			
+			for(int index = 0; index < vertices.length; index += 3) {
+				
+				Vector3f vertex = MatrixUtil.multiply(this.transformation, vertices[index], vertices[index + 1], vertices[index + 2]);
+				
+				float x = vertex.x;
+				float y = vertex.y;
+				float z = vertex.z;
+				
+				if(x < xn) xn = x; else if(x > xf) xf = x;
+				if(y < yn) yn = y; else if(y > yf) yf = y;
+				if(z < zn) zn = z; else if(z > zf) zf = z;
+			}
+			
+			float width = Math.abs(xf) + Math.abs(xn);
+			float height = Math.abs(yf) + Math.abs(yn);
+			float depth = Math.abs(zf) + Math.abs(zn);
+			
+			this.boundingBox.setBounds(xn, yn, zn, width, height, depth);
+		}
 	}
 	
 	/**
@@ -291,5 +345,15 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 		int sortValue = this.getSortValue();
 		int oSortValue = o.getSortValue();
 		return sortValue == oSortValue ? 0 : (sortValue > oSortValue ? 1 : -1);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public Box3D getBoundingBox() {
+		
+		return this.boundingBox;
 	}
 }

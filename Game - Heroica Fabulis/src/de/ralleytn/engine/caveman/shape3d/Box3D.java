@@ -345,6 +345,16 @@ public class Box3D implements Shape3D {
 	
 	/**
 	 * 
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public Vector3f getPosition() {
+		
+		return new Vector3f(this.x, this.y, this.z);
+	}
+	
+	/**
+	 * 
 	 * @param x
 	 * @param y
 	 * @param z
