@@ -2,10 +2,12 @@ package de.ralleytn.engine.caveman.util;
 
 import java.util.Random;
 
+import javax.vecmath.Vector2f;
+
 /**
  * Utility class containing methods for working with random numbers.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 16.08.2018/0.1.0
+ * @version 05.09.2018/0.4.0
  * @since 14.08.2018/0.1.0
  */
 public class RandomGenerator {
@@ -20,6 +22,36 @@ public class RandomGenerator {
 		
 		this.seed = seed;
 		this.random = new Random(seed);
+	}
+	
+	/**
+	 * 
+	 * @param radius
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public Vector2f getPointInCircle(float radius) {
+		
+		double t = 2.0F * Math.PI * this.random.nextFloat();
+		double u = this.random.nextFloat() + this.random.nextFloat();
+		double r = u > 1.0D ? 2.0D - u : u;
+		r *= radius;
+		return new Vector2f((float)(r * Math.cos(t)), (float)(r * Math.sin(t)));
+	}
+	
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public Vector2f getPointInEllipse(float width, float height) {
+		
+		double t = 2.0F * Math.PI * this.random.nextFloat();
+		double u = this.random.nextFloat() + this.random.nextFloat();
+		double r = u > 1.0D ? 2.0D - u : u;
+		return new Vector2f((float)(width * r * Math.cos(t) / 2), (float)(height * r * Math.sin(t) / 2));
 	}
 	
 	/**

@@ -3,7 +3,7 @@ package de.ralleytn.engine.caveman.util;
 /**
  * Utility class containing methods for math problems that don't fit in any of the other utility classes.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 05.09.2018/0.4.0
  * @since 16.08.2018/0.1.0
  */
 public final class MathUtil {
@@ -13,6 +13,18 @@ public final class MathUtil {
 	 * @since 16.08.2018/0.1.0
 	 */
 	private MathUtil() {}
+	
+	/**
+	 * 
+	 * @param n
+	 * @param m
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public static final int roundm(float n, float m) {
+		
+		return (int)(Math.floor(((n + m - 1) / m)) * m);
+	}
 	
 	/**
 	 * @param x first value

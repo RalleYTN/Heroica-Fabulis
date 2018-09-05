@@ -2,10 +2,12 @@ package de.ralleytn.engine.caveman.shape3d;
 
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.engine.caveman.util.VectorUtil;
+
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 04.09.2018/0.4.0
+ * @version 05.09.2018/0.4.0
  * @since 04.09.2018/0.4.0
  */
 public class Sphere3D implements Shape3D {
@@ -116,6 +118,68 @@ public class Sphere3D implements Shape3D {
 	
 	/**
 	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean inside(float x, float y, float z) {
+		
+		return this.inside(new Vector3f(x, y, z));
+	}
+	
+	/**
+	 * 
+	 * @param point
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean inside(Vector3f point) {
+		
+		return VectorUtil.getDistance(this.getMiddle(), point) < this.radius;
+	}
+	
+	/**
+	 * 
+	 * @param sphere
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean contains(Sphere3D sphere) {
+		
+		return sphere.radius * 2 < this.radius &&
+			   VectorUtil.getDistance(this.getMiddle(), sphere.getMiddle()) + sphere.radius > this.radius;
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 * @param radius
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean contains(Vector3f position, float radius) {
+		
+		return this.contains(new Sphere3D(position, radius));
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param radius
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean contains(float x, float y, float z, float radius) {
+		
+		return this.contains(new Sphere3D(x, y, z, radius));
+	}
+	
+	/**
+	 * 
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
@@ -152,6 +216,16 @@ public class Sphere3D implements Shape3D {
 	public float getRadius() {
 		
 		return this.radius;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public Vector3f getMiddle() {
+		
+		return new Vector3f(this.x + this.radius, this.y + this.radius, this.z + this.radius);
 	}
 	
 	@Override
