@@ -55,6 +55,18 @@ public class RandomGenerator {
 	}
 	
 	/**
+	 * 
+	 * @param width
+	 * @param height
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public Vector2f getPointInRect(float width, float height) {
+		
+		return new Vector2f(this.random.nextFloat() * width, this.random.nextFloat() * height);
+	}
+	
+	/**
 	 * @param objects the object array
 	 * @return a random object from the given array; Every second entry in the array has to be an {@code int} that defines the weight of the entry before
 	 * @since 16.08.2018/0.1.0

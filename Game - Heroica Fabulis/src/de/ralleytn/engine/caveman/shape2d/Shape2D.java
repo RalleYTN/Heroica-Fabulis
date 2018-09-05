@@ -3,7 +3,7 @@ package de.ralleytn.engine.caveman.shape2d;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 04.09.2018/0.4.0
+ * @version 05.09.2018/0.4.0
  * @since 04.09.2018/0.4.0
  */
 public interface Shape2D {
@@ -18,5 +18,12 @@ public interface Shape2D {
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Box2D getBounds();
+	public Rect2D getBounds();
+	
+	/**
+	 * 
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean isEmpty();
 }

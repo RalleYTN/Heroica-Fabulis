@@ -5,7 +5,7 @@ import javax.vecmath.Vector3f;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 04.09.2018/0.4.0
+ * @version 05.09.2018/0.4.0
  * @since 04.09.2018/0.4.0
  */
 public class Box3D implements Shape3D {
@@ -271,11 +271,7 @@ public class Box3D implements Shape3D {
 			   z < this.z + this.depth && z + depth > this.z;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 * @since 04.09.2018/0.4.0
-	 */
+	@Override
 	public boolean isEmpty() {
 
 		return this.width <= 0 || this.height <= 0 || this.depth <= 0;

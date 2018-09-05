@@ -180,6 +180,49 @@ public class Sphere3D implements Shape3D {
 	
 	/**
 	 * 
+	 * @param sphere
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean intersects(Sphere3D sphere) {
+		
+		return VectorUtil.getDistance(this.getMiddle(), sphere.getMiddle()) < this.radius + sphere.radius;
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 * @param radius
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean intersects(Vector3f position, float radius) {
+		
+		return this.intersects(new Sphere3D(position, radius));
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param radius
+	 * @return
+	 * @since 05.09.2018/0.4.0
+	 */
+	public boolean intersects(float x, float y, float z, float radius) {
+		
+		return this.intersects(new Sphere3D(x, y, z, radius));
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		
+		return this.radius <= 0;
+	}
+	
+	/**
+	 * 
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
