@@ -121,7 +121,8 @@ public final class HeroicaFabulis extends Game {
 		stall.setShaderPipeline(shaderPipeline);
 		stall.setMaterial(stallMaterial);
 		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
-		stall.setTranslation(0, 0, -10);
+		stall.setTranslation(0, 0, -30);
+		stall.setRotation(0, 45, 0);
 		
 		Entity3D stallBounds = new Entity3D();
 		stallBounds.setShaderPipeline(shaderPipeline);
@@ -151,7 +152,7 @@ public final class HeroicaFabulis extends Game {
 		
 		Entity3D stall2 = stall.copy();
 		//stall2.setMesh(new SphereMesh(1, 12, 12));
-		stall2.setTranslation(10, 0, 0);
+		stall2.setTranslation(40, 0, 40);
 		stall2.setRotation(0, 45, 0);
 		
 		Entity3D stallBounds2 = new Entity3D();

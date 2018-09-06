@@ -77,8 +77,13 @@ public final class Frustum {
 		this.n.bl = substract(substract(nc, multiply(up, nhh)), multiply(right, nwh));
 		this.n.br = add(substract(nc, multiply(up, nhh)), multiply(right, nwh));
 		
+		float fovh = fov * 0.5F;
 		this.fn.set(d);
 		this.bn.set(-d.x, -d.y, -d.z);
+		this.rn.set(rotateX(d, 90 - fovh));
+		this.ln.set(-this.rn.x, -this.rn.y, -this.rn.z);
+		this.un.set(rotateY(d, 90 - fovh));
+		this.dn.set(-this.un.x, -this.un.y, -this.un.z);
 	}
 	
 	/**
