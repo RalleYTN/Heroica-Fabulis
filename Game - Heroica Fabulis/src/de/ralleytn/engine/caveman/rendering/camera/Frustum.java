@@ -15,6 +15,12 @@ public final class Frustum {
 	private final Camera camera;
 	private final Plane n;
 	private final Plane f;
+	private final Vector3f fn;
+	private final Vector3f bn;
+	private final Vector3f ln;
+	private final Vector3f rn;
+	private final Vector3f un;
+	private final Vector3f dn;
 	
 	/**
 	 * 
@@ -26,6 +32,12 @@ public final class Frustum {
 		this.camera = camera;
 		this.n = new Plane();
 		this.f = new Plane();
+		this.fn = new Vector3f();
+		this.bn = new Vector3f();
+		this.ln = new Vector3f();
+		this.rn = new Vector3f();
+		this.un = new Vector3f();
+		this.dn = new Vector3f();
 	}
 	
 	/**
@@ -64,6 +76,9 @@ public final class Frustum {
 		this.n.tr = add(add(nc, multiply(up, nhh)), multiply(right, nwh));
 		this.n.bl = substract(substract(nc, multiply(up, nhh)), multiply(right, nwh));
 		this.n.br = add(substract(nc, multiply(up, nhh)), multiply(right, nwh));
+		
+		this.fn.set(d);
+		this.bn.set(-d.x, -d.y, -d.z);
 	}
 	
 	/**
@@ -94,5 +109,65 @@ public final class Frustum {
 	public final Plane getFarPlane() {
 		
 		return this.f;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public final Vector3f getLeftNormal() {
+		
+		return this.ln;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public final Vector3f getRightNormal() {
+		
+		return this.rn;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public final Vector3f getFrontNormal() {
+		
+		return this.fn;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public final Vector3f getBackNormal() {
+		
+		return this.bn;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public final Vector3f getUpNormal() {
+		
+		return this.un;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public final Vector3f getDownNormal() {
+		
+		return this.dn;
 	}
 }

@@ -22,6 +22,57 @@ public final class VectorUtil {
 	
 	/**
 	 * 
+	 * @param v
+	 * @param angle
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public static final Vector3f rotateX(Vector3f v, float angle) {
+		
+		float cos = (float)Math.cos(angle);
+		float sin = (float)Math.sin(angle);
+		
+		return new Vector3f(v.x,
+							v.y * cos - v.z * sin,
+							v.y * sin + v.z * cos);
+	}
+	
+	/**
+	 * 
+	 * @param v
+	 * @param angle
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public static final Vector3f rotateY(Vector3f v, float angle) {
+		
+		float cos = (float)Math.cos(angle);
+		float sin = (float)Math.sin(angle);
+		
+		return new Vector3f(v.x * cos + v.z * sin,
+							v.y,
+							-(v.x * sin) + v.z * cos);
+	}
+	
+	/**
+	 * 
+	 * @param v
+	 * @param angle
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public static final Vector3f rotateZ(Vector3f v, float angle) {
+		
+		float cos = (float)Math.cos(angle);
+		float sin = (float)Math.sin(angle);
+		
+		return new Vector3f(v.x * cos - v.y * sin,
+							v.x * sin + v.y * cos,
+							v.z);
+	}
+	
+	/**
+	 * 
 	 * @param v1
 	 * @param v2
 	 * @return
