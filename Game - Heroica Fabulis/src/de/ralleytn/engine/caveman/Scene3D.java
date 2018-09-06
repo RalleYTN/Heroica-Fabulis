@@ -15,11 +15,11 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
  * @version 04.09.2018/0.4.0
  * @since 31.07.2018/0.1.0
  */
-public class Scene implements Renderable, Updatable {
+public class Scene3D implements Renderable, Updatable {
 
 	private final Game game;
 	
-	private List<Entity> entities;
+	private List<Entity3D> entities;
 	private List<Terrain> terrain;
 	private Light sun;
 	
@@ -27,7 +27,7 @@ public class Scene implements Renderable, Updatable {
 	 * @param game the instance of {@linkplain Game} this scene belongs to
 	 * @since 05.08.2018
 	 */
-	public Scene(Game game) {
+	public Scene3D(Game game) {
 		
 		this.game = game;
 		this.entities = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Scene implements Renderable, Updatable {
 	 * @param entity the entity
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void addEntity(Entity entity) {
+	public void addEntity(Entity3D entity) {
 		
 		this.entities.add(entity);
 	}
@@ -69,7 +69,7 @@ public class Scene implements Renderable, Updatable {
 	 * @param entity the entity
 	 * @since 11.08.2018/0.1.0
 	 */
-	public void removeEntity(Entity entity) {
+	public void removeEntity(Entity3D entity) {
 		
 		this.entities.remove(entity);
 	}
@@ -107,7 +107,7 @@ public class Scene implements Renderable, Updatable {
 	@Override
 	public void update(float delta) {
 		
-		for(Entity entity : this.entities) {
+		for(Entity3D entity : this.entities) {
 
 			entity.update(delta);
 		}
@@ -116,7 +116,7 @@ public class Scene implements Renderable, Updatable {
 	@Override
 	public void render(Graphics3D graphics) {
 		
-		for(Entity entity : this.entities) {
+		for(Entity3D entity : this.entities) {
 			
 			if(entity.isRendering() && VectorUtil.getDistance(this.game.getCamera().getTranslation(), entity.getTranslation()) <= entity.getRenderDistance()) {
 				

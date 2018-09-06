@@ -2,14 +2,66 @@ package de.ralleytn.engine.caveman.shape3d;
 
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.engine.caveman.rendering.geom.MeshData;
+import de.ralleytn.engine.caveman.util.MeshUtil;
+import de.ralleytn.engine.caveman.util.VectorUtil;
+
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 05.09.2018/0.4.0
+ * @version 06.09.2018/0.4.0
  * @since 04.09.2018/0.4.0
  */
 public class Box3D implements Shape3D {
 
+	/**
+	 * 
+	 * @since 06.09.2018/0.4.0
+	 */
+	public static final int[] INDICES = {
+			
+		3, 1, 0,
+		2, 1, 3,
+		
+		4, 5, 7,
+		7, 5, 6,
+		
+		11, 9, 8,
+		10, 9, 11,
+		
+		12, 13, 15,
+		15, 13, 14,
+		
+		19, 17, 16,
+		18, 17 ,19,
+		
+		20, 21, 23,
+		23, 21, 22
+	};
+	
+	/**
+	 * 
+	 * @since 06.09.2018/0.4.0
+	 */
+	public static final float[] TEXCOORDS = {
+			
+		0.0F, 0.0F, 0.0F, 1.0F,
+		1.0F, 1.0F, 1.0F, 0.0F,
+		0.0F, 0.0F, 0.0F, 1.0F,
+		
+		1.0F, 1.0F, 1.0F, 0.0F,
+		0.0F, 0.0F, 0.0F, 1.0F,
+		1.0F, 1.0F, 1.0F, 0.0F,
+		
+		0.0F, 0.0F, 0.0F, 1.0F,
+		1.0F, 1.0F, 1.0F, 0.0F,
+		0.0F, 0.0F, 0.0F, 1.0F,
+		
+		1.0F, 1.0F, 1.0F, 0.0F,
+		0.0F, 0.0F, 0.0F, 1.0F,
+		1.0F, 1.0F, 1.0F, 0.0F
+	};
+	
 	public float x;
 	public float y;
 	public float z;
@@ -56,6 +108,57 @@ public class Box3D implements Shape3D {
 	public Box3D(Vector3f position, Vector3f size) {
 		
 		this.setBounds(position, size);
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param width
+	 * @param height
+	 * @param depth
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public static final float[] createVertices(float x, float y, float z, float width, float height, float depth) {
+		
+		float rx = x + width;
+		float ry = y + height;
+		float rz = z + depth;
+		
+		return new float[] {
+				
+			 x, ry,  z,
+			 x,  y,  z,
+			rx,  y,  z,
+			rx, ry,  z,
+					
+			 x, ry, rz,
+			 x,  y, rz,
+			rx,  y, rz,
+			rx, ry, rz,
+					
+			rx, ry,  z,
+			rx,  y,  z,
+			rx,  y, rz,
+			rx, ry, rz,
+					
+			 x, ry,  z,	
+			 x,  y,  z,	
+			 x,  y, rz,	
+			 x, ry, rz,
+					
+			 x, ry, rz,
+			 x, ry,  z,
+			rx, ry,  z,
+			rx, ry, rz,
+					
+			 x,  y, rz,
+			 x,  y,  z,
+			rx,  y,  z,
+			rx,  y, rz
+		};
 	}
 	
 	/**
@@ -420,5 +523,21 @@ public class Box3D implements Shape3D {
 		builder.append(",depth=").append(this.depth);
 		builder.append(']');
 		return builder.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public MeshData createMeshData() {
+		
+		MeshData data = new MeshData();
+		data.setIndices(INDICES);
+		data.setTextureCoordinates(TEXCOORDS);
+		data.setVertices(createVertices(this.x, this.y, this.z, this.width, this.height, this.depth));
+		data.setNormals(VectorUtil.toArray3f(MeshUtil.generateNormals(VectorUtil.toList3f(data.getVertices()), INDICES)));
+		
+		return data;
 	}
 }

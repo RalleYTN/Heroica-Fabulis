@@ -13,7 +13,7 @@ import de.ralleytn.engine.caveman.util.MatrixUtil;
  * @version 05.09.2018/0.4.0
  * @since 30.07.2018/0.1.0
  */
-public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity> {
+public class Entity3D extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity3D> {
 	
 	private static long ID_SUPPLY = Long.MIN_VALUE;
 	
@@ -28,7 +28,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	/**
 	 * @since 30.07.2018/0.1.0
 	 */
-	public Entity() {
+	public Entity3D() {
 		
 		this.translation = new Vector3f();
 		this.rotation = new Vector3f();
@@ -324,9 +324,9 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Entity copy() {
+	public Entity3D copy() {
 		
-		Entity entity = new Entity();
+		Entity3D entity = new Entity3D();
 		entity.material = this.material;
 		entity.mesh = this.mesh;
 		entity.rendering = this.rendering;
@@ -340,7 +340,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	}
 
 	@Override
-	public int compareTo(Entity o) {
+	public int compareTo(Entity3D o) {
 		
 		int sortValue = this.getSortValue();
 		int oSortValue = o.getSortValue();

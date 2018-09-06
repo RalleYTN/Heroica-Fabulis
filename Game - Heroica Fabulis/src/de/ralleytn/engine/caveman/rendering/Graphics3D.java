@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL30.*;
 import javax.vecmath.Color4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.Entity;
+import de.ralleytn.engine.caveman.Entity3D;
 import de.ralleytn.engine.caveman.Game;
 import de.ralleytn.engine.caveman.Terrain;
 import de.ralleytn.engine.caveman.rendering.geom.Mesh;
@@ -132,11 +132,11 @@ public class Graphics3D {
 	}
 	
 	/**
-	 * Renders an instance of {@linkplain Entity}.
+	 * Renders an instance of {@linkplain Entity3D}.
 	 * @param entity the object
 	 * @since 26.08.2018/0.3.0
 	 */
-	public void renderEntity(Entity entity) {
+	public void renderEntity(Entity3D entity) {
 		
 		Mesh mesh = entity.getMesh();
 		Material material = entity.getMaterial();

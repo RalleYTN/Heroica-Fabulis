@@ -32,7 +32,7 @@ public abstract class Game implements Updatable {
 	private File errLogDirectory;
 	private String title;
 	private Display display;
-	private Scene scene;
+	private Scene3D scene;
 	private Camera camera;
 	private MouseController mouseController;
 	private KeyboardController keyboardController;
@@ -57,7 +57,7 @@ public abstract class Game implements Updatable {
 		this.nativeDirectory = new File(this.options.getString(Options.OPTION_NATIVE_DIRECTORY));
 		this.errLogDirectory = new File(this.options.getString(Options.OPTION_ERR_LOG_DIRECTORY));
 		this.localeDirectory = new File(this.options.getString(Options.OPTION_LOCALE_DIRECTORY));
-		this.scene = new Scene(this);
+		this.scene = new Scene3D(this);
 		this.fpsCap = this.options.getInt(Options.OPTION_FPS_CAP);
 	}
 	
@@ -295,7 +295,7 @@ public abstract class Game implements Updatable {
 	 * @return the scene
 	 * @since 04.08.2018/0.1.0
 	 */
-	public Scene getScene() {
+	public Scene3D getScene() {
 		
 		return this.scene;
 	}
