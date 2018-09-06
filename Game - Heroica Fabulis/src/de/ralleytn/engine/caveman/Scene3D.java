@@ -118,7 +118,7 @@ public class Scene3D implements Renderable, Updatable {
 		
 		for(Entity3D entity : this.entities) {
 			
-			if(entity.isRendering() && VectorUtil.getDistance(this.game.getCamera().getTranslation(), entity.getTranslation()) <= entity.getRenderDistance()) {
+			if(entity.isRendering() && VectorUtil.getAbsoluteDistance(this.game.getCamera().getTranslation(), entity.getTranslation()) <= entity.getRenderDistance()) {
 				
 				graphics.renderEntity(entity);
 			}

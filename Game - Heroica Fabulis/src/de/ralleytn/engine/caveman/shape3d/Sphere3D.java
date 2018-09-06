@@ -137,7 +137,7 @@ public class Sphere3D implements Shape3D {
 	 */
 	public boolean inside(Vector3f point) {
 		
-		return VectorUtil.getDistance(this.getMiddle(), point) < this.radius;
+		return VectorUtil.getAbsoluteDistance(this.getMiddle(), point) < this.radius;
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class Sphere3D implements Shape3D {
 	public boolean contains(Sphere3D sphere) {
 		
 		return sphere.radius * 2 < this.radius &&
-			   VectorUtil.getDistance(this.getMiddle(), sphere.getMiddle()) + sphere.radius > this.radius;
+			   VectorUtil.getAbsoluteDistance(this.getMiddle(), sphere.getMiddle()) + sphere.radius > this.radius;
 	}
 	
 	/**
@@ -186,7 +186,7 @@ public class Sphere3D implements Shape3D {
 	 */
 	public boolean intersects(Sphere3D sphere) {
 		
-		return VectorUtil.getDistance(this.getMiddle(), sphere.getMiddle()) < this.radius + sphere.radius;
+		return VectorUtil.getAbsoluteDistance(this.getMiddle(), sphere.getMiddle()) < this.radius + sphere.radius;
 	}
 	
 	/**

@@ -237,9 +237,9 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 				if(z < zn) zn = z; else if(z > zf) zf = z;
 			}
 			
-			float width = Math.abs(xf) + Math.abs(xn);
-			float height = Math.abs(yf) + Math.abs(yn);
-			float depth = Math.abs(zf) + Math.abs(zn);
+			float width = xf - xn;
+			float height = yf - yn;
+			float depth = zf - zn;
 			
 			this.boundingBox.setBounds(xn, yn, zn, width, height, depth);
 		}

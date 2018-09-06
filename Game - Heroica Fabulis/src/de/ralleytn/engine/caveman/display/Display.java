@@ -17,13 +17,12 @@ import de.ralleytn.engine.caveman.Engine;
 import de.ralleytn.engine.caveman.EngineException;
 import de.ralleytn.engine.caveman.Game;
 import de.ralleytn.engine.caveman.Options;
-import de.ralleytn.engine.caveman.util.MathUtil;
 
 /**
  * There can only be a single instance of this class that was created with the {@link Engine#start(java.io.File, java.io.File, String)} method.
  * It represents the game window.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 04.09.2018/0.4.0
+ * @version 06.09.2018/0.4.0
  * @since 31.07.2018/0.1.0
  */
 public class Display implements Disposable, Controller<DisplayEvent> {
@@ -64,6 +63,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	private boolean fullscreen;
 	private boolean vsync;
 	private boolean disposed;
+	private float ratio;
 	private Game game;
 	
 	/**
@@ -198,6 +198,7 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	public void setAspectRatio(int numer, int denom) {
 		
 		glfwSetWindowAspectRatio(this.id, numer, denom);
+		this.ratio = (float)numer / denom;
 	}
 	
 	/**
@@ -322,11 +323,6 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 		int[] width = new int[1];
 		int[] height = new int[1];
 		glfwGetFramebufferSize(this.id, width, height);
-		
-		int factor = MathUtil.smallestCommonFactor(width[0], height[0]);
-		int numer = width[0] / factor;
-		int denom = height[0] / factor;
-		glfwSetWindowAspectRatio(this.id, numer, denom);
 	}
 	
 	/**
@@ -554,5 +550,15 @@ public class Display implements Disposable, Controller<DisplayEvent> {
 	public boolean isDisposed() {
 		
 		return this.disposed;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public float getRatio() {
+		
+		return this.ratio;
 	}
 }

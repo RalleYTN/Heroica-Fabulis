@@ -135,9 +135,9 @@ public class MeshData {
 			if(z < zn) zn = z; else if(z > zf) zf = z;
 		}
 		
-		float width = Math.abs(xf) + Math.abs(xn);
-		float height = Math.abs(yf) + Math.abs(yn);
-		float depth = Math.abs(zf) + Math.abs(zn);
+		float width = xf - xn;
+		float height = yf - yn;
+		float depth = zf - zn;
 		
 		return new Box3D(xn, yn, zn, width, height, depth);
 	}

@@ -8,15 +8,19 @@ import de.ralleytn.engine.caveman.Game;
 import de.ralleytn.engine.caveman.Movable;
 import de.ralleytn.engine.caveman.display.Display;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
+import de.ralleytn.engine.caveman.util.VectorUtil;
 
 /**
  * Represents the game camera. There should be only a single instance of it at a time.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 05.09.2018/0.4.0
+ * @version 06.09.2018/0.4.0
  * @since 11.08.2018/0.1.0
  */
 public class Camera implements Movable {
 
+	private final Game game;
+	private final Frustum frustum;
+	
 	private float fov;
 	private float nearPlaneDistance;
 	private float farPlaneDistance;
@@ -25,7 +29,6 @@ public class Camera implements Movable {
 	private Vector3f translation;
 	private Vector3f rotation;
 	private Display display;
-	private Game game;
 	private CameraBehavior behavior;
 	
 	/**
@@ -40,6 +43,7 @@ public class Camera implements Movable {
 		this.translation = new Vector3f();
 		this.rotation = new Vector3f();
 		this.game = game;
+		this.frustum = new Frustum(this);
 		this.display = game.getDisplay();
 		this.recalc();
 	}
@@ -52,6 +56,7 @@ public class Camera implements Movable {
 
 		Movable.super.translate(x, y, z);
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -62,6 +67,7 @@ public class Camera implements Movable {
 
 		Movable.super.translate(velocity);
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -72,6 +78,7 @@ public class Camera implements Movable {
 
 		Movable.super.setTranslation(x, y, z);
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -82,6 +89,7 @@ public class Camera implements Movable {
 
 		Movable.super.setTranslation(newTranslation);
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -92,6 +100,7 @@ public class Camera implements Movable {
 
 		Movable.super.rotate(x, y, z);
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -102,6 +111,7 @@ public class Camera implements Movable {
 
 		Movable.super.rotate(velocity);
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -112,6 +122,7 @@ public class Camera implements Movable {
 
 		Movable.super.setRotation(x, y, z);
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -171,6 +182,7 @@ public class Camera implements Movable {
 		
 		this.calcProjectionMatrix();
 		this.calcViewMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -183,6 +195,7 @@ public class Camera implements Movable {
 		
 		this.fov = fov;
 		this.calcProjectionMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -215,6 +228,7 @@ public class Camera implements Movable {
 		
 		this.nearPlaneDistance = nearPlaneDistance;
 		this.calcProjectionMatrix();
+		this.frustum.update();
 	}
 	
 	/**
@@ -227,6 +241,7 @@ public class Camera implements Movable {
 		
 		this.farPlaneDistance = farPlaneDistance;
 		this.calcProjectionMatrix();
+		this.frustum.update();
 	}
 	
 	@Override
@@ -311,10 +326,40 @@ public class Camera implements Movable {
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public Vector3f getViewDirection() {
+	public Vector3f getFront() {
 		
-		Vector3f viewDirection = new Vector3f(this.view.m02, this.view.m12, this.view.m22);
-		viewDirection.normalize();
-		return viewDirection;
+		Vector3f front = new Vector3f(this.view.m02, this.view.m12, this.view.m22);
+		front.normalize();
+		return front;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public Vector3f getUp() {
+		
+		return VectorUtil.cross(this.getFront(), Engine.AXIS_Y);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public Vector3f getRight() {
+		
+		return VectorUtil.cross(this.getFront(), Engine.AXIS_X);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 06.09.2018/0.4.0
+	 */
+	public Frustum getFrustum() {
+		
+		return this.frustum;
 	}
 }
