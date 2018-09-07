@@ -22,7 +22,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 03.09.2018/0.4.0
+ * @version 07.09.2018/0.4.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -96,6 +96,16 @@ public abstract class Game implements Updatable {
 		}
 		
 		return image;
+	}
+	
+	/**
+	 * 
+	 * @param camera
+	 * @since 07.09.2018/0.4.0
+	 */
+	public void setCamera(Camera camera) {
+		
+		this.camera = camera;
 	}
 	
 	/**
