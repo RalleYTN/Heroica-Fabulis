@@ -220,7 +220,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 			float yn = xn;
 			float zn = xn;
 			
-			float xf = Float.MIN_VALUE;
+			float xf = -Float.MAX_VALUE;
 			float yf = xf;
 			float zf = xf;
 			

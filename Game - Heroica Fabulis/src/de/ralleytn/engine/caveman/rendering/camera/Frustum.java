@@ -77,8 +77,15 @@ public final class Frustum {
 		this.near.bl = substract(substract(nc, multiply(up, nhh)), multiply(right, nwh));
 		this.near.br = add(substract(nc, multiply(up, nhh)), multiply(right, nwh));
 		
+
+		float fovh = fov * 0.5F;
 		this.frontNormal.set(direction);
 		this.backNormal.set(-direction.x, -direction.y, -direction.z);
+		this.rightNormal.set(rotateX(direction, 90 - fovh));
+		this.leftNormal.set(-this.rightNormal.x, -this.rightNormal.y, -this.rightNormal.z);
+		this.upNormal.set(rotateY(direction, 90 - fovh));
+		this.downNormal.set(-this.upNormal.x, -this.upNormal.y, -this.upNormal.z);
+
 	}
 	
 	/**
