@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import de.ralleytn.engine.caveman.io.Writer;
-import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 
 /**
  * Writes XMESH model files.

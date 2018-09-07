@@ -12,7 +12,7 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.engine.caveman.io.Reader;
-import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 import de.ralleytn.engine.caveman.util.ListUtil;
 import de.ralleytn.engine.caveman.util.VectorUtil;
 

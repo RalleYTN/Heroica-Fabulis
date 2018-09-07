@@ -6,7 +6,7 @@ import java.util.List;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 
 /**
  * Utility class containg methods for working with meshes.

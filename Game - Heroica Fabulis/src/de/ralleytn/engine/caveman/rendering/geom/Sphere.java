@@ -1,18 +1,16 @@
-package de.ralleytn.engine.caveman.shape3d;
+package de.ralleytn.engine.caveman.rendering.geom;
 
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.rendering.geom3d.Box3D;
-import de.ralleytn.engine.caveman.rendering.geom3d.Shape3D;
 import de.ralleytn.engine.caveman.util.VectorUtil;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 05.09.2018/0.4.0
+ * @version 07.09.2018/0.4.0
  * @since 04.09.2018/0.4.0
  */
-public class Sphere3D implements Shape3D {
+public class Sphere {
 
 	public float x;
 	public float y;
@@ -22,7 +20,7 @@ public class Sphere3D implements Shape3D {
 	/**
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Sphere3D() {}
+	public Sphere() {}
 	
 	/**
 	 * 
@@ -32,7 +30,7 @@ public class Sphere3D implements Shape3D {
 	 * @param radius
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Sphere3D(float x, float y, float z, float radius) {
+	public Sphere(float x, float y, float z, float radius) {
 		
 		this.setPosition(x, y, z);
 		this.radius = radius;
@@ -45,7 +43,7 @@ public class Sphere3D implements Shape3D {
 	 * @param z
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Sphere3D(float x, float y, float z) {
+	public Sphere(float x, float y, float z) {
 		
 		this.setPosition(x, y, z);
 	}
@@ -56,7 +54,7 @@ public class Sphere3D implements Shape3D {
 	 * @param radius
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Sphere3D(Vector3f position, float radius) {
+	public Sphere(Vector3f position, float radius) {
 		
 		this.setPosition(position);
 		this.radius = radius;
@@ -67,7 +65,7 @@ public class Sphere3D implements Shape3D {
 	 * @param position
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Sphere3D(Vector3f position) {
+	public Sphere(Vector3f position) {
 		
 		this.setPosition(position);
 	}
@@ -77,7 +75,7 @@ public class Sphere3D implements Shape3D {
 	 * @param radius
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Sphere3D(float radius) {
+	public Sphere(float radius) {
 		
 		this.radius = radius;
 	}
@@ -148,7 +146,7 @@ public class Sphere3D implements Shape3D {
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public boolean contains(Sphere3D sphere) {
+	public boolean contains(Sphere sphere) {
 		
 		return sphere.radius * 2 < this.radius &&
 			   VectorUtil.getAbsoluteDistance(this.getMiddle(), sphere.getMiddle()) + sphere.radius > this.radius;
@@ -163,7 +161,7 @@ public class Sphere3D implements Shape3D {
 	 */
 	public boolean contains(Vector3f position, float radius) {
 		
-		return this.contains(new Sphere3D(position, radius));
+		return this.contains(new Sphere(position, radius));
 	}
 	
 	/**
@@ -177,7 +175,7 @@ public class Sphere3D implements Shape3D {
 	 */
 	public boolean contains(float x, float y, float z, float radius) {
 		
-		return this.contains(new Sphere3D(x, y, z, radius));
+		return this.contains(new Sphere(x, y, z, radius));
 	}
 	
 	/**
@@ -186,7 +184,7 @@ public class Sphere3D implements Shape3D {
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public boolean intersects(Sphere3D sphere) {
+	public boolean intersects(Sphere sphere) {
 		
 		return VectorUtil.getAbsoluteDistance(this.getMiddle(), sphere.getMiddle()) < this.radius + sphere.radius;
 	}
@@ -200,7 +198,7 @@ public class Sphere3D implements Shape3D {
 	 */
 	public boolean intersects(Vector3f position, float radius) {
 		
-		return this.intersects(new Sphere3D(position, radius));
+		return this.intersects(new Sphere(position, radius));
 	}
 	
 	/**
@@ -214,10 +212,14 @@ public class Sphere3D implements Shape3D {
 	 */
 	public boolean intersects(float x, float y, float z, float radius) {
 		
-		return this.intersects(new Sphere3D(x, y, z, radius));
+		return this.intersects(new Sphere(x, y, z, radius));
 	}
 	
-	@Override
+	/**
+	 * 
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
 	public boolean isEmpty() {
 		
 		return this.radius <= 0;
@@ -273,10 +275,14 @@ public class Sphere3D implements Shape3D {
 		return new Vector3f(this.x + this.radius, this.y + this.radius, this.z + this.radius);
 	}
 	
-	@Override
-	public Box3D getBounds() {
+	/**
+	 * 
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
+	public AxisAlignedBoundingBox createAABB() {
 		
 		float size = this.radius * 2.0F;
-		return new Box3D(this.x, this.y, this.z, size, size, size);
+		return new AxisAlignedBoundingBox(this.x - this.radius, this.y - this.radius, this.z - this.radius, size, size, size);
 	}
 }

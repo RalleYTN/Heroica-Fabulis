@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 
 /**
  * Contains methods for reading and writing XMESH model files.

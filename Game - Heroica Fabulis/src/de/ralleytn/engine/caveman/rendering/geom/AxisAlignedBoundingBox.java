@@ -1,4 +1,4 @@
-package de.ralleytn.engine.caveman.rendering.geom3d;
+package de.ralleytn.engine.caveman.rendering.geom;
 
 import javax.vecmath.Vector3f;
 
@@ -11,8 +11,15 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
  * @version 07.09.2018/0.4.0
  * @since 04.09.2018/0.4.0
  */
-public class Box3D implements Shape3D {
+public class AxisAlignedBoundingBox {
 
+	/** @since 04.09.2018/0.4.0 */ public static final int OUT_LEFT = 0b1;
+	/** @since 04.09.2018/0.4.0 */ public static final int OUT_RIGHT = 0b10;
+	/** @since 04.09.2018/0.4.0 */ public static final int OUT_TOP = 0b100;
+	/** @since 04.09.2018/0.4.0 */ public static final int OUT_BOTTOM = 0b1000;
+	/** @since 04.09.2018/0.4.0 */ public static final int OUT_FRONT = 0b10000;
+	/** @since 04.09.2018/0.4.0 */ public static final int OUT_BACK = 0b100000;
+	
 	/**
 	 * 
 	 * @since 06.09.2018/0.4.0
@@ -75,16 +82,16 @@ public class Box3D implements Shape3D {
 	/**
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Box3D() {}
+	public AxisAlignedBoundingBox() {}
 	
 	/**
 	 * 
 	 * @param box
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Box3D(Box3D box) {
+	public AxisAlignedBoundingBox(AxisAlignedBoundingBox box) {
 		
-		this.setBounds(box);
+		this.set(box);
 	}
 	
 	/**
@@ -97,9 +104,9 @@ public class Box3D implements Shape3D {
 	 * @param depth
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Box3D(float x, float y, float z, float width, float height, float depth) {
+	public AxisAlignedBoundingBox(float x, float y, float z, float width, float height, float depth) {
 		
-		this.setBounds(x, y, z, width, height, depth);
+		this.set(x, y, z, width, height, depth);
 	}
 	
 	/**
@@ -108,59 +115,54 @@ public class Box3D implements Shape3D {
 	 * @param size
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Box3D(Vector3f position, Vector3f size) {
+	public AxisAlignedBoundingBox(Vector3f position, Vector3f size) {
 		
-		this.setBounds(position, size);
+		this.set(position, size);
 	}
 	
 	/**
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param width
-	 * @param height
-	 * @param depth
+	 * @param bounds
 	 * @return
 	 * @since 06.09.2018/0.4.0
 	 */
-	public static final float[] createVertices(float x, float y, float z, float width, float height, float depth) {
+	public static final float[] createVertices(AxisAlignedBoundingBox bounds) {
 		
-		float rx = x + width;
-		float ry = y + height;
-		float rz = z + depth;
+		float rx = bounds.x + bounds.width;
+		float ry = bounds.y + bounds.height;
+		float rz = bounds.z + bounds.depth;
 		
 		return new float[] {
 				
-			 x, ry,  z,
-			 x,  y,  z,
-			rx,  y,  z,
-			rx, ry,  z,
+			bounds.x, ry, bounds.z,
+			bounds.x, bounds.y, bounds.z,
+			rx, bounds.y, bounds.z,
+			rx, ry, bounds.z,
 					
-			 x, ry, rz,
-			 x,  y, rz,
-			rx,  y, rz,
+			bounds.x, ry, rz,
+			bounds.x, bounds.y, rz,
+			rx, bounds.y, rz,
 			rx, ry, rz,
 					
-			rx, ry,  z,
-			rx,  y,  z,
-			rx,  y, rz,
+			rx, ry, bounds.z,
+			rx, bounds.y, bounds.z,
+			rx, bounds.y, rz,
 			rx, ry, rz,
 					
-			 x, ry,  z,	
-			 x,  y,  z,	
-			 x,  y, rz,	
-			 x, ry, rz,
+			bounds.x, ry, bounds.z,	
+			bounds.x, bounds.y, bounds.z,	
+			bounds.x, bounds.y, rz,	
+			bounds.x, ry, rz,
 					
-			 x, ry, rz,
-			 x, ry,  z,
-			rx, ry,  z,
+			bounds.x, ry, rz,
+			bounds.x, ry, bounds.z,
+			rx, ry, bounds.z,
 			rx, ry, rz,
 					
-			 x,  y, rz,
-			 x,  y,  z,
-			rx,  y,  z,
-			rx,  y, rz
+			bounds.x, bounds.y, rz,
+			bounds.x, bounds.y, bounds.z,
+			rx, bounds.y, bounds.z,
+			rx, bounds.y, rz
 		};
 	}
 	
@@ -169,7 +171,7 @@ public class Box3D implements Shape3D {
 	 * @param box
 	 * @since 04.09.2018/0.4.0
 	 */
-	public void setBounds(Box3D box) {
+	public void set(AxisAlignedBoundingBox box) {
 		
 		this.x = box.x;
 		this.y = box.y;
@@ -189,7 +191,7 @@ public class Box3D implements Shape3D {
 	 * @param depth
 	 * @since 04.09.2018/0.4.0
 	 */
-	public void setBounds(float x, float y, float z, float width, float height, float depth) {
+	public void set(float x, float y, float z, float width, float height, float depth) {
 		
 		this.x = x;
 		this.y = y;
@@ -205,7 +207,7 @@ public class Box3D implements Shape3D {
 	 * @param size
 	 * @since 04.09.2018/0.4.0
 	 */
-	public void setBounds(Vector3f position, Vector3f size) {
+	public void set(Vector3f position, Vector3f size) {
 		
 		this.x = position.x;
 		this.y = position.y;
@@ -310,7 +312,7 @@ public class Box3D implements Shape3D {
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
-	public boolean contains(Box3D box) {
+	public boolean contains(AxisAlignedBoundingBox box) {
 		
 		return this.contains(box.x, box.y, box.z, box.width, box.height, box.depth);
 	}
@@ -352,7 +354,7 @@ public class Box3D implements Shape3D {
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
-	public boolean intersects(Box3D bounds) {
+	public boolean intersects(AxisAlignedBoundingBox bounds) {
 		
 		return this.intersects(bounds.x, bounds.y, bounds.z, bounds.width, bounds.height, bounds.depth);
 	}
@@ -377,7 +379,11 @@ public class Box3D implements Shape3D {
 			   z < this.z + this.depth && z + depth > this.z;
 	}
 	
-	@Override
+	/**
+	 * 
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
 	public boolean isEmpty() {
 
 		return this.width <= 0 || this.height <= 0 || this.depth <= 0;
@@ -441,12 +447,6 @@ public class Box3D implements Shape3D {
 	public float getWidth() {
 		
 		return this.width;
-	}
-
-	@Override
-	public Box3D getBounds() {
-		
-		return this;
 	}
 	
 	/**
@@ -560,7 +560,7 @@ public class Box3D implements Shape3D {
 		MeshData data = new MeshData();
 		data.setIndices(INDICES);
 		data.setTextureCoordinates(TEXCOORDS);
-		data.setVertices(createVertices(this.x, this.y, this.z, this.width, this.height, this.depth));
+		data.setVertices(createVertices(this));
 		data.setNormals(VectorUtil.toArray3f(MeshUtil.generateNormals(VectorUtil.toList3f(data.getVertices()), INDICES)));
 		
 		return data;

@@ -1,11 +1,11 @@
-package de.ralleytn.engine.caveman.rendering.geom3d;
+package de.ralleytn.engine.caveman.rendering.geom;
 
 import de.ralleytn.engine.caveman.util.ArrayUtil;
 
 /**
  * Represents mesh data.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 05.09.2018/0.4.0
+ * @version 07.09.2018/0.4.0
  * @since 20.08.2018/0.2.0
  */
 public class MeshData {
@@ -114,7 +114,7 @@ public class MeshData {
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public Box3D getBoundingBox() {
+	public AxisAlignedBoundingBox createAABB() {
 		
 		float xn = this.vertices[0];
 		float yn = this.vertices[1];
@@ -138,6 +138,6 @@ public class MeshData {
 		float height = yf - yn;
 		float depth = zf - zn;
 		
-		return new Box3D(xn, yn, zn, width, height, depth);
+		return new AxisAlignedBoundingBox(xn, yn, zn, width, height, depth);
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.vecmath.Matrix4f;
 
-import de.ralleytn.engine.caveman.Entity3D;
+import de.ralleytn.engine.caveman.Entity;
 
 /**
  * 
@@ -13,7 +13,7 @@ import de.ralleytn.engine.caveman.Entity3D;
  * @version 04.09.2018/0.4.0
  * @since 01.09.2018/0.4.0
  */
-public class GridCell extends Entity3D {
+public class GridCell extends Entity {
 
 	protected final boolean[][][] layout;
 	protected final Type type;

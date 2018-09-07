@@ -3,8 +3,8 @@ package de.ralleytn.engine.caveman;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.rendering.geom3d.Box3D;
-import de.ralleytn.engine.caveman.rendering.geom3d.Mesh;
+import de.ralleytn.engine.caveman.rendering.geom.AxisAlignedBoundingBox;
+import de.ralleytn.engine.caveman.rendering.geom.Mesh;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
 
 /**
@@ -13,7 +13,7 @@ import de.ralleytn.engine.caveman.util.MatrixUtil;
  * @version 07.09.2018/0.4.0
  * @since 30.07.2018/0.1.0
  */
-public class Entity3D extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity3D> {
+public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity> {
 	
 	private static long ID_SUPPLY = Long.MIN_VALUE;
 	
@@ -23,19 +23,19 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	private Mesh mesh;
 	private float renderDistance;
 	private long id;
-	private Box3D aabb;
+	private AxisAlignedBoundingBox aabb;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
 	 */
-	public Entity3D() {
+	public Entity() {
 		
 		this.translation = new Vector3f();
 		this.rotation = new Vector3f();
 		this.scale = new Vector3f(1.0F, 1.0F, 1.0F);
 		this.transformation = new Matrix4f();
 		this.rendering = true;
-		this.aabb = new Box3D();
+		this.aabb = new AxisAlignedBoundingBox();
 		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
 		this.assignID();
@@ -241,7 +241,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 			float height = yf - yn;
 			float depth = zf - zn;
 			
-			this.aabb.setBounds(xn, yn, zn, width, height, depth);
+			this.aabb.set(xn, yn, zn, width, height, depth);
 		}
 	}
 	
@@ -324,9 +324,9 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	 * @return
 	 * @since 04.09.2018/0.4.0
 	 */
-	public Entity3D copy() {
+	public Entity copy() {
 		
-		Entity3D entity = new Entity3D();
+		Entity entity = new Entity();
 		entity.material = this.material;
 		entity.mesh = this.mesh;
 		entity.rendering = this.rendering;
@@ -345,7 +345,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	 * @return
 	 * @since 07.09.2018/0.4.0
 	 */
-	public boolean collidesWithOBB(Entity3D entity) {
+	public boolean collidesWithOBB(Entity entity) {
 		
 		Vector3f ac = this.aabb.center();
 		Vector3f ar = new Vector3f(this.aabb.width * 0.5F, this.aabb.height * 0.5F, this.aabb.depth * 0.5F);
@@ -365,13 +365,13 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	 * @return
 	 * @since 07.09.2018/0.4.0
 	 */
-	public boolean collidesWithAABB(Entity3D entity) {
+	public boolean collidesWithAABB(Entity entity) {
 		
 		return entity.getAABB().intersects(this.aabb);
 	}
 
 	@Override
-	public int compareTo(Entity3D o) {
+	public int compareTo(Entity o) {
 		
 		int sortValue = this.getSortValue();
 		int oSortValue = o.getSortValue();
@@ -383,7 +383,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public Box3D getAABB() {
+	public AxisAlignedBoundingBox getAABB() {
 		
 		return this.aabb;
 	}

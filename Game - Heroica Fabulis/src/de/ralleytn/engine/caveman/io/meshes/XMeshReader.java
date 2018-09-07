@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.ralleytn.engine.caveman.io.Reader;
-import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 import de.ralleytn.engine.caveman.util.MeshUtil;
 import de.ralleytn.engine.caveman.util.VectorUtil;
 

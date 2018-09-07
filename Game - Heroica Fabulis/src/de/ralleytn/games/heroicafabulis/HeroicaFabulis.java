@@ -9,7 +9,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.engine.caveman.EngineException;
-import de.ralleytn.engine.caveman.Entity3D;
+import de.ralleytn.engine.caveman.Entity;
 import de.ralleytn.engine.caveman.Errors;
 import de.ralleytn.engine.caveman.Game;
 import de.ralleytn.engine.caveman.Terrain;
@@ -22,9 +22,9 @@ import de.ralleytn.engine.caveman.io.textures.XImgTextureReader;
 import de.ralleytn.engine.caveman.rendering.Texture;
 import de.ralleytn.engine.caveman.rendering.TextureData;
 import de.ralleytn.engine.caveman.rendering.camera.FlyCamBehavior;
-import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
-import de.ralleytn.engine.caveman.rendering.geom3d.QuadMesh;
-import de.ralleytn.engine.caveman.rendering.geom3d.StaticMesh;
+import de.ralleytn.engine.caveman.rendering.geom.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom.Quad;
+import de.ralleytn.engine.caveman.rendering.geom.StaticMesh;
 import de.ralleytn.engine.caveman.rendering.light.Light;
 import de.ralleytn.engine.caveman.rendering.shader.BasicShaderPipeline;
 import de.ralleytn.engine.caveman.rendering.shader.Fog;
@@ -117,14 +117,14 @@ public final class HeroicaFabulis extends Game {
 		terrainMaterial.setAffectedByLight(true);
 		terrainMaterial.setFog(fog);
 
-		Entity3D stall = new Entity3D();
+		Entity stall = new Entity();
 		stall.setShaderPipeline(shaderPipeline);
 		stall.setMaterial(stallMaterial);
 		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
 		stall.setTranslation(0, 0, -30);
 		stall.setRotation(0, 45, 0);
 		
-		Entity3D stallBounds = new Entity3D();
+		Entity stallBounds = new Entity();
 		stallBounds.setShaderPipeline(shaderPipeline);
 		stallBounds.setMaterial(new Material());
 		stallBounds.setMesh(new StaticMesh(stall.getAABB().createMeshData()));
@@ -150,12 +150,12 @@ public final class HeroicaFabulis extends Game {
 		Light sun = new Light();
 		sun.setTranslation(0, 10, 0);
 		
-		Entity3D stall2 = stall.copy();
+		Entity stall2 = stall.copy();
 		//stall2.setMesh(new SphereMesh(1, 12, 12));
 		stall2.setTranslation(40, 0, 40);
 		stall2.setRotation(0, 45, 0);
 		
-		Entity3D stallBounds2 = new Entity3D();
+		Entity stallBounds2 = new Entity();
 		stallBounds2.setShaderPipeline(shaderPipeline);
 		stallBounds2.setMaterial(new Material());
 		stallBounds2.setMesh(new StaticMesh(stall2.getAABB().createMeshData()));
@@ -214,12 +214,12 @@ public final class HeroicaFabulis extends Game {
 		grassMaterial.setUpwardsNormals(true);
 		grassMaterial.setFog(fog);
 		
-		MeshData grassMeshData = QuadMesh.generateMeshData(
+		MeshData grassMeshData = new Quad(
 			new Vector3f(0.0F, 1.0F, 0.0F),
 			new Vector3f(0.0F, 0.0F, 0.0F),
 			new Vector3f(1.0F, 0.0F, 0.0F),
 			new Vector3f(1.0F, 1.0F, 0.0F)
-		);
+		).createMeshData();
 		
 		StaticMesh grassMesh = new StaticMesh(MeshUtil.mergeLazy(Arrays.asList(grassMeshData, grassMeshData), Arrays.asList(
 			MatrixUtil.createTransformationMatrx(
@@ -239,7 +239,7 @@ public final class HeroicaFabulis extends Game {
 			
 			for(int j = y; j < y + height; j++) {
 				
-				Entity3D grass = new Entity3D();
+				Entity grass = new Entity();
 				grass.setShaderPipeline(pipeline);
 				grass.setMaterial(grassMaterial);
 				grass.setMesh(grassMesh);

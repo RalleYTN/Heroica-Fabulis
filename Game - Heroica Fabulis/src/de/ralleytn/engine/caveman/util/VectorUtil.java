@@ -9,7 +9,7 @@ import javax.vecmath.Vector3f;
 /**
  * Utility class containing methods for working with vectors.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 06.09.2018/0.4.0
+ * @version 07.09.2018/0.4.0
  * @since 11.08.2018/0.1.0
  */
 public final class VectorUtil {
@@ -19,6 +19,23 @@ public final class VectorUtil {
 	 * @since 11.08.2018/0.1.0
 	 */
 	private VectorUtil() {}
+	
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
+	public static final String toString(Vector3f v) {
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append("(x=").append(v.x);
+		builder.append(",y=").append(v.y);
+		builder.append(",z=").append(v.z);
+		builder.append(')');
+		
+		return builder.toString();
+	}
 	
 	/**
 	 * 
