@@ -345,7 +345,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	 * @return
 	 * @since 07.09.2018/0.4.0
 	 */
-	public boolean collidesWithAABB(Entity3D entity) {
+	public boolean collidesWithOBB(Entity3D entity) {
 		
 		Vector3f ac = this.aabb.center();
 		Vector3f ar = new Vector3f(this.aabb.width * 0.5F, this.aabb.height * 0.5F, this.aabb.depth * 0.5F);
@@ -357,6 +357,17 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 		if(Math.abs(ac.z - bc.z) > (ar.z + br.z)) return false;
 		
 		return true;
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
+	public boolean collidesWithAABB(Entity3D entity) {
+		
+		return entity.getAABB().intersects(this.aabb);
 	}
 
 	@Override
