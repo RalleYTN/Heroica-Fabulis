@@ -10,8 +10,6 @@ import javax.vecmath.Vector3f;
  */
 public class Plane {
 
-	public float w;
-	public float h;
 	public Vector3f tl;
 	public Vector3f tr;
 	public Vector3f bl;
