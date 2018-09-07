@@ -3,14 +3,14 @@ package de.ralleytn.engine.caveman;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.rendering.geom.Mesh;
-import de.ralleytn.engine.caveman.shape3d.Box3D;
+import de.ralleytn.engine.caveman.rendering.geom3d.Box3D;
+import de.ralleytn.engine.caveman.rendering.geom3d.Mesh;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
 
 /**
  * Represents an entity. An entity is a transformable and updatable object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 05.09.2018/0.4.0
+ * @version 07.09.2018/0.4.0
  * @since 30.07.2018/0.1.0
  */
 public class Entity3D extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity3D> {
@@ -23,7 +23,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	private Mesh mesh;
 	private float renderDistance;
 	private long id;
-	private Box3D boundingBox;
+	private Box3D aabb;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -35,7 +35,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 		this.scale = new Vector3f(1.0F, 1.0F, 1.0F);
 		this.transformation = new Matrix4f();
 		this.rendering = true;
-		this.boundingBox = new Box3D();
+		this.aabb = new Box3D();
 		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
 		this.assignID();
@@ -71,7 +71,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.setRotation(x, y, z);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.setRotation(newRotation);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Scalable.super.setScale(x, y, z);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Scalable.super.setScale(newScale);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.setTranslation(x, y, z);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.setTranslation(newTranslation);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Scalable.super.scale(x, y, z);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Scalable.super.scale(factor);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -159,7 +159,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.rotate(x, y, z);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.rotate(velocity);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.translate(x, y, z);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	/**
@@ -192,7 +192,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 
 		Movable.super.translate(velocity);
 		this.calcTransformationMatrix();
-		this.calcBoundingBox();
+		this.calcAABB();
 	}
 	
 	@Override
@@ -210,7 +210,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	 * 
 	 * @since 05.09.2018/0.4.0
 	 */
-	private final void calcBoundingBox() {
+	private final void calcAABB() {
 		
 		if(this.mesh != null) {
 			
@@ -241,7 +241,7 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 			float height = yf - yn;
 			float depth = zf - zn;
 			
-			this.boundingBox.setBounds(xn, yn, zn, width, height, depth);
+			this.aabb.setBounds(xn, yn, zn, width, height, depth);
 		}
 	}
 	
@@ -338,6 +338,26 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 		
 		return entity;
 	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
+	public boolean collidesWithAABB(Entity3D entity) {
+		
+		Vector3f ac = this.aabb.center();
+		Vector3f ar = new Vector3f(this.aabb.width * 0.5F, this.aabb.height * 0.5F, this.aabb.depth * 0.5F);
+		Vector3f bc = entity.aabb.center();
+		Vector3f br = new Vector3f(entity.aabb.width * 0.5F, entity.aabb.height * 0.5F, entity.aabb.depth * 0.5F);
+		
+		if(Math.abs(ac.x - bc.x) > (ar.x + br.x)) return false;
+		if(Math.abs(ac.y - bc.y) > (ar.y + br.y)) return false;
+		if(Math.abs(ac.z - bc.z) > (ar.z + br.z)) return false;
+		
+		return true;
+	}
 
 	@Override
 	public int compareTo(Entity3D o) {
@@ -352,8 +372,8 @@ public class Entity3D extends RenderableObject implements Movable, Scalable, Upd
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public Box3D getBoundingBox() {
+	public Box3D getAABB() {
 		
-		return this.boundingBox;
+		return this.aabb;
 	}
 }

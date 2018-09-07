@@ -2,6 +2,8 @@ package de.ralleytn.engine.caveman.shape3d;
 
 import javax.vecmath.Vector3f;
 
+import de.ralleytn.engine.caveman.rendering.geom3d.Box3D;
+import de.ralleytn.engine.caveman.rendering.geom3d.Shape3D;
 import de.ralleytn.engine.caveman.util.VectorUtil;
 
 /**

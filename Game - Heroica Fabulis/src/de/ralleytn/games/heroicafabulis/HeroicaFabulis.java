@@ -22,9 +22,9 @@ import de.ralleytn.engine.caveman.io.textures.XImgTextureReader;
 import de.ralleytn.engine.caveman.rendering.Texture;
 import de.ralleytn.engine.caveman.rendering.TextureData;
 import de.ralleytn.engine.caveman.rendering.camera.FlyCamBehavior;
-import de.ralleytn.engine.caveman.rendering.geom.MeshData;
-import de.ralleytn.engine.caveman.rendering.geom.QuadMesh;
-import de.ralleytn.engine.caveman.rendering.geom.StaticMesh;
+import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom3d.QuadMesh;
+import de.ralleytn.engine.caveman.rendering.geom3d.StaticMesh;
 import de.ralleytn.engine.caveman.rendering.light.Light;
 import de.ralleytn.engine.caveman.rendering.shader.BasicShaderPipeline;
 import de.ralleytn.engine.caveman.rendering.shader.Fog;
@@ -127,7 +127,7 @@ public final class HeroicaFabulis extends Game {
 		Entity3D stallBounds = new Entity3D();
 		stallBounds.setShaderPipeline(shaderPipeline);
 		stallBounds.setMaterial(new Material());
-		stallBounds.setMesh(new StaticMesh(stall.getBoundingBox().createMeshData()));
+		stallBounds.setMesh(new StaticMesh(stall.getAABB().createMeshData()));
 		
 		this.populateGrass(shaderPipeline, fog, -200, -200, 400, 400);
 		
@@ -158,7 +158,7 @@ public final class HeroicaFabulis extends Game {
 		Entity3D stallBounds2 = new Entity3D();
 		stallBounds2.setShaderPipeline(shaderPipeline);
 		stallBounds2.setMaterial(new Material());
-		stallBounds2.setMesh(new StaticMesh(stall2.getBoundingBox().createMeshData()));
+		stallBounds2.setMesh(new StaticMesh(stall2.getAABB().createMeshData()));
 		
 		game.getScene().addEntity(stall);
 		game.getScene().addEntity(stallBounds);

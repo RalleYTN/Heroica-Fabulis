@@ -4,9 +4,9 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.rendering.geom.Mesh;
-import de.ralleytn.engine.caveman.rendering.geom.MeshData;
-import de.ralleytn.engine.caveman.rendering.geom.StaticMesh;
+import de.ralleytn.engine.caveman.rendering.geom3d.Mesh;
+import de.ralleytn.engine.caveman.rendering.geom3d.MeshData;
+import de.ralleytn.engine.caveman.rendering.geom3d.StaticMesh;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
 
 /**

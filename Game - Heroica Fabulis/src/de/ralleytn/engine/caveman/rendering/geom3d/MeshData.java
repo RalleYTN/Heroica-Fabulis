@@ -1,6 +1,5 @@
-package de.ralleytn.engine.caveman.rendering.geom;
+package de.ralleytn.engine.caveman.rendering.geom3d;
 
-import de.ralleytn.engine.caveman.shape3d.Box3D;
 import de.ralleytn.engine.caveman.util.ArrayUtil;
 
 /**

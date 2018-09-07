@@ -1,4 +1,4 @@
-package de.ralleytn.engine.caveman.rendering.geom;
+package de.ralleytn.engine.caveman.rendering.geom3d;
 
 import de.ralleytn.engine.caveman.Disposable;
 import de.ralleytn.engine.caveman.rendering.GLBuffer;

@@ -9,7 +9,7 @@ import javax.vecmath.Vector3f;
 import de.ralleytn.engine.caveman.Entity3D;
 import de.ralleytn.engine.caveman.Game;
 import de.ralleytn.engine.caveman.Terrain;
-import de.ralleytn.engine.caveman.rendering.geom.Mesh;
+import de.ralleytn.engine.caveman.rendering.geom3d.Mesh;
 import de.ralleytn.engine.caveman.rendering.light.Light;
 import de.ralleytn.engine.caveman.rendering.shader.Material;
 import de.ralleytn.engine.caveman.rendering.shader.ShaderPipeline;

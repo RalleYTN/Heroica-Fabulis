@@ -14,12 +14,22 @@ public final class Frustum {
 
 	private final Camera camera;
 	
-	public final Plane near;
-	public final Plane far;
-	public final Plane left;
-	public final Plane right;
-	public final Plane up;
-	public final Plane down;
+	public Vector3f fn = new Vector3f();
+	public Vector3f bn = new Vector3f();
+	public Vector3f ln = new Vector3f();
+	public Vector3f rn = new Vector3f();
+	public Vector3f un = new Vector3f();
+	public Vector3f dn = new Vector3f();
+	
+	public Vector3f ftl = new Vector3f();
+	public Vector3f ftr = new Vector3f();
+	public Vector3f fbl = new Vector3f();
+	public Vector3f fbr = new Vector3f();
+	
+	public Vector3f ntl = new Vector3f();
+	public Vector3f ntr = new Vector3f();
+	public Vector3f nbl = new Vector3f();
+	public Vector3f nbr = new Vector3f();
 	
 	/**
 	 * 
@@ -29,12 +39,6 @@ public final class Frustum {
 	public Frustum(Camera camera) {
 		
 		this.camera = camera;
-		this.near = new Plane();
-		this.far = new Plane();
-		this.left = new Plane();
-		this.right = new Plane();
-		this.up = new Plane();
-		this.down = new Plane();
 	}
 	
 	/**
@@ -62,46 +66,30 @@ public final class Frustum {
 		Vector3f fc = add(position, multiply(direction, far));
 		float fwh = farWidth * 0.5F;
 		float fhh = farHeight * 0.5F;
-		this.far.tl = substract(add(fc, multiply(up, fhh)), multiply(right, fwh));
-		this.far.tr = add(add(fc, multiply(up, fhh)), multiply(right, fwh));
-		this.far.bl = substract(substract(fc, multiply(up, fhh)), multiply(right, fwh));
-		this.far.br = add(substract(fc, multiply(up, fhh)), multiply(right, fwh));
-		this.far.n.set(direction);
+		this.ftl = substract(add(fc, multiply(up, fhh)), multiply(right, fwh));
+		this.ftr = add(add(fc, multiply(up, fhh)), multiply(right, fwh));
+		this.fbl = substract(substract(fc, multiply(up, fhh)), multiply(right, fwh));
+		this.fbr = add(substract(fc, multiply(up, fhh)), multiply(right, fwh));
+		this.fn.set(direction);
 		
 		Vector3f nc = add(position, multiply(direction, near));
 		float nwh = nearWidth * 0.5F;
 		float nhh = nearHeight * 0.5F;
-		this.near.tl = substract(add(nc, multiply(up, nhh)), multiply(right, nwh));
-		this.near.tr = add(add(nc, multiply(up, nhh)), multiply(right, nwh));
-		this.near.bl = substract(substract(nc, multiply(up, nhh)), multiply(right, nwh));
-		this.near.br = add(substract(nc, multiply(up, nhh)), multiply(right, nwh));
-		this.near.n.set(-direction.x, -direction.y, -direction.z);
+		this.ntl = substract(add(nc, multiply(up, nhh)), multiply(right, nwh));
+		this.ntr = add(add(nc, multiply(up, nhh)), multiply(right, nwh));
+		this.nbl = substract(substract(nc, multiply(up, nhh)), multiply(right, nwh));
+		this.nbr = add(substract(nc, multiply(up, nhh)), multiply(right, nwh));
+		this.bn.set(-direction.x, -direction.y, -direction.z);
 		
-		this.right.tl = this.near.tr;
-		this.right.tr = this.far.tr;
-		this.right.bl = this.near.br;
-		this.right.br = this.far.br;
-		this.right.n = rotateX(direction, 90 - fovh);
-		this.right.n.normalize();
+		this.rn = rotateX(direction, 90 - fovh);
+		this.rn.normalize();
 		
-		this.left.tl = this.far.tl;
-		this.left.tr = this.near.tl;
-		this.left.bl = this.far.bl;
-		this.left.br = this.near.bl;
-		this.left.n.set(-this.right.n.x, -this.right.n.y, -this.right.n.z);
+		this.ln.set(-this.rn.x, -this.rn.y, -this.rn.z);
 		
-		this.up.tl = this.far.tl;
-		this.up.tr = this.far.tr;
-		this.up.bl = this.near.tl;
-		this.up.br = this.near.tr;
-		this.up.n = rotateY(direction, 90 - fovh);
-		this.up.n.normalize();
+		this.un = rotateY(direction, 90 - fovh);
+		this.un.normalize();
 		
-		this.down.tl = this.near.bl;
-		this.down.tr = this.near.br;
-		this.down.bl = this.far.bl;
-		this.down.br = this.far.br;
-		this.down.n.set(-this.up.n.x, -this.up.n.y, -this.up.n.z);
+		this.dn.set(-this.un.x, -this.un.y, -this.un.z);
 	}
 	
 	/**

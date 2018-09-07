@@ -1,4 +1,4 @@
-package de.ralleytn.engine.caveman.rendering.geom;
+package de.ralleytn.engine.caveman.rendering.geom3d;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;

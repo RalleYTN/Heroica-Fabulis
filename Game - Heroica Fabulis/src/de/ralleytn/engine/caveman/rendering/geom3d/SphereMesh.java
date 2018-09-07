@@ -1,4 +1,4 @@
-package de.ralleytn.engine.caveman.rendering.geom;
+package de.ralleytn.engine.caveman.rendering.geom3d;
 
 /**
  * Represents a simple sphere mesh.

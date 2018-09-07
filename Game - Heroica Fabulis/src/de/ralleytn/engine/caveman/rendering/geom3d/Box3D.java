@@ -1,15 +1,14 @@
-package de.ralleytn.engine.caveman.shape3d;
+package de.ralleytn.engine.caveman.rendering.geom3d;
 
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 import de.ralleytn.engine.caveman.util.MeshUtil;
 import de.ralleytn.engine.caveman.util.VectorUtil;
 
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 06.09.2018/0.4.0
+ * @version 07.09.2018/0.4.0
  * @since 04.09.2018/0.4.0
  */
 public class Box3D implements Shape3D {
@@ -458,6 +457,28 @@ public class Box3D implements Shape3D {
 	public Vector3f getPosition() {
 		
 		return new Vector3f(this.x, this.y, this.z);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
+	public Vector3f getSize() {
+		
+		return new Vector3f(this.width, this.height, this.depth);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 07.09.2018/0.4.0
+	 */
+	public Vector3f center() {
+		
+		return new Vector3f(this.x + this.width * 0.5F,
+							this.y + this.height * 0.5F,
+							this.z + this.depth * 0.5F);
 	}
 	
 	/**
