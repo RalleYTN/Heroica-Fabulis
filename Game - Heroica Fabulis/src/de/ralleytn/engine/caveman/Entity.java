@@ -5,6 +5,7 @@ import javax.vecmath.Vector3f;
 
 import de.ralleytn.engine.caveman.rendering.geom.AxisAlignedBox;
 import de.ralleytn.engine.caveman.rendering.geom.Mesh;
+import de.ralleytn.engine.caveman.rendering.geom.OrientedBox;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
 
 /**
@@ -24,6 +25,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	private float renderDistance;
 	private long id;
 	private AxisAlignedBox aabb;
+	private OrientedBox obb;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -36,6 +38,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 		this.transformation = new Matrix4f();
 		this.rendering = true;
 		this.aabb = new AxisAlignedBox();
+		this.obb = new OrientedBox();
 		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
 		this.assignID();
@@ -70,7 +73,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void setRotation(float x, float y, float z) {
 
 		Transformable.super.setRotation(x, y, z);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -80,7 +83,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void setRotation(Vector3f newRotation) {
 
 		Transformable.super.setRotation(newRotation);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -90,7 +93,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void setScale(float x, float y, float z) {
 
 		Transformable.super.setScale(x, y, z);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -100,7 +103,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void setScale(Vector3f newScale) {
 
 		Transformable.super.setScale(newScale);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -110,7 +113,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void setTranslation(float x, float y, float z) {
 
 		Transformable.super.setTranslation(x, y, z);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -120,7 +123,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void setTranslation(Vector3f newTranslation) {
 
 		Transformable.super.setTranslation(newTranslation);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -130,7 +133,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void scale(float x, float y, float z) {
 
 		Transformable.super.scale(x, y, z);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -140,7 +143,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void scale(Vector3f factor) {
 
 		Transformable.super.scale(factor);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -150,7 +153,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void rotate(float x, float y, float z) {
 
 		Transformable.super.rotate(x, y, z);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -160,7 +163,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void rotate(Vector3f velocity) {
 
 		Transformable.super.rotate(velocity);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -170,7 +173,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void translate(float x, float y, float z) {
 
 		Transformable.super.translate(x, y, z);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
@@ -180,45 +183,66 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public void translate(Vector3f velocity) {
 
 		Transformable.super.translate(velocity);
-		this.calcAABB();
+		this.calcBoundingBoxes();
 	}
 	
 	/**
 	 * 
 	 * @since 05.09.2018/0.4.0
 	 */
-	public void calcAABB() {
+	public void calcBoundingBoxes() {
 		
 		if(this.mesh != null) {
 			
 			float[] vertices = this.mesh.getVertexArray().getBuffer(0).getDataAsFloats();
 			
-			float xn = Float.MAX_VALUE;
-			float yn = xn;
-			float zn = xn;
+			float xaabbn = Float.MAX_VALUE;
+			float yaabbn = xaabbn;
+			float zaabbn = xaabbn;
 			
-			float xf = -Float.MAX_VALUE;
-			float yf = xf;
-			float zf = xf;
+			float xobbn = Float.MAX_VALUE;
+			float yobbn = xobbn;
+			float zobbn = xobbn;
+			
+			float xaabbf = -Float.MAX_VALUE;
+			float yaabbf = xaabbf;
+			float zaabbf = xaabbf;
+			
+			float xobbf = -Float.MAX_VALUE;
+			float yobbf = xobbf;
+			float zobbf = xobbf;
 			
 			for(int index = 0; index < vertices.length; index += 3) {
 				
+				float xobb = vertices[index];
+				float yobb = vertices[index + 1];
+				float zobb = vertices[index + 2];
+				
+				if(xobb < xobbn) xobbn = xobb; else if(xobb > xobbf) xobbf = xobb;
+				if(yobb < yobbn) yobbn = yobb; else if(yobb > yobbf) yobbf = yobb;
+				if(zobb < zobbn) zobbn = zobb; else if(zobb > zobbf) zobbf = zobb;
+				
 				Vector3f vertex = MatrixUtil.multiply(this.transformation, vertices[index], vertices[index + 1], vertices[index + 2]);
 				
-				float x = vertex.x;
-				float y = vertex.y;
-				float z = vertex.z;
+				float xaabb = vertex.x;
+				float yaabb = vertex.y;
+				float zaabb = vertex.z;
 				
-				if(x < xn) xn = x; else if(x > xf) xf = x;
-				if(y < yn) yn = y; else if(y > yf) yf = y;
-				if(z < zn) zn = z; else if(z > zf) zf = z;
+				if(xaabb < xaabbn) xaabbn = xaabb; else if(xaabb > xaabbf) xaabbf = xaabb;
+				if(yaabb < yaabbn) yaabbn = yaabb; else if(yaabb > yaabbf) yaabbf = yaabb;
+				if(zaabb < zaabbn) zaabbn = zaabb; else if(zaabb > zaabbf) zaabbf = zaabb;
 			}
 			
-			float width = xf - xn;
-			float height = yf - yn;
-			float depth = zf - zn;
+			float waabb = xaabbf - xaabbn;
+			float haabb = yaabbf - yaabbn;
+			float daabb = zaabbf - zaabbn;
 			
-			this.aabb.set(xn, yn, zn, width, height, depth);
+			float wobb = xobbf - xobbn;
+			float hobb = yobbf - yobbn;
+			float dobb = zobbf - zobbn;
+			
+			this.aabb.set(xaabbn, yaabbn, zaabbn, waabb, haabb, daabb);
+			this.obb.set(this.translation.x - xobbn, this.translation.y - yobbn, this.translation.z - zobbn, wobb, hobb, dobb, this.rotation.x, this.rotation.y, this.rotation.z);
 		}
 	}
 	
@@ -329,16 +353,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	 */
 	public boolean collidesWithOBB(Entity entity) {
 		
-		Vector3f ac = this.aabb.center();
-		Vector3f ar = new Vector3f(this.aabb.width * 0.5F, this.aabb.height * 0.5F, this.aabb.depth * 0.5F);
-		Vector3f bc = entity.aabb.center();
-		Vector3f br = new Vector3f(entity.aabb.width * 0.5F, entity.aabb.height * 0.5F, entity.aabb.depth * 0.5F);
-		
-		if(Math.abs(ac.x - bc.x) > (ar.x + br.x)) return false;
-		if(Math.abs(ac.y - bc.y) > (ar.y + br.y)) return false;
-		if(Math.abs(ac.z - bc.z) > (ar.z + br.z)) return false;
-		
-		return true;
+		return entity.obb.intersects(this.obb);
 	}
 	
 	/**
@@ -349,7 +364,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	 */
 	public boolean collidesWithAABB(Entity entity) {
 		
-		return entity.getAABB().intersects(this.aabb);
+		return entity.aabb.intersects(this.aabb);
 	}
 
 	@Override
@@ -368,5 +383,15 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public AxisAlignedBox getAABB() {
 		
 		return this.aabb;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 08.09.2018/0.4.0
+	 */
+	public OrientedBox getOBB() {
+		
+		return this.obb;
 	}
 }

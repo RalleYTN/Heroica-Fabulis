@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.vecmath.Color4f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.engine.caveman.EngineException;
@@ -121,13 +122,16 @@ public final class HeroicaFabulis extends Game {
 		stall.setShaderPipeline(shaderPipeline);
 		stall.setMaterial(stallMaterial);
 		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
-		stall.setTranslation(0, 0, -30);
-		stall.setRotation(0, 45, 0);
+		stall.setTranslation(-50, 0, 0);
+		stall.setRotation(0, 180, 0);
+		
+		Material obbM = new Material();
+		obbM.setColor(new Color4f(1.0F, 0, 0, 1.0F));
 		
 		Entity stallBounds = new Entity();
 		stallBounds.setShaderPipeline(shaderPipeline);
-		stallBounds.setMaterial(new Material());
-		stallBounds.setMesh(new StaticMesh(stall.getAABB().createMeshData()));
+		stallBounds.setMaterial(obbM);
+		stallBounds.setMesh(new StaticMesh(stall.getOBB().createMeshData()));
 		
 		this.populateGrass(shaderPipeline, fog, -200, -200, 400, 400);
 		
