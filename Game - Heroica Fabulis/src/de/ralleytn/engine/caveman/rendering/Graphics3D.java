@@ -110,7 +110,7 @@ public class Graphics3D {
 		if(this.shaderPipeline != null) {
 			
 			this.shaderPipeline.setUniform("projection", this.game.getCamera().getProjectionMatrix());
-			this.shaderPipeline.setUniform("transformation", terrain.getTransformationMatrix());
+			this.shaderPipeline.setUniform("transformation", terrain.getTransformation());
 			this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
 			
 			if(material != this.material || this.material.hasChanged() || (this.material.getFog() != null && this.material.getFog().hasChanged())) {
@@ -150,7 +150,7 @@ public class Graphics3D {
 		if(this.shaderPipeline != null) {
 			
 			this.shaderPipeline.setUniform("projection", this.game.getCamera().getProjectionMatrix());
-			this.shaderPipeline.setUniform("transformation", entity.getTransformationMatrix());
+			this.shaderPipeline.setUniform("transformation", entity.getTransformation());
 			this.shaderPipeline.setUniform("view", this.game.getCamera().getViewMatrix());
 			
 			if(material != this.material || this.material.hasChanged() || (this.material.getFog() != null && this.material.getFog().hasChanged())) {

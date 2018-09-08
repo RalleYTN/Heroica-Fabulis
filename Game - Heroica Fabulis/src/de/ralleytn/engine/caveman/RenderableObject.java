@@ -8,7 +8,7 @@ import de.ralleytn.engine.caveman.rendering.shader.ShaderPipeline;
 /**
  * Represents a very abstract object on the scene that can be rendered.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 22.08.2018/0.2.0
+ * @version 08.09.2018/0.4.0
  * @since 22.08.2018/0.2.0
  */
 public abstract class RenderableObject {
@@ -17,13 +17,6 @@ public abstract class RenderableObject {
 	protected ShaderPipeline shaderPipeline;
 	protected Matrix4f transformation;
 	protected boolean rendering;
-	
-	/**
-	 * Calculates the transformation matrix.
-	 * The transformation matrix contains the translation, rotation and the scale of an entity and is used to render the object with all of these values.
-	 * @since 22.08.2018/0.2.0
-	 */
-	protected abstract void calcTransformationMatrix();
 	
 	/**
 	 * Enables or disables rendering for this object.
@@ -59,7 +52,7 @@ public abstract class RenderableObject {
 	 * @return the transformation matrix
 	 * @since 22.08.2018/0.2.0
 	 */
-	public Matrix4f getTransformationMatrix() {
+	public Matrix4f getTransformation() {
 		
 		return this.transformation;
 	}

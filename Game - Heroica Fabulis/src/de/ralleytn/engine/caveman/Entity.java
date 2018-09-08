@@ -10,10 +10,10 @@ import de.ralleytn.engine.caveman.util.MatrixUtil;
 /**
  * Represents an entity. An entity is a transformable and updatable object on the scene.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 07.09.2018/0.4.0
+ * @version 08.09.2018/0.4.0
  * @since 30.07.2018/0.1.0
  */
-public class Entity extends RenderableObject implements Movable, Scalable, Updatable, Comparable<Entity> {
+public class Entity extends RenderableObject implements Transformable, Updatable, Comparable<Entity> {
 	
 	private static long ID_SUPPLY = Long.MIN_VALUE;
 	
@@ -69,8 +69,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void setRotation(float x, float y, float z) {
 
-		Movable.super.setRotation(x, y, z);
-		this.calcTransformationMatrix();
+		Transformable.super.setRotation(x, y, z);
 		this.calcAABB();
 	}
 	
@@ -80,8 +79,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void setRotation(Vector3f newRotation) {
 
-		Movable.super.setRotation(newRotation);
-		this.calcTransformationMatrix();
+		Transformable.super.setRotation(newRotation);
 		this.calcAABB();
 	}
 	
@@ -91,8 +89,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void setScale(float x, float y, float z) {
 
-		Scalable.super.setScale(x, y, z);
-		this.calcTransformationMatrix();
+		Transformable.super.setScale(x, y, z);
 		this.calcAABB();
 	}
 	
@@ -102,8 +99,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void setScale(Vector3f newScale) {
 
-		Scalable.super.setScale(newScale);
-		this.calcTransformationMatrix();
+		Transformable.super.setScale(newScale);
 		this.calcAABB();
 	}
 	
@@ -113,8 +109,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void setTranslation(float x, float y, float z) {
 
-		Movable.super.setTranslation(x, y, z);
-		this.calcTransformationMatrix();
+		Transformable.super.setTranslation(x, y, z);
 		this.calcAABB();
 	}
 	
@@ -124,8 +119,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void setTranslation(Vector3f newTranslation) {
 
-		Movable.super.setTranslation(newTranslation);
-		this.calcTransformationMatrix();
+		Transformable.super.setTranslation(newTranslation);
 		this.calcAABB();
 	}
 	
@@ -135,8 +129,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void scale(float x, float y, float z) {
 
-		Scalable.super.scale(x, y, z);
-		this.calcTransformationMatrix();
+		Transformable.super.scale(x, y, z);
 		this.calcAABB();
 	}
 	
@@ -146,8 +139,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void scale(Vector3f factor) {
 
-		Scalable.super.scale(factor);
-		this.calcTransformationMatrix();
+		Transformable.super.scale(factor);
 		this.calcAABB();
 	}
 	
@@ -157,8 +149,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void rotate(float x, float y, float z) {
 
-		Movable.super.rotate(x, y, z);
-		this.calcTransformationMatrix();
+		Transformable.super.rotate(x, y, z);
 		this.calcAABB();
 	}
 	
@@ -168,8 +159,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void rotate(Vector3f velocity) {
 
-		Movable.super.rotate(velocity);
-		this.calcTransformationMatrix();
+		Transformable.super.rotate(velocity);
 		this.calcAABB();
 	}
 	
@@ -179,8 +169,7 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void translate(float x, float y, float z) {
 
-		Movable.super.translate(x, y, z);
-		this.calcTransformationMatrix();
+		Transformable.super.translate(x, y, z);
 		this.calcAABB();
 	}
 	
@@ -190,27 +179,15 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	@Override
 	public void translate(Vector3f velocity) {
 
-		Movable.super.translate(velocity);
-		this.calcTransformationMatrix();
+		Transformable.super.translate(velocity);
 		this.calcAABB();
-	}
-	
-	@Override
-	protected final void calcTransformationMatrix() {
-		
-		this.transformation.setIdentity();
-		MatrixUtil.translate(this.translation, this.transformation);
-		MatrixUtil.rotate((float)Math.toRadians(this.rotation.x), Engine.AXIS_X, this.transformation);
-		MatrixUtil.rotate((float)Math.toRadians(this.rotation.y), Engine.AXIS_Y, this.transformation);
-		MatrixUtil.rotate((float)Math.toRadians(this.rotation.z), Engine.AXIS_Z, this.transformation);
-		MatrixUtil.scale(this.scale, this.transformation);
 	}
 	
 	/**
 	 * 
 	 * @since 05.09.2018/0.4.0
 	 */
-	private final void calcAABB() {
+	public void calcAABB() {
 		
 		if(this.mesh != null) {
 			
@@ -276,6 +253,11 @@ public class Entity extends RenderableObject implements Movable, Scalable, Updat
 	public Vector3f getScale() {
 		
 		return this.scale;
+	}
+	
+	public Matrix4f getTransformation() {
+		
+		return this.transformation;
 	}
 	
 	/**

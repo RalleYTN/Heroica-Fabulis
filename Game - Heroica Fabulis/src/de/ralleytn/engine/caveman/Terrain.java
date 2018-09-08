@@ -12,7 +12,7 @@ import de.ralleytn.engine.caveman.util.MatrixUtil;
 /**
  * Represents a terrain tile in the grid.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 08.09.2018/0.4.0
  * @since 21.08.2018/0.2.0
  */
 public class Terrain extends RenderableObject {
@@ -46,8 +46,11 @@ public class Terrain extends RenderableObject {
 		this.calcTransformationMatrix();
 	}
 	
-	@Override
-	protected final void calcTransformationMatrix() {
+	/**
+	 * 
+	 * @since 08.09.2018/0.4.0
+	 */
+	public void calcTransformationMatrix() {
 		
 		this.transformation.setIdentity();
 		MatrixUtil.translate(new Vector3f(this.position.x, 0, this.position.y), this.transformation);
