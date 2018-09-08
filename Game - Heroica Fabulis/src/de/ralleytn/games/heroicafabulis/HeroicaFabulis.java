@@ -122,7 +122,7 @@ public final class HeroicaFabulis extends Game {
 		stall.setShaderPipeline(shaderPipeline);
 		stall.setMaterial(stallMaterial);
 		stall.setMesh(new StaticMesh(new XMeshReader().read(new FileInputStream("res/meshes/stall.xmesh"))));
-		stall.setTranslation(-50, 0, 0);
+		stall.setTranslation(-50, 6, 0);
 		stall.setRotation(0, 180, 0);
 		
 		Material obbM = new Material();
@@ -133,7 +133,7 @@ public final class HeroicaFabulis extends Game {
 		stallBounds.setMaterial(obbM);
 		stallBounds.setMesh(new StaticMesh(stall.getOBB().createMeshData()));
 		
-		this.populateGrass(shaderPipeline, fog, -200, -200, 400, 400);
+		//this.populateGrass(shaderPipeline, fog, -200, -200, 400, 400);
 		
 		Terrain terrain0 = new Terrain(-1, -1);
 		terrain0.setMaterial(terrainMaterial);
@@ -164,6 +164,7 @@ public final class HeroicaFabulis extends Game {
 		stallBounds2.setMaterial(new Material());
 		stallBounds2.setMesh(new StaticMesh(stall2.getAABB().createMeshData()));
 		
+		game.getScene().addEntity(new Player(this.getCamera(), stallBounds));
 		game.getScene().addEntity(stall);
 		game.getScene().addEntity(stallBounds);
 		game.getScene().addEntity(stallBounds2);

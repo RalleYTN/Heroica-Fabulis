@@ -117,8 +117,10 @@ public class Scene implements Renderable, Updatable {
 	public void render(Graphics3D graphics) {
 		
 		for(Entity entity : this.entities) {
-			
-			if(entity.isRendering() && VectorUtil.getAbsoluteDistance(this.game.getCamera().getTranslation(), entity.getTranslation()) <= entity.getRenderDistance()) {
+
+			if(entity.isRendering() &&
+			   VectorUtil.getAbsoluteDistance(this.game.getCamera().getTranslation(), entity.getTranslation()) <= entity.getRenderDistance() /*&&
+			   this.game.getCamera().getFrustum().getOBB().intersects(entity.getOBB())*/) {
 				
 				graphics.renderEntity(entity);
 			}

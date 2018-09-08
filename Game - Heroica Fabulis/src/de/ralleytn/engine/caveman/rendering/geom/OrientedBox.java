@@ -178,9 +178,12 @@ public class OrientedBox extends Box {
 	@Override
 	public Vector3f center() {
 		
-		return MatrixUtil.multiply(this.createTransformation(), this.x + this.width * 0.5F,
-																this.y + this.height * 0.5F,
-																this.z + this.depth * 0.5F);
+		Vector3f center = new Vector3f(this.width * 0.5F,
+										this.height * 0.5F,
+										this.depth * 0.5F);
+		center = MatrixUtil.multiply(this.createTransformation(), center.x, center.y, center.z);
+		//System.out.println(this.width);
+		return center;
 	}
 	
 	/**

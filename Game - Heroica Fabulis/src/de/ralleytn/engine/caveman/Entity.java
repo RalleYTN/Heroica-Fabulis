@@ -241,6 +241,8 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 			float hobb = yobbf - yobbn;
 			float dobb = zobbf - zobbn;
 			
+			System.out.println(wobb);
+			
 			this.aabb.set(xaabbn, yaabbn, zaabbn, waabb, haabb, daabb);
 			this.obb.set(this.translation.x - xobbn, this.translation.y - yobbn, this.translation.z - zobbn, wobb, hobb, dobb, this.rotation.x, this.rotation.y, this.rotation.z);
 		}
