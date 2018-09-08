@@ -5,7 +5,6 @@ import javax.vecmath.Vector3f;
 
 import de.ralleytn.engine.caveman.rendering.geom.AxisAlignedBox;
 import de.ralleytn.engine.caveman.rendering.geom.Mesh;
-import de.ralleytn.engine.caveman.rendering.geom.OrientedBox;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
 
 /**
@@ -25,7 +24,6 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	private float renderDistance;
 	private long id;
 	private AxisAlignedBox aabb;
-	private OrientedBox obb;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -38,7 +36,6 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 		this.transformation = new Matrix4f();
 		this.rendering = true;
 		this.aabb = new AxisAlignedBox();
-		this.obb = new OrientedBox();
 		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
 		this.assignID();
@@ -200,28 +197,12 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 			float yaabbn = xaabbn;
 			float zaabbn = xaabbn;
 			
-			float xobbn = Float.MAX_VALUE;
-			float yobbn = xobbn;
-			float zobbn = xobbn;
-			
 			float xaabbf = -Float.MAX_VALUE;
 			float yaabbf = xaabbf;
 			float zaabbf = xaabbf;
 			
-			float xobbf = -Float.MAX_VALUE;
-			float yobbf = xobbf;
-			float zobbf = xobbf;
-			
 			for(int index = 0; index < vertices.length; index += 3) {
-				
-				float xobb = vertices[index];
-				float yobb = vertices[index + 1];
-				float zobb = vertices[index + 2];
-				
-				if(xobb < xobbn) xobbn = xobb; else if(xobb > xobbf) xobbf = xobb;
-				if(yobb < yobbn) yobbn = yobb; else if(yobb > yobbf) yobbf = yobb;
-				if(zobb < zobbn) zobbn = zobb; else if(zobb > zobbf) zobbf = zobb;
-				
+
 				Vector3f vertex = MatrixUtil.multiply(this.transformation, vertices[index], vertices[index + 1], vertices[index + 2]);
 				
 				float xaabb = vertex.x;
@@ -236,15 +217,8 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 			float waabb = xaabbf - xaabbn;
 			float haabb = yaabbf - yaabbn;
 			float daabb = zaabbf - zaabbn;
-			
-			float wobb = xobbf - xobbn;
-			float hobb = yobbf - yobbn;
-			float dobb = zobbf - zobbn;
-			
-			System.out.println(wobb);
-			
+
 			this.aabb.set(xaabbn, yaabbn, zaabbn, waabb, haabb, daabb);
-			this.obb.set(this.translation.x - xobbn, this.translation.y - yobbn, this.translation.z - zobbn, wobb, hobb, dobb, this.rotation.x, this.rotation.y, this.rotation.z);
 		}
 	}
 	
@@ -347,28 +321,6 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 		return entity;
 	}
 	
-	/**
-	 * 
-	 * @param entity
-	 * @return
-	 * @since 07.09.2018/0.4.0
-	 */
-	public boolean collidesWithOBB(Entity entity) {
-		
-		return entity.obb.intersects(this.obb);
-	}
-	
-	/**
-	 * 
-	 * @param entity
-	 * @return
-	 * @since 07.09.2018/0.4.0
-	 */
-	public boolean collidesWithAABB(Entity entity) {
-		
-		return entity.aabb.intersects(this.aabb);
-	}
-
 	@Override
 	public int compareTo(Entity o) {
 		
@@ -385,15 +337,5 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	public AxisAlignedBox getAABB() {
 		
 		return this.aabb;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 08.09.2018/0.4.0
-	 */
-	public OrientedBox getOBB() {
-		
-		return this.obb;
 	}
 }

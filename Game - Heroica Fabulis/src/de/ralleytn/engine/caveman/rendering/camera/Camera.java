@@ -18,7 +18,6 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
 public class Camera implements Movable {
 
 	private final Game game;
-	private final Frustum frustum;
 	
 	private float fov;
 	private float nearPlaneDistance;
@@ -42,7 +41,6 @@ public class Camera implements Movable {
 		this.translation = new Vector3f();
 		this.rotation = new Vector3f();
 		this.game = game;
-		this.frustum = new Frustum(this);
 		this.display = game.getDisplay();
 		this.recalc();
 	}
@@ -55,7 +53,6 @@ public class Camera implements Movable {
 
 		Movable.super.translate(x, y, z);
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -66,7 +63,6 @@ public class Camera implements Movable {
 
 		Movable.super.translate(velocity);
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -77,7 +73,6 @@ public class Camera implements Movable {
 
 		Movable.super.setTranslation(x, y, z);
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -88,7 +83,6 @@ public class Camera implements Movable {
 
 		Movable.super.setTranslation(newTranslation);
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -99,7 +93,6 @@ public class Camera implements Movable {
 
 		Movable.super.rotate(x, y, z);
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -110,7 +103,6 @@ public class Camera implements Movable {
 
 		Movable.super.rotate(velocity);
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -121,7 +113,6 @@ public class Camera implements Movable {
 
 		Movable.super.setRotation(x, y, z);
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -181,7 +172,6 @@ public class Camera implements Movable {
 		
 		this.calcProjectionMatrix();
 		this.calcViewMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -194,7 +184,6 @@ public class Camera implements Movable {
 		
 		this.fov = fov;
 		this.calcProjectionMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -227,7 +216,6 @@ public class Camera implements Movable {
 		
 		this.nearPlaneDistance = nearPlaneDistance;
 		this.calcProjectionMatrix();
-		this.frustum.update();
 	}
 	
 	/**
@@ -240,7 +228,6 @@ public class Camera implements Movable {
 		
 		this.farPlaneDistance = farPlaneDistance;
 		this.calcProjectionMatrix();
-		this.frustum.update();
 	}
 	
 	@Override
@@ -350,15 +337,5 @@ public class Camera implements Movable {
 	public Vector3f getRight() {
 		
 		return VectorUtil.cross(this.getFront(), VectorUtil.AXIS_X);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 06.09.2018/0.4.0
-	 */
-	public Frustum getFrustum() {
-		
-		return this.frustum;
 	}
 }
