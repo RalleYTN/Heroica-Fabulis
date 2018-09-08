@@ -4,6 +4,7 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
 import de.ralleytn.engine.caveman.util.MatrixUtil;
+import de.ralleytn.engine.caveman.util.VectorUtil;
 
 /**
  * 
@@ -30,9 +31,9 @@ public interface Transformable extends Movable, Scalable {
 		Vector3f rotation = this.getRotation();
 		transformation.setIdentity();
 		MatrixUtil.translate(this.getTranslation(), transformation);
-		MatrixUtil.rotate((float)Math.toRadians(rotation.x), Engine.AXIS_X, transformation);
-		MatrixUtil.rotate((float)Math.toRadians(rotation.y), Engine.AXIS_Y, transformation);
-		MatrixUtil.rotate((float)Math.toRadians(rotation.z), Engine.AXIS_Z, transformation);
+		MatrixUtil.rotate((float)Math.toRadians(rotation.x), VectorUtil.AXIS_X, transformation);
+		MatrixUtil.rotate((float)Math.toRadians(rotation.y), VectorUtil.AXIS_Y, transformation);
+		MatrixUtil.rotate((float)Math.toRadians(rotation.z), VectorUtil.AXIS_Z, transformation);
 		MatrixUtil.scale(this.getScale(), transformation);
 	}
 	

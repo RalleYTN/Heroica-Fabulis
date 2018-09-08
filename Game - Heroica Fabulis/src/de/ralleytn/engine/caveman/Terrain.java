@@ -8,6 +8,7 @@ import de.ralleytn.engine.caveman.rendering.geom.Mesh;
 import de.ralleytn.engine.caveman.rendering.geom.MeshData;
 import de.ralleytn.engine.caveman.rendering.geom.StaticMesh;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
+import de.ralleytn.engine.caveman.util.VectorUtil;
 
 /**
  * Represents a terrain tile in the grid.
@@ -54,9 +55,9 @@ public class Terrain extends RenderableObject {
 		
 		this.transformation.setIdentity();
 		MatrixUtil.translate(new Vector3f(this.position.x, 0, this.position.y), this.transformation);
-		MatrixUtil.rotate(0, Engine.AXIS_X, this.transformation);
-		MatrixUtil.rotate(0, Engine.AXIS_Y, this.transformation);
-		MatrixUtil.rotate(0, Engine.AXIS_Z, this.transformation);
+		MatrixUtil.rotate(0, VectorUtil.AXIS_X, this.transformation);
+		MatrixUtil.rotate(0, VectorUtil.AXIS_Y, this.transformation);
+		MatrixUtil.rotate(0, VectorUtil.AXIS_Z, this.transformation);
 		MatrixUtil.scale(new Vector3f(1, 1, 1), this.transformation);
 	}
 	

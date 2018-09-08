@@ -10,7 +10,6 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.vecmath.Vector3f;
 
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
@@ -26,31 +25,10 @@ import static org.lwjgl.glfw.GLFW.*;
  * Class which is used to start and stop the engine. It also contains methods and constants that are important in the rest of the engine but
  * not really utility methods.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 26.08.2018/0.3.0
+ * @version 08.09.2018/0.4.0
  * @since 31.07.2018/0.1.0
  */
 public final class Engine {
-
-	/**
-	 * Represents the X axis as {@linkplain Vector3f}. Important for some matrix/vector calculations.<br>
-	 * NEVER CHANGE THE VALUES!
-	 * @since 11.08.2018/0.1.0
-	 */
-	public static final Vector3f AXIS_X = new Vector3f(1.0F, 0.0F, 0.0F);
-	
-	/**
-	 * Represents the Y axis as {@linkplain Vector3f}. Important for some matrix/vector calculations.<br>
-	 * NEVER CHANGE THE VALUES!
-	 * @since 11.08.2018/0.1.0
-	 */
-	public static final Vector3f AXIS_Y = new Vector3f(0.0F, 1.0F, 0.0F);
-	
-	/**
-	 * Represents the Z axis as {@linkplain Vector3f}. Important for some matrix/vector calculations.<br>
-	 * NEVER CHANGE THE VALUES!
-	 * @since 11.08.2018/0.1.0
-	 */
-	public static final Vector3f AXIS_Z = new Vector3f(0.0F, 0.0F, 1.0F);
 	
 	private static final List<ExecutorService> EXECUTORS = new ArrayList<>();
 	

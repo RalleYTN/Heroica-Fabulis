@@ -3,8 +3,6 @@ package de.ralleytn.engine.caveman.util;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.Engine;
-
 /**
  * Utility class containg methods for working with matrices.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
@@ -31,9 +29,9 @@ public final class MatrixUtil {
 		Matrix4f transformation = new Matrix4f();
 		transformation.setIdentity();
 		translate(translation, transformation);
-		rotate((float)Math.toRadians(rotation.x), Engine.AXIS_X, transformation);
-		rotate((float)Math.toRadians(rotation.y), Engine.AXIS_Y, transformation);
-		rotate((float)Math.toRadians(rotation.z), Engine.AXIS_Z, transformation);
+		rotate((float)Math.toRadians(rotation.x), VectorUtil.AXIS_X, transformation);
+		rotate((float)Math.toRadians(rotation.y), VectorUtil.AXIS_Y, transformation);
+		rotate((float)Math.toRadians(rotation.z), VectorUtil.AXIS_Z, transformation);
 		scale(scale, transformation);
 		return transformation;
 	}
@@ -82,9 +80,9 @@ public final class MatrixUtil {
 	public static final void calcRotationMatrix(Vector3f rotation, Matrix4f matrix) {
 		
 		matrix.setIdentity();
-		MatrixUtil.rotate(rotation.x, Engine.AXIS_X, matrix);
-		MatrixUtil.rotate(rotation.y, Engine.AXIS_Y, matrix);
-		MatrixUtil.rotate(rotation.z, Engine.AXIS_Z, matrix);
+		MatrixUtil.rotate(rotation.x, VectorUtil.AXIS_X, matrix);
+		MatrixUtil.rotate(rotation.y, VectorUtil.AXIS_Y, matrix);
+		MatrixUtil.rotate(rotation.z, VectorUtil.AXIS_Z, matrix);
 	}
 	
 	/**

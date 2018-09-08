@@ -114,7 +114,7 @@ public class MeshData {
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public AxisAlignedBoundingBox createAABB() {
+	public AxisAlignedBox createAABB() {
 		
 		float xn = this.vertices[0];
 		float yn = this.vertices[1];
@@ -138,6 +138,6 @@ public class MeshData {
 		float height = yf - yn;
 		float depth = zf - zn;
 		
-		return new AxisAlignedBoundingBox(xn, yn, zn, width, height, depth);
+		return new AxisAlignedBox(xn, yn, zn, width, height, depth);
 	}
 }

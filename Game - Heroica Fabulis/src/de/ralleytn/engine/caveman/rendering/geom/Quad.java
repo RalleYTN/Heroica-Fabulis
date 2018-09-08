@@ -8,7 +8,7 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
 /**
  * 
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 07.09.2018/0.4.0
+ * @version 08.09.2018/0.4.0
  * @since 07.09.2018/0.4.0
  */
 public class Quad {
@@ -142,7 +142,7 @@ public class Quad {
 	 * @return
 	 * @since 07.09.2018/0.4.0
 	 */
-	public AxisAlignedBoundingBox createAABB() {
+	public AxisAlignedBox createAABB() {
 		
 		float xn = Math.min(Math.min(this.p1.x, this.p2.x), Math.min(this.p3.x, this.p4.x));
 		float yn = Math.min(Math.min(this.p1.y, this.p2.y), Math.min(this.p3.y, this.p4.y));
@@ -156,7 +156,7 @@ public class Quad {
 		float height = yf - yn;
 		float depth = zf - zn;
 		
-		return new AxisAlignedBoundingBox(xn, yn, zn, width, height, depth);
+		return new AxisAlignedBox(xn, yn, zn, width, height, depth);
 	}
 	
 	@Override

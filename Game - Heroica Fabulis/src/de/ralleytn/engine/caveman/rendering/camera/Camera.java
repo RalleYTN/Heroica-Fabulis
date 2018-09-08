@@ -3,7 +3,6 @@ package de.ralleytn.engine.caveman.rendering.camera;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.Engine;
 import de.ralleytn.engine.caveman.Game;
 import de.ralleytn.engine.caveman.Movable;
 import de.ralleytn.engine.caveman.display.Display;
@@ -13,7 +12,7 @@ import de.ralleytn.engine.caveman.util.VectorUtil;
 /**
  * Represents the game camera. There should be only a single instance of it at a time.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 06.09.2018/0.4.0
+ * @version 08.09.2018/0.4.0
  * @since 11.08.2018/0.1.0
  */
 public class Camera implements Movable {
@@ -141,7 +140,7 @@ public class Camera implements Movable {
 	 * @since 11.08.2018/0.1.0
 	 * @see <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca/opengl/gl_projectionmatrix.html</a>
 	 */
-	private void calcProjectionMatrix() {
+	public void calcProjectionMatrix() {
 
         float aspectRatio = (float)this.display.getFrameBufferWidth() / (float)this.display.getFrameBufferHeight();
         float yScale = (float)((1.0F / Math.tan(Math.toRadians(this.fov / 2.0F))));
@@ -163,13 +162,13 @@ public class Camera implements Movable {
 	 * The view matrix is used to determine how it has to be moved.
 	 * @since 11.08.2018/0.1.0
 	 */
-	private void calcViewMatrix() {
+	public void calcViewMatrix() {
 		
 		this.view = new Matrix4f();
 		this.view.setIdentity(); // Doesn't work without this line
-		MatrixUtil.rotate((float)Math.toRadians(this.rotation.x), Engine.AXIS_X, this.view);
-		MatrixUtil.rotate((float)Math.toRadians(this.rotation.y), Engine.AXIS_Y, this.view);
-		MatrixUtil.rotate((float)Math.toRadians(this.rotation.z), Engine.AXIS_Z, this.view);
+		MatrixUtil.rotate((float)Math.toRadians(this.rotation.x), VectorUtil.AXIS_X, this.view);
+		MatrixUtil.rotate((float)Math.toRadians(this.rotation.y), VectorUtil.AXIS_Y, this.view);
+		MatrixUtil.rotate((float)Math.toRadians(this.rotation.z), VectorUtil.AXIS_Z, this.view);
 		Vector3f negativeTranslation = new Vector3f(-this.translation.x, -this.translation.y, -this.translation.z);
 		MatrixUtil.translate(negativeTranslation, this.view);
 	}
@@ -340,7 +339,7 @@ public class Camera implements Movable {
 	 */
 	public Vector3f getUp() {
 		
-		return VectorUtil.cross(this.getFront(), Engine.AXIS_Y);
+		return VectorUtil.cross(this.getFront(), VectorUtil.AXIS_Y);
 	}
 	
 	/**
@@ -350,7 +349,7 @@ public class Camera implements Movable {
 	 */
 	public Vector3f getRight() {
 		
-		return VectorUtil.cross(this.getFront(), Engine.AXIS_X);
+		return VectorUtil.cross(this.getFront(), VectorUtil.AXIS_X);
 	}
 	
 	/**

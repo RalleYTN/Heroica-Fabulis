@@ -3,7 +3,7 @@ package de.ralleytn.engine.caveman;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
-import de.ralleytn.engine.caveman.rendering.geom.AxisAlignedBoundingBox;
+import de.ralleytn.engine.caveman.rendering.geom.AxisAlignedBox;
 import de.ralleytn.engine.caveman.rendering.geom.Mesh;
 import de.ralleytn.engine.caveman.util.MatrixUtil;
 
@@ -23,7 +23,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	private Mesh mesh;
 	private float renderDistance;
 	private long id;
-	private AxisAlignedBoundingBox aabb;
+	private AxisAlignedBox aabb;
 	
 	/**
 	 * @since 30.07.2018/0.1.0
@@ -35,7 +35,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 		this.scale = new Vector3f(1.0F, 1.0F, 1.0F);
 		this.transformation = new Matrix4f();
 		this.rendering = true;
-		this.aabb = new AxisAlignedBoundingBox();
+		this.aabb = new AxisAlignedBox();
 		this.renderDistance = 1000.0F;
 		this.calcTransformationMatrix();
 		this.assignID();
@@ -365,7 +365,7 @@ public class Entity extends RenderableObject implements Transformable, Updatable
 	 * @return
 	 * @since 05.09.2018/0.4.0
 	 */
-	public AxisAlignedBoundingBox getAABB() {
+	public AxisAlignedBox getAABB() {
 		
 		return this.aabb;
 	}
