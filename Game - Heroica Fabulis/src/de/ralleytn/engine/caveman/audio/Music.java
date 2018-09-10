@@ -7,27 +7,26 @@ import java.util.concurrent.ArrayBlockingQueue;
 import de.ralleytn.engine.caveman.Engine;
 import de.ralleytn.engine.caveman.Errors;
 import de.ralleytn.engine.caveman.Game;
+import de.ralleytn.engine.caveman.Updatable;
 import de.ralleytn.engine.caveman.io.audio.AudioReader;
 
 /**
  * Represents the music player for the game.
  * All of the audio data will be streamed with this class.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 31.08.2018/0.3.0
+ * @version 10.09.2018/0.4.0
  * @since 26.08.2018/0.3.0
  */
-public class Music {
+public class Music implements Updatable {
 
 	private static final int QUEUE_CAPACITY = 16;
 	
 	private Source source;
-	private Thread thread;
-	private Play play;
 	private AudioReader reader;
 	private Queue<ALBuffer> queue;
-	private Object monitor;
-	private boolean paused;
+	private boolean playing;
 	private boolean looping;
+	private boolean reachedEnd;
 	
 	/**
 	 * No other instances of this class should be created.
@@ -38,22 +37,7 @@ public class Music {
 	public Music() {
 		
 		this.source = new Source();
-		this.play = new Play();
 		this.queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
-		this.monitor = new Object();
-		this.createThread();
-	}
-	
-	private final void createThread() {
-		
-		this.thread = new Thread(this.play);
-		this.thread.setUncaughtExceptionHandler((thread, exception) -> {
-			
-			Errors.print(exception);
-			Errors.prompt(exception, Errors.log(exception, Engine.getErrLogDirectory()));
-			Engine.stop();
-		});
-		this.thread.setDaemon(true);
 	}
 	
 	/**
@@ -77,6 +61,7 @@ public class Music {
 		}
 		
 		this.reader = reader;
+		this.reachedEnd = false;
 	}
 	
 	/**
@@ -96,8 +81,10 @@ public class Music {
 	 */
 	public void rewind() throws IOException {
 		
+		boolean playing = this.playing;
 		this.stop();
 		this.reader.reset();
+		this.reachedEnd = false;
 		
 		for(int index = 0; index < QUEUE_CAPACITY; index++) {
 			
@@ -105,6 +92,12 @@ public class Music {
 		}
 		
 		this.source.queueBuffers(this.queue.toArray(new ALBuffer[QUEUE_CAPACITY]));
+		this.playing = playing;
+		
+		if(playing) {
+			
+			this.source.play();
+		}
 	}
 	
 	/**
@@ -124,14 +117,9 @@ public class Music {
 	 */
 	public void play() throws IOException {
 		
-		if(this.paused) {
-			
-			this.resume();
-		}
-		
 		this.rewind();
-		this.thread.start();
 		this.source.play();
+		this.playing = true;
 	}
 	
 	/**
@@ -141,12 +129,7 @@ public class Music {
 	public void resume() {
 		
 		this.source.play();
-		
-		synchronized(this.monitor) {
-			
-			this.paused = false;
-			this.monitor.notifyAll();
-		}
+		this.playing = true;
 	}
 	
 	/**
@@ -156,7 +139,7 @@ public class Music {
 	public void pause() {
 		
 		this.source.pause();
-		this.paused = true;
+		this.playing = false;
 	}
 	
 	/**
@@ -167,8 +150,7 @@ public class Music {
 		
 		this.source.stop();
 		this.source.unqueueBuffers();
-		this.thread.interrupt();
-		this.createThread();
+		this.playing = false;
 	}
 	
 	/**
@@ -197,78 +179,63 @@ public class Music {
 		
 		return this.looping;
 	}
-	
-	/**
-	 * Represents the play action.
-	 * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
-	 * @version 29.08.2018/0.3.0
-	 * @since 26.08.2018/0.3.0
-	 */
-	private final class Play implements Runnable {
 
-		@Override
-		public void run() {
-			
-			boolean end = false;
-			
-			try {
+	@Override
+	public void update(float delta) {
+		
+		try {
+		
+			if(this.playing) {
 				
-				while(!Thread.interrupted()) {
+				int processedCount = Music.this.source.getProcessedBuffersCount();
+				
+				if(this.reachedEnd && processedCount == 0 && this.queue.size() == 0) {
 					
-					synchronized(Music.this.monitor) {
+					if(this.looping) {
+	
+						this.rewind();
+					
+					} else {
 						
-						int processedCount = Music.this.source.getProcessedBuffersCount();
-						
-						if(end && processedCount == 0) {
-							
-							Music.this.stop();
-						}
-						
-						while(processedCount > 0) {
-							
-							try {
-								
-								ALBuffer buffer = Music.this.queue.poll();
-								Music.this.source.unqueueBuffers(new ALBuffer[] {buffer});
-								
-								if(!end) {
-									
-									AudioData data = Music.this.reader.nextChunk();
-									
-									if(data != null) {
-										
-										buffer.setData(data);
-										Music.this.source.queueBuffer(buffer);
-										Music.this.queue.offer(buffer);
-										
-									} else {
-										
-										end = true;
-									}
-								}
-							
-							} catch(IOException exception) {
-								
-								Errors.print(exception);
-								Errors.prompt(exception, Errors.log(exception, Engine.getErrLogDirectory()));
-							}
-							
-							processedCount--;
-						}
-						
-						Thread.sleep(10);
-						
-						if(Music.this.paused) {
-							
-							Music.this.monitor.wait();
-						}
+						this.stop();
 					}
+					
 				}
 				
-			} catch(InterruptedException exception) {
+				while(processedCount > 0) {
+					
+					ALBuffer buffer = this.queue.poll();
+					this.source.unqueueBuffers(new ALBuffer[] {buffer});
+					
+					if(!this.reachedEnd) {
+						
+						AudioData data = this.reader.nextChunk();
+						
+						if(data != null) {
+							
+							buffer.setData(data);
+							this.source.queueBuffer(buffer);
+							this.queue.offer(buffer);
+							
+						} else {
+							
+							this.reachedEnd = true;
+						}
+					}
+					
+					processedCount--;
+				}
 				
-				// DO NOTHING!
+				if(this.source.getState() == Source.STATE_STOPPED) {
+					
+					this.source.play();
+				}
 			}
+			
+		} catch(IOException exception) {
+			
+			Errors.print(exception);
+			Errors.prompt(exception, Errors.log(exception, Engine.getErrLogDirectory()));
 		}
 	}
 }

@@ -22,7 +22,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Represents an abstract game and should be extended by the main class of a project.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 07.09.2018/0.4.0
+ * @version 10.09.2018/0.4.0
  * @since 04.08.2018/0.1.0
  */
 public abstract class Game implements Updatable {
@@ -166,6 +166,7 @@ public abstract class Game implements Updatable {
 				lastFrameTime = currentFrameTime;
 				
 				this.scene.update(delta);
+				this.music.update(delta);
 				CameraBehavior behavior = this.camera.getBehavior();
 				
 				if(behavior != null) {
