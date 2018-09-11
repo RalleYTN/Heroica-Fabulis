@@ -1,5 +1,6 @@
 package de.ralleytn.engine.caveman.net.http;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -32,5 +33,66 @@ public class HttpResponse {
 		this.request = request;
 		this.body = body;
 		this.headers = headers;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 11.09.2018/0.4.0
+	 */
+	public int getStatusCode() {
+		
+		return this.statusCode;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 11.09.2018/0.4.0
+	 */
+	public String getStatusMessage() {
+		
+		return this.statusMessage;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 11.09.2018/0.4.0
+	 */
+	public byte[] getBody() {
+		
+		return this.body;
+	}
+	
+	/**
+	 * 
+	 * @param header
+	 * @return
+	 * @since 11.09.2018/0.4.0
+	 */
+	public String getHeader(String header) {
+		
+		return this.headers.get(header);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 11.09.2018/0.4.0
+	 */
+	public Map<String, String> getHeaders() {
+		
+		return Collections.unmodifiableMap(this.headers);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 11.09.2018/0.4.0
+	 */
+	public HttpRequest getRequest() {
+		
+		return this.request;
 	}
 }
