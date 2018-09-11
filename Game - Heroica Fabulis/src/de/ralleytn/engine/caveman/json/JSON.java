@@ -4,6 +4,9 @@ import static de.ralleytn.engine.caveman.json.JSONToken.*;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -11,7 +14,7 @@ import java.util.Stack;
 /**
  * Lightweight JSON parser.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 03.09.2018/0.4.0
+ * @version 11.09.2018/0.4.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSON {
@@ -28,6 +31,404 @@ public final class JSON {
 	 * @since 17.08.2018/0.2.0
 	 */
 	private JSON() {}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(byte[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(short[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(int[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(long[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(char[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(float[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(double[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(boolean[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final <T>void write(T[] array, Writer writer) throws IOException {
+		
+		if(array == null) {
+			
+			writer.write("null");
+			
+		} else if(array.length == 0) {
+			
+			writer.write("[]");
+			
+		} else {
+			
+			writer.write('[');
+			writer.write(String.valueOf(array[0]));
+			
+			for(int index = 1; index < array.length; index++) {
+				
+				writer.write(',');
+				writer.write(String.valueOf(array[index]));
+			}
+			
+			writer.write(']');
+		}
+	}
+	
+	/**
+	 * 
+	 * @param collection
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(Collection<?> collection, Writer writer) throws IOException {
+
+		if(collection != null) {
+			
+			boolean first = true;
+			Iterator<?> iterator = collection.iterator();
+			writer.write('[');
+			
+			while(iterator.hasNext()) {
+				
+				if(first) first = false; else writer.write(',');
+				
+				Object value = iterator.next();
+				
+				if(value != null) {
+					
+					write(value, writer);
+					
+				} else {
+					
+					writer.write("null");
+				}
+			}
+			
+			writer.write(']');
+			
+		} else {
+			
+			writer.write("null");
+		}
+	}
+	
+	/**
+	 * 
+	 * @param map
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	private static final void write(Map<?, ?> map, Writer writer) throws IOException {
+		
+		if(map != null) {
+			
+			boolean first = true;
+			writer.write('{');
+			
+			for(Map.Entry<?, ?> entry : map.entrySet()) {
+				
+				if(first) first = false; else writer.write(',');
+				
+				writer.write('\"');
+				writer.write(JSONUtil.escape(String.valueOf(entry.getKey())));
+				writer.write('\"');
+				writer.write(':');
+				
+				write(entry.getValue(), writer);
+			}
+			
+			writer.write('}');
+			
+		} else {
+			
+			writer.write("null");
+		}
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @param writer
+	 * @throws IOException
+	 * @since 11.09.2018/0.4.0
+	 */
+	@SuppressWarnings("unchecked")
+	public static final void write(Object value, Writer writer) throws IOException {
+		
+		if(value == null) {
+			
+			writer.write("null");
+			
+		} else if(value instanceof Map) {write((Map<Object, Object>)value, writer);
+		} else if(value instanceof Collection) {write((Collection<Object>)value, writer);
+		} else if(value instanceof String) {writer.write(JSONUtil.escape(value.toString()));
+		} else if(value instanceof Double) {writer.write(((Double)value).isInfinite() || ((Double)value).isNaN() ? "null" : value.toString());
+		} else if(value instanceof Float) {writer.write(((Float)value).isInfinite() || ((Float)value).isNaN() ? "null" : value.toString());
+		} else if(value instanceof Number) {writer.write(value.toString());
+		} else if(value instanceof Boolean) {writer.write(value.toString());
+		} else if(value instanceof int[]) {write((int[])value, writer);
+		} else if(value instanceof float[]) {write((float[])value, writer);
+		} else if(value instanceof boolean[]) {write((boolean[])value, writer);
+		} else if(value instanceof short[]) {write((short[])value, writer);
+		} else if(value instanceof byte[]) {write((byte[])value, writer);
+		} else if(value instanceof double[]) {write((double[])value, writer);
+		} else if(value instanceof char[]) {write((char[])value, writer);
+		} else if(value.getClass().isArray()) {write((Object[])value, writer);
+		} else {
+			
+			writer.write('"');
+			writer.write(JSONUtil.escape(value.toString()));
+			writer.write('"');
+		}
+	}
 	
 	/**
 	 * Parses JSON from a reader.

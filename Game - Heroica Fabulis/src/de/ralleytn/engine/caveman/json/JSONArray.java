@@ -2,6 +2,7 @@ package de.ralleytn.engine.caveman.json;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.Collection;
 /**
  * Represents a JSON array.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 23.08.2018/0.2.0
+ * @version 11.09.2018/0.4.0
  * @since 17.08.2018/0.2.0
  */
 public class JSONArray extends ArrayList<Object> {
@@ -157,5 +158,18 @@ public class JSONArray extends ArrayList<Object> {
 	public String getString(int index) {
 		
 		return JSONUtil.getString(this.get(index));
+	}
+	
+	@Override
+	public String toString() {
+		
+		try(StringWriter writer = new StringWriter()) {
+			
+			JSON.write(this, writer);
+			return writer.toString();
+			
+		} catch(IOException exception) {} // WILL NEVER HAPPEN!
+		
+		return null;
 	}
 }

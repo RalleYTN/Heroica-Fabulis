@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Utility class providing methods for working with JSON.
  * @author Ralph Niemitz/RalleYTN(ralph.niemitz@gmx.de)
- * @version 23.08.2018/0.2.0
+ * @version 11.09.2018/0.4.0
  * @since 17.08.2018/0.2.0
  */
 public final class JSONUtil {
@@ -196,12 +196,25 @@ public final class JSONUtil {
 	}
 	
 	/**
+	 * 
+	 * @param string
+	 * @return
+	 * @since 11.09.2018/0.4.0
+	 */
+	public static final String escape(String string) {
+		
+		StringBuilder builder = new StringBuilder();
+		escape(string, builder);
+		return builder.toString();
+	}
+	
+	/**
 	 * Escapes a string with JSON rules.
 	 * @param string the string that should be escaped
 	 * @param builder the target on which the result should be written
 	 * @since 17.08.2018/0.2.0
 	 */
-	public static void escape(String string, StringBuilder builder) {
+	public static final void escape(String string, StringBuilder builder) {
     	
     	for(int index = 0; index < string.length(); index++) {
     		
